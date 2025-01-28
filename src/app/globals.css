@@ -47,6 +47,10 @@
     @apply flex items-center justify-between;
   }
 
+  .flex-stretch-between {
+    @apply flex items-stretch justify-between;
+  }
+
   .flex-start-between {
     @apply flex items-start justify-between;
   }
@@ -75,7 +79,20 @@
     @apply flex items-start justify-start;
   }
 
-  .primary-title {
-    @apply text-4xl lg:text-5xl font-medium md:text-[42px] 2xl:text-[52px] 2xl:leading-snug;
+  /* ------------------------------- */
+  /* Typography */
+  /* ------------------------------- */
+  .heading-gradient {
+    background: linear-gradient(180deg, #09f 0%, #0068ad 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .heading {
+    @apply font-quicksand text-h1 font-bold leading-snug;
+  }
+  .description {
+    @apply text-h6 text-gray-500;
   }
 }

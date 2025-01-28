@@ -15,7 +15,7 @@ export default {
 
         p1: {
           light: "#e8effd",
-          DEFAULT: "#1a5eed",
+          DEFAULT: "#007DD0",
           dark: "#1447b2",
           darker: "#092153",
         },
@@ -47,6 +47,16 @@ export default {
       fontFamily: {
         quicksand: ["var(--font-quicksand)"],
         roboto: ["var(--font-roboto"],
+      },
+
+      fontSize: {
+        h1: "3rem",
+        h2: "2.5rem",
+        h3: "2rem",
+        h4: "1.5rem",
+        h5: "1.25rem",
+        h6: "1.15rem",
+        base: "1rem",
       },
 
       transitionTimingFunction: {

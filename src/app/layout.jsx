@@ -53,11 +53,11 @@ export default function RootLayout({ children }) {
       </head>
 
       <body
-        className={`${dmSans.className} ${quicksand.variable} ${roboto.variable} antialiased`}
+        className={`${dmSans.className} ${quicksand.variable} ${roboto.variable} flex flex-col justify-between antialiased`}
       >
         <Navbar />
 
-        {children}
+        <main className="flex-1">{children}</main>
       </body>
     </html>
   );

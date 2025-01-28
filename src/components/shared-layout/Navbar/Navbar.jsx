@@ -29,7 +29,7 @@ export default function Navbar() {
   ); // es
 
   return (
-    <header className="bg-light-sky-blue sticky top-0 z-50 w-full border-b dark:border-gray-800 dark:bg-gray-950">
+    <header className="bg-light-sky-blue sticky top-0 z-50 w-full dark:bg-gray-950">
       <ResponsiveContainer className="flex-center-between h-[85px]">
         <div className="flex-center-start gap-x-16">
           <div className="flex-center-start gap-x-3">

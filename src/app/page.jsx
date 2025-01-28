@@ -1,3 +1,6 @@
+import Hero from "@/components/HomePageSections/Hero/Hero";
+import WhyChooseUs from "@/components/HomePageSections/WhyChooseUs/WhyChooseUs";
+
 export const metadata = {
   title: "Home | DAYF Booking",
   description:
@@ -6,8 +9,9 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="font-quicksand text-h1 font-bold text-p1">Home Page</h1>
+    <div className="bg-light-sky-blue space-y-14">
+      <Hero />
+      <WhyChooseUs />
     </div>
   );
 }
