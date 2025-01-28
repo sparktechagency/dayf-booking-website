@@ -1,4 +1,5 @@
 import Hero from "@/components/HomePageSections/Hero/Hero";
+import TopPicks from "@/components/HomePageSections/TopPicks/TopPicks";
 import WhyChooseUs from "@/components/HomePageSections/WhyChooseUs/WhyChooseUs";
 
 export const metadata = {
@@ -12,6 +13,7 @@ export default function Home() {
     <div className="bg-light-sky-blue space-y-14">
       <Hero />
       <WhyChooseUs />
+      <TopPicks />
     </div>
   );
 }

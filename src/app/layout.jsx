@@ -1,6 +1,9 @@
 import { dmSans, quicksand, roboto } from "@/fonts/fonts";
 import "./globals.css";
 import Navbar from "@/components/shared-layout/Navbar/Navbar";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 export const metadata = {
   title: {
