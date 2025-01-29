@@ -44,26 +44,26 @@ export const BathroomIcon = () => {
       <path
         d="M4.49935 14.6665L3.66602 15.4998M14.4993 14.6665L15.3327 15.4998"
         stroke="#626262"
-        stroke-width="1.5"
-        stroke-linecap="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
       <path
         d="M2 8V8.83333C2 11.5832 2 12.9581 2.85427 13.8124C3.70854 14.6667 5.08347 14.6667 7.83333 14.6667H11.1667C13.9165 14.6667 15.2915 14.6667 16.1457 13.8124C17 12.9581 17 11.5832 17 8.83333V8"
         stroke="#626262"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <path d="M1.16602 8H17.8327" stroke="#626262" stroke-linecap="round" />
+      <path d="M1.16602 8H17.8327" stroke="#626262" strokeLinecap="round" />
       <path
         d="M2.83203 8V2.60284C2.83203 1.44147 3.7735 0.5 4.93487 0.5C5.86675 0.5 6.68748 1.11332 6.95153 2.00701L6.9987 2.16667"
         stroke="#626262"
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
       <path
         d="M6.16602 3.00016L8.24935 1.3335"
         stroke="#626262"
-        stroke-width="1.5"
-        stroke-linecap="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
     </svg>
   );

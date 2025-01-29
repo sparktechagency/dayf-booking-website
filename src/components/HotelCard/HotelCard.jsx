@@ -69,23 +69,17 @@ export default function HotelCard({ hotel }) {
 
           <div className="flex-center-between">
             {hotel?.features?.map((feature, idx) => (
-              <>
-                <div key={feature.id} className="flex-center-start gap-x-2">
-                  <>
-                    {feature.icon}
-                    <span className="sr-only">{feature.label}</span>
-                  </>
+              <div key={feature.id} className="flex-center-start gap-x-2">
+                <>
+                  {feature.icon}
+                  <span className="sr-only">{feature.label}</span>
+                </>
 
-                  <h3 className="text-h6 font-medium">
-                    {feature.value}{" "}
-                    <span className="text-sm font-normal">{feature.label}</span>
-                  </h3>
-                </div>
-
-                {idx < hotel.features.length - 1 && (
-                  <div className="h-4 w-0.5 bg-gray-200"></div>
-                )}
-              </>
+                <h3 className="text-h6 font-medium">
+                  {feature.value}{" "}
+                  <span className="text-sm font-normal">{feature.label}</span>
+                </h3>
+              </div>
             ))}
           </div>
         </section>

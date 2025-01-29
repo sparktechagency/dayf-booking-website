@@ -208,6 +208,7 @@ export default function HotelsCarousel() {
 
   return (
     <Swiper
+      effect="slide"
       modules={[Navigation, Pagination, Parallax, Autoplay]}
       spaceBetween={35}
       slidesPerView={3.5}
@@ -218,7 +219,7 @@ export default function HotelsCarousel() {
       speed={1200}
       parallax={true}
       autoplay={{
-        delay: 2000,
+        delay: 4000,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
       }}
@@ -243,7 +244,7 @@ export default function HotelsCarousel() {
           key={hotel.id}
           className="overflow-hidden rounded-[2.5rem] border p-3"
         >
-          <HotelCard hotel={hotel} />
+          <HotelCard key={hotel.id} hotel={hotel} />
         </SwiperSlide>
       ))}
 
