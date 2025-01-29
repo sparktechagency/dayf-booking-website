@@ -33,7 +33,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className="scrollbar-thin scrollbar-thumb-p1 scrollbar-track-light-sky-blue"
+    >
       <head>
         <link
           rel="apple-touch-icon"

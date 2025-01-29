@@ -29,7 +29,7 @@ export default function Navbar() {
   ); // es
 
   return (
-    <header className="bg-light-sky-blue sticky top-0 z-50 w-full dark:bg-gray-950">
+    <header className="sticky top-0 z-50 w-full bg-light-sky-blue dark:bg-gray-950">
       <ResponsiveContainer className="flex-center-between h-[85px]">
         <div className="flex-center-start gap-x-16">
           <div className="flex-center-start gap-x-3">
@@ -39,7 +39,7 @@ export default function Navbar() {
                 <Button
                   // variant="outline"
                   size="icon"
-                  className="bg-light-sky-blue size-8 border border-p1 text-p1 shadow-none md:hidden"
+                  className="size-8 border border-p1 bg-light-sky-blue text-p1 shadow-none md:hidden"
                 >
                   <MenuIcon className="h-5 w-5" />
                   <span className="sr-only">Toggle navigation menu</span>
@@ -111,7 +111,7 @@ export default function Navbar() {
 
           <Button
             variant="outline"
-            className="rounded-full ease-in-out group h-10 gap-x-2 border border-[#A5D3F1] bg-transparent px-4 text-p1 shadow-none transition-all duration-300 hover:bg-p1 hover:text-white"
+            className="group h-10 gap-x-2 rounded-full border border-[#A5D3F1] bg-transparent px-4 text-p1 shadow-none transition-all duration-300 ease-in-out hover:bg-p1 hover:text-white"
           >
             <span className="hidden xl:flex xl:items-center xl:gap-x-2">
               List your property <AnimatedArrow variant="vertical" />
@@ -120,7 +120,7 @@ export default function Navbar() {
             <House className="block xl:hidden" />
           </Button>
 
-          <Button variant="primary" className="rounded-full h-10 px-5">
+          <Button variant="primary" className="h-10 rounded-full px-5">
             Log In
           </Button>
         </div>

@@ -214,9 +214,9 @@ export default function WondersCarousel() {
           <Button
             onClick={handleNext}
             disabled={isEnd}
-            className="z-[9999] aspect-square size-20 rounded-full border-2 border-p1 bg-p1/10 text-xl shadow-none hover:bg-p1 hover:text-white"
+            className="z-[9999] aspect-square size-20 rounded-full border-2 border-p1 bg-p1/10 text-xl text-p1 shadow-none hover:bg-p1 hover:text-white"
           >
-            <ChevronRight className="!size-10 stroke-2 text-p1" />
+            <ChevronRight className="!size-10 stroke-2" />
           </Button>
         </div>
       </Swiper>
