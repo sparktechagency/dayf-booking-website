@@ -67,7 +67,7 @@ const SeeAllButton = ({ btnClassName, iconClassName, href = "" }) => {
         See All{" "}
         <ArrowRight
           className={cn(
-            "ease-in-out size-4 transition-all duration-300 group-hover:translate-x-1",
+            "size-4 transition-all duration-300 ease-in-out group-hover:translate-x-0.5",
             iconClassName,
           )}
         />

@@ -6,7 +6,7 @@
   :root {
     --radius: 0.5rem;
 
-    --color-p1: #1a5eed;
+    --color-p1: #007dd0;
   }
 }
 
@@ -94,5 +94,12 @@
   }
   .description {
     @apply text-h6 text-gray-500;
+  }
+
+  /* ------------------------------- */
+  /* Swiper JS Custom Styles */
+  /* ------------------------------- */
+  .swiper-slide {
+    height: auto !important;
   }
 }

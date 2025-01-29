@@ -28,8 +28,6 @@ export default function HotelSearchPanel() {
   });
   const [guests, setGuests] = useState();
 
-  console.log(location);
-
   return (
     <ResponsiveContainer
       className="rounded-2xl border bg-white !p-4 2xl:!w-[65%]"
@@ -51,7 +49,7 @@ export default function HotelSearchPanel() {
             Destination
           </Label>
 
-          <div className="flex-center-start rounded-full ease-in-out gap-x-3 bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 focus-within:ring-1 focus-within:ring-p1">
+          <div className="flex-center-start gap-x-3 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
             <BgIcon>
               <MapPin size={16} />
             </BgIcon>
@@ -76,7 +74,7 @@ export default function HotelSearchPanel() {
                 id="date"
                 variant={"outline"}
                 className={cn(
-                  "rounded-full inline-flex w-full justify-start border-none bg-[#F6F6F6] !px-3 !py-6 text-left font-normal shadow-none",
+                  "inline-flex w-full justify-start rounded-full border-none bg-[#F6F6F6] !px-3 !py-6 text-left font-normal shadow-none",
                   !checkInOutDate && "text-muted-foreground",
                 )}
               >
@@ -117,7 +115,7 @@ export default function HotelSearchPanel() {
             Guests
           </Label>
 
-          <div className="flex-center-start rounded-full ease-in-out gap-x-3 bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 focus-within:ring-1 focus-within:ring-p1">
+          <div className="flex-center-start gap-x-3 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
             <BgIcon>
               <UserRound size={16} />
             </BgIcon>
@@ -132,7 +130,7 @@ export default function HotelSearchPanel() {
           </div>
         </div>
 
-        <Button variant="primary" size="lg" className="rounded-full mt-6 !py-4">
+        <Button variant="primary" size="lg" className="mt-6 rounded-full !py-4">
           Search
         </Button>
       </section>

@@ -1,0 +1,11 @@
+.hotel-card .swiper-pagination-bullet {
+  background-color: white !important;
+}
+
+.swiper-slide {
+  height: auto !important;
+}
+
+.hotel-card-img-slider-radius {
+  border-radius: 1.9rem !important;
+}

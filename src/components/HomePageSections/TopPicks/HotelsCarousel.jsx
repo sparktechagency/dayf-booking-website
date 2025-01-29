@@ -19,6 +19,7 @@ import hotelImg10 from "/public/images/hotels/salle-de-ceremonies-el (1).jpg";
 import hotelImg11 from "/public/images/hotels/salle-de-la-mariee.jpg";
 import hotelImg12 from "/public/images/hotels/salle-de-la-mariee (1).jpg";
 import HotelCard from "@/components/HotelCard/HotelCard";
+import { BathroomIcon, BedroomIcon, ExpandIcon } from "@/utils/svgLibrary";
 
 const hotelImages = [
   hotelImg1,
@@ -39,62 +40,147 @@ const hotelImages = [
 const hotels = [
   {
     id: 1,
-    name: "Sofitel Algiers Hamma Garden",
+    name: "Sheraton Club des Pins Resort",
     description:
-      "Sofitel Algiers Hamma Garden offers luxurious accommodations overlooking the stunning Botanical Garden of Hamma.",
-    price_per_night: 699,
+      "A luxurious beachfront resort offering world-class amenities and breathtaking views of the Mediterranean Sea.",
+    price_per_night: 310,
     rating: 4.5,
-    bedrooms: 2,
-    bathrooms: 2,
-    size_sqft: 1200,
+    features: [
+      {
+        id: "bedroom",
+        icon: <BedroomIcon />,
+        label: "Bedroom",
+        value: 3,
+      },
+      {
+        id: "bathroom",
+        icon: <BathroomIcon />,
+        label: "Bathroom",
+        value: 2,
+      },
+      {
+        id: "space",
+        icon: <ExpandIcon />,
+        label: "sq ft",
+        value: "1,500",
+      },
+    ],
     images: hotelImages,
   },
   {
     id: 2,
-    name: "Marriott Downtown",
+    name: "Sofitel Algiers Hamma Garden",
     description:
-      "Experience luxury and comfort in the heart of Dubai with breathtaking skyline views and world-class amenities.",
-    price_per_night: 850,
-    rating: 4.8,
-    bedrooms: 3,
-    bathrooms: 3,
-    size_sqft: 1500,
+      "A 5-star oasis in the heart of Algiers, offering unparalleled comfort, fine dining, and stunning city views.",
+    price_per_night: 280,
+    rating: 4.4,
+    features: [
+      {
+        id: "bedroom",
+        icon: <BedroomIcon />,
+        label: "Bedroom",
+        value: 2,
+      },
+      {
+        id: "bathroom",
+        icon: <BathroomIcon />,
+        label: "Bathroom",
+        value: 2,
+      },
+      {
+        id: "space",
+        icon: <ExpandIcon />,
+        label: "sq ft",
+        value: "1,300",
+      },
+    ],
     images: hotelImages,
   },
   {
     id: 3,
-    name: "Hilton Paris Opera",
+    name: "Constantine Marriott Hotel",
     description:
-      "A perfect blend of historic charm and modern elegance, offering an unforgettable stay in the heart of Paris.",
-    price_per_night: 620,
-    rating: 4.3,
-    bedrooms: 1,
-    bathrooms: 1,
-    size_sqft: 900,
+      "A modern luxury hotel with exceptional hospitality, ideal for business and leisure travelers visiting Constantine.",
+    price_per_night: 260,
+    rating: 4.6,
+    features: [
+      {
+        id: "bedroom",
+        icon: <BedroomIcon />,
+        label: "Bedroom",
+        value: 2,
+      },
+      {
+        id: "bathroom",
+        icon: <BathroomIcon />,
+        label: "Bathroom",
+        value: 2,
+      },
+      {
+        id: "space",
+        icon: <ExpandIcon />,
+        label: "sq ft",
+        value: "1,250",
+      },
+    ],
     images: hotelImages,
   },
   {
     id: 4,
-    name: "Grand Hyatt",
+    name: "Royal Hotel Oran - MGallery",
     description:
-      "A sophisticated retreat in the heart of Tokyo, featuring stunning city views and top-tier hospitality.",
-    price_per_night: 920,
-    rating: 4.7,
-    bedrooms: 2,
-    bathrooms: 2,
-    size_sqft: 1300,
+      "An elegant blend of history and modern luxury in Oran, offering a sophisticated stay with spectacular city views.",
+    price_per_night: 290,
+    rating: 4.3,
+    features: [
+      {
+        id: "bedroom",
+        icon: <BedroomIcon />,
+        label: "Bedroom",
+        value: 2,
+      },
+      {
+        id: "bathroom",
+        icon: <BathroomIcon />,
+        label: "Bathroom",
+        value: 2,
+      },
+      {
+        id: "space",
+        icon: <ExpandIcon />,
+        label: "sq ft",
+        value: "1,400",
+      },
+    ],
     images: hotelImages,
   },
   {
     id: 5,
-    name: "The Ritz-Carlton",
+    name: "AZ Hotel Zeralda",
     description:
-      "A luxurious beachfront resort in Bali, offering breathtaking ocean views and world-class spa treatments.",
-    price_per_night: 1100,
-    rating: 4.9,
-    bedrooms: 3,
-    bathrooms: 3,
-    size_sqft: 1800,
+      "A charming and comfortable hotel located in Algiers, perfect for a peaceful and relaxing stay.",
+    price_per_night: 150,
+    rating: 4.2,
+    features: [
+      {
+        id: "bedroom",
+        icon: <BedroomIcon />,
+        label: "Bedroom",
+        value: 1,
+      },
+      {
+        id: "bathroom",
+        icon: <BathroomIcon />,
+        label: "Bathroom",
+        value: 1,
+      },
+      {
+        id: "space",
+        icon: <ExpandIcon />,
+        label: "sq ft",
+        value: "900",
+      },
+    ],
     images: hotelImages,
   },
 ];
@@ -107,7 +193,6 @@ export default function HotelsCarousel() {
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
     sliderRef.current.swiper.slidePrev();
-    console.log(sliderRef?.current.swiper);
   }, []);
 
   const handleNext = useCallback(() => {
@@ -122,13 +207,52 @@ export default function HotelsCarousel() {
   }, [sliderRef]);
 
   return (
-    <div>
-      <div className="flex-center-between mb-4">
+    <Swiper
+      modules={[Navigation, Pagination, Parallax, Autoplay]}
+      spaceBetween={35}
+      slidesPerView={3.5}
+      allowTouchMove={false}
+      direction="horizontal"
+      loop={false}
+      ref={sliderRef}
+      speed={1200}
+      parallax={true}
+      autoplay={{
+        delay: 2000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      }}
+      onActiveIndexChange={(e) => {
+        if (e.isBeginning) {
+          setIsBeginning(true);
+          setIsEnd(false);
+        } else if (e.isEnd) {
+          setIsBeginning(false);
+          setIsEnd(true);
+        } else if (!e.isBeginning) {
+          setIsBeginning(false);
+          setIsEnd(false);
+        } else if (!e.isEnd) {
+          setIsBeginning(false);
+          setIsEnd(false);
+        }
+      }}
+    >
+      {hotels.map((hotel) => (
+        <SwiperSlide
+          key={hotel.id}
+          className="overflow-hidden rounded-[2.5rem] border p-3"
+        >
+          <HotelCard hotel={hotel} />
+        </SwiperSlide>
+      ))}
+
+      <div className="flex-center-between mt-4">
         <div className="space-x-2">
           <Button
             onClick={handlePrev}
             disabled={isBeginning}
-            className="bg-light-sky-blue rounded-full text-xl aspect-square size-11 text-p1 shadow-none hover:bg-p1 hover:text-white"
+            className="aspect-square size-11 rounded-full bg-light-sky-blue text-xl text-p1 shadow-none hover:bg-p1 hover:text-white"
           >
             <ArrowLeft className="!size-5" />
           </Button>
@@ -136,7 +260,7 @@ export default function HotelsCarousel() {
           <Button
             onClick={handleNext}
             disabled={isEnd}
-            className="bg-light-sky-blue rounded-full aspect-square size-11 text-p1 shadow-none hover:bg-p1 hover:text-white"
+            className="aspect-square size-11 rounded-full bg-light-sky-blue text-p1 shadow-none hover:bg-p1 hover:text-white"
           >
             <ArrowRight className="!size-5" />
           </Button>
@@ -144,43 +268,6 @@ export default function HotelsCarousel() {
 
         <SeeAllButton />
       </div>
-
-      <Swiper
-        modules={[Navigation, Pagination, Parallax, Autoplay]}
-        spaceBetween={35}
-        slidesPerView={3.5}
-        allowTouchMove={false}
-        direction="horizontal"
-        loop={false}
-        ref={sliderRef}
-        speed={1200}
-        // autoplay={{
-        //   delay: 1200,
-        //   disableOnInteraction: false,
-        //   pauseOnMouseEnter: true,
-        // }}
-        onActiveIndexChange={(e) => {
-          if (e.isBeginning) {
-            setIsBeginning(true);
-            setIsEnd(false);
-          } else if (e.isEnd) {
-            setIsBeginning(false);
-            setIsEnd(true);
-          } else if (!e.isBeginning) {
-            setIsBeginning(false);
-            setIsEnd(false);
-          } else if (!e.isEnd) {
-            setIsBeginning(false);
-            setIsEnd(false);
-          }
-        }}
-      >
-        {hotels.map((hotel) => (
-          <SwiperSlide key={hotel.id}>
-            <HotelCard hotel={hotel} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+    </Swiper>
   );
 }

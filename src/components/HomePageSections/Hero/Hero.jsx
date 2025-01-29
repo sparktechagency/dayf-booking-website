@@ -5,7 +5,7 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 
 export default function Hero() {
   return (
-    <section className="bg-white py-10">
+    <section className="bg-white pb-16 pt-10">
       <ResponsiveContainer className="space-y-16">
         <HotelSearchPanel />
 
