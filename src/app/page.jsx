@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <div className="space-y-14 bg-light-sky-blue">
+    <div className="space-y-14 bg-light-sky-blue pb-20">
       <Hero />
       <WhyChooseUs />
       <TopPicks />

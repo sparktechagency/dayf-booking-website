@@ -15,7 +15,7 @@ const testimonials = Array.from({ length: 6 }).map((_, idx) => ({
 
 export default function Testimonials() {
   return (
-    <section className="min-h-screen rounded-[2.8rem] bg-white py-16">
+    <section className="rounded-[2.8rem] bg-white pb-16 pt-12">
       <ResponsiveContainer>
         <div className="mx-auto mb-16 text-center xl:w-3/4">
           <h1 className="heading">Hear From Our Satisfied Customers</h1>

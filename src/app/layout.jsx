@@ -4,6 +4,7 @@ import Navbar from "@/components/shared-layout/Navbar/Navbar";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Footer from "@/components/shared-layout/Footer/Footer";
 
 export const metadata = {
   title: {
@@ -65,6 +66,8 @@ export default function RootLayout({ children }) {
         <Navbar />
 
         <main className="flex-1">{children}</main>
+
+        <Footer />
       </body>
     </html>
   );
