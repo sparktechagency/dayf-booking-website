@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className="scrollbar-thin scrollbar-thumb-p1 scrollbar-track-light-sky-blue"
+      className="scrollbar-thin scrollbar-track-light-sky-blue scrollbar-thumb-p1"
     >
       <head>
         <link
@@ -61,11 +61,11 @@ export default function RootLayout({ children }) {
       </head>
 
       <body
-        className={`${dmSans.className} ${quicksand.variable} ${roboto.variable} flex flex-col justify-between antialiased`}
+        className={`${dmSans.className} ${quicksand.variable} ${roboto.variable} flex flex-col justify-between antialiased ${process.env.NODE_ENV === "development" && "debug-screens"}`}
       >
         <Navbar />
 
-        <main className="flex-1">{children}</main>
+        <main className="min-h-[75vh] flex-1">{children}</main>
 
         <Footer />
       </body>

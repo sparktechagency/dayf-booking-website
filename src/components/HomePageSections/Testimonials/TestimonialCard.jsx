@@ -3,8 +3,6 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 export default function TestimonialCard({ testimonial, isActive }) {
-  console.log(isActive);
-
   return (
     <div className="flex-center-between gap-x-10">
       <div className="py-2 lg:w-[40%]">

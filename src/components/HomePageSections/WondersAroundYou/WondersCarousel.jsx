@@ -96,8 +96,6 @@ export default function WondersCarousel() {
   const [isEnd, setIsEnd] = useState(false);
   const [activeIndex, setActiveIndex] = useState(1);
 
-  console.log(activeIndex);
-
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
 

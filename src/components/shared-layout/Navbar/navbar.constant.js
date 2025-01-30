@@ -1,5 +1,3 @@
-import usdIcon from "/public/images/navbar/dollar-circle.svg";
-
 // Navigation Links
 export const navbarLinks = [
   {
@@ -37,6 +35,12 @@ export const supportedCurrencies = [
     label: "EURO",
     icon: "/images/navbar/euro-circle.svg",
   },
+
+  {
+    id: "dzd",
+    label: "DZD",
+    icon: "/images/navbar/algeria-dinar-circle.svg",
+  },
 ];
 
 // Supported Languages
@@ -47,9 +51,9 @@ export const supportedLanguages = [
     icon: "/images/navbar/usa.svg",
   },
   {
-    id: "spanish",
-    label: "ES",
-    icon: "/images/navbar/spain.svg",
+    id: "arabic",
+    label: "AR",
+    icon: "/images/navbar/algeria.svg",
   },
   {
     id: "french",

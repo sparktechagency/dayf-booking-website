@@ -85,3 +85,24 @@ export const ExpandIcon = () => {
     </svg>
   );
 };
+
+export const MessageCircleIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height={25}
+      width={25}
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        id="SVGRepo_iconCarrier"
+        stroke="#007dd0"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M21.004 12a9 9 0 0 1-9 9h-9s1.56-3.744.936-5a9 9 0 0 1 8.064-13m8.117.879A3 3 0 1 1 15.88 8.12 3 3 0 0 1 20.12 3.88"
+      ></path>
+    </svg>
+  );
+};

@@ -131,7 +131,7 @@ export default function Footer() {
         <div className="mt-12 border-t border-white/30 pt-4">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-sm text-gray-300">
-              © {new Date().getFullYear()}, All Rights Reserved
+              © DAYF Booking {new Date().getFullYear()}. All Rights Reserved
             </p>
             <div className="flex gap-6">
               <Link

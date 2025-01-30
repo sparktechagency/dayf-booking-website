@@ -18,6 +18,10 @@ import NavDropdown from "./NavDropdown";
 import AnimatedArrow from "@/components/AnimatedArrow/AnimatedArrow";
 import { useState } from "react";
 import { House } from "lucide-react";
+import messageIcon from "/public/images/navbar/message-icon.svg";
+import userAvatar from "/public/images/navbar/dummy-user.jpg";
+import CustomAvatar from "@/components/CustomAvatar/CustomAvatar";
+import { MessageCircleIcon } from "@/utils/svgLibrary";
 
 export default function Navbar() {
   // Navbar dropdown states: Currency & Language
@@ -27,6 +31,9 @@ export default function Navbar() {
   const [selectedLanguage, setSelectedLanguage] = useState(
     supportedLanguages[1],
   ); // es
+
+  // TODO: Use actual user data
+  const userId = true;
 
   return (
     <header className="sticky top-0 z-50 w-full bg-light-sky-blue dark:bg-gray-950">
@@ -120,9 +127,32 @@ export default function Navbar() {
             <House className="block xl:hidden" />
           </Button>
 
-          <Button variant="primary" className="h-10 rounded-full px-5">
-            Log In
-          </Button>
+          {!userId ? (
+            <Button variant="primary" className="h-10 rounded-full px-5">
+              Log In
+            </Button>
+          ) : (
+            <>
+              <Link
+                href="/messages"
+                className="flex-center aspect-square h-10 rounded-full bg-white/50"
+              >
+                <MessageCircleIcon />
+              </Link>
+
+              <Link
+                href="/user/profile"
+                className="flex-center h-10 gap-x-2 rounded-full bg-white/50 pl-2 pr-3 text-p1 hover:text-p1/80"
+              >
+                <CustomAvatar
+                  img={userAvatar?.src}
+                  name="Uzzal Bhowmik"
+                  className="size-8"
+                />
+                <h5 className="text-base">Uzzal</h5>
+              </Link>
+            </>
+          )}
         </div>
       </ResponsiveContainer>
     </header>

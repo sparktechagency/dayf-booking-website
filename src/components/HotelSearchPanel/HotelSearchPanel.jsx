@@ -20,7 +20,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { UserRound } from "lucide-react";
 
-export default function HotelSearchPanel() {
+export default function HotelSearchPanel({ className }) {
   const [location, setLocation] = useState("");
   const [checkInOutDate, setCheckInOutDate] = useState({
     from: new Date(),
@@ -29,8 +29,11 @@ export default function HotelSearchPanel() {
   const [guests, setGuests] = useState();
 
   return (
-    <ResponsiveContainer
-      className="rounded-2xl border bg-white !p-4 2xl:!w-[65%]"
+    <div
+      className={cn(
+        "mx-auto w-full rounded-2xl border bg-white !p-4 2xl:w-[75%]",
+        className,
+      )}
       style={{ boxShadow: "0px 4px 23.2px 0px rgba(159, 159, 159, 0.25)" }}
     >
       <div className="flex-center-start gap-x-2">
@@ -134,6 +137,6 @@ export default function HotelSearchPanel() {
           Search
         </Button>
       </section>
-    </ResponsiveContainer>
+    </div>
   );
 }
