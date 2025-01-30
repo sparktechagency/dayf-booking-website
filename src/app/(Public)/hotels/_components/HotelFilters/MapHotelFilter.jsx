@@ -17,7 +17,7 @@ export default function MapHotelFilter() {
         referrerPolicy="no-referrer-when-downgrade"
       ></iframe>
 
-      <button className="block w-full rounded-b-2xl py-2.5 text-p1 hover:text-p1/85">
+      <button className="block w-full rounded-b-2xl py-2.5 text-base text-p1 hover:text-p1/85">
         View in Map
       </button>
     </div>

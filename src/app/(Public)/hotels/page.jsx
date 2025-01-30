@@ -1,6 +1,7 @@
 import HotelSearchPanel from "@/components/HotelSearchPanel/HotelSearchPanel";
 import HotelFilter from "./_components/HotelFilters";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
+import HotelsContainer from "./_components/HotelsContainer";
 
 export const metadata = {
   title: "Find Hotels in Algeria : Book Your Dream Hotel Now!",
@@ -13,13 +14,13 @@ export default function Hotels() {
     <div className="my-10">
       <HotelSearchPanel />
 
-      <ResponsiveContainer className="flex-center-between mt-16">
-        <div className="border-red w-1/4">
+      <ResponsiveContainer className="flex-start-between mt-16 gap-x-14">
+        <div className="w-1/4">
           <HotelFilter />
         </div>
 
-        <div className="flex-grow border">
-          <h1 className="text-h3 font-semibold">Hotels</h1>
+        <div className="flex-1">
+          <HotelsContainer />
         </div>
       </ResponsiveContainer>
     </div>

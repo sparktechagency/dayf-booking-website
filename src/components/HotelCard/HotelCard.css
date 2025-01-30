@@ -2,6 +2,10 @@
   background-color: white !important;
 }
 
+.hotel-card .swiper-pagination-bullet-active {
+  background-color: var(--color-p1) !important;
+}
+
 .swiper-slide {
   height: auto !important;
 }

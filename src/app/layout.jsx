@@ -5,6 +5,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Footer from "@/components/shared-layout/Footer/Footer";
+import PageTopLoader from "@/components/PageTopLoader";
+import ScrollToTopBtn from "@/components/ScrollToTopBtn/ScrollToTopBtn";
 
 export const metadata = {
   title: {
@@ -68,6 +70,9 @@ export default function RootLayout({ children }) {
         <main className="min-h-[75vh] flex-1">{children}</main>
 
         <Footer />
+
+        <PageTopLoader />
+        <ScrollToTopBtn />
       </body>
     </html>
   );

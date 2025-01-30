@@ -7,6 +7,7 @@
     --radius: 0.5rem;
 
     --color-p1: #007dd0;
+    --color-light-sky-blue: #e9f6ff;
   }
 }
 
@@ -49,6 +50,10 @@
 
   .flex-stretch-between {
     @apply flex items-stretch justify-between;
+  }
+
+  .flex-stretch-start {
+    @apply flex items-stretch justify-start;
   }
 
   .flex-start-between {

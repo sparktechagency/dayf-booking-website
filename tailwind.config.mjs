@@ -80,5 +80,6 @@ export default {
     require("tailwindcss-animate"),
     require("tailwind-scrollbar"),
     require("tailwindcss-debug-screens"),
+    require("tailwindcss-mixins"),
   ],
 };
