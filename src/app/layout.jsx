@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      suppressHydrationWarning
+      suppressHydrationWarning={true}
       className="scrollbar-thin scrollbar-track-light-sky-blue scrollbar-thumb-p1"
     >
       <head>

@@ -9,7 +9,7 @@ export default function Error({ error, reset }) {
 
   return (
     <div>
-      <h2>Something went wrong!</h2>
+      <h2>Something went wrong! Inside Dynamic Hotel Error Boundary</h2>
       <button onClick={() => reset()}>Try again</button>
 
       <p>Error: {JSON.stringify(error)}</p>

@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "../ui/button";
 import "./HotelCard.css";
 import AnimatedArrow from "../AnimatedArrow/AnimatedArrow";
+import Link from "next/link";
 
 export default function VerticalHotelCard({ hotel }) {
   return (
@@ -58,9 +59,12 @@ export default function VerticalHotelCard({ hotel }) {
         </Swiper>
 
         <section className="mt-3 px-1">
-          <h3 className="text-h4 font-semibold leading-tight text-[#252525]">
+          <Link
+            href={`/hotels/${hotel?.id}`}
+            className="text-h4 font-semibold leading-tight text-[#252525]"
+          >
             {hotel?.name}
-          </h3>
+          </Link>
           <p className="mt-2 text-[#626262]">{hotel?.description}</p>
 
           <h3 className="my-3 text-h4 text-[#252525]">

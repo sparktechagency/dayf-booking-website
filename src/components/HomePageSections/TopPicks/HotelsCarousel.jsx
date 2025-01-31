@@ -37,7 +37,7 @@ const hotelImages = [
 ];
 
 // Dummy Hotels Data
-const hotels = [
+export const hotels = [
   {
     id: 1,
     name: "Sheraton Club des Pins Resort",

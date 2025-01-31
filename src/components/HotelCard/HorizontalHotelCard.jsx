@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import Image from "next/image";
 import { Bookmark } from "lucide-react";
+import Link from "next/link";
 
 export default function HorizontalHotelCard({ hotel }) {
   return (
@@ -50,9 +51,12 @@ export default function HorizontalHotelCard({ hotel }) {
       </Swiper>
 
       <div className="py-5 pr-8 xl:w-3/4">
-        <h3 className="text-h4 font-semibold leading-tight text-[#252525]">
+        <Link
+          href={`/hotels/${hotel?.id}`}
+          className="text-h4 font-semibold leading-tight text-[#252525]"
+        >
           {hotel?.name}
-        </h3>
+        </Link>
 
         <p className="my-2 mb-4 text-[#626262]">{hotel?.description}</p>
 

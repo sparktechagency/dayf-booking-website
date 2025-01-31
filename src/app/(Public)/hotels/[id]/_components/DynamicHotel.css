@@ -1,0 +1,29 @@
+.dynamic-hotel-image-gallery .largeSwiper {
+  height: 80%;
+  width: 100%;
+}
+
+.dynamic-hotel-image-gallery .thumbSwiper {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 5px 0 0 0;
+}
+
+.dynamic-hotel-image-gallery .thumbSwiper .swiperSlide {
+  width: 25%;
+  height: 100%;
+  filter: brightness(0.5);
+  cursor: pointer;
+}
+
+.dynamic-hotel-image-gallery .thumbSwiper .swiper-slide-thumb-active {
+  filter: brightness(1);
+}
+
+.dynamic-hotel-image-gallery .swiperSlide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}

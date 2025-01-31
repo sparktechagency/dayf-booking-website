@@ -9,10 +9,13 @@ import { cn } from "@/lib/utils";
 
 export default function CustomTooltip({ children, title, className }) {
   return (
-    <TooltipProvider delayDuration={0.2}>
+    <TooltipProvider delayDuration={0.3}>
       <Tooltip>
         <TooltipTrigger as="button">{children}</TooltipTrigger>
-        <TooltipContent className={cn("font-dm-sans", className)}>
+        <TooltipContent
+          className={cn("font-dm-sans", className)}
+          sideOffset={6}
+        >
           {title}
         </TooltipContent>
       </Tooltip>

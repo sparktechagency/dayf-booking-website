@@ -61,11 +61,11 @@ const Slider = React.forwardRef(
       }
     }, [showTooltip, handlePointerUp]);
 
-    const renderThumb = (value) => {
+    const renderThumb = (value, id) => {
       const thumb = (
         <SliderPrimitive.Thumb
           className={cn(
-            "focus-visible:outline-ring/40 block h-5 w-5 cursor-grab rounded-full border-2 border-gray-900 bg-white transition-colors duration-300 ease-in-out data-[disabled]:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] dark:border-gray-50 dark:bg-gray-950",
+            "focus-visible:outline-ring/40 block h-5 w-5 cursor-grab rounded-full border-2 border-gray-900 bg-white transition-colors data-[disabled]:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] dark:border-gray-50 dark:bg-gray-950",
             thumbClassName,
           )}
           onPointerDown={handlePointerDown}
@@ -113,9 +113,13 @@ const Slider = React.forwardRef(
             )}
           />
         </SliderPrimitive.Track>
-        {internalValue?.map((value, index) => (
-          <React.Fragment key={index}>{renderThumb(value)}</React.Fragment>
-        ))}
+
+        {internalValue?.map((value, index) => {
+          // const uniqueKey = `${Math.ceil(Math.random() * 9999999)}-${index}`; // Ensures unique key
+          return (
+            <React.Fragment key={index}>{renderThumb(value)}</React.Fragment>
+          );
+        })}
       </SliderPrimitive.Root>
     );
   },

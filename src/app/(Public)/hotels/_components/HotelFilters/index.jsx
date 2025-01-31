@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import MapHotelFilter from "./MapHotelFilter";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { useId, useState } from "react";
+import { useState } from "react";
 import LocationSearch from "./LocationSearch";
 
 // Constants
@@ -65,7 +65,6 @@ const ROOM_OPTIONS = [
 ];
 
 export default function HotelFilter() {
-  const id = useId();
   const [priceRange, setPriceRange] = useState([25, 75]);
 
   // Show all states
@@ -78,7 +77,7 @@ export default function HotelFilter() {
     <>
       <h4 className="mb-5 text-h4 font-semibold">Filter By</h4>
 
-      <section className="mixin/filter-title:mb-4 space-y-8 text-h6 font-semibold">
+      <section className="mixin/filter-title:mb-4 mixin/filter-title:space-y-8 mixin/filter-title:text-h6 mixin/filter-title:font-semibold">
         {/* Map */}
         <MapHotelFilter />
 
@@ -90,7 +89,7 @@ export default function HotelFilter() {
             value={priceRange}
             onValueChange={setPriceRange}
             aria-label="Price range slider with minimum and maximum price"
-            showTooltip={true}
+            showTooltip={false}
             thumbClassName="border-p1 focus-visible:outline-p1/40 h-[19px] w-[19px]"
             rangeClassName="bg-p1/75"
           />
@@ -111,7 +110,7 @@ export default function HotelFilter() {
 
           <div className="grid grid-cols-2 gap-4">
             {RATING_STARS.map((starOption) => (
-              <button key={starOption} className="flex items-center gap-3">
+              <div key={starOption} className="flex items-center gap-3">
                 <Checkbox id={starOption} />
                 <Label
                   htmlFor={starOption}
@@ -132,7 +131,7 @@ export default function HotelFilter() {
                     />
                   </svg>
                 </Label>
-              </button>
+              </div>
             ))}
           </div>
         </div>
@@ -147,8 +146,8 @@ export default function HotelFilter() {
             {LOCATION_SUGGESTIONS?.slice(
               0,
               showMoreLocations ? LOCATION_SUGGESTIONS.length : 5,
-            ).map((location) => (
-              <button key={id} className="flex items-center gap-3">
+            ).map((location, idx) => (
+              <div key={idx} className="flex items-center gap-3">
                 <Checkbox id={location} />
 
                 <Label
@@ -157,7 +156,7 @@ export default function HotelFilter() {
                 >
                   {location}
                 </Label>
-              </button>
+              </div>
             ))}
 
             <button
@@ -177,8 +176,8 @@ export default function HotelFilter() {
             {PROPERTY_TYPES?.slice(
               0,
               showMorePropertyTypes ? PROPERTY_TYPES.length : 5,
-            ).map((type) => (
-              <button key={id} className="flex items-center gap-3">
+            ).map((type, idx) => (
+              <div key={idx} className="flex items-center gap-3">
                 <Checkbox id={type} />
 
                 <Label
@@ -187,7 +186,7 @@ export default function HotelFilter() {
                 >
                   {type}
                 </Label>
-              </button>
+              </div>
             ))}
 
             <button
@@ -207,8 +206,8 @@ export default function HotelFilter() {
             {HOTEL_FEATURES?.slice(
               0,
               showMoreHotelFeatures ? HOTEL_FEATURES.length : 5,
-            ).map((feature) => (
-              <button key={id} className="flex items-center gap-3">
+            ).map((feature, idx) => (
+              <div key={idx} className="flex items-center gap-3">
                 <Checkbox id={feature} />
 
                 <Label
@@ -217,7 +216,7 @@ export default function HotelFilter() {
                 >
                   {feature}
                 </Label>
-              </button>
+              </div>
             ))}
 
             <button
@@ -237,8 +236,8 @@ export default function HotelFilter() {
             {ROOM_OPTIONS?.slice(
               0,
               showMoreRoomOptions ? ROOM_OPTIONS.length : 5,
-            ).map((option) => (
-              <button key={id} className="flex items-center gap-3">
+            ).map((option, idx) => (
+              <div key={idx} className="flex items-center gap-3">
                 <Checkbox id={option} />
 
                 <Label
@@ -247,7 +246,7 @@ export default function HotelFilter() {
                 >
                   {option}
                 </Label>
-              </button>
+              </div>
             ))}
 
             <button

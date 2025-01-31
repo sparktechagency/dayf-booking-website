@@ -2,7 +2,7 @@ import { DM_Sans, Quicksand, Roboto } from "next/font/google";
 
 export const quicksand = Quicksand({
   variable: "--font-quicksand",
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "block",
   subsets: ["latin"],
 });
