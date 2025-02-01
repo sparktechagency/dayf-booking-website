@@ -7,6 +7,8 @@ import "swiper/css/pagination";
 import Footer from "@/components/shared-layout/Footer/Footer";
 import PageTopLoader from "@/components/PageTopLoader";
 import ScrollToTopBtn from "@/components/ScrollToTopBtn/ScrollToTopBtn";
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 export const metadata = {
   title: {

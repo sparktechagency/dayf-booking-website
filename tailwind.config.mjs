@@ -63,17 +63,14 @@ export default {
         "in-out-circ": "cubic-bezier(0.85, 0, 0.15, 1)",
       },
     },
-    container: {
-      center: true,
-      padding: "1.2rem",
-      screens: {
-        sm: "640px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1280px",
-        "2xl": "1440px",
-        "3xl": "1640px",
-      },
+
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1440px",
+      "3xl": "1640px",
     },
   },
   plugins: [

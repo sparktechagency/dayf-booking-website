@@ -159,7 +159,7 @@ export default function WondersCarousel() {
         className="relative"
       >
         {images?.map((imgObj, idx) => (
-          <SwiperSlide key={imgObj} className="overflow-hidden">
+          <SwiperSlide key={imgObj.id} className="overflow-hidden">
             <Image
               src={imgObj.img}
               alt={`Photo of ${imgObj.title}`}

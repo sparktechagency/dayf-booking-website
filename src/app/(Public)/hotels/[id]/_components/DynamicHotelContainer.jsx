@@ -30,17 +30,17 @@ const hotel = {
   desc: "<article>\r\n  \r\n  <p>Located in Dhaka, 1.1 miles from Uttara University, Sheraton Club des Pins Resort provides accommodations with a fitness center, private parking, a shared lounge and a terrace. This 3-star hotel offers an ATM and babysitting service. The property has a 24-hour front desk, airport transportation, room service and free WiFi.</p>\r\n\r\n<p>At the hotel you'll find a restaurant serving Chinese, Indian and Italian cuisine. Vegetarian and halal options can also be requested.</p>\r\n\r\n<p>IUBAT is 1.8 miles from Sheraton Club des Pins Resort, while Dhaka Airport Train Station is 2.7 miles away. Hazrat Shahjalal International Airport is 4.3 miles from the property.</p>\r\n\r\n<p>Solo travelers in particular like the location – they rated it 8.0 for a one-person stay.</p>\r\n</article>",
 
   images: [
-    hotelImg1,
-    hotelImg2,
-    hotelImg3,
-    hotelImg4,
-    hotelImg5,
-    hotelImg6,
-    hotelImg7,
-    hotelImg8,
-    hotelImg9,
-    hotelImg10,
-    hotelImg11,
+    { id: 0, url: hotelImg1 },
+    { id: 1, url: hotelImg2 },
+    { id: 2, url: hotelImg3 },
+    { id: 3, url: hotelImg4 },
+    { id: 4, url: hotelImg5 },
+    { id: 5, url: hotelImg6 },
+    { id: 6, url: hotelImg7 },
+    { id: 7, url: hotelImg8 },
+    { id: 8, url: hotelImg9 },
+    { id: 9, url: hotelImg10 },
+    { id: 10, url: hotelImg11 },
   ],
 
   propertyType: { title: "Hotel", icon: "ri:hotel-line" },
@@ -418,7 +418,7 @@ export default function DynamicHotelContainer() {
       </section>
 
       {/* Gallery */}
-      <DynamicHotelImageGallery images={hotel.images} />
+      <DynamicHotelImageGallery hotel={hotel} images={hotel.images} />
     </ResponsiveContainer>
   );
 }

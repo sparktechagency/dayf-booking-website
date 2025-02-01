@@ -59,12 +59,9 @@ export default function VerticalHotelCard({ hotel }) {
         </Swiper>
 
         <section className="mt-3 px-1">
-          <Link
-            href={`/hotels/${hotel?.id}`}
-            className="text-h4 font-semibold leading-tight text-[#252525]"
-          >
+          <h3 className="text-h4 font-semibold leading-tight text-[#252525]">
             {hotel?.name}
-          </Link>
+          </h3>
           <p className="mt-2 text-[#626262]">{hotel?.description}</p>
 
           <h3 className="my-3 text-h4 text-[#252525]">
@@ -89,15 +86,16 @@ export default function VerticalHotelCard({ hotel }) {
         </section>
       </div>
 
-      <footer>
-        <Button
-          variant="primary"
-          size="lg"
-          className="group w-full rounded-full"
-        >
+      <Button
+        variant="primary"
+        size="lg"
+        className="group w-full rounded-full"
+        asChild
+      >
+        <Link href={`/hotels/${hotel?.id}`}>
           See Details <AnimatedArrow />
-        </Button>
-      </footer>
+        </Link>
+      </Button>
     </div>
   );
 }
