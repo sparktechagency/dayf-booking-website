@@ -31,10 +31,10 @@ export default function HotelSearchPanel({ className }) {
   return (
     <div
       className={cn(
-        "mx-auto w-full rounded-2xl border bg-white !p-4 2xl:w-[75%]",
+        "mx-auto w-full rounded-2xl border bg-white !p-4 shadow-[0px_4px_23.2px_0px_rgba(159,159,159,0.25)] 2xl:w-[75%]",
         className,
       )}
-      style={{ boxShadow: "0px 4px 23.2px 0px rgba(159, 159, 159, 0.25)" }}
+      // style={{ boxShadow: "0px 4px 23.2px 0px rgba(159, 159, 159, 0.25)" }}
     >
       <div className="flex-center-start gap-x-2">
         <BgIcon>

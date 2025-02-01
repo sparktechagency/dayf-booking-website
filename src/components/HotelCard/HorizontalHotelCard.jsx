@@ -93,7 +93,7 @@ export default function HorizontalHotelCard({ hotel }) {
 
         <div className="flex-center-between">
           <Button size="lg" variant="primary" className="w-1/4 rounded-full">
-            See Details
+            <Link href={`/hotels/${hotel?.id}`}>See Details</Link>
           </Button>
 
           <p className="flex-center gap-x-2 text-gray-700">

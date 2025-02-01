@@ -9,6 +9,10 @@
     --color-p1: #007dd0;
     --color-light-sky-blue: #e9f6ff;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer utilities {

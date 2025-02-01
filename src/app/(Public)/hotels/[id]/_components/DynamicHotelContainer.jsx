@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import AnimatedArrow from "@/components/AnimatedArrow/AnimatedArrow";
 import DynamicHotelImageGallery from "./DynamicHotelImageGallery";
+import DynamicHotelDetails from "./DynamicHotelDetails";
 
 // Constants
 const hotel = {
@@ -43,7 +44,10 @@ const hotel = {
     { id: 10, url: hotelImg11 },
   ],
 
-  propertyType: { title: "Hotel", icon: "ri:hotel-line" },
+  propertyHighlights: [
+    { title: "Hotel", icon: "ri:hotel-line" },
+    { title: "1200 sq ft", icon: "mi:expand" },
+  ],
 
   features: [
     {
@@ -330,47 +334,6 @@ const hotel = {
     },
   ],
 
-  hotelPolicies: {
-    checkIn: {
-      time: "Available 24 hours",
-      details:
-        "Guests are required to show a photo identification and credit card upon check-in. You'll need to let the property know in advance what time you'll arrive.",
-    },
-    checkOut: {
-      time: "Available 24 hours",
-    },
-    cancellationPrepayment: {
-      details:
-        "Cancellation and prepayment policies vary according to accommodation type. Please check what conditions may apply to each option when making your selection.",
-    },
-    childrenAndBeds: {
-      childPolicies: {
-        description: "Children of any age are welcome.",
-        adultCharge:
-          "Children 12 years and above will be charged as adults at this property.",
-        pricingInfo:
-          "To see correct prices and occupancy information, please add the number of children in your group and their ages to your search.",
-      },
-      cotAndExtraBedPolicies: {
-        extraBeds:
-          "The number of extra beds allowed is dependent on the option you choose. Please check your selected option for more information.",
-        cotsAvailable: "There are no cots available at this property.",
-        extraBedAvailability: "All extra beds are subject to availability.",
-      },
-    },
-    noAgeRestriction: {
-      description: "There is no age requirement for check-in.",
-    },
-    pets: {
-      allowed: false,
-      details: "Pets are not allowed.",
-    },
-    paymentMethods: {
-      cashOnly: true,
-      details: "This property only accepts cash payments.",
-    },
-  },
-
   relatedHotels: hotels,
 };
 
@@ -419,6 +382,9 @@ export default function DynamicHotelContainer() {
 
       {/* Gallery */}
       <DynamicHotelImageGallery hotel={hotel} images={hotel.images} />
+
+      {/* Hotel Details */}
+      <DynamicHotelDetails hotel={hotel} />
     </ResponsiveContainer>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function MapHotelFilter() {
   return (
-    <div className="rounded-t-xl border shadow-md">
+    <div className="w-full rounded-b-2xl rounded-t-xl border shadow-md">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7303.812755526995!2d90.41948726319886!3d23.7507177691414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1738214286193!5m2!1sen!2sbd"
         width={"100%"}
