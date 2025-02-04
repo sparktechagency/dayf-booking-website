@@ -23,7 +23,7 @@ const sidebarLinks = [
     id: "booking",
     label: "My Booking",
     desc: "Access your booking record",
-    route: "/dashboard/booking",
+    route: "/dashboard/booking-history",
     icon: "iconoir:calendar",
   },
   {
@@ -44,7 +44,6 @@ const sidebarLinks = [
 
 export default function DashboardSidebar() {
   const currentPath = usePathname();
-  const [activeLink, setActiveLink] = useState(sidebarLinks[0].route);
 
   return (
     <div className="lg:w-1/4">
@@ -69,7 +68,7 @@ export default function DashboardSidebar() {
             key={link.id}
             className={cn(
               "flex-center-start gap-x-3 rounded-full border border-transparent p-2 transition-all duration-300 ease-in-out",
-              activeLink === link.route && "border border-p1 p-2",
+              currentPath === link.route && "border border-p1 p-2",
             )}
           >
             <BgIcon className="size-12 bg-p1 text-white">
