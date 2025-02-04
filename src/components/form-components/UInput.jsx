@@ -19,6 +19,7 @@ const UInput = ({
   placeholder,
   name,
   defaultValue,
+  required = false,
   accept,
   showPassword,
   setShowPassword,
@@ -48,19 +49,7 @@ const UInput = ({
       render={({ field }) => (
         <FormItem className="w-full">
           <FormLabel className={cn("flex-center-start gap-x-2", labelClass)}>
-            {label}
-
-            {/* {info && (
-              <HoverCard openDelay={0}>
-                <HoverCardTrigger>
-                  <BadgeInfo size={18} className="text-primary-blue" />
-                </HoverCardTrigger>
-
-                <HoverCardContent className="font-medium leading-snug text-gray-600">
-                  {info}
-                </HoverCardContent>
-              </HoverCard>
-            )} */}
+            {label} {required && <span className="text-red-500">*</span>}
           </FormLabel>
           <FormControl>
             {type === "password" ? (

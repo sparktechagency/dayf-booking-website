@@ -20,13 +20,11 @@ const FormWrapper = ({
     formConfig["resolver"] = resolver;
   }
 
-  const form = useForm(formConfig);
+  const form = useForm({ mode: "onChange", ...formConfig });
 
   const submit = (data) => {
     onSubmit(data);
     // form.reset();
-
-    form.setValue("comment", "");
   };
 
   return (

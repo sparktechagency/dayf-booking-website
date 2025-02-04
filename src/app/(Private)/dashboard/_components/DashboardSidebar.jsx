@@ -5,7 +5,6 @@ import userAvatar from "/public/images/navbar/dummy-user.jpg";
 import CustomAvatar from "@/components/CustomAvatar/CustomAvatar";
 import BgIcon from "@/components/HotelSearchPanel/BgIcon";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
@@ -37,7 +36,7 @@ const sidebarLinks = [
     id: "feedback",
     label: "Share Feedback",
     desc: "Help us improve your experience",
-    route: "/dashboard/feedback",
+    route: "/dashboard/share-feedback",
     icon: "material-symbols:rate-review-outline-sharp",
   },
 ];

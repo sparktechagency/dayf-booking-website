@@ -13,7 +13,7 @@ export default function ProfileContainer() {
   const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false);
 
   return (
-    <div className="rounded-3xl border border-p1/30 px-8 py-6 shadow-sm">
+    <div className="">
       <div className="flex-center-between">
         <h3 className="text-h4 font-semibold text-p1">Profile</h3>
 

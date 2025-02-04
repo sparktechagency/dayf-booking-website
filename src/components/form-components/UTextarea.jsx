@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import {
   FormControl,
@@ -7,7 +7,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "../ui/text-area";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useFormContext } from "react-hook-form";
 
@@ -19,6 +19,7 @@ export default function UTextarea({
   placeholder,
   disabled,
   ref,
+  required,
   ...props
 }) {
   const { control } = useFormContext() ?? {};
@@ -29,11 +30,16 @@ export default function UTextarea({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>
+            {label} {required && <span className="text-danger">*</span>}
+          </FormLabel>
           <FormControl>
             <Textarea
               placeholder={placeholder}
-              className={cn("resize-none border border-gray-400", className)}
+              className={cn(
+                "min-h-[100px] resize-none border border-gray-400",
+                className,
+              )}
               maxLength={max}
               readOnly={props?.readOnly}
               disabled={disabled}
