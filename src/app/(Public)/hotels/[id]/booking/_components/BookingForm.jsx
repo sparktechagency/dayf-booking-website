@@ -5,6 +5,7 @@ import UInput from "@/components/form-components/UInput";
 import UPhoneInput from "@/components/form-components/UPhoneInput";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { useState } from "react";
 
 const paymentMethods = ["Debit/Credit Card", "Online Payment"];
@@ -78,8 +79,9 @@ export default function BookingForm() {
         variant="primary"
         className="w-full rounded-full py-6 text-base"
         size="lg"
+        asChild
       >
-        Confirm Now
+        <Link href={`/hotels/1/booking/success`}>Confirm Now</Link>
       </Button>
     </div>
   );
