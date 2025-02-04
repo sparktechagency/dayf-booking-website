@@ -11,7 +11,9 @@ export default function CustomTooltip({ children, title, className }) {
   return (
     <TooltipProvider delayDuration={0.3}>
       <Tooltip>
-        <TooltipTrigger as="button">{children}</TooltipTrigger>
+        <TooltipTrigger as="button" className={cn("", className)}>
+          {children}
+        </TooltipTrigger>
         <TooltipContent
           className={cn("font-dm-sans", className)}
           sideOffset={6}

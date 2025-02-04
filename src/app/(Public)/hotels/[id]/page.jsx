@@ -5,6 +5,10 @@
  * TODO: Add dynamic data w/ generateStaticParams
  */
 
+export const metadata = {
+  title: "Sheraton Club des Pins Resort",
+};
+
 import DynamicHotelContainer from "./_components/DynamicHotelContainer";
 
 export default function DynamicHotel() {

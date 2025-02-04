@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tv, Wifi, Wind, Bath, Square, Users } from "lucide-react";
 import { Icon } from "@iconify/react";
+import Link from "next/link";
 
 const AVAILABILITY_TABLE_HEADERS = [
   "Room type",
@@ -22,8 +23,6 @@ const AVAILABILITY_TABLE_HEADERS = [
 ];
 
 export default function DynamicHotelAvailabilitySection({ rooms }) {
-  console.log(rooms);
-
   // const rooms = [
   //   {
   //     type: "Twin Room",
@@ -138,8 +137,8 @@ export default function DynamicHotelAvailabilitySection({ rooms }) {
                 </td>
 
                 <td className="p-4">
-                  <Button className="bg-blue-500 hover:bg-blue-600">
-                    Reserve
+                  <Button className="bg-blue-500 hover:bg-blue-600" asChild>
+                    <Link href={`/hotels/1/booking`}>Reserve</Link>
                   </Button>
                 </td>
               </tr>

@@ -352,7 +352,7 @@ export default function DynamicHotelContainer() {
               className="size-12 bg-p1/10 text-p1"
               as="button"
               onClick={() => {
-                console.log("uzzal");
+                console.log("saved");
               }}
             >
               <Icon icon="solar:bookmark-linear" width="24" height="24" />
@@ -373,7 +373,7 @@ export default function DynamicHotelContainer() {
             className="group rounded-full font-semibold"
             asChild
           >
-            <Link href="#reserve">
+            <Link href="#availability">
               Reserve <AnimatedArrow />
             </Link>
           </Button>
