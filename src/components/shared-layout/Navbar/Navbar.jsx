@@ -22,6 +22,7 @@ import messageIcon from "/public/images/navbar/message-icon.svg";
 import userAvatar from "/public/images/navbar/dummy-user.jpg";
 import CustomAvatar from "@/components/CustomAvatar/CustomAvatar";
 import { MessageCircleIcon } from "@/utils/svgLibrary";
+import { getFromSessionStorage } from "@/utils/sessionStorage";
 
 export default function Navbar() {
   // Navbar dropdown states: Currency & Language
@@ -33,7 +34,7 @@ export default function Navbar() {
   ); // es
 
   // TODO: Use actual user data
-  const userId = true;
+  const userId = getFromSessionStorage("dayf-user");
 
   return (
     <header className="sticky top-0 z-50 w-full bg-light-sky-blue dark:bg-gray-950">
@@ -128,8 +129,12 @@ export default function Navbar() {
           </Button>
 
           {!userId ? (
-            <Button variant="primary" className="h-10 rounded-full px-5">
-              Log In
+            <Button
+              variant="primary"
+              className="h-10 rounded-full px-5"
+              asChild
+            >
+              <Link href="/login">Log In</Link>
             </Button>
           ) : (
             <>
