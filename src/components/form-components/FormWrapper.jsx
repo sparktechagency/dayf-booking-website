@@ -32,7 +32,7 @@ const FormWrapper = ({
   return (
     <Form {...form}>
       <form
-        className={cn("w-full !font-dm-sans", className)}
+        className={cn("!font-dm-sans w-full space-y-4", className)}
         onSubmit={form.handleSubmit(submit)}
         onKeyDown={onKeyDown}
       >

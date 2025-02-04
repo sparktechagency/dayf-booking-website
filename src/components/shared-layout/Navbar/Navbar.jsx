@@ -141,7 +141,7 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/user/profile"
+                href="/dashboard/profile"
                 className="flex-center h-10 gap-x-2 rounded-full bg-white/50 pl-2 pr-3 text-p1 hover:text-p1/80"
               >
                 <CustomAvatar

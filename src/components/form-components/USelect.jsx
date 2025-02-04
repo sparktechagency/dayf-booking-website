@@ -46,13 +46,20 @@ export default function USelect({
             >
               <FormControl>
                 <SelectTrigger
-                  className={cn("!mt-1 h-10 border border-gray-400", className)}
+                  className={cn(
+                    "!mt-1 h-12 rounded-full border-none bg-[#f6f6f6] shadow-none",
+                    className,
+                  )}
                 >
                   <SelectValue placeholder={selectTrigger} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent className="bg-white text-lg font-medium">
-                {selectItems}
+                {selectItems.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </FormControl>
