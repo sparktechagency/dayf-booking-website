@@ -1,12 +1,8 @@
 import Image from "next/image";
 import logo from "/public/images/auth/large-logo.svg";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
-import { headers } from "next/headers";
 
 export default async function AuthLayout({ children }) {
-  const pathname = (await headers()).get("x-pathname");
-  console.log(pathname);
-
   return (
     <div className="flex-center min-h-[75vh] bg-[linear-gradient(180deg,#F6F9FF_0%,#FFF5F9_100%)]">
       <ResponsiveContainer className="flex-start-between gap-16 lg:w-[80%] 2xl:w-[70%] 3xl:w-[60%]">
