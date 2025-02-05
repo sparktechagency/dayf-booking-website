@@ -7,7 +7,9 @@ import BgIcon from "@/components/HotelSearchPanel/BgIcon";
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { removeFromSessionStorage } from "@/utils/sessionStorage";
+import { SuccessModal } from "@/utils/customModal";
 
 // Constants
 const sidebarLinks = [
@@ -43,6 +45,13 @@ const sidebarLinks = [
 
 export default function DashboardSidebar() {
   const currentPath = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    removeFromSessionStorage("dayf-user");
+    SuccessModal("Logout Successful");
+    router.push("/");
+  };
 
   return (
     <div className="lg:w-1/4">
@@ -85,6 +94,7 @@ export default function DashboardSidebar() {
           className={cn(
             "flex-center-start w-full gap-x-3 rounded-full border-none bg-transparent p-2 text-black shadow-none transition-all duration-300 ease-in-out hover:bg-transparent",
           )}
+          onClick={handleLogout}
         >
           <BgIcon className="size-12 bg-p1 text-white">
             <Icon icon={"ri:logout-circle-line"} className="!size-5" />

@@ -5,7 +5,7 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 export default async function AuthLayout({ children }) {
   return (
     <div className="flex-center min-h-[75vh] bg-[linear-gradient(180deg,#F6F9FF_0%,#FFF5F9_100%)]">
-      <ResponsiveContainer className="flex-start-between gap-16 lg:w-[80%] 2xl:w-[70%] 3xl:w-[60%]">
+      <ResponsiveContainer className="flex-start-between gap-20 lg:w-[80%] 2xl:w-[70%] 3xl:w-[60%]">
         <div className="lg:w-1/2">
           <Image
             src={logo}

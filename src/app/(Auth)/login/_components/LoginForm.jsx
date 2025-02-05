@@ -3,11 +3,23 @@
 import FormWrapper from "@/components/form-components/FormWrapper";
 import UInput from "@/components/form-components/UInput";
 import { Button } from "@/components/ui/button";
+import { SuccessModal } from "@/utils/customModal";
+import { setToSessionStorage } from "@/utils/sessionStorage";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    router.push("/");
+
+    SuccessModal("Login Successful");
+    setToSessionStorage("dayf-user", JSON.stringify(true));
+  };
 
   return (
     <div>
@@ -18,7 +30,7 @@ export default function LoginForm() {
         </p>
       </div>
 
-      <FormWrapper className="space-y-6">
+      <FormWrapper className="space-y-6" onSubmit={onSubmit}>
         <UInput
           type="email"
           name="email"
@@ -26,6 +38,7 @@ export default function LoginForm() {
           placeholder="Enter your email"
           required={true}
         />
+
         <UInput
           type="password"
           name="password"

@@ -1,3 +1,5 @@
+// "use client";
+
 import { useForm } from "react-hook-form";
 import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
@@ -20,7 +22,7 @@ const FormWrapper = ({
     formConfig["resolver"] = resolver;
   }
 
-  const form = useForm({ mode: "onChange", ...formConfig });
+  const form = useForm(formConfig) ?? {};
 
   const submit = (data) => {
     onSubmit(data);

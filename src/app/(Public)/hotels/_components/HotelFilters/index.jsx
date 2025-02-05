@@ -77,7 +77,7 @@ export default function HotelFilter() {
     <>
       <h4 className="mb-5 text-h4 font-semibold">Filter By</h4>
 
-      <section className="mixin/filter-title:mb-4 mixin/filter-title:space-y-8 mixin/filter-title:text-h6 mixin/filter-title:font-semibold">
+      <section className="space-y-8 mixin/filter-title:mb-4 mixin/filter-title:text-h6 mixin/filter-title:font-semibold">
         {/* Map */}
         <MapHotelFilter />
 
