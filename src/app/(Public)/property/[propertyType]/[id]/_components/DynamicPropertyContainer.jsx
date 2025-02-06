@@ -12,6 +12,7 @@ import hotelImg8 from "/public/images/dynamic-hotel/sheraton/indoor-pool.jpg";
 import hotelImg9 from "/public/images/dynamic-hotel/sheraton/la-brasserie.jpg";
 import hotelImg10 from "/public/images/dynamic-hotel/sheraton/salle-uranus.jpg";
 import hotelImg11 from "/public/images/dynamic-hotel/sheraton/lobby-cafe.jpg";
+
 import CustomTooltip from "@/components/CustomTooltip/CustomTooltip";
 import BgIcon from "@/components/HotelSearchPanel/BgIcon";
 import { Icon } from "@iconify/react";
@@ -19,8 +20,11 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import AnimatedArrow from "@/components/AnimatedArrow/AnimatedArrow";
-import DynamicHotelImageGallery from "./DynamicHotelImageGallery";
-import DynamicHotelDetails from "./DynamicHotelDetails";
+import DynamicPropertyImageGallery from "./DynamicPropertyImageGallery";
+import DynamicHotelDetails from "./DynamicPropertyDetails";
+import { notFound } from "next/navigation";
+import { apartmentImages } from "../../_components/ApartmentsContainer";
+import DynamicPropertyDetails from "./DynamicPropertyDetails";
 
 // Constants
 const hotel = {
@@ -337,7 +341,226 @@ const hotel = {
   relatedHotels: hotels,
 };
 
-export default function DynamicHotelContainer() {
+const apartment = {
+  id: 1,
+  name: "Zidane Appartements",
+  shortDesc:
+    "Featuring a private beach area, Zidane Appartements features accommodations in Boumerdes. This property offers access to a terrace and free private parking.\n\nThe air-conditioned apartment is composed of 2 separate bedrooms, a living room, a fully equipped kitchen, and 1 bathroom. A flat-screen TV is available.\n\nDistance in property description is calculated using © OpenStreetMap",
+
+  images: apartmentImages.map((img, idx) => ({ id: idx, url: img })),
+
+  propertyHighlights: [
+    { title: "Apartment", icon: "solar:home-outline" },
+    { title: "500 sq ft", icon: "mi:expand" },
+  ],
+
+  features: [
+    {
+      title: "WiFi",
+      icon: "hugeicons:wifi-01",
+    },
+    {
+      title: "Swimming Pool",
+      icon: "ic:sharp-pool",
+    },
+    {
+      title: "Gym",
+      icon: "gg:gym",
+    },
+    {
+      title: "Restaurant",
+      icon: "material-symbols:restaurant-rounded",
+    },
+    {
+      title: "Room Service",
+      icon: "guidance:cleaning-room",
+    },
+    {
+      title: "Private Parking",
+      icon: "mingcute:parking-fill",
+    },
+    {
+      title: "Non-Smoking Rooms",
+      icon: "ic:round-smoking-rooms",
+    },
+  ],
+
+  availability: [
+    {
+      id: "two-bedroom-room",
+      title: "Two Bedroom Apartment",
+      features: [
+        {
+          title: "2 Single Beds",
+          icon: "material-symbols:single-bed",
+        },
+        {
+          title: "Air Conditioning",
+          icon: "material-symbols:ac-unit-rounded",
+        },
+        {
+          title: "WiFi",
+          icon: "hugeicons:wifi-01",
+        },
+        {
+          title: "TV",
+          icon: "material-symbols:tv-rounded",
+        },
+      ],
+      guests: 4,
+      price_per_night: "999",
+      choices: [
+        "Breakfast Included",
+        "Non-refundable",
+        "Online/Offline Cash Received",
+      ],
+      stock: 3,
+      costPerRoom: [
+        {
+          quantity: 1,
+          price: 999,
+        },
+        {
+          quantity: 2,
+          price: 1999,
+        },
+      ],
+    },
+  ],
+
+  surroundings: [
+    {
+      title: "Restaurants & Cafes",
+      icon: "ph:chef-hat-bold",
+      data: [
+        {
+          title: "Blue Cafe",
+          distance: "1.2 km",
+        },
+        {
+          title: "Blue Cafe",
+          distance: "1.2 km",
+        },
+        {
+          title: "Blue Cafe",
+          distance: "1.2 km",
+        },
+      ],
+    },
+    {
+      title: "Shops & Markets",
+      icon: "lets-icons:shop-light",
+      data: [
+        {
+          title: "Central Mall",
+          distance: "1.4 km",
+        },
+        {
+          title: "Central Mall",
+          distance: "1.4 km",
+        },
+        {
+          title: "Central Mall",
+          distance: "1.4 km",
+        },
+      ],
+    },
+    {
+      title: "Beaches",
+      icon: "majesticons:beach",
+      data: [
+        {
+          title: "Les Dunes Beach",
+          distance: "1.2 km",
+        },
+        {
+          title: "Les Dunes Beach",
+          distance: "1.2 km",
+        },
+        {
+          title: "Les Dunes Beach",
+          distance: "1.2 km",
+        },
+      ],
+    },
+    {
+      title: "Public Transport",
+      icon: "ri:bus-fill",
+      data: [
+        {
+          title: "Train - Riverdale Central Station",
+          distance: "1.2 km",
+        },
+        {
+          title: "Metro - Cityline Metro Hub",
+          distance: "1.2 km",
+        },
+        {
+          title: "Metro - Cityline Metro Hub",
+          distance: "1.2 km",
+        },
+      ],
+    },
+  ],
+
+  testimonials: [
+    {
+      title: "Breathtaking Views and Luxury Comfort!",
+      review:
+        "The Executive Suite exceeded all my expectations! The panoramic views of the Mediterranean Sea were absolutely stunning. The suite was spacious, immaculately clean, and the modern decor made me feel right at home. The bathroom was luxurious, and the amenities provided were top-notch. Perfect for both work and relaxation!",
+      rating: 5,
+      author: "Sofia B.",
+      location: "France",
+      date: "23.10.2024",
+      profileImg: "",
+    },
+    {
+      title: "A Truly Magical Stay!",
+      review:
+        "This hotel is a hidden gem! From the warm welcome to the elegant rooms, everything was impeccable. The staff went above and beyond to ensure my stay was perfect. I can't wait to return!",
+      rating: 5,
+      author: "James T.",
+      location: "United Kingdom",
+      date: "15.09.2024",
+      profileImg: "",
+    },
+    {
+      title: "Perfect for a Romantic Getaway",
+      review:
+        "My partner and I had an unforgettable experience here. The ambiance was amazing, the food was delicious, and the spa services were beyond relaxing. Highly recommended for couples!",
+      rating: 5,
+      author: "Elena M.",
+      location: "Italy",
+      date: "05.08.2024",
+      profileImg: "",
+    },
+    {
+      title: "Exceeded Expectations!",
+      review:
+        "I travel a lot for work, and this hotel stands out. Super clean, excellent WiFi, and the best breakfast I've had in a long time. Would definitely book again!",
+      rating: 4,
+      author: "David L.",
+      location: "USA",
+      date: "28.07.2024",
+      profileImg: "",
+    },
+  ],
+
+  relatedHotels: hotels,
+};
+
+export default function DynamicPropertyContainer({ propertyType }) {
+  return propertyType === "hotels" ? (
+    <DynamicHotel />
+  ) : propertyType === "apartments" ? (
+    <DynamicApartment />
+  ) : (
+    notFound()
+  );
+}
+
+// Dynamic Hotel
+const DynamicHotel = () => {
   return (
     <ResponsiveContainer className="my-10">
       <section className="flex-center-between">
@@ -381,10 +604,66 @@ export default function DynamicHotelContainer() {
       </section>
 
       {/* Gallery */}
-      <DynamicHotelImageGallery hotel={hotel} images={hotel.images} />
+      <DynamicPropertyImageGallery hotel={hotel} images={hotel.images} />
 
       {/* Hotel Details */}
       <DynamicHotelDetails hotel={hotel} />
     </ResponsiveContainer>
   );
-}
+};
+
+// Dynamic Apartment
+const DynamicApartment = () => {
+  return (
+    <ResponsiveContainer className="my-10">
+      <section className="flex-center-between">
+        <div className="w-3/4 space-y-1">
+          <h2 className="font-quicksand text-h3 font-bold">{apartment.name}</h2>
+          <p className="text-h6 text-gray-500">{apartment.shortDesc}</p>
+        </div>
+
+        <div className="flex-center-start gap-x-4">
+          <CustomTooltip title="Save for Later">
+            <BgIcon
+              className="size-12 bg-p1/10 text-p1"
+              as="button"
+              onClick={() => {
+                console.log("saved");
+              }}
+            >
+              <Icon icon="solar:bookmark-linear" width="24" height="24" />
+              <span className="sr-only">Save for Later</span>
+            </BgIcon>
+          </CustomTooltip>
+
+          <CustomTooltip title="Share">
+            <BgIcon className="size-12 bg-p1/10 text-p1">
+              <Icon icon="tdesign:share" width="24" height="24" />
+              <span className="sr-only">Share</span>
+            </BgIcon>
+          </CustomTooltip>
+
+          <Button
+            variant="primary"
+            size="lg"
+            className="group rounded-full font-semibold"
+            asChild
+          >
+            <Link href="#availability">
+              Reserve <AnimatedArrow />
+            </Link>
+          </Button>
+        </div>
+      </section>
+
+      {/* Gallery */}
+      <DynamicPropertyImageGallery
+        property={apartment}
+        images={apartment.images}
+      />
+
+      {/* Hotel Details */}
+      <DynamicPropertyDetails property={apartment} />
+    </ResponsiveContainer>
+  );
+};

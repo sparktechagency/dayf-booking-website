@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
 
-export default function HorizontalHotelCard({ hotel }) {
+export default function HorizontalHotelCard({ hotel, type }) {
   return (
     <div className="flex-stretch-start hotel-card gap-x-5 overflow-hidden rounded-3xl border border-[#EDEDED] bg-white shadow">
       <Swiper
@@ -35,7 +35,7 @@ export default function HorizontalHotelCard({ hotel }) {
               alt={`Photo of the ${hotel.name} hotel.`}
               height={900}
               width={900}
-              className="h-full w-auto overflow-hidden object-cover object-center transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
+              className="h-[370px] w-full overflow-hidden object-cover object-center transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
               placeholder="blur"
             />
 
@@ -52,7 +52,7 @@ export default function HorizontalHotelCard({ hotel }) {
 
       <div className="py-5 pr-8 xl:w-3/4">
         <Link
-          href={`/hotels/${hotel?.id}`}
+          href={`/property/hotels/${hotel?.id}`}
           className="text-h4 font-semibold leading-tight text-[#252525]"
         >
           {hotel?.name}
@@ -92,8 +92,17 @@ export default function HorizontalHotelCard({ hotel }) {
         </h3>
 
         <div className="flex-center-between">
-          <Button size="lg" variant="primary" className="w-1/4 rounded-full">
-            <Link href={`/hotels/${hotel?.id}`}>See Details</Link>
+          <Button
+            size="lg"
+            variant="primary"
+            className="w-1/4 rounded-full"
+            asChild
+          >
+            <Link
+              href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${hotel?.id}`}
+            >
+              See Details
+            </Link>
           </Button>
 
           <p className="flex-center gap-x-2 text-gray-700">

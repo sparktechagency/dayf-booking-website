@@ -8,7 +8,7 @@ import "./HotelCard.css";
 import AnimatedArrow from "../AnimatedArrow/AnimatedArrow";
 import Link from "next/link";
 
-export default function VerticalHotelCard({ hotel }) {
+export default function VerticalHotelCard({ hotel, type }) {
   return (
     <div className="hotel-card flex h-full flex-col justify-between gap-y-4">
       <div>
@@ -92,7 +92,9 @@ export default function VerticalHotelCard({ hotel }) {
         className="group w-full rounded-full"
         asChild
       >
-        <Link href={`/hotels/${hotel?.id}`}>
+        <Link
+          href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${hotel?.id}`}
+        >
           See Details <AnimatedArrow />
         </Link>
       </Button>

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function DynamicHotelPolicies() {
+export default function DynamicPropertyPolicies() {
   return (
     <div className="mx-auto w-full rounded-lg border px-8 py-4">
       <dl className="divide-y divide-gray-200">

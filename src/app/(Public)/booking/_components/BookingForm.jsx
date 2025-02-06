@@ -81,7 +81,7 @@ export default function BookingForm() {
         size="lg"
         asChild
       >
-        <Link href={`/hotels/1/booking/success`}>Confirm Now</Link>
+        <Link href={`/property/1/booking/success`}>Confirm Now</Link>
       </Button>
     </div>
   );

@@ -1,11 +1,17 @@
 "use client";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Parallax, Autoplay } from "swiper/modules";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Button, SeeAllButton } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { Search } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
+import { useState } from "react";
 import hotelImg1 from "/public/images/hotels/bar-caxine-lounge.jpg";
 import hotelImg2 from "/public/images/hotels/bar-caxine-lounge (1).jpg";
 import hotelImg3 from "/public/images/hotels/bar-caxine-lounge (2).jpg";
@@ -20,6 +26,18 @@ import hotelImg11 from "/public/images/hotels/salle-de-la-mariee.jpg";
 import hotelImg12 from "/public/images/hotels/salle-de-la-mariee (1).jpg";
 import HotelCard from "@/components/HotelCard/HotelCard";
 import { BathroomIcon, BedroomIcon, ExpandIcon } from "@/utils/svgLibrary";
+import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
+import { useSearchParams } from "next/navigation";
+
+// Constants
+const SORT_OPTIONS = [
+  "Top Recommended",
+  "Price: Low to High",
+  "Price: High to Low",
+  "Rating: Low to High",
+  "Rating: High to Low",
+  "Top Reviewed",
+];
 
 const hotelImages = [
   hotelImg1,
@@ -37,7 +55,7 @@ const hotelImages = [
 ];
 
 // Dummy Hotels Data
-export const hotels = [
+const hotels = [
   {
     id: 1,
     name: "Sheraton Club des Pins Resort",
@@ -45,6 +63,7 @@ export const hotels = [
       "A luxurious beachfront resort offering world-class amenities and breathtaking views of the Mediterranean Sea.",
     price_per_night: 310,
     rating: 4.5,
+    reviewCount: 500,
     features: [
       {
         id: "bedroom",
@@ -65,6 +84,7 @@ export const hotels = [
         value: "1,500",
       },
     ],
+    location: "Algiers, Algeria",
     images: hotelImages,
   },
   {
@@ -74,6 +94,7 @@ export const hotels = [
       "A 5-star oasis in the heart of Algiers, offering unparalleled comfort, fine dining, and stunning city views.",
     price_per_night: 280,
     rating: 4.4,
+    reviewCount: 500,
     features: [
       {
         id: "bedroom",
@@ -94,6 +115,7 @@ export const hotels = [
         value: "1,300",
       },
     ],
+    location: "Algiers, Algeria",
     images: hotelImages,
   },
   {
@@ -103,6 +125,7 @@ export const hotels = [
       "A modern luxury hotel with exceptional hospitality, ideal for business and leisure travelers visiting Constantine.",
     price_per_night: 260,
     rating: 4.6,
+    reviewCount: 500,
     features: [
       {
         id: "bedroom",
@@ -123,6 +146,7 @@ export const hotels = [
         value: "1,250",
       },
     ],
+    location: "Algiers, Algeria",
     images: hotelImages,
   },
   {
@@ -132,6 +156,7 @@ export const hotels = [
       "An elegant blend of history and modern luxury in Oran, offering a sophisticated stay with spectacular city views.",
     price_per_night: 290,
     rating: 4.3,
+    reviewCount: 500,
     features: [
       {
         id: "bedroom",
@@ -152,6 +177,7 @@ export const hotels = [
         value: "1,400",
       },
     ],
+    location: "Algiers, Algeria",
     images: hotelImages,
   },
   {
@@ -161,6 +187,7 @@ export const hotels = [
       "A charming and comfortable hotel located in Algiers, perfect for a peaceful and relaxing stay.",
     price_per_night: 150,
     rating: 4.2,
+    reviewCount: 500,
     features: [
       {
         id: "bedroom",
@@ -181,94 +208,81 @@ export const hotels = [
         value: "900",
       },
     ],
+    location: "Algiers, Algeria",
     images: hotelImages,
   },
 ];
 
-export default function HotelsCarousel() {
-  const sliderRef = useRef(null);
-  const [isBeginning, setIsBeginning] = useState(true);
-  const [isEnd, setIsEnd] = useState(false);
+export default function HotelsContainer() {
+  const [sortBy, setSortBy] = useState("");
 
-  const handlePrev = useCallback(() => {
-    if (!sliderRef.current) return;
-    sliderRef.current.swiper.slidePrev();
-  }, []);
-
-  const handleNext = useCallback(() => {
-    if (!sliderRef.current) return;
-    sliderRef.current.swiper.slideNext();
-  }, []);
-
-  useEffect(() => {
-    if (!sliderRef) {
-      return;
-    }
-  }, [sliderRef]);
+  // Pagination controls
+  const searchParams = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
+  const pageSize = parseInt(searchParams.get("pageSize") || "10");
 
   return (
-    <Swiper
-      effect="slide"
-      modules={[Navigation, Pagination, Parallax, Autoplay]}
-      spaceBetween={35}
-      slidesPerView={3.5}
-      allowTouchMove={false}
-      direction="horizontal"
-      loop={false}
-      ref={sliderRef}
-      speed={1000}
-      parallax={true}
-      autoplay={{
-        delay: 3500,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
-      }}
-      onActiveIndexChange={(e) => {
-        if (e.isBeginning) {
-          setIsBeginning(true);
-          setIsEnd(false);
-        } else if (e.isEnd) {
-          setIsBeginning(false);
-          setIsEnd(true);
-        } else if (!e.isBeginning) {
-          setIsBeginning(false);
-          setIsEnd(false);
-        } else if (!e.isEnd) {
-          setIsBeginning(false);
-          setIsEnd(false);
-        }
-      }}
-    >
-      {hotels.map((hotel) => (
-        <SwiperSlide
-          key={hotel.id}
-          className="overflow-hidden rounded-[2.5rem] border p-3"
-        >
-          <HotelCard key={hotel.id} hotel={hotel} />
-        </SwiperSlide>
-      ))}
+    <div>
+      <section className="flex-center-between">
+        <h3 className="text-h4 font-semibold">12 Hotels Found 🌟</h3>
 
-      <div className="flex-center-between mt-4">
-        <div className="space-x-2">
-          <Button
-            onClick={handlePrev}
-            disabled={isBeginning}
-            className="aspect-square size-11 rounded-full bg-light-sky-blue text-xl text-p1 shadow-none hover:bg-p1 hover:text-white"
-          >
-            <ArrowLeft className="!size-5" />
-          </Button>
+        <div className="flex-center-start gap-x-2">
+          <div className="relative rounded-full border-2 border-p1 transition-all duration-300 ease-in-out">
+            <Search
+              className={cn(
+                "absolute left-3 top-1/2 -translate-y-1/2 text-muted",
+              )}
+              size={18}
+            />
 
-          <Button
-            onClick={handleNext}
-            disabled={isEnd}
-            className="aspect-square size-11 rounded-full bg-light-sky-blue text-p1 shadow-none hover:bg-p1 hover:text-white"
-          >
-            <ArrowRight className="!size-5" />
-          </Button>
+            <Input
+              className={cn(
+                "w-full rounded-full border-none bg-white px-10 py-5 shadow-none outline-none !ring-0 !ring-offset-0",
+              )}
+              placeholder="Search hotels..."
+            />
+          </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className="w-full">
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-max rounded-full border-2 border-p1 !px-5 !py-5 shadow-none !outline-none !ring-0",
+                  sortBy && "bg-p1 text-white",
+                )}
+              >
+                <ArrowUpDown size={18} />
+                <span>Sort by{sortBy ? `: ${sortBy}` : ""}</span>
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end" className="w-56 rounded-xl">
+              {SORT_OPTIONS.map((option) => (
+                <DropdownMenuCheckboxItem
+                  key={option}
+                  checked={sortBy === option}
+                  onCheckedChange={() =>
+                    sortBy === option ? setSortBy("") : setSortBy(option)
+                  }
+                >
+                  {option}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
+      </section>
 
-        <SeeAllButton href="/hotels" />
-      </div>
-    </Swiper>
+      {/* Hotel Lists */}
+      <section className="mt-8 grid gap-8">
+        {hotels?.map((hotel) => (
+          <HotelCard key={hotel.id} hotel={hotel} variant="list" />
+        ))}
+
+        {/* <CustomPagination currentPage={currentPage} /> */}
+        <PaginationWithLinks page={page} pageSize={pageSize} totalCount={100} />
+      </section>
+    </div>
   );
 }

@@ -32,7 +32,7 @@ import { CirclePlus } from "lucide-react";
 import { CircleMinus } from "lucide-react";
 import Link from "next/link";
 
-export default function HotelSearchPanel({ className }) {
+export default function ApartmentSearchPanel({ className }) {
   const [location, setLocation] = useState("");
   const [checkInOutDate, setCheckInOutDate] = useState({
     from: "",
@@ -105,7 +105,7 @@ export default function HotelSearchPanel({ className }) {
           <LocateFixed size={16} />
         </BgIcon>
 
-        <p className="text-gray-500">Hotels in Algeria</p>
+        <p className="text-gray-500">Apartments in Algeria</p>
       </div>
 
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
@@ -299,7 +299,7 @@ export default function HotelSearchPanel({ className }) {
           className="mt-6 rounded-full !py-4"
           asChild
         >
-          <Link href="/property/hotels">Search</Link>
+          <Link href="/property/apartments">Search</Link>
         </Button>
       </section>
     </div>

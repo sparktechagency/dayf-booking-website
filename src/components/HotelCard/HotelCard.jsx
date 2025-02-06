@@ -1,10 +1,10 @@
 import HorizontalHotelCard from "./HorizontalHotelCard";
 import VerticalHotelCard from "./VerticalHotelCard";
 
-export default function HotelCard({ hotel, variant = "grid" }) {
+export default function HotelCard({ hotel, variant = "grid", type = "hotel" }) {
   return variant === "grid" ? (
-    <VerticalHotelCard hotel={hotel} />
+    <VerticalHotelCard hotel={hotel} type={type} />
   ) : (
-    <HorizontalHotelCard hotel={hotel} />
+    <HorizontalHotelCard hotel={hotel} type={type} />
   );
 }

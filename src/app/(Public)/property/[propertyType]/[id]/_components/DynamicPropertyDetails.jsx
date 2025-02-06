@@ -7,25 +7,25 @@ import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useState } from "react";
-import DynamicHotelAvailabilitySection from "./DynamicHotelAvailabilitySection";
-import MapHotelFilter from "../../_components/HotelFilters/MapHotelFilter";
-import DynamicHotelReviews from "./DynamicHotelReviews";
-import DynamicHotelPolicies from "./DynamicHotelPolicies";
+import DynamicPropertyAvailabilitySection from "./DynamicPropertyAvailabilitySection";
+import MapHotelFilter from "../../_components/ApartmentFilters/MapApartmentFilter";
+import DynamicPropertyReviews from "./DynamicPropertyReviews";
+import DynamicPropertyPolicies from "./DynamicPropertyPolicies";
 import HotelsCarousel from "@/components/HomePageSections/TopPicks/HotelsCarousel";
 
-const HOTEL_DETAILS_SECTIONS = [
+const PROPERTY_DETAILS_SECTIONS = [
   { key: "overview", label: "Overview", route: "#overview" },
   { key: "availability", label: "Availability", route: "#availability" },
   { key: "surroundings", label: "Surroundings", route: "#surroundings" },
   { key: "reviews", label: "Reviews", route: "#reviews" },
 ];
 
-export default function DynamicHotelDetails({ hotel }) {
+export default function DynamicPropertyDetails({ property }) {
   const [activeSection, setActiveSection] = useState("overview");
   return (
-    <section className="mt-10">
+    <section className="mt-16">
       <nav className="flex-center-start gap-x-8 text-lg">
-        {HOTEL_DETAILS_SECTIONS.map((section) => (
+        {PROPERTY_DETAILS_SECTIONS.map((section) => (
           <Link
             key={section.key}
             href={section.route}
@@ -80,10 +80,12 @@ export default function DynamicHotelDetails({ hotel }) {
           </article>
 
           <div className="w-full">
-            <DynamicHotelSectionTitle>Features</DynamicHotelSectionTitle>
+            <DynamicApartmentSectionTitle>
+              Features
+            </DynamicApartmentSectionTitle>
 
             <div className="flex-center-start mt-4 w-full flex-wrap gap-x-8 gap-y-5">
-              {hotel.features?.map((feature) => (
+              {property.features?.map((feature) => (
                 <span
                   key={feature.title}
                   className="flex-center-start gap-x-2 text-base"
@@ -105,7 +107,7 @@ export default function DynamicHotelDetails({ hotel }) {
             <h5 className="text-h6 font-bold">Property Highlights</h5>
 
             <ul className="mb-5 mt-3 space-y-3">
-              {hotel.propertyHighlights?.map((highlight) => (
+              {property.propertyHighlights?.map((highlight) => (
                 <li key={highlight.title} className="flex-center-start gap-x-2">
                   <BgIcon className="size-10 bg-light-sky-blue text-p1">
                     <Icon icon={highlight.icon} className="!h-5 !w-5" />
@@ -136,16 +138,18 @@ export default function DynamicHotelDetails({ hotel }) {
         </div>
       </section>
 
-      <section id="availability" className="mt-10">
-        <DynamicHotelAvailabilitySection rooms={hotel.availability} />
+      <section id="availability" className="mt-16">
+        <DynamicPropertyAvailabilitySection rooms={property.availability} />
       </section>
 
-      <section id="surroundings" className="mt-10 space-y-5">
-        <DynamicHotelSectionTitle>Explore the Area</DynamicHotelSectionTitle>
+      <section id="surroundings" className="mt-16 space-y-5">
+        <DynamicApartmentSectionTitle>
+          Explore the Area
+        </DynamicApartmentSectionTitle>
 
         <div className="flex-center-between gap-x-20">
           <div className="grid w-[60%] grid-cols-2 gap-x-10 gap-y-5">
-            {hotel.surroundings?.map((surrounding, idx) => (
+            {property.surroundings?.map((surrounding, idx) => (
               <div key={idx}>
                 <div className="flex-center-start mb-2 gap-x-2 text-h6">
                   <Icon icon={surrounding.icon} height="24" width="24" />
@@ -171,24 +175,28 @@ export default function DynamicHotelDetails({ hotel }) {
         </div>
       </section>
 
-      <div id="reviews" className="mt-10 space-y-5">
-        <DynamicHotelSectionTitle>What Our Guests Say</DynamicHotelSectionTitle>
-        <DynamicHotelReviews reviews={hotel.testimonials} />
+      <div id="reviews" className="mt-16 space-y-5">
+        <DynamicApartmentSectionTitle>
+          What Our Guests Say
+        </DynamicApartmentSectionTitle>
+        <DynamicPropertyReviews reviews={property.testimonials} />
       </div>
 
-      <div id="policy" className="mt-10 space-y-5">
-        <DynamicHotelSectionTitle>Policies</DynamicHotelSectionTitle>
-        <DynamicHotelPolicies />
+      <div id="policy" className="mt-16 space-y-5">
+        <DynamicApartmentSectionTitle>Policies</DynamicApartmentSectionTitle>
+        <DynamicPropertyPolicies />
       </div>
 
-      <div id="recommended" className="mt-10 space-y-5">
-        <DynamicHotelSectionTitle>You may also like</DynamicHotelSectionTitle>
+      <div id="recommended" className="mt-16 space-y-5">
+        <DynamicApartmentSectionTitle>
+          You may also like
+        </DynamicApartmentSectionTitle>
         <HotelsCarousel />
       </div>
     </section>
   );
 }
 
-export const DynamicHotelSectionTitle = ({ children }) => {
+export const DynamicApartmentSectionTitle = ({ children }) => {
   return <h4 className="text-h4 font-semibold">{children}</h4>;
 };

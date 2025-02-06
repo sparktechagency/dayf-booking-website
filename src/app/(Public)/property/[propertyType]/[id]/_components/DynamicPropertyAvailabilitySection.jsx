@@ -1,6 +1,6 @@
 import HotelSearchPanel from "@/components/HotelSearchPanel/HotelSearchPanel";
 import React from "react";
-import { DynamicHotelSectionTitle } from "./DynamicHotelDetails";
+import { DynamicApartmentSectionTitle } from "./DynamicPropertyDetails";
 import {
   Select,
   SelectContent,
@@ -22,7 +22,7 @@ const AVAILABILITY_TABLE_HEADERS = [
   "",
 ];
 
-export default function DynamicHotelAvailabilitySection({ rooms }) {
+export default function DynamicPropertyAvailabilitySection({ rooms }) {
   // const rooms = [
   //   {
   //     type: "Twin Room",
@@ -46,7 +46,7 @@ export default function DynamicHotelAvailabilitySection({ rooms }) {
 
   return (
     <div>
-      <DynamicHotelSectionTitle>Availability</DynamicHotelSectionTitle>
+      <DynamicApartmentSectionTitle>Availability</DynamicApartmentSectionTitle>
       <HotelSearchPanel className="mx-0 mt-4 shadow-none" />
 
       <div className="mt-5 w-full">
@@ -138,7 +138,7 @@ export default function DynamicHotelAvailabilitySection({ rooms }) {
 
                 <td className="p-4">
                   <Button className="bg-blue-500 hover:bg-blue-600" asChild>
-                    <Link href={`/hotels/1/booking`}>Reserve</Link>
+                    <Link href={`/property/hotels/1/booking`}>Reserve</Link>
                   </Button>
                 </td>
               </tr>

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import { FullScreenPreviewButton } from "./DynamicHotelImageGallery";
+import { FullScreenPreviewButton } from "./DynamicPropertyImageGallery";
 import { useState } from "react";
 import ImagePreviewer from "@/components/ui/image-previewer";
 
@@ -25,7 +25,7 @@ export default function ImageGalleryModal({ open, setOpen, hotel }) {
         className="border-2 border-blue-500"
       >
         <DialogTrigger></DialogTrigger>
-        <DialogContent hideClose className="max-w-[90%] xl:max-w-[85%]">
+        <DialogContent className="max-w-[90%] xl:max-w-[85%]">
           <DialogHeader>
             <DialogTitle className="font-quicksand text-3xl font-semibold">
               Photos of {hotel.name}
@@ -38,7 +38,7 @@ export default function ImageGalleryModal({ open, setOpen, hotel }) {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="3xl:grid-cols-4 grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 3xl:grid-cols-4">
             {hotel.images.map((image) => (
               <div key={image.id} className="group relative">
                 <Image

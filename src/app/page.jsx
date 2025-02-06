@@ -5,7 +5,7 @@ import WhyChooseUs from "@/components/HomePageSections/WhyChooseUs/WhyChooseUs";
 import WondersAroundYou from "@/components/HomePageSections/WondersAroundYou/WondersAroundYou";
 
 export const metadata = {
-  title: "Home | DAYF Booking",
+  title: "Home - Find Your Dream Place at DAYF Booking",
   description:
     "Welcome to DAYF Booking, home to Algeria's Top Destinations. Discover handpicked hotels and accommodations across Algeria’s most captivating destinations.",
 };

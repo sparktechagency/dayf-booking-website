@@ -26,7 +26,7 @@ export default async function NotFound() {
         asChild
       >
         <Link href="/">
-          Go Back <AnimatedArrow />
+          Go Home <AnimatedArrow />
         </Link>
       </Button>
 
@@ -35,14 +35,14 @@ export default async function NotFound() {
         icon="iconoir:spark-solid"
         width="36"
         height="36"
-        className="absolute left-40 top-28 text-p1"
+        className="absolute left-40 top-28 animate-spin text-p1 duration-1000 ease-in-out repeat-1"
       />
 
       <Icon
         icon="iconoir:spark-solid"
         width="36"
         height="36"
-        className="absolute bottom-28 right-40 text-p1"
+        className="absolute bottom-28 right-40 animate-spin text-p1 duration-1000 ease-in-out repeat-1"
       />
     </div>
   );

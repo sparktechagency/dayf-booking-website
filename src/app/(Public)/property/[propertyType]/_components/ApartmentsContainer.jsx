@@ -11,19 +11,18 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
-import { useEffect, useState } from "react";
-import hotelImg1 from "/public/images/hotels/bar-caxine-lounge.jpg";
-import hotelImg2 from "/public/images/hotels/bar-caxine-lounge (1).jpg";
-import hotelImg3 from "/public/images/hotels/bar-caxine-lounge (2).jpg";
-import hotelImg4 from "/public/images/hotels/chambre-superieure.jpg";
-import hotelImg5 from "/public/images/hotels/piscine.jpg";
-import hotelImg6 from "/public/images/hotels/restaurant-gastronomique.jpg";
-import hotelImg7 from "/public/images/hotels/restaurant-gastronomique (1).jpg";
-import hotelImg8 from "/public/images/hotels/restaurant-gastronomique (2).jpg";
-import hotelImg9 from "/public/images/hotels/salle-de-ceremonies-el.jpg";
-import hotelImg10 from "/public/images/hotels/salle-de-ceremonies-el (1).jpg";
-import hotelImg11 from "/public/images/hotels/salle-de-la-mariee.jpg";
-import hotelImg12 from "/public/images/hotels/salle-de-la-mariee (1).jpg";
+import { useState } from "react";
+import apartmentImage1 from "/public/images/apartments/1.jpg";
+import apartmentImage2 from "/public/images/apartments/2.jpg";
+import apartmentImage3 from "/public/images/apartments/3.jpg";
+import apartmentImage4 from "/public/images/apartments/4.jpg";
+import apartmentImage5 from "/public/images/apartments/5.jpg";
+import apartmentImage6 from "/public/images/apartments/6.jpg";
+import apartmentImage7 from "/public/images/apartments/7.jpg";
+import apartmentImage8 from "/public/images/apartments/8.jpg";
+import apartmentImage9 from "/public/images/apartments/9.jpg";
+import apartmentImage10 from "/public/images/apartments/10.jpg";
+import apartmentImage11 from "/public/images/apartments/11.jpg";
 import HotelCard from "@/components/HotelCard/HotelCard";
 import { BathroomIcon, BedroomIcon, ExpandIcon } from "@/utils/svgLibrary";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
@@ -39,181 +38,180 @@ const SORT_OPTIONS = [
   "Top Reviewed",
 ];
 
-const hotelImages = [
-  hotelImg1,
-  hotelImg2,
-  hotelImg3,
-  hotelImg4,
-  hotelImg5,
-  hotelImg6,
-  hotelImg7,
-  hotelImg8,
-  hotelImg9,
-  hotelImg10,
-  hotelImg11,
-  hotelImg12,
+export const apartmentImages = [
+  apartmentImage1,
+  apartmentImage2,
+  apartmentImage3,
+  apartmentImage4,
+  apartmentImage5,
+  apartmentImage6,
+  apartmentImage7,
+  apartmentImage8,
+  apartmentImage9,
+  apartmentImage10,
+  apartmentImage11,
 ];
 
 // Dummy Hotels Data
-const hotels = [
+const apartments = [
   {
     id: 1,
-    name: "Sheraton Club des Pins Resort",
+    name: "Magnifique 3 Pièces Sur Les Hauteurs D'Alger",
     description:
-      "A luxurious beachfront resort offering world-class amenities and breathtaking views of the Mediterranean Sea.",
-    price_per_night: 310,
-    rating: 4.5,
-    reviewCount: 500,
+      "A charming 75m² apartment located in the Air de France-Bouzerea district, offering two bedrooms, modern amenities, and breathtaking views of Algiers.",
+    price_per_night: 120,
+    rating: 4.8,
+    reviewCount: 150,
     features: [
       {
         id: "bedroom",
         icon: <BedroomIcon />,
-        label: "Bedroom",
+        label: "Bedrooms",
+        value: 2,
+      },
+      {
+        id: "bathroom",
+        icon: <BathroomIcon />,
+        label: "Bathrooms",
+        value: 1,
+      },
+      {
+        id: "space",
+        icon: <ExpandIcon />,
+        label: "sq ft",
+        value: "807",
+      },
+    ],
+    location: "Algiers, Algeria",
+    images: apartmentImages,
+  },
+  {
+    id: 2,
+    name: "F2 Sauna Et Jacuzzi XL",
+    description:
+      "A luxurious one-bedroom apartment featuring a private sauna and jacuzzi, situated in a modern district close to Algiers' main attractions.",
+    price_per_night: 150,
+    rating: 4.9,
+    reviewCount: 200,
+    features: [
+      {
+        id: "bedroom",
+        icon: <BedroomIcon />,
+        label: "Bedrooms",
+        value: 1,
+      },
+      {
+        id: "bathroom",
+        icon: <BathroomIcon />,
+        label: "Bathrooms",
+        value: 1,
+      },
+      {
+        id: "space",
+        icon: <ExpandIcon />,
+        label: "sq ft",
+        value: "650",
+      },
+    ],
+    location: "Algiers, Algeria",
+    images: apartmentImages,
+  },
+  {
+    id: 3,
+    name: "Duplex Haut Standing F4 A El Achour",
+    description:
+      "An upscale duplex apartment in the El Achour district, offering spacious living areas, a private garden, and modern amenities.",
+    price_per_night: 200,
+    rating: 4.7,
+    reviewCount: 180,
+    features: [
+      {
+        id: "bedroom",
+        icon: <BedroomIcon />,
+        label: "Bedrooms",
         value: 3,
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
-        label: "Bathroom",
+        label: "Bathrooms",
         value: 2,
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,500",
+        value: "1,657",
       },
     ],
     location: "Algiers, Algeria",
-    images: hotelImages,
-  },
-  {
-    id: 2,
-    name: "Sofitel Algiers Hamma Garden",
-    description:
-      "A 5-star oasis in the heart of Algiers, offering unparalleled comfort, fine dining, and stunning city views.",
-    price_per_night: 280,
-    rating: 4.4,
-    reviewCount: 500,
-    features: [
-      {
-        id: "bedroom",
-        icon: <BedroomIcon />,
-        label: "Bedroom",
-        value: 2,
-      },
-      {
-        id: "bathroom",
-        icon: <BathroomIcon />,
-        label: "Bathroom",
-        value: 2,
-      },
-      {
-        id: "space",
-        icon: <ExpandIcon />,
-        label: "sq ft",
-        value: "1,300",
-      },
-    ],
-    location: "Algiers, Algeria",
-    images: hotelImages,
-  },
-  {
-    id: 3,
-    name: "Constantine Marriott Hotel",
-    description:
-      "A modern luxury hotel with exceptional hospitality, ideal for business and leisure travelers visiting Constantine.",
-    price_per_night: 260,
-    rating: 4.6,
-    reviewCount: 500,
-    features: [
-      {
-        id: "bedroom",
-        icon: <BedroomIcon />,
-        label: "Bedroom",
-        value: 2,
-      },
-      {
-        id: "bathroom",
-        icon: <BathroomIcon />,
-        label: "Bathroom",
-        value: 2,
-      },
-      {
-        id: "space",
-        icon: <ExpandIcon />,
-        label: "sq ft",
-        value: "1,250",
-      },
-    ],
-    location: "Algiers, Algeria",
-    images: hotelImages,
+    images: apartmentImages,
   },
   {
     id: 4,
-    name: "Royal Hotel Oran - MGallery",
+    name: "Élégance Et Confort Près D'Alger Centre",
     description:
-      "An elegant blend of history and modern luxury in Oran, offering a sophisticated stay with spectacular city views.",
-    price_per_night: 290,
-    rating: 4.3,
-    reviewCount: 500,
+      "A modern one-bedroom apartment in a peaceful setting, featuring access to a swimming pool, sauna, and fitness center within the residence.",
+    price_per_night: 130,
+    rating: 4.6,
+    reviewCount: 160,
     features: [
       {
         id: "bedroom",
         icon: <BedroomIcon />,
-        label: "Bedroom",
-        value: 2,
+        label: "Bedrooms",
+        value: 1,
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
-        label: "Bathroom",
-        value: 2,
+        label: "Bathrooms",
+        value: 1,
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,400",
+        value: "700",
       },
     ],
     location: "Algiers, Algeria",
-    images: hotelImages,
+    images: apartmentImages,
   },
   {
     id: 5,
-    name: "AZ Hotel Zeralda",
+    name: "Infinity",
     description:
-      "A charming and comfortable hotel located in Algiers, perfect for a peaceful and relaxing stay.",
-    price_per_night: 150,
-    rating: 4.2,
-    reviewCount: 500,
+      "A spacious two-bedroom apartment offering modern amenities and stunning views of the city, perfect for families or business travelers.",
+    price_per_night: 180,
+    rating: 4.8,
+    reviewCount: 170,
     features: [
       {
         id: "bedroom",
         icon: <BedroomIcon />,
-        label: "Bedroom",
-        value: 1,
+        label: "Bedrooms",
+        value: 2,
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
-        label: "Bathroom",
-        value: 1,
+        label: "Bathrooms",
+        value: 2,
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "900",
+        value: "1,200",
       },
     ],
     location: "Algiers, Algeria",
-    images: hotelImages,
+    images: apartmentImages,
   },
 ];
 
-export default function HotelsContainer() {
+export default function ApartmentsContainer() {
   const [sortBy, setSortBy] = useState("");
 
   // Pagination controls
@@ -224,7 +222,7 @@ export default function HotelsContainer() {
   return (
     <div>
       <section className="flex-center-between">
-        <h3 className="text-h4 font-semibold">12 Hotels Found 🌟</h3>
+        <h3 className="text-h4 font-semibold">15 Apartments Found 🌟</h3>
 
         <div className="flex-center-start gap-x-2">
           <div className="relative rounded-full border-2 border-p1 transition-all duration-300 ease-in-out">
@@ -237,9 +235,9 @@ export default function HotelsContainer() {
 
             <Input
               className={cn(
-                "w-full rounded-full border-none px-10 py-5 shadow-none outline-none !ring-0 !ring-offset-0",
+                "w-full rounded-full border-none bg-white px-10 py-5 shadow-none outline-none !ring-0 !ring-offset-0",
               )}
-              placeholder="Search hotels..."
+              placeholder="Search for apartments..."
             />
           </div>
 
@@ -276,8 +274,13 @@ export default function HotelsContainer() {
 
       {/* Hotel Lists */}
       <section className="mt-8 grid gap-8">
-        {hotels?.map((hotel) => (
-          <HotelCard key={hotel.id} hotel={hotel} variant="list" />
+        {apartments?.map((hotel) => (
+          <HotelCard
+            key={hotel.id}
+            hotel={hotel}
+            variant="list"
+            type="apartment"
+          />
         ))}
 
         {/* <CustomPagination currentPage={currentPage} /> */}

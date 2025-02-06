@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "./DynamicHotel.css";
+import "./DynamicProperty.css";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 import ImagePreviewer from "@/components/ui/image-previewer";
 import ImageGalleryModal from "./ImageGalleryModal";
 
-export default function DynamicHotelImageGallery({ hotel, images }) {
+export default function DynamicPropertyImageGallery({ property, images }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [imagePreviewIndex, setImagePreviewIndex] = useState(-1); // img index -1 to hide lightbox
   const [showImageGalleryModal, setShowImageGalleryModal] = useState(false);
@@ -132,7 +132,7 @@ export default function DynamicHotelImageGallery({ hotel, images }) {
       <ImageGalleryModal
         open={showImageGalleryModal}
         setOpen={setShowImageGalleryModal}
-        hotel={hotel}
+        hotel={property}
       />
     </section>
   );

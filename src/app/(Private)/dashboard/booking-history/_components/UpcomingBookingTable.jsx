@@ -16,7 +16,7 @@ export default function UpcomingBookingTable({ bookings }) {
     <div className="rounded-lg border">
       <Table>
         <TableHeader>
-          <TableRow className="bg-p1">
+          <TableRow className="bg-p1 hover:bg-p1">
             {TABLE_HEADERS.map((header) => (
               <TableHead
                 key={header}

@@ -13,7 +13,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 export const metadata = {
   title: {
     default: "DAYF Booking",
-    template: "%s | DAYF Booking",
+    template: "%s - DAYF Booking",
   },
   description:
     "Book Your Dream Stay in Algeria’s Top Destinations with DAYF Booking! Discover handpicked hotels and accommodations across Algeria’s most captivating destinations. Whether you’re planning a city escape, a coastal retreat, or a desert adventure, we’ve got you covered.",

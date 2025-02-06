@@ -20,7 +20,12 @@ const navigationLinks = [
   {
     id: "hotels",
     label: "Hotels",
-    route: "/hotels",
+    route: "/property/hotels",
+  },
+  {
+    id: "apartments",
+    label: "Apartments",
+    route: "/property/apartments",
   },
   {
     id: "about",

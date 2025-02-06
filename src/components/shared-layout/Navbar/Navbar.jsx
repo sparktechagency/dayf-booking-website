@@ -16,14 +16,12 @@ import {
 } from "./navbar.constant";
 import NavDropdown from "./NavDropdown";
 import AnimatedArrow from "@/components/AnimatedArrow/AnimatedArrow";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { House } from "lucide-react";
-import messageIcon from "/public/images/navbar/message-icon.svg";
 import userAvatar from "/public/images/navbar/dummy-user.jpg";
 import CustomAvatar from "@/components/CustomAvatar/CustomAvatar";
 import { MessageCircleIcon } from "@/utils/svgLibrary";
 import { getFromSessionStorage } from "@/utils/sessionStorage";
-import { ErrorModal, SuccessModal } from "@/utils/customModal";
 
 export default function Navbar() {
   // Navbar dropdown states: Currency & Language
