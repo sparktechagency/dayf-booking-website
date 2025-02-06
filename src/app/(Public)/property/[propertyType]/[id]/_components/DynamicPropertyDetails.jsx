@@ -85,7 +85,7 @@ export default function DynamicPropertyDetails({ property }) {
             </DynamicApartmentSectionTitle>
 
             <div className="flex-center-start mt-4 w-full flex-wrap gap-x-8 gap-y-5">
-              {property.features?.map((feature) => (
+              {property?.features?.map((feature) => (
                 <span
                   key={feature.title}
                   className="flex-center-start gap-x-2 text-base"
@@ -107,7 +107,7 @@ export default function DynamicPropertyDetails({ property }) {
             <h5 className="text-h6 font-bold">Property Highlights</h5>
 
             <ul className="mb-5 mt-3 space-y-3">
-              {property.propertyHighlights?.map((highlight) => (
+              {property?.propertyHighlights?.map((highlight) => (
                 <li key={highlight.title} className="flex-center-start gap-x-2">
                   <BgIcon className="size-10 bg-light-sky-blue text-p1">
                     <Icon icon={highlight.icon} className="!h-5 !w-5" />
@@ -139,7 +139,7 @@ export default function DynamicPropertyDetails({ property }) {
       </section>
 
       <section id="availability" className="mt-16">
-        <DynamicPropertyAvailabilitySection rooms={property.availability} />
+        <DynamicPropertyAvailabilitySection rooms={property?.availability} />
       </section>
 
       <section id="surroundings" className="mt-16 space-y-5">
@@ -149,7 +149,7 @@ export default function DynamicPropertyDetails({ property }) {
 
         <div className="flex-center-between gap-x-20">
           <div className="grid w-[60%] grid-cols-2 gap-x-10 gap-y-5">
-            {property.surroundings?.map((surrounding, idx) => (
+            {property?.surroundings?.map((surrounding, idx) => (
               <div key={idx}>
                 <div className="flex-center-start mb-2 gap-x-2 text-h6">
                   <Icon icon={surrounding.icon} height="24" width="24" />
@@ -179,7 +179,7 @@ export default function DynamicPropertyDetails({ property }) {
         <DynamicApartmentSectionTitle>
           What Our Guests Say
         </DynamicApartmentSectionTitle>
-        <DynamicPropertyReviews reviews={property.testimonials} />
+        <DynamicPropertyReviews reviews={property?.testimonials} />
       </div>
 
       <div id="policy" className="mt-16 space-y-5">

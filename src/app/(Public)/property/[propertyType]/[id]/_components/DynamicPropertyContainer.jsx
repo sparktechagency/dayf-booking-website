@@ -565,7 +565,7 @@ const DynamicHotel = () => {
     <ResponsiveContainer className="my-10">
       <section className="flex-center-between">
         <div>
-          <h2 className="font-quicksand text-h3 font-bold">{hotel.name}</h2>
+          <h2 className="font-quicksand text-h3 font-bold">{hotel?.name}</h2>
           <p className="text-h6 text-gray-500">{hotel.shortDesc}</p>
         </div>
 
@@ -604,10 +604,10 @@ const DynamicHotel = () => {
       </section>
 
       {/* Gallery */}
-      <DynamicPropertyImageGallery hotel={hotel} images={hotel.images} />
+      <DynamicPropertyImageGallery property={hotel} images={hotel.images} />
 
       {/* Hotel Details */}
-      <DynamicHotelDetails hotel={hotel} />
+      <DynamicHotelDetails property={hotel} />
     </ResponsiveContainer>
   );
 };
