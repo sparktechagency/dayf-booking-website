@@ -23,27 +23,6 @@ const AVAILABILITY_TABLE_HEADERS = [
 ];
 
 export default function DynamicPropertyAvailabilitySection({ rooms }) {
-  // const rooms = [
-  //   {
-  //     type: "Twin Room",
-  //     amenities: ["TV", "WiFi", "Air condition", "Bathroom"],
-  //     beds: "2 single beds",
-  //     size: "1,200 sq ft",
-  //     price: 282,
-  //     features: ["Breakfast included"],
-  //     availability: 4,
-  //   },
-  //   {
-  //     type: "Deluxe Double Room",
-  //     amenities: ["TV", "WiFi", "Air condition", "Bathroom"],
-  //     beds: "2 single beds",
-  //     size: "1,200 sq ft",
-  //     price: 282,
-  //     features: ["Breakfast included"],
-  //     availability: 4,
-  //   },
-  // ];
-
   return (
     <div>
       <DynamicApartmentSectionTitle>Availability</DynamicApartmentSectionTitle>

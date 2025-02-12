@@ -189,7 +189,13 @@ export default function HotelSearchPanel({ className }) {
               </BgIcon>
 
               <span
-                className={cn("text-sm", guests.adults === 0 && "text-muted")}
+                className={cn(
+                  "text-sm",
+                  guests.adults === 0 &&
+                    guests.children === 0 &&
+                    guests.infants === 0 &&
+                    "text-muted",
+                )}
               >
                 {guests.adults} Adults / {guests.children} Children /{" "}
                 {guests.infants} Infants

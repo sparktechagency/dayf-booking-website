@@ -23,7 +23,7 @@ const PROPERTY_DETAILS_SECTIONS = [
 export default function DynamicPropertyDetails({ property }) {
   const [activeSection, setActiveSection] = useState("overview");
   return (
-    <section className="mt-16">
+    <section className="mt-10">
       <nav className="flex-center-start gap-x-8 text-lg">
         {PROPERTY_DETAILS_SECTIONS.map((section) => (
           <Link
@@ -41,7 +41,7 @@ export default function DynamicPropertyDetails({ property }) {
         ))}
 
         <Button variant="primary" className="rounded-full" asChild>
-          <Link href={`/message`}>
+          <Link href={`/messages`}>
             <Icon
               icon="hugeicons:message-notification-01"
               className="!h-5 !w-5"
