@@ -1,7 +1,7 @@
 "use client";
 
 import ContentWrapper from "@/components/ContentWrapper/ContentWrapper";
-import BgIcon from "@/components/HotelSearchPanel/BgIcon";
+import BgIcon from "@/components/PropertySearchPanel/BgIcon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
@@ -11,7 +11,7 @@ import DynamicPropertyAvailabilitySection from "./DynamicPropertyAvailabilitySec
 import MapHotelFilter from "../../_components/ApartmentFilters/MapApartmentFilter";
 import DynamicPropertyReviews from "./DynamicPropertyReviews";
 import DynamicPropertyPolicies from "./DynamicPropertyPolicies";
-import HotelsCarousel from "@/components/HomePageSections/TopPicks/HotelsCarousel";
+import PropertiesCarousel from "@/components/HomePageSections/TopPicks/PropertiesCarousel";
 
 const PROPERTY_DETAILS_SECTIONS = [
   { key: "overview", label: "Overview", route: "#overview" },
@@ -191,7 +191,7 @@ export default function DynamicPropertyDetails({ property }) {
         <DynamicApartmentSectionTitle>
           You may also like
         </DynamicApartmentSectionTitle>
-        <HotelsCarousel />
+        <PropertiesCarousel />
       </div>
     </section>
   );

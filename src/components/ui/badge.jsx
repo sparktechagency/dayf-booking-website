@@ -21,6 +21,12 @@ const badgeVariants = cva(
         error: "bg-[#fff1f0] text-[#e0636d] hover:bg-[#fff1f0]",
         warn: "bg-[#fffbe6] text-[#fbbe43] hover:bg-[#fffbe6]",
         primary: "bg-light-sky-blue text-p1 hover:bg-light-sky-blue",
+
+        // Special Categorized Variants
+        hotel:
+          "bg-[#e6f4ff] text-p1 hover:bg-[#e6f4ff] border-none font-semibold shadow-none",
+        apartment:
+          "bg-[#fff7e6] text-[#d46b08] hover:bg-[#fff7e6] border-none font-semibold shadow-none",
       },
     },
     defaultVariants: {

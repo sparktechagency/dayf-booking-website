@@ -1,9 +1,9 @@
-import HotelSearchPanel from "@/components/HotelSearchPanel/HotelSearchPanel";
+import HotelSearchPanel from "@/components/PropertySearchPanel/HotelSearchPanel";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
 import React from "react";
 import HotelFilter from "./_components/HotelFilters";
 import HotelsContainer from "./_components/HotelsContainer";
-import ApartmentSearchPanel from "@/components/HotelSearchPanel/ApartmentSearchPanel";
+import ApartmentSearchPanel from "@/components/PropertySearchPanel/ApartmentSearchPanel";
 import ApartmentFilters from "./_components/ApartmentFilters";
 import ApartmentsContainer from "./_components/ApartmentsContainer";
 import { notFound } from "next/navigation";

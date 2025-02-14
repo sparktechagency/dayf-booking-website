@@ -1,5 +1,5 @@
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
-import HotelsCarousel from "./HotelsCarousel";
+import PropertiesCarousel from "./PropertiesCarousel";
 
 export default function TopPicks() {
   return (
@@ -15,7 +15,7 @@ export default function TopPicks() {
           </p>
         </div>
 
-        <HotelsCarousel />
+        <PropertiesCarousel />
       </ResponsiveContainer>
     </section>
   );

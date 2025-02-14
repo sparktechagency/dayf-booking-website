@@ -24,7 +24,7 @@ import hotelImg9 from "/public/images/hotels/salle-de-ceremonies-el.jpg";
 import hotelImg10 from "/public/images/hotels/salle-de-ceremonies-el (1).jpg";
 import hotelImg11 from "/public/images/hotels/salle-de-la-mariee.jpg";
 import hotelImg12 from "/public/images/hotels/salle-de-la-mariee (1).jpg";
-import HotelCard from "@/components/HotelCard/HotelCard";
+import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { BathroomIcon, BedroomIcon, ExpandIcon } from "@/utils/svgLibrary";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { useSearchParams } from "next/navigation";
@@ -276,8 +276,8 @@ export default function HotelsContainer() {
 
       {/* Hotel Lists */}
       <section className="mt-8 grid gap-8">
-        {hotels?.map((hotel) => (
-          <HotelCard key={hotel.id} hotel={hotel} variant="list" />
+        {hotels?.map((property) => (
+          <PropertyCard key={property.id} property={property} variant="list" />
         ))}
 
         {/* <CustomPagination currentPage={currentPage} /> */}

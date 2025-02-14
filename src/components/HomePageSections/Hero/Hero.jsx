@@ -1,4 +1,4 @@
-import HotelSearchPanel from "@/components/HotelSearchPanel/HotelSearchPanel";
+import HotelSearchPanel from "@/components/PropertySearchPanel/HotelSearchPanel";
 import React from "react";
 import HeroGallery from "./HeroGallery";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";

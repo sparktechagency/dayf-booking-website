@@ -1,6 +1,6 @@
 "use client";
 
-import { hotels } from "@/components/HomePageSections/TopPicks/HotelsCarousel";
+import { properties } from "@/components/HomePageSections/TopPicks/PropertiesCarousel";
 import hotelImg1 from "/public/images/dynamic-hotel/sheraton/restaurant-la-terrasse.jpg";
 import hotelImg2 from "/public/images/dynamic-hotel/sheraton/hotel-exterior-entrance.jpg";
 import hotelImg3 from "/public/images/dynamic-hotel/sheraton/restaurant-nautilus (1).jpg";
@@ -14,7 +14,7 @@ import hotelImg10 from "/public/images/dynamic-hotel/sheraton/salle-uranus.jpg";
 import hotelImg11 from "/public/images/dynamic-hotel/sheraton/lobby-cafe.jpg";
 
 import CustomTooltip from "@/components/CustomTooltip/CustomTooltip";
-import BgIcon from "@/components/HotelSearchPanel/BgIcon";
+import BgIcon from "@/components/PropertySearchPanel/BgIcon";
 import { Icon } from "@iconify/react";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
 import { Button } from "@/components/ui/button";
@@ -338,7 +338,7 @@ const hotel = {
     },
   ],
 
-  relatedHotels: hotels,
+  relatedHotels: properties,
 };
 
 const apartment = {
@@ -546,7 +546,7 @@ const apartment = {
     },
   ],
 
-  relatedHotels: hotels,
+  relatedHotels: properties,
 };
 
 export default function DynamicPropertyContainer({ propertyType }) {

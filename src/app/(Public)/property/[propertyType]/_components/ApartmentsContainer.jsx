@@ -23,7 +23,7 @@ import apartmentImage8 from "/public/images/apartments/8.jpg";
 import apartmentImage9 from "/public/images/apartments/9.jpg";
 import apartmentImage10 from "/public/images/apartments/10.jpg";
 import apartmentImage11 from "/public/images/apartments/11.jpg";
-import HotelCard from "@/components/HotelCard/HotelCard";
+import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { BathroomIcon, BedroomIcon, ExpandIcon } from "@/utils/svgLibrary";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { useSearchParams } from "next/navigation";
@@ -274,10 +274,10 @@ export default function ApartmentsContainer() {
 
       {/* Hotel Lists */}
       <section className="mt-8 grid gap-8">
-        {apartments?.map((hotel) => (
-          <HotelCard
-            key={hotel.id}
-            hotel={hotel}
+        {apartments?.map((property) => (
+          <PropertyCard
+            key={property.id}
+            property={property}
             variant="list"
             type="apartment"
           />

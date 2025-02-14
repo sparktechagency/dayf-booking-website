@@ -1,43 +1,49 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Parallax, Autoplay } from "swiper/modules";
+import {
+  Navigation,
+  Pagination,
+  Parallax,
+  Autoplay,
+  FreeMode,
+} from "swiper/modules";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, SeeAllButton } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { ArrowRight } from "lucide-react";
-import hotelImg1 from "/public/images/hotels/bar-caxine-lounge.jpg";
-import hotelImg2 from "/public/images/hotels/bar-caxine-lounge (1).jpg";
-import hotelImg3 from "/public/images/hotels/bar-caxine-lounge (2).jpg";
-import hotelImg4 from "/public/images/hotels/chambre-superieure.jpg";
-import hotelImg5 from "/public/images/hotels/piscine.jpg";
-import hotelImg6 from "/public/images/hotels/restaurant-gastronomique.jpg";
-import hotelImg7 from "/public/images/hotels/restaurant-gastronomique (1).jpg";
-import hotelImg8 from "/public/images/hotels/restaurant-gastronomique (2).jpg";
-import hotelImg9 from "/public/images/hotels/salle-de-ceremonies-el.jpg";
-import hotelImg10 from "/public/images/hotels/salle-de-ceremonies-el (1).jpg";
-import hotelImg11 from "/public/images/hotels/salle-de-la-mariee.jpg";
-import hotelImg12 from "/public/images/hotels/salle-de-la-mariee (1).jpg";
-import HotelCard from "@/components/HotelCard/HotelCard";
+import propertyImg1 from "/public/images/hotels/bar-caxine-lounge.jpg";
+import propertyImg2 from "/public/images/hotels/bar-caxine-lounge (1).jpg";
+import propertyImg3 from "/public/images/hotels/bar-caxine-lounge (2).jpg";
+import propertyImg4 from "/public/images/hotels/chambre-superieure.jpg";
+import propertyImg5 from "/public/images/hotels/piscine.jpg";
+import propertyImg6 from "/public/images/hotels/restaurant-gastronomique.jpg";
+import propertyImg7 from "/public/images/hotels/restaurant-gastronomique (1).jpg";
+import propertyImg8 from "/public/images/hotels/restaurant-gastronomique (2).jpg";
+import propertyImg9 from "/public/images/hotels/salle-de-ceremonies-el.jpg";
+import propertyImg10 from "/public/images/hotels/salle-de-ceremonies-el (1).jpg";
+import propertyImg11 from "/public/images/hotels/salle-de-la-mariee.jpg";
+import propertyImg12 from "/public/images/hotels/salle-de-la-mariee (1).jpg";
+import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { BathroomIcon, BedroomIcon, ExpandIcon } from "@/utils/svgLibrary";
 
-const hotelImages = [
-  hotelImg1,
-  hotelImg2,
-  hotelImg3,
-  hotelImg4,
-  hotelImg5,
-  hotelImg6,
-  hotelImg7,
-  hotelImg8,
-  hotelImg9,
-  hotelImg10,
-  hotelImg11,
-  hotelImg12,
+const propertyImages = [
+  propertyImg1,
+  propertyImg2,
+  propertyImg3,
+  propertyImg4,
+  propertyImg5,
+  propertyImg6,
+  propertyImg7,
+  propertyImg8,
+  propertyImg9,
+  propertyImg10,
+  propertyImg11,
+  propertyImg12,
 ];
 
 // Dummy Hotels Data
-export const hotels = [
+export const properties = [
   {
     id: 1,
     name: "Sheraton Club des Pins Resort",
@@ -45,6 +51,7 @@ export const hotels = [
       "A luxurious beachfront resort offering world-class amenities and breathtaking views of the Mediterranean Sea.",
     price_per_night: 310,
     rating: 4.5,
+    type: "Hotel",
     features: [
       {
         id: "bedroom",
@@ -65,7 +72,7 @@ export const hotels = [
         value: "1,500",
       },
     ],
-    images: hotelImages,
+    images: propertyImages,
   },
   {
     id: 2,
@@ -94,7 +101,7 @@ export const hotels = [
         value: "1,300",
       },
     ],
-    images: hotelImages,
+    images: propertyImages,
   },
   {
     id: 3,
@@ -103,6 +110,7 @@ export const hotels = [
       "A modern luxury hotel with exceptional hospitality, ideal for business and leisure travelers visiting Constantine.",
     price_per_night: 260,
     rating: 4.6,
+    hotel: "Apartment",
     features: [
       {
         id: "bedroom",
@@ -123,7 +131,8 @@ export const hotels = [
         value: "1,250",
       },
     ],
-    images: hotelImages,
+    images: propertyImages,
+    type: "Apartment",
   },
   {
     id: 4,
@@ -152,7 +161,7 @@ export const hotels = [
         value: "1,400",
       },
     ],
-    images: hotelImages,
+    images: propertyImages,
   },
   {
     id: 5,
@@ -181,11 +190,11 @@ export const hotels = [
         value: "900",
       },
     ],
-    images: hotelImages,
+    images: propertyImages,
   },
 ];
 
-export default function HotelsCarousel() {
+export default function PropertiesCarousel() {
   const sliderRef = useRef(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -209,15 +218,16 @@ export default function HotelsCarousel() {
   return (
     <Swiper
       effect="slide"
-      modules={[Navigation, Pagination, Parallax, Autoplay]}
+      modules={[Navigation, Pagination, Autoplay, FreeMode]}
       spaceBetween={35}
       slidesPerView={3.5}
-      allowTouchMove={false}
+      allowTouchMove={true}
       direction="horizontal"
       loop={false}
       ref={sliderRef}
-      speed={1000}
-      parallax={true}
+      speed={800}
+      freeMode={true}
+      // cssMode={true}
       autoplay={{
         delay: 3500,
         disableOnInteraction: false,
@@ -239,12 +249,12 @@ export default function HotelsCarousel() {
         }
       }}
     >
-      {hotels.map((hotel) => (
+      {properties.map((property) => (
         <SwiperSlide
-          key={hotel.id}
-          className="overflow-hidden rounded-[2.5rem] border p-3"
+          key={property.id}
+          className="overflow-hidden rounded-[2.5rem] border p-3 transition-shadow duration-300 ease-in-out hover:shadow-xl"
         >
-          <HotelCard key={hotel.id} hotel={hotel} />
+          <PropertyCard key={property.id} property={property} />
         </SwiperSlide>
       ))}
 

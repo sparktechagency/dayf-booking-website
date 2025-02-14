@@ -3,7 +3,7 @@
 import Link from "next/link";
 import userAvatar from "/public/images/navbar/dummy-user.jpg";
 import CustomAvatar from "@/components/CustomAvatar/CustomAvatar";
-import BgIcon from "@/components/HotelSearchPanel/BgIcon";
+import BgIcon from "@/components/PropertySearchPanel/BgIcon";
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
