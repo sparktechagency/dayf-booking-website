@@ -14,10 +14,10 @@ export default function Home() {
   return (
     <div className="space-y-14 bg-light-sky-blue pb-20">
       <Hero />
-      <WhyChooseUs />
-      <TopPicks />
-      <WondersAroundYou />
-      <Testimonials />
+      {/* <WhyChooseUs /> */}
+      {/* <TopPicks /> */}
+      {/* <WondersAroundYou /> */}
+      {/* <Testimonials /> */}
     </div>
   );
 }

@@ -26,6 +26,8 @@ const buttonVariants = cva(
         // Custom Variants
         primary: "bg-p1 text-white shadow-none hover:bg-p1/90",
         ghostLightSkyBlue: "text-p1 hover:bg-light-sky-blue",
+        "outline-primary":
+          "border-p1 text-p1 hover:bg-p1 border shadow-none hover:text-white",
       },
       size: {
         default: "h-9 px-4 py-2",

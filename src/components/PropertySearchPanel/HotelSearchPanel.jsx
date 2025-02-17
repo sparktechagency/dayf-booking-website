@@ -98,7 +98,6 @@ export default function HotelSearchPanel({ className }) {
         "mx-auto w-full rounded-2xl border bg-white !p-4 shadow-[0px_4px_23.2px_0px_rgba(159,159,159,0.25)] 2xl:w-[75%]",
         className,
       )}
-      // style={{ boxShadow: "0px 4px 23.2px 0px rgba(159, 159, 159, 0.25)" }}
     >
       <div className="flex-center-start gap-x-2">
         <BgIcon>
@@ -110,7 +109,7 @@ export default function HotelSearchPanel({ className }) {
 
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
 
-      <section className="flex-center-between gap-x-4">
+      <section className="flex-center-between flex-col gap-4 lg:flex-row">
         <div className="w-full">
           <Label className="mb-3 block font-semibold text-gray-500">
             Destination
@@ -177,7 +176,7 @@ export default function HotelSearchPanel({ className }) {
           </Popover>
         </div>
 
-        <div className="w-full">
+        <div className="col-span-2 w-full">
           <Label className="mb-3 block font-semibold text-gray-500">
             Guests
           </Label>
@@ -202,7 +201,7 @@ export default function HotelSearchPanel({ className }) {
               </span>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="w-[400px] max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4">
+            <DropdownMenuContent className="w-full max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4 lg:w-[400px]">
               <DropdownMenuItem
                 className="flex-stretch-between gap-x-8 hover:!bg-transparent"
                 onClick={(e) => e.preventDefault()}
@@ -302,7 +301,7 @@ export default function HotelSearchPanel({ className }) {
         <Button
           variant="primary"
           size="lg"
-          className="mt-6 rounded-full !py-4"
+          className="rounded-full !py-4 lg:mt-6"
           asChild
         >
           <Link href="/property/hotels">Search</Link>

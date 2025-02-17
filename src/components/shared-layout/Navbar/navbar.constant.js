@@ -27,6 +27,15 @@ export const navbarLinks = [
   },
 ];
 
+export const mobileNavbarLinks = [
+  ...navbarLinks,
+  {
+    id: "list-property",
+    label: "List Your Property",
+    route: "/list-property",
+  },
+];
+
 // Supported Currencies
 export const supportedCurrencies = [
   {
@@ -52,17 +61,17 @@ export const supportedCurrencies = [
 export const supportedLanguages = [
   {
     id: "english",
-    label: "EN",
+    label: "English",
     icon: "/images/navbar/usa.svg",
   },
   {
     id: "arabic",
-    label: "AR",
+    label: "Arabic",
     icon: "/images/navbar/algeria.svg",
   },
   {
     id: "french",
-    label: "FR",
+    label: "French",
     icon: "/images/navbar/france.svg",
   },
 ];

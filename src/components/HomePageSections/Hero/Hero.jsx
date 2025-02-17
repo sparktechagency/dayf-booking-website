@@ -9,13 +9,13 @@ export default function Hero() {
       <ResponsiveContainer className="space-y-16">
         <HotelSearchPanel />
 
-        <section className="flex-center-between mx-auto gap-x-4">
+        <section className="flex-center-between mx-auto flex-col gap-x-4 gap-y-8 lg:flex-row">
           <div className="xl:w-1/2">
-            <h1 className="heading-gradient heading w-[75%] font-quicksand">
+            <h1 className="heading-gradient heading text-center font-quicksand lg:w-[75%] lg:text-left">
               Book Your Dream Stay in Algeria’s Top Destinations
             </h1>
 
-            <p className="description mt-3">
+            <p className="description mt-3 text-center lg:text-left">
               Discover handpicked hotels and accommodations across Algeria’s
               most captivating destinations. Whether you’re planning a city
               escape, a coastal retreat, or a desert adventure, we’ve got you

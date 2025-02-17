@@ -99,7 +99,7 @@
   }
 
   .heading {
-    @apply font-quicksand text-h1 font-bold leading-snug;
+    @apply font-quicksand text-[2.2rem] font-bold leading-snug lg:text-[2.5rem] xl:text-[2.9rem];
   }
   .description {
     @apply text-h6 text-gray-500;
@@ -110,5 +110,40 @@
   /* ------------------------------- */
   .swiper-slide {
     height: auto !important;
+  }
+
+  /* ----------------------------- */
+  /* Typewriter Effect */
+  /* ----------------------------- */
+  .typewriter {
+    overflow: hidden;
+    border-right: 0.15em solid var(--color-p1);
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.15em;
+    animation:
+      typing 3.5s steps(40, end),
+      blink-caret 0.75s step-end infinite;
+  }
+
+  /* The typing effect */
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from,
+    to {
+      border-color: transparent;
+    }
+    50% {
+      border-color: var(--color-p1);
+    }
   }
 }

@@ -10,8 +10,6 @@ import { Input } from "@/components/ui/input";
 import EyeIconInverse from "../EyeIconInverse/EyeIconInverse";
 import { cn } from "@/lib/utils";
 
-import { useEffect } from "react";
-
 const UInput = ({
   loading,
   type,
@@ -31,14 +29,7 @@ const UInput = ({
   labelClass,
   ...props
 }) => {
-  const { control, setValue } = useFormContext() ?? {};
-
-  // Set form value if value is present
-  useEffect(() => {
-    if (value) {
-      setValue(name, value);
-    }
-  }, [value]);
+  const { control } = useFormContext() ?? {};
 
   return (
     <FormField
@@ -48,9 +39,12 @@ const UInput = ({
       name={name}
       render={({ field }) => (
         <FormItem className="w-full">
-          <FormLabel className={cn("flex-center-start gap-x-2", labelClass)}>
+          <FormLabel
+            className={cn("flex-center-start mb-2 gap-x-2", labelClass)}
+          >
             {label} {required && <span className="text-red-500">*</span>}
           </FormLabel>
+
           <FormControl>
             {type === "password" ? (
               <div className="relative">
