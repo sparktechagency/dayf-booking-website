@@ -20,7 +20,7 @@ const LOCATION_SUGGESTIONS = [
   "Rome",
   "Barcelona",
   "Mumbai",
-  "Dubai",
+  "Dubai"
 ];
 
 const PROPERTY_TYPES = [
@@ -33,7 +33,7 @@ const PROPERTY_TYPES = [
   "Villa",
   "Apartment",
   "Cottage",
-  "Capsule Hotel",
+  "Capsule Hotel"
 ];
 
 const HOTEL_FEATURES = [
@@ -48,7 +48,7 @@ const HOTEL_FEATURES = [
   "Restaurant & Bar",
   "Business Center",
   "Concierge Service",
-  "Wheelchair Accessible",
+  "Wheelchair Accessible"
 ];
 
 const ROOM_OPTIONS = [
@@ -61,7 +61,7 @@ const ROOM_OPTIONS = [
   "Executive Room",
   "Penthouse",
   "Bungalow",
-  "Studio Apartment",
+  "Studio Apartment"
 ];
 
 export default function HotelFilter() {
@@ -145,7 +145,7 @@ export default function HotelFilter() {
           <div className="mt-4 grid gap-4">
             {LOCATION_SUGGESTIONS?.slice(
               0,
-              showMoreLocations ? LOCATION_SUGGESTIONS.length : 5,
+              showMoreLocations ? LOCATION_SUGGESTIONS.length : 5
             ).map((location, idx) => (
               <div key={idx} className="flex items-center gap-3">
                 <Checkbox id={location} />
@@ -175,7 +175,7 @@ export default function HotelFilter() {
           <div className="mt-4 grid gap-4">
             {PROPERTY_TYPES?.slice(
               0,
-              showMorePropertyTypes ? PROPERTY_TYPES.length : 5,
+              showMorePropertyTypes ? PROPERTY_TYPES.length : 5
             ).map((type, idx) => (
               <div key={idx} className="flex items-center gap-3">
                 <Checkbox id={type} />
@@ -205,7 +205,7 @@ export default function HotelFilter() {
           <div className="mt-4 grid gap-4">
             {HOTEL_FEATURES?.slice(
               0,
-              showMoreHotelFeatures ? HOTEL_FEATURES.length : 5,
+              showMoreHotelFeatures ? HOTEL_FEATURES.length : 5
             ).map((feature, idx) => (
               <div key={idx} className="flex items-center gap-3">
                 <Checkbox id={feature} />
@@ -235,7 +235,7 @@ export default function HotelFilter() {
           <div className="mt-4 grid gap-4">
             {ROOM_OPTIONS?.slice(
               0,
-              showMoreRoomOptions ? ROOM_OPTIONS.length : 5,
+              showMoreRoomOptions ? ROOM_OPTIONS.length : 5
             ).map((option, idx) => (
               <div key={idx} className="flex items-center gap-3">
                 <Checkbox id={option} />

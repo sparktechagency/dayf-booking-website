@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "@/components/ui/popover";
 import {
   DropdownMenu,
@@ -22,7 +22,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
 import { CalendarIcon } from "lucide-react";
@@ -36,12 +36,12 @@ export default function HotelSearchPanel({ className }) {
   const [location, setLocation] = useState("");
   const [checkInOutDate, setCheckInOutDate] = useState({
     from: "",
-    to: "",
+    to: ""
   });
   const [guests, setGuests] = useState({
     adults: 0,
     children: 0,
-    infants: 0,
+    infants: 0
   });
 
   const handleGuest = (e, key, order) => {
@@ -52,12 +52,12 @@ export default function HotelSearchPanel({ className }) {
         if (order === "plus") {
           setGuests((prev) => ({
             ...prev,
-            adults: prev.adults + 1,
+            adults: prev.adults + 1
           }));
         } else if (order === "minus") {
           setGuests((prev) => ({
             ...prev,
-            adults: prev.adults - 1,
+            adults: prev.adults - 1
           }));
         }
         break;
@@ -66,12 +66,12 @@ export default function HotelSearchPanel({ className }) {
         if (order === "plus") {
           setGuests((prev) => ({
             ...prev,
-            children: prev.children + 1,
+            children: prev.children + 1
           }));
         } else if (order === "minus") {
           setGuests((prev) => ({
             ...prev,
-            children: prev.children - 1,
+            children: prev.children - 1
           }));
         }
         break;
@@ -80,12 +80,12 @@ export default function HotelSearchPanel({ className }) {
         if (order === "plus") {
           setGuests((prev) => ({
             ...prev,
-            infants: prev.infants + 1,
+            infants: prev.infants + 1
           }));
         } else if (order === "minus") {
           setGuests((prev) => ({
             ...prev,
-            infants: prev.infants - 1,
+            infants: prev.infants - 1
           }));
         }
         break;
@@ -96,7 +96,7 @@ export default function HotelSearchPanel({ className }) {
     <div
       className={cn(
         "mx-auto w-full rounded-2xl border bg-white !p-4 shadow-[0px_4px_23.2px_0px_rgba(159,159,159,0.25)] 2xl:w-[75%]",
-        className,
+        className
       )}
     >
       <div className="flex-center-start gap-x-2">
@@ -141,7 +141,7 @@ export default function HotelSearchPanel({ className }) {
                 variant={"outline"}
                 className={cn(
                   "inline-flex w-full justify-start rounded-full border-none bg-[#F6F6F6] !px-3 !py-6 text-left font-normal shadow-none",
-                  !checkInOutDate && "text-muted-foreground",
+                  !checkInOutDate && "text-muted-foreground"
                 )}
               >
                 <BgIcon>
@@ -193,7 +193,7 @@ export default function HotelSearchPanel({ className }) {
                   guests.adults === 0 &&
                     guests.children === 0 &&
                     guests.infants === 0 &&
-                    "text-muted",
+                    "text-muted"
                 )}
               >
                 {guests.adults} Adults / {guests.children} Children /{" "}

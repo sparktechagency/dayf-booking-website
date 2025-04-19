@@ -3,7 +3,7 @@ import TermsConditionContainer from "./_components/TermsConditionContainer";
 
 export const metadata = {
   title: "Terms and Conditions",
-  description: "Read terms and conditions of DAYF Booking",
+  description: "Read terms and conditions of DAYF Booking"
 };
 
 export default function TermsConditionPage() {

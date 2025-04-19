@@ -27,20 +27,20 @@ const buttonVariants = cva(
         primary: "bg-p1 text-white shadow-none hover:bg-p1/90",
         ghostLightSkyBlue: "text-p1 hover:bg-light-sky-blue",
         "outline-primary":
-          "border-p1 text-p1 hover:bg-p1 border shadow-none hover:text-white",
+          "border-p1 text-p1 hover:bg-p1 border shadow-none hover:text-white"
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
-      },
+        icon: "h-9 w-9"
+      }
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
-    },
-  },
+      size: "default"
+    }
+  }
 );
 
 const Button = React.forwardRef(
@@ -53,7 +53,7 @@ const Button = React.forwardRef(
         {...props}
       />
     );
-  },
+  }
 );
 Button.displayName = "Button";
 
@@ -63,14 +63,14 @@ const SeeAllButton = ({ btnClassName, iconClassName, href = "" }) => {
       <button
         className={cn(
           "flex-center-start group gap-x-2 text-p1 hover:text-p1/90",
-          btnClassName,
+          btnClassName
         )}
       >
         See All{" "}
         <ArrowRight
           className={cn(
             "size-4 transition-all duration-300 ease-in-out group-hover:translate-x-0.5",
-            iconClassName,
+            iconClassName
           )}
         />
       </button>

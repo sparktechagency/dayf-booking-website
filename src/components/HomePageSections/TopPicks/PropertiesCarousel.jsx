@@ -6,7 +6,7 @@ import {
   Pagination,
   Parallax,
   Autoplay,
-  FreeMode,
+  FreeMode
 } from "swiper/modules";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, SeeAllButton } from "@/components/ui/button";
@@ -39,7 +39,7 @@ const propertyImages = [
   propertyImg9,
   propertyImg10,
   propertyImg11,
-  propertyImg12,
+  propertyImg12
 ];
 
 // Dummy Hotels Data
@@ -57,22 +57,22 @@ export const properties = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 3,
+        value: 3
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,500",
-      },
+        value: "1,500"
+      }
     ],
-    images: propertyImages,
+    images: propertyImages
   },
   {
     id: 2,
@@ -86,22 +86,22 @@ export const properties = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 2,
+        value: 2
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,300",
-      },
+        value: "1,300"
+      }
     ],
-    images: propertyImages,
+    images: propertyImages
   },
   {
     id: 3,
@@ -116,23 +116,23 @@ export const properties = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 2,
+        value: 2
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,250",
-      },
+        value: "1,250"
+      }
     ],
     images: propertyImages,
-    type: "Apartment",
+    type: "Apartment"
   },
   {
     id: 4,
@@ -146,22 +146,22 @@ export const properties = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 2,
+        value: 2
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,400",
-      },
+        value: "1,400"
+      }
     ],
-    images: propertyImages,
+    images: propertyImages
   },
   {
     id: 5,
@@ -175,23 +175,23 @@ export const properties = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 1,
+        value: 1
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 1,
+        value: 1
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "900",
-      },
+        value: "900"
+      }
     ],
-    images: propertyImages,
-  },
+    images: propertyImages
+  }
 ];
 
 export default function PropertiesCarousel() {
@@ -231,7 +231,21 @@ export default function PropertiesCarousel() {
       autoplay={{
         delay: 3500,
         disableOnInteraction: false,
-        pauseOnMouseEnter: true,
+        pauseOnMouseEnter: true
+      }}
+      breakpoints={{
+        0: {
+          slidesPerView: 1,
+          spaceBetween: 10
+        },
+        576: {
+          slidesPerView: 2.5,
+          spaceBetween: 20
+        },
+        768: {
+          slidesPerView: 3.5,
+          spaceBetween: 30
+        }
       }}
       onActiveIndexChange={(e) => {
         if (e.isBeginning) {

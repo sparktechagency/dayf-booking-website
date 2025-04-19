@@ -22,7 +22,7 @@ export default function HeroGallery() {
             style={{
               borderRadius: "0.9375rem",
               background: "rgba(255, 255, 255, 0.10)",
-              backdropFilter: "blur(17.5px)",
+              backdropFilter: "blur(17.5px)"
             }}
             className="absolute -left-20 top-1/2 -translate-y-1/2 border border-gray-500 border-opacity-15 p-4"
           >
@@ -44,7 +44,7 @@ export default function HeroGallery() {
             style={{
               borderRadius: "0.9375rem",
               background: "rgba(255, 255, 255, 0.10)",
-              backdropFilter: "blur(17.5px)",
+              backdropFilter: "blur(17.5px)"
             }}
             className="absolute -top-5 left-1/2 w-max -translate-x-1/2 border border-gray-500 border-opacity-15 px-5 py-2"
           >

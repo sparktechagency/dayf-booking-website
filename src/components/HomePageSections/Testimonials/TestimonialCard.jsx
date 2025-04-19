@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function TestimonialCard({ testimonial, isActive }) {
   return (
-    <div className="flex-center-between gap-x-10">
+    <div className="flex-center-between flex-col gap-x-10 gap-y-5 lg:flex-row">
       <div className="py-2 lg:w-[40%]">
         <Image
           src={testimonial.img}
@@ -13,7 +13,7 @@ export default function TestimonialCard({ testimonial, isActive }) {
           width={1200}
           className={cn(
             "h-[350px] w-full rounded-3xl object-cover transition-all duration-700 ease-in-out",
-            isActive ? "shadow-[4px_5px_0px_4px_#007DD0]" : "shadow-none",
+            isActive ? "shadow-[4px_5px_0px_4px_#007DD0]" : "shadow-none"
           )}
           style={{ transitionDelay: "1200ms" }}
         />

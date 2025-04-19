@@ -16,12 +16,12 @@ import { useState } from "react";
 const PROPERTY_TYPE = [
   {
     label: "Hotel",
-    value: "Hotel",
+    value: "Hotel"
   },
   {
     label: "Apartment",
-    value: "Apartment",
-  },
+    value: "Apartment"
+  }
 ];
 
 export default function PropertyRegistrationForm() {
@@ -90,7 +90,7 @@ export default function PropertyRegistrationForm() {
                 key={type.value}
                 className={cn(
                   "rounded-full border-2 border-p1 px-6 py-2 text-sm",
-                  type.value === selectedPropertyType && "bg-p1 text-white",
+                  type.value === selectedPropertyType && "bg-p1 text-white"
                 )}
                 onClick={() => setSelectedPropertyType(type.value)}
               >

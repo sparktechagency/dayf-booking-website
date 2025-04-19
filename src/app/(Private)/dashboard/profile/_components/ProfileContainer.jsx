@@ -92,7 +92,7 @@ const UpdateProfileModal = ({ open, setOpen }) => {
           selectTrigger="Select your gender"
           selectItems={[
             { label: "Male", value: "male" },
-            { label: "Female", value: "female" },
+            { label: "Female", value: "female" }
           ]}
         />
 
@@ -109,7 +109,7 @@ const UpdateProfileModal = ({ open, setOpen }) => {
           selectItems={[
             { label: "USA", value: "usa" },
             { label: "Algerian", value: "algerian" },
-            { label: "French", value: "french" },
+            { label: "French", value: "french" }
           ]}
         />
 

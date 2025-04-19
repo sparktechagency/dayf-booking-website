@@ -17,7 +17,7 @@ const PROPERTY_DETAILS_SECTIONS = [
   { key: "overview", label: "Overview", route: "#overview" },
   { key: "availability", label: "Availability", route: "#availability" },
   { key: "surroundings", label: "Surroundings", route: "#surroundings" },
-  { key: "reviews", label: "Reviews", route: "#reviews" },
+  { key: "reviews", label: "Reviews", route: "#reviews" }
 ];
 
 export default function DynamicPropertyDetails({ property }) {
@@ -32,7 +32,7 @@ export default function DynamicPropertyDetails({ property }) {
             className={cn(
               "text-gray-500 transition-colors duration-300 ease-in-out",
               activeSection === section.key &&
-                "border-b-2 border-b-p1 font-medium text-p1",
+                "border-b-2 border-b-p1 font-medium text-p1"
             )}
             onClick={() => setActiveSection(section.key)}
           >

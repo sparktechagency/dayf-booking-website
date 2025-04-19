@@ -50,7 +50,7 @@ export default function BookingForm() {
               key={method}
               className={cn(
                 "rounded-full px-3 py-2 font-medium text-gray-500 transition-all duration-300 ease-in-out",
-                activePaymentMethod === method && "bg-light-sky-blue text-p1",
+                activePaymentMethod === method && "bg-light-sky-blue text-p1"
               )}
               onClick={() => setActivePaymentMethod(method)}
             >

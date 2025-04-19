@@ -2,7 +2,7 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 import AboutUsContainer from "./_components/AboutUsContainer";
 export const metadata = {
   title: "About Us",
-  description: "About Us page",
+  description: "About Us page"
 };
 
 export default function page() {

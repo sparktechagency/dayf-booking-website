@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -35,7 +35,7 @@ const SORT_OPTIONS = [
   "Price: High to Low",
   "Rating: Low to High",
   "Rating: High to Low",
-  "Top Reviewed",
+  "Top Reviewed"
 ];
 
 export const apartmentImages = [
@@ -49,7 +49,7 @@ export const apartmentImages = [
   apartmentImage8,
   apartmentImage9,
   apartmentImage10,
-  apartmentImage11,
+  apartmentImage11
 ];
 
 // Dummy Hotels Data
@@ -67,23 +67,23 @@ const apartments = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedrooms",
-        value: 2,
+        value: 2
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathrooms",
-        value: 1,
+        value: 1
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "807",
-      },
+        value: "807"
+      }
     ],
     location: "Algiers, Algeria",
-    images: apartmentImages,
+    images: apartmentImages
   },
   {
     id: 2,
@@ -98,23 +98,23 @@ const apartments = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedrooms",
-        value: 1,
+        value: 1
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathrooms",
-        value: 1,
+        value: 1
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "650",
-      },
+        value: "650"
+      }
     ],
     location: "Algiers, Algeria",
-    images: apartmentImages,
+    images: apartmentImages
   },
   {
     id: 3,
@@ -129,23 +129,23 @@ const apartments = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedrooms",
-        value: 3,
+        value: 3
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathrooms",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,657",
-      },
+        value: "1,657"
+      }
     ],
     location: "Algiers, Algeria",
-    images: apartmentImages,
+    images: apartmentImages
   },
   {
     id: 4,
@@ -160,23 +160,23 @@ const apartments = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedrooms",
-        value: 1,
+        value: 1
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathrooms",
-        value: 1,
+        value: 1
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "700",
-      },
+        value: "700"
+      }
     ],
     location: "Algiers, Algeria",
-    images: apartmentImages,
+    images: apartmentImages
   },
   {
     id: 5,
@@ -191,24 +191,24 @@ const apartments = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedrooms",
-        value: 2,
+        value: 2
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathrooms",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,200",
-      },
+        value: "1,200"
+      }
     ],
     location: "Algiers, Algeria",
-    images: apartmentImages,
-  },
+    images: apartmentImages
+  }
 ];
 
 export default function ApartmentsContainer() {
@@ -228,14 +228,14 @@ export default function ApartmentsContainer() {
           <div className="relative rounded-full border-2 border-p1 transition-all duration-300 ease-in-out">
             <Search
               className={cn(
-                "absolute left-3 top-1/2 -translate-y-1/2 text-muted",
+                "absolute left-3 top-1/2 -translate-y-1/2 text-muted"
               )}
               size={18}
             />
 
             <Input
               className={cn(
-                "w-full rounded-full border-none bg-white px-10 py-5 shadow-none outline-none !ring-0 !ring-offset-0",
+                "w-full rounded-full border-none bg-white px-10 py-5 shadow-none outline-none !ring-0 !ring-offset-0"
               )}
               placeholder="Search for apartments..."
             />
@@ -247,7 +247,7 @@ export default function ApartmentsContainer() {
                 variant="outline"
                 className={cn(
                   "w-max rounded-full border-2 border-p1 !px-5 !py-5 shadow-none !outline-none !ring-0",
-                  sortBy && "bg-p1 text-white",
+                  sortBy && "bg-p1 text-white"
                 )}
               >
                 <ArrowUpDown size={18} />

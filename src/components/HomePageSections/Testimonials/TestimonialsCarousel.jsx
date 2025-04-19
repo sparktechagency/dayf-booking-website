@@ -49,7 +49,7 @@ export default function TestimonialsCarousel({ testimonials }) {
         autoplay={{
           delay: 6000,
           disableOnInteraction: false,
-          pauseOnMouseEnter: true,
+          pauseOnMouseEnter: true
         }}
         onActiveIndexChange={(e) => {
           if (e.isBeginning) {
@@ -82,7 +82,7 @@ export default function TestimonialsCarousel({ testimonials }) {
       <Button
         onClick={handlePrev}
         disabled={isBeginning}
-        className="absolute -left-40 top-1/2 z-[9999] aspect-square size-20 -translate-y-1/2 rounded-full bg-light-sky-blue text-xl text-p1 shadow-none hover:bg-p1 hover:text-white"
+        className="absolute -left-40 top-1/2 z-[9999] hidden aspect-square size-20 -translate-y-1/2 rounded-full bg-light-sky-blue text-xl text-p1 shadow-none hover:bg-p1 hover:text-white lg:block"
       >
         <ArrowLeft className="!size-8" />
       </Button>
@@ -90,7 +90,7 @@ export default function TestimonialsCarousel({ testimonials }) {
       <Button
         onClick={handleNext}
         disabled={isEnd}
-        className="absolute -right-40 top-1/2 z-[9999] aspect-square size-20 -translate-y-1/2 rounded-full bg-light-sky-blue text-p1 shadow-none hover:bg-p1 hover:text-white"
+        className="absolute -right-40 top-1/2 z-[9999] hidden aspect-square size-20 -translate-y-1/2 rounded-full bg-light-sky-blue text-p1 shadow-none hover:bg-p1 hover:text-white lg:block"
       >
         <ArrowRight className="!size-8" />
       </Button>

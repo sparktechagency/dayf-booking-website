@@ -4,7 +4,7 @@ import VerticalPropertyCard from "./VerticalPropertyCard";
 export default function PropertyCard({
   property,
   variant = "grid",
-  type = "hotel",
+  type = "hotel"
 }) {
   return variant === "grid" ? (
     <VerticalPropertyCard property={property} type={type} />

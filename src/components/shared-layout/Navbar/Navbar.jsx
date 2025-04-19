@@ -9,7 +9,7 @@ import NavLink from "./NavLink";
 import {
   navbarLinks,
   supportedCurrencies,
-  supportedLanguages,
+  supportedLanguages
 } from "./navbar.constant";
 import NavDropdown from "./NavDropdown";
 import AnimatedArrow from "@/components/AnimatedArrow/AnimatedArrow";
@@ -29,10 +29,10 @@ export default function Navbar() {
 
   // Navbar dropdown states: Currency & Language
   const [selectedCurrency, setSelectedCurrency] = useState(
-    supportedCurrencies[1],
+    supportedCurrencies[1]
   ); // euro
   const [selectedLanguage, setSelectedLanguage] = useState(
-    supportedLanguages[1],
+    supportedLanguages[1]
   ); // es
 
   // TODO: Use actual user data

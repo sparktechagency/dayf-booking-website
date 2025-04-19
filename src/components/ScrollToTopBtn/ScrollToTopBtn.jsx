@@ -20,7 +20,7 @@ const ScrollToTopBtn = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
   };
 
@@ -35,9 +35,7 @@ const ScrollToTopBtn = () => {
     <button
       className={cn(
         "fixed bottom-10 right-10 z-[9999] flex h-10 w-10 items-center justify-center rounded-full bg-p1 text-xl font-bold text-white transition-all duration-500 ease-in-out-circ hover:bg-p1/75",
-        isVisible
-          ? "translate-x-0 opacity-100"
-          : "translate-x-[50vw] opacity-0",
+        isVisible ? "translate-x-0 opacity-100" : "translate-x-[50vw] opacity-0"
       )}
       onClick={scrollToTop}
     >

@@ -9,7 +9,7 @@ import {
   BedDouble,
   CalendarIcon,
   HelpCircle,
-  Maximize,
+  Maximize
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,7 @@ const hotelImages = [
   hotelImg8,
   hotelImg9,
   hotelImg10,
-  hotelImg11,
+  hotelImg11
 ];
 
 export default function BookedHotelDetails() {
@@ -58,7 +58,7 @@ export default function BookedHotelDetails() {
               clickable: true,
               bulletClass: "swiper-pagination-bullet",
               bulletActiveClass:
-                "swiper-pagination-bullet-active !bg-white !scale-[1.05]",
+                "swiper-pagination-bullet-active !bg-white !scale-[1.05]"
             }}
             direction="horizontal"
             speed={600}

@@ -10,7 +10,7 @@ const FormWrapper = ({
   defaultValues,
   className,
   onSubmit,
-  onKeyDown,
+  onKeyDown
 }) => {
   const formConfig = {};
 

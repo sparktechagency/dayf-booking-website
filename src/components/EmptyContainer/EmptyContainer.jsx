@@ -3,13 +3,13 @@ import { cn } from "@/lib/utils";
 export default function EmptyContainer({
   message = "No data found",
   className,
-  size,
+  size
 }) {
   return (
     <div
       className={cn(
         "flex-center mx-auto my-[8vh] max-w-max text-center",
-        className,
+        className
       )}
     >
       <div>

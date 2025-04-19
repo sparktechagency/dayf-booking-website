@@ -12,7 +12,7 @@ export default function LocationSearch() {
 
       <Input
         className={cn(
-          "w-full rounded-lg border-none px-10 py-6 shadow-none outline-none !ring-0 !ring-offset-0",
+          "w-full rounded-lg border-none px-10 py-6 shadow-none outline-none !ring-0 !ring-offset-0"
         )}
         placeholder="Where do you want to stay?"
       />

@@ -22,7 +22,7 @@ export default function VerticalPropertyCard({ property, type }) {
             el: ".swiper-pagination",
             clickable: true,
             bulletClass: "swiper-pagination-bullet",
-            bulletActiveClass: "swiper-pagination-bullet-active",
+            bulletActiveClass: "swiper-pagination-bullet-active"
           }}
           direction="horizontal"
           speed={600}

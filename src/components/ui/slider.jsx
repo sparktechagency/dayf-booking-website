@@ -8,7 +8,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
+  TooltipTrigger
 } from "@/components/ui/tooltip";
 
 const Slider = React.forwardRef(
@@ -22,11 +22,11 @@ const Slider = React.forwardRef(
       rangeClassName,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [showTooltipState, setShowTooltipState] = React.useState(false);
     const [internalValue, setInternalValue] = React.useState(
-      props.defaultValue ?? props.value ?? [0],
+      props.defaultValue ?? props.value ?? [0]
     );
 
     React.useEffect(() => {
@@ -66,7 +66,7 @@ const Slider = React.forwardRef(
         <SliderPrimitive.Thumb
           className={cn(
             "focus-visible:outline-ring/40 block h-5 w-5 cursor-grab rounded-full border-2 border-gray-900 bg-white transition-colors data-[disabled]:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] dark:border-gray-50 dark:bg-gray-950",
-            thumbClassName,
+            thumbClassName
           )}
           onPointerDown={handlePointerDown}
         />
@@ -95,7 +95,7 @@ const Slider = React.forwardRef(
         ref={ref}
         className={cn(
           "relative flex w-full touch-none select-none items-center data-[orientation=vertical]:h-full data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[disabled]:opacity-50",
-          className,
+          className
         )}
         onValueChange={handleValueChange}
         {...props}
@@ -103,13 +103,13 @@ const Slider = React.forwardRef(
         <SliderPrimitive.Track
           className={cn(
             "relative grow overflow-hidden rounded-full bg-gray-200 data-[orientation=horizontal]:h-2 data-[orientation=vertical]:h-full data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-2 dark:bg-gray-800",
-            trackClassName,
+            trackClassName
           )}
         >
           <SliderPrimitive.Range
             className={cn(
               "absolute bg-gray-900 data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full dark:bg-gray-50",
-              rangeClassName,
+              rangeClassName
             )}
           />
         </SliderPrimitive.Track>
@@ -122,7 +122,7 @@ const Slider = React.forwardRef(
         })}
       </SliderPrimitive.Root>
     );
-  },
+  }
 );
 Slider.displayName = SliderPrimitive.Root.displayName;
 

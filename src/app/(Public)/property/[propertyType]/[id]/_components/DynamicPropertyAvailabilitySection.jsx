@@ -6,7 +6,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Tv, Wifi, Wind, Bath, Square, Users } from "lucide-react";
@@ -19,7 +19,7 @@ const AVAILABILITY_TABLE_HEADERS = [
   "Price Per Night",
   "Your choices",
   "Select rooms",
-  "",
+  ""
 ];
 
 export default function DynamicPropertyAvailabilitySection({ rooms }) {

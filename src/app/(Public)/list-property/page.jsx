@@ -9,7 +9,7 @@ import ListPropertyFaq from "./_components/ListPropertyFaq";
 export const metadata = {
   title: "List Your Property",
   description:
-    "Want to show your properties on DAYF Booking. Create a property owner account and list your properties.",
+    "Want to show your properties on DAYF Booking. Create a property owner account and list your properties."
 };
 
 export default function CreatePropertyAccount() {

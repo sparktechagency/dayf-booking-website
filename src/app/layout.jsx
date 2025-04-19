@@ -13,7 +13,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 export const metadata = {
   title: {
     default: "DAYF Booking",
-    template: "%s - DAYF Booking",
+    template: "%s - DAYF Booking"
   },
   description:
     "Book Your Dream Stay in Algeria’s Top Destinations with DAYF Booking! Discover handpicked hotels and accommodations across Algeria’s most captivating destinations. Whether you’re planning a city escape, a coastal retreat, or a desert adventure, we’ve got you covered.",
@@ -22,18 +22,18 @@ export const metadata = {
   alternates: {
     canonical: "/",
     languages: {
-      "en-US": "/en-US",
+      "en-US": "/en-US"
 
       // TODO: add other languages
-    },
+    }
   },
   openGraph: {
     title: "DAYF Booking",
     description:
       "Book Your Dream Stay in Algeria’s Top Destinations with DAYF Booking!",
-    images: [{ url: "/logos/logo.svg", width: 1260, height: 800 }],
+    images: [{ url: "/logos/logo.svg", width: 1260, height: 800 }]
   },
-  type: "website",
+  type: "website"
 };
 
 export default function RootLayout({ children }) {

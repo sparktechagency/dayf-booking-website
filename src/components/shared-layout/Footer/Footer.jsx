@@ -15,28 +15,28 @@ const navigationLinks = [
   {
     id: "home",
     label: "Home",
-    route: "/",
+    route: "/"
   },
   {
     id: "hotels",
     label: "Hotels",
-    route: "/property/hotels",
+    route: "/property/hotels"
   },
   {
     id: "apartments",
     label: "Apartments",
-    route: "/property/apartments",
+    route: "/property/apartments"
   },
   {
     id: "about",
     label: "About Us",
-    route: "/about",
+    route: "/about"
   },
   {
     id: "contact",
     label: "Contact Us",
-    route: "/contact",
-  },
+    route: "/contact"
+  }
 ];
 
 export default function Footer() {

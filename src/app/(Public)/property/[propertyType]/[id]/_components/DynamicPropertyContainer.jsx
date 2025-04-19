@@ -45,43 +45,43 @@ const hotel = {
     { id: 7, url: hotelImg8 },
     { id: 8, url: hotelImg9 },
     { id: 9, url: hotelImg10 },
-    { id: 10, url: hotelImg11 },
+    { id: 10, url: hotelImg11 }
   ],
 
   propertyHighlights: [
     { title: "Hotel", icon: "ri:hotel-line" },
-    { title: "1200 sq ft", icon: "mi:expand" },
+    { title: "1200 sq ft", icon: "mi:expand" }
   ],
 
   features: [
     {
       title: "WiFi",
-      icon: "hugeicons:wifi-01",
+      icon: "hugeicons:wifi-01"
     },
     {
       title: "Swimming Pool",
-      icon: "ic:sharp-pool",
+      icon: "ic:sharp-pool"
     },
     {
       title: "Gym",
-      icon: "gg:gym",
+      icon: "gg:gym"
     },
     {
       title: "Restaurant",
-      icon: "material-symbols:restaurant-rounded",
+      icon: "material-symbols:restaurant-rounded"
     },
     {
       title: "Room Service",
-      icon: "guidance:cleaning-room",
+      icon: "guidance:cleaning-room"
     },
     {
       title: "Private Parking",
-      icon: "mingcute:parking-fill",
+      icon: "mingcute:parking-fill"
     },
     {
       title: "Non-Smoking Rooms",
-      icon: "ic:round-smoking-rooms",
-    },
+      icon: "ic:round-smoking-rooms"
+    }
   ],
 
   availability: [
@@ -91,39 +91,39 @@ const hotel = {
       features: [
         {
           title: "2 Single Beds",
-          icon: "material-symbols:single-bed",
+          icon: "material-symbols:single-bed"
         },
         {
           title: "Air Conditioning",
-          icon: "material-symbols:ac-unit-rounded",
+          icon: "material-symbols:ac-unit-rounded"
         },
         {
           title: "WiFi",
-          icon: "hugeicons:wifi-01",
+          icon: "hugeicons:wifi-01"
         },
         {
           title: "TV",
-          icon: "material-symbols:tv-rounded",
-        },
+          icon: "material-symbols:tv-rounded"
+        }
       ],
       guests: 2,
       price_per_night: "999",
       choices: [
         "Breakfast Included",
         "Non-refundable",
-        "Online/Offline Cash Received",
+        "Online/Offline Cash Received"
       ],
       stock: 3,
       costPerRoom: [
         {
           quantity: 1,
-          price: 999,
+          price: 999
         },
         {
           quantity: 2,
-          price: 1999,
-        },
-      ],
+          price: 1999
+        }
+      ]
     },
 
     {
@@ -132,20 +132,20 @@ const hotel = {
       features: [
         {
           title: "2 Single Beds",
-          icon: "material-symbols:single-bed",
+          icon: "material-symbols:single-bed"
         },
         {
           title: "Air Conditioning",
-          icon: "material-symbols:ac-unit-rounded",
+          icon: "material-symbols:ac-unit-rounded"
         },
         {
           title: "WiFi",
-          icon: "hugeicons:wifi-01",
+          icon: "hugeicons:wifi-01"
         },
         {
           title: "TV",
-          icon: "material-symbols:tv-rounded",
-        },
+          icon: "material-symbols:tv-rounded"
+        }
       ],
       guests: 1,
       price_per_night: "1299",
@@ -153,23 +153,23 @@ const hotel = {
         "Breakfast Included",
         "Non-refundable",
         "No pre-payment needed",
-        "Online/Offline Cash Received",
+        "Online/Offline Cash Received"
       ],
       stock: 2,
       costPerRoom: [
         {
           quantity: 1,
-          price: 999,
+          price: 999
         },
         {
           quantity: 2,
-          price: 1999,
+          price: 1999
         },
         {
           quantity: 3,
-          price: 2499,
-        },
-      ],
+          price: 2499
+        }
+      ]
     },
 
     {
@@ -178,20 +178,20 @@ const hotel = {
       features: [
         {
           title: "Double Bed",
-          icon: "material-symbols:single-bed",
+          icon: "material-symbols:single-bed"
         },
         {
           title: "Air Conditioning",
-          icon: "material-symbols:ac-unit-rounded",
+          icon: "material-symbols:ac-unit-rounded"
         },
         {
           title: "WiFi",
-          icon: "hugeicons:wifi-01",
+          icon: "hugeicons:wifi-01"
         },
         {
           title: "TV",
-          icon: "material-symbols:tv-rounded",
-        },
+          icon: "material-symbols:tv-rounded"
+        }
       ],
       guests: 3,
       price_per_night: "1299",
@@ -200,24 +200,24 @@ const hotel = {
         "Non-refundable",
         "No pre-payment needed",
         "Pay the property before arrival",
-        "Online/Offline Cash Received",
+        "Online/Offline Cash Received"
       ],
       stock: 3,
       costPerRoom: [
         {
           quantity: 1,
-          price: 1999,
+          price: 1999
         },
         {
           quantity: 2,
-          price: 2999,
+          price: 2999
         },
         {
           quantity: 3,
-          price: 3499,
-        },
-      ],
-    },
+          price: 3499
+        }
+      ]
+    }
   ],
 
   surroundings: [
@@ -227,17 +227,17 @@ const hotel = {
       data: [
         {
           title: "Blue Cafe",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Blue Cafe",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Blue Cafe",
-          distance: "1.2 km",
-        },
-      ],
+          distance: "1.2 km"
+        }
+      ]
     },
     {
       title: "Shops & Markets",
@@ -245,17 +245,17 @@ const hotel = {
       data: [
         {
           title: "Central Mall",
-          distance: "1.4 km",
+          distance: "1.4 km"
         },
         {
           title: "Central Mall",
-          distance: "1.4 km",
+          distance: "1.4 km"
         },
         {
           title: "Central Mall",
-          distance: "1.4 km",
-        },
-      ],
+          distance: "1.4 km"
+        }
+      ]
     },
     {
       title: "Beaches",
@@ -263,17 +263,17 @@ const hotel = {
       data: [
         {
           title: "Les Dunes Beach",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Les Dunes Beach",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Les Dunes Beach",
-          distance: "1.2 km",
-        },
-      ],
+          distance: "1.2 km"
+        }
+      ]
     },
     {
       title: "Public Transport",
@@ -281,18 +281,18 @@ const hotel = {
       data: [
         {
           title: "Train - Riverdale Central Station",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Metro - Cityline Metro Hub",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Metro - Cityline Metro Hub",
-          distance: "1.2 km",
-        },
-      ],
-    },
+          distance: "1.2 km"
+        }
+      ]
+    }
   ],
 
   testimonials: [
@@ -304,7 +304,7 @@ const hotel = {
       author: "Sofia B.",
       location: "France",
       date: "23.10.2024",
-      profileImg: "",
+      profileImg: ""
     },
     {
       title: "A Truly Magical Stay!",
@@ -314,7 +314,7 @@ const hotel = {
       author: "James T.",
       location: "United Kingdom",
       date: "15.09.2024",
-      profileImg: "",
+      profileImg: ""
     },
     {
       title: "Perfect for a Romantic Getaway",
@@ -324,7 +324,7 @@ const hotel = {
       author: "Elena M.",
       location: "Italy",
       date: "05.08.2024",
-      profileImg: "",
+      profileImg: ""
     },
     {
       title: "Exceeded Expectations!",
@@ -334,11 +334,11 @@ const hotel = {
       author: "David L.",
       location: "USA",
       date: "28.07.2024",
-      profileImg: "",
-    },
+      profileImg: ""
+    }
   ],
 
-  relatedHotels: properties,
+  relatedHotels: properties
 };
 
 const apartment = {
@@ -351,38 +351,38 @@ const apartment = {
 
   propertyHighlights: [
     { title: "Apartment", icon: "solar:home-outline" },
-    { title: "500 sq ft", icon: "mi:expand" },
+    { title: "500 sq ft", icon: "mi:expand" }
   ],
 
   features: [
     {
       title: "WiFi",
-      icon: "hugeicons:wifi-01",
+      icon: "hugeicons:wifi-01"
     },
     {
       title: "Swimming Pool",
-      icon: "ic:sharp-pool",
+      icon: "ic:sharp-pool"
     },
     {
       title: "Gym",
-      icon: "gg:gym",
+      icon: "gg:gym"
     },
     {
       title: "Restaurant",
-      icon: "material-symbols:restaurant-rounded",
+      icon: "material-symbols:restaurant-rounded"
     },
     {
       title: "Room Service",
-      icon: "guidance:cleaning-room",
+      icon: "guidance:cleaning-room"
     },
     {
       title: "Private Parking",
-      icon: "mingcute:parking-fill",
+      icon: "mingcute:parking-fill"
     },
     {
       title: "Non-Smoking Rooms",
-      icon: "ic:round-smoking-rooms",
-    },
+      icon: "ic:round-smoking-rooms"
+    }
   ],
 
   availability: [
@@ -392,40 +392,40 @@ const apartment = {
       features: [
         {
           title: "2 Single Beds",
-          icon: "material-symbols:single-bed",
+          icon: "material-symbols:single-bed"
         },
         {
           title: "Air Conditioning",
-          icon: "material-symbols:ac-unit-rounded",
+          icon: "material-symbols:ac-unit-rounded"
         },
         {
           title: "WiFi",
-          icon: "hugeicons:wifi-01",
+          icon: "hugeicons:wifi-01"
         },
         {
           title: "TV",
-          icon: "material-symbols:tv-rounded",
-        },
+          icon: "material-symbols:tv-rounded"
+        }
       ],
       guests: 4,
       price_per_night: "999",
       choices: [
         "Breakfast Included",
         "Non-refundable",
-        "Online/Offline Cash Received",
+        "Online/Offline Cash Received"
       ],
       stock: 3,
       costPerRoom: [
         {
           quantity: 1,
-          price: 999,
+          price: 999
         },
         {
           quantity: 2,
-          price: 1999,
-        },
-      ],
-    },
+          price: 1999
+        }
+      ]
+    }
   ],
 
   surroundings: [
@@ -435,17 +435,17 @@ const apartment = {
       data: [
         {
           title: "Blue Cafe",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Blue Cafe",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Blue Cafe",
-          distance: "1.2 km",
-        },
-      ],
+          distance: "1.2 km"
+        }
+      ]
     },
     {
       title: "Shops & Markets",
@@ -453,17 +453,17 @@ const apartment = {
       data: [
         {
           title: "Central Mall",
-          distance: "1.4 km",
+          distance: "1.4 km"
         },
         {
           title: "Central Mall",
-          distance: "1.4 km",
+          distance: "1.4 km"
         },
         {
           title: "Central Mall",
-          distance: "1.4 km",
-        },
-      ],
+          distance: "1.4 km"
+        }
+      ]
     },
     {
       title: "Beaches",
@@ -471,17 +471,17 @@ const apartment = {
       data: [
         {
           title: "Les Dunes Beach",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Les Dunes Beach",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Les Dunes Beach",
-          distance: "1.2 km",
-        },
-      ],
+          distance: "1.2 km"
+        }
+      ]
     },
     {
       title: "Public Transport",
@@ -489,18 +489,18 @@ const apartment = {
       data: [
         {
           title: "Train - Riverdale Central Station",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Metro - Cityline Metro Hub",
-          distance: "1.2 km",
+          distance: "1.2 km"
         },
         {
           title: "Metro - Cityline Metro Hub",
-          distance: "1.2 km",
-        },
-      ],
-    },
+          distance: "1.2 km"
+        }
+      ]
+    }
   ],
 
   testimonials: [
@@ -512,7 +512,7 @@ const apartment = {
       author: "Sofia B.",
       location: "France",
       date: "23.10.2024",
-      profileImg: "",
+      profileImg: ""
     },
     {
       title: "A Truly Magical Stay!",
@@ -522,7 +522,7 @@ const apartment = {
       author: "James T.",
       location: "United Kingdom",
       date: "15.09.2024",
-      profileImg: "",
+      profileImg: ""
     },
     {
       title: "Perfect for a Romantic Getaway",
@@ -532,7 +532,7 @@ const apartment = {
       author: "Elena M.",
       location: "Italy",
       date: "05.08.2024",
-      profileImg: "",
+      profileImg: ""
     },
     {
       title: "Exceeded Expectations!",
@@ -542,11 +542,11 @@ const apartment = {
       author: "David L.",
       location: "USA",
       date: "28.07.2024",
-      profileImg: "",
-    },
+      profileImg: ""
+    }
   ],
 
-  relatedHotels: properties,
+  relatedHotels: properties
 };
 
 export default function DynamicPropertyContainer({ propertyType }) {

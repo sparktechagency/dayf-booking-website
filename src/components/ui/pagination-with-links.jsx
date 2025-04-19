@@ -8,14 +8,14 @@ import {
   PaginationItem,
   PaginationLink,
   PaginationNext,
-  PaginationPrevious,
+  PaginationPrevious
 } from "./pagination";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "./select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -25,7 +25,7 @@ export function PaginationWithLinks({
   pageSize = 10,
   totalCount,
   page,
-  pageSearchParam,
+  pageSearchParam
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -43,7 +43,7 @@ export function PaginationWithLinks({
 
       return `${pathname}?${newSearchParams.toString()}`;
     },
-    [searchParams, pathname],
+    [searchParams, pathname]
   );
 
   const navToPageSize = useCallback(
@@ -53,7 +53,7 @@ export function PaginationWithLinks({
       newSearchParams.set(key, String(newPageSize));
       router.push(`${pathname}?${newSearchParams.toString()}`);
     },
-    [searchParams, pathname],
+    [searchParams, pathname]
   );
 
   const renderPageNumbers = () => {
@@ -67,7 +67,7 @@ export function PaginationWithLinks({
             <PaginationLink href={buildLink(i)} isActive={page === i}>
               {i}
             </PaginationLink>
-          </PaginationItem>,
+          </PaginationItem>
         );
       }
     } else {
@@ -76,14 +76,14 @@ export function PaginationWithLinks({
           <PaginationLink href={buildLink(1)} isActive={page === 1}>
             1
           </PaginationLink>
-        </PaginationItem>,
+        </PaginationItem>
       );
 
       if (page > 3) {
         items.push(
           <PaginationItem key="ellipsis-start">
             <PaginationEllipsis />
-          </PaginationItem>,
+          </PaginationItem>
         );
       }
 
@@ -96,7 +96,7 @@ export function PaginationWithLinks({
             <PaginationLink href={buildLink(i)} isActive={page === i}>
               {i}
             </PaginationLink>
-          </PaginationItem>,
+          </PaginationItem>
         );
       }
 
@@ -104,7 +104,7 @@ export function PaginationWithLinks({
         items.push(
           <PaginationItem key="ellipsis-end">
             <PaginationEllipsis />
-          </PaginationItem>,
+          </PaginationItem>
         );
       }
 
@@ -116,7 +116,7 @@ export function PaginationWithLinks({
           >
             {totalPageCount}
           </PaginationLink>
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 

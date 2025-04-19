@@ -4,14 +4,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "../ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "../ui/select";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +23,7 @@ export default function USelect({
   defaultValue,
   onChange,
   disabled = false,
-  className,
+  className
 }) {
   const { control } = useFormContext() ?? {};
 
@@ -48,7 +48,7 @@ export default function USelect({
                 <SelectTrigger
                   className={cn(
                     "!mt-1 h-12 rounded-full border-none bg-[#f6f6f6] shadow-none",
-                    className,
+                    className
                   )}
                 >
                   <SelectValue placeholder={selectTrigger} />

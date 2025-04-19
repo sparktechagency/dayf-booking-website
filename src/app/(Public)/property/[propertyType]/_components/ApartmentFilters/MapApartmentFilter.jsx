@@ -8,7 +8,7 @@ export default function MapApartmentFilter() {
         style={{
           border: 0,
           borderTopLeftRadius: "0.75rem",
-          borderTopRightRadius: "0.75rem",
+          borderTopRightRadius: "0.75rem"
         }}
         allowFullScreen=""
         loading="lazy"

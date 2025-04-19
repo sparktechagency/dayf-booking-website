@@ -4,7 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import EyeIconInverse from "../EyeIconInverse/EyeIconInverse";
@@ -51,7 +51,7 @@ const UInput = ({
                 <Input
                   className={cn(
                     "w-full border border-gray-400 px-4 py-6",
-                    className,
+                    className
                   )}
                   name={name}
                   type={showPassword ? "text" : "password"}
@@ -70,7 +70,7 @@ const UInput = ({
               <Input
                 className={cn(
                   "w-full border border-gray-400 px-4 py-6 disabled:border-gray-300 disabled:text-muted disabled:opacity-100",
-                  className,
+                  className
                 )}
                 name={name}
                 type={type}

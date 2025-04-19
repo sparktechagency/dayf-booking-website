@@ -4,7 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { PhoneInput } from "../ui/PhoneInput";
 import { PhoneNumber } from "react-phone-number-input";
@@ -17,7 +17,7 @@ export default function UPhoneInput({
   inputClassName,
   countrySelectClassName,
   placeholder,
-  readOnly,
+  readOnly
 }) {
   const { control } = useFormContext();
 

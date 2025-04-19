@@ -22,7 +22,7 @@ export default function DynamicPropertyImageGallery({ property, images }) {
         <Swiper
           style={{
             "--swiper-navigation-color": "#fff",
-            "--swiper-pagination-color": "#fff",
+            "--swiper-pagination-color": "#fff"
           }}
           spaceBetween={5}
           navigation={true}
@@ -31,7 +31,7 @@ export default function DynamicPropertyImageGallery({ property, images }) {
           autoplay={{
             delay: 4500,
             pauseOnMouseEnter: true,
-            disableOnInteraction: false,
+            disableOnInteraction: false
           }}
           speed={1000}
           className={"largeSwiper"}
@@ -97,7 +97,7 @@ export default function DynamicPropertyImageGallery({ property, images }) {
                 "h-full object-cover object-center transition-all duration-300 ease-in-out",
                 idx === images?.slice(8).length - 1
                   ? "brightness-50"
-                  : "group-hover:brightness-75",
+                  : "group-hover:brightness-75"
               )}
             />
 
@@ -141,13 +141,13 @@ export default function DynamicPropertyImageGallery({ property, images }) {
 export const FullScreenPreviewButton = ({
   className,
   iconSize = 26,
-  setImagePreviewIndex,
+  setImagePreviewIndex
 }) => {
   return (
     <button
       className={cn(
         "flex-center-start invisible absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 gap-x-2 bg-white/70 px-10 py-5 opacity-0 backdrop-blur-sm transition-all duration-300 ease-in-out group-hover:visible group-hover:opacity-100",
-        className,
+        className
       )}
       onClick={setImagePreviewIndex}
     >

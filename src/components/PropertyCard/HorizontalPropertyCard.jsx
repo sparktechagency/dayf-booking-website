@@ -25,7 +25,7 @@ export default function HorizontalPropertyCard({ property, type }) {
           el: ".swiper-pagination",
           clickable: true,
           bulletClass: "swiper-pagination-bullet",
-          bulletActiveClass: "swiper-pagination-bullet-active",
+          bulletActiveClass: "swiper-pagination-bullet-active"
         }}
         grabCursor
         direction="horizontal"

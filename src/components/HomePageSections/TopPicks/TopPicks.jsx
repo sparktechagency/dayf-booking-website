@@ -5,7 +5,7 @@ export default function TopPicks() {
   return (
     <section className="min-h-screen rounded-[2.8rem] bg-white py-16">
       <ResponsiveContainer>
-        <div className="flex-center-between mb-12">
+        <div className="flex-center-between mb-12 flex-col lg:flex-row">
           <h1 className="heading xl:w-1/3">Top Picks for Your Next Stay</h1>
 
           <p className="description mt-3 xl:w-1/3">

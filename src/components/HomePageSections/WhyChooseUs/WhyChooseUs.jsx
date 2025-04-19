@@ -11,32 +11,32 @@ const features = [
     id: 1,
     title: "User-Friendly Interface",
     description:
-      "Easily navigate through the app to find your perfect stay with a simple, clean, and intuitive design.",
+      "Easily navigate through the app to find your perfect stay with a simple, clean, and intuitive design."
   },
   {
     id: 2,
     title: "Wide Range of Options",
     description:
-      "Browse a variety of accommodations, from budget-friendly hotels to luxury resorts, all in one place.",
+      "Browse a variety of accommodations, from budget-friendly hotels to luxury resorts, all in one place."
   },
   {
     id: 3,
     title: "Best Price",
     description:
-      "We offer the best rates, and if you find a lower price elsewhere, we’ll match it or give you a better deal.",
+      "We offer the best rates, and if you find a lower price elsewhere, we’ll match it or give you a better deal."
   },
   {
     id: 4,
     title: "Trusted Reviews",
     description:
-      "Read real guest reviews and ratings to make informed decisions about your next stay.",
-  },
+      "Read real guest reviews and ratings to make informed decisions about your next stay."
+  }
 ];
 
 export default function WhyChooseUs() {
   return (
     <section className="min-h-screen rounded-[2.8rem] bg-white py-16">
-      <div className="mx-auto mb-14 w-1/2 text-center">
+      <div className="mx-auto mb-14 text-balance px-8 text-center lg:w-1/2 lg:px-0">
         <h1 className="heading">Why You Should Choose Us</h1>
         <p className="description mt-3">
           Not sure where to go? Let us guide you! From cultural landmarks to
@@ -45,7 +45,7 @@ export default function WhyChooseUs() {
         </p>
       </div>
 
-      <ResponsiveContainer className="flex-stretch-between gap-x-10">
+      <ResponsiveContainer className="flex-stretch-between flex-col gap-10 lg:flex-row">
         <div className="space-y-10 xl:w-1/2">
           {features.map((feature) => (
             <FeatureCard key={feature.id} feature={feature} />
@@ -76,9 +76,9 @@ export default function WhyChooseUs() {
             style={{
               borderRadius: "0.9375rem",
               background: "rgba(255, 255, 255, 0.10)",
-              backdropFilter: "blur(17.5px)",
+              backdropFilter: "blur(17.5px)"
             }}
-            className="absolute -left-10 top-[20%] w-56 -translate-y-1/2 border border-gray-500 border-opacity-15 px-4 py-4"
+            className="absolute -left-10 top-[20%] hidden w-56 -translate-y-1/2 border border-gray-500 border-opacity-15 px-4 py-4 lg:block"
           >
             <h3 className="text-h4 font-semibold">5k</h3>
             <p className="text-lg">Positive Reviews</p>

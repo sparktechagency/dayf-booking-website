@@ -11,7 +11,7 @@ export default function ContentWrapper({ content, limit, className }) {
   useEffect(() => {
     if (content) {
       setSanitizedContent(
-        DOMPurify.sanitize(limit ? textTruncate(content, limit) : content),
+        DOMPurify.sanitize(limit ? textTruncate(content, limit) : content)
       );
     }
   }, [content]);

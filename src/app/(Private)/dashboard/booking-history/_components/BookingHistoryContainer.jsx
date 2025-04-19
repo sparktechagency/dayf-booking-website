@@ -11,18 +11,18 @@ const bookings = [
   {
     id: "#12345XYZ",
     hotelName: "Grand Plaza Hotel, Algiers",
-    bookingDate: "January 15-17, 2024",
+    bookingDate: "January 15-17, 2024"
   },
   {
     id: "#12345XYZ",
     hotelName: "Grand Plaza Hotel, Algiers",
-    bookingDate: "January 15-17, 2024",
+    bookingDate: "January 15-17, 2024"
   },
   {
     id: "#12345XYZ",
     hotelName: "Grand Plaza Hotel, Algiers",
-    bookingDate: "January 15-17, 2024",
-  },
+    bookingDate: "January 15-17, 2024"
+  }
 ];
 
 export default function BookingHistoryContainer() {

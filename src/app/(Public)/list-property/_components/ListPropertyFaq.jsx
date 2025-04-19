@@ -3,7 +3,7 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
+  AccordionTrigger
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -12,28 +12,28 @@ const faqs = [
   {
     question: "How do I list my property on Dayf Booking?..",
     answer:
-      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime",
+      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime"
   },
   {
     question: "How do I list my property on Dayf Booking?.",
     answer:
-      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime",
+      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime"
   },
   {
     question: "How do I list my property on Dayf Booking?...",
     answer:
-      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime",
+      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime"
   },
   {
     question: "How do I list my property on Dayf Booking?....",
     answer:
-      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime",
+      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime"
   },
   {
     question: "How do I list my property on Dayf Booking?.....",
     answer:
-      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime",
-  },
+      "Voluptatibus iste! Eligendi, quia. Tempora laboriosam hic dolor temporibus rem delectus fuga alias tenetur placeat vel necessitatibus ab excepturi, quasi odit, debitis accusamus corrupti quaerat culpa? Voluptatum, voluptates esse nobis fugit quia explicabo dignissimos ipsam repudiandae velit doloribus laborum, qui, ea quidem. Corrupti aut amet eligendi id cumque, fuga molestiae, quia quo neque accusantium provident non. Harum, obcaecati odit. Facere eveniet doloremque pariatur nihil mollitia voluptas totam consectetur maxime"
+  }
 ];
 
 const ListPropertyFaq = () => {

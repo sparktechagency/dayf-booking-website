@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -36,7 +36,7 @@ const SORT_OPTIONS = [
   "Price: High to Low",
   "Rating: Low to High",
   "Rating: High to Low",
-  "Top Reviewed",
+  "Top Reviewed"
 ];
 
 const hotelImages = [
@@ -51,7 +51,7 @@ const hotelImages = [
   hotelImg9,
   hotelImg10,
   hotelImg11,
-  hotelImg12,
+  hotelImg12
 ];
 
 // Dummy Hotels Data
@@ -69,23 +69,23 @@ const hotels = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 3,
+        value: 3
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,500",
-      },
+        value: "1,500"
+      }
     ],
     location: "Algiers, Algeria",
-    images: hotelImages,
+    images: hotelImages
   },
   {
     id: 2,
@@ -100,23 +100,23 @@ const hotels = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 2,
+        value: 2
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,300",
-      },
+        value: "1,300"
+      }
     ],
     location: "Algiers, Algeria",
-    images: hotelImages,
+    images: hotelImages
   },
   {
     id: 3,
@@ -131,23 +131,23 @@ const hotels = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 2,
+        value: 2
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,250",
-      },
+        value: "1,250"
+      }
     ],
     location: "Algiers, Algeria",
-    images: hotelImages,
+    images: hotelImages
   },
   {
     id: 4,
@@ -162,23 +162,23 @@ const hotels = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 2,
+        value: 2
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 2,
+        value: 2
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "1,400",
-      },
+        value: "1,400"
+      }
     ],
     location: "Algiers, Algeria",
-    images: hotelImages,
+    images: hotelImages
   },
   {
     id: 5,
@@ -193,24 +193,24 @@ const hotels = [
         id: "bedroom",
         icon: <BedroomIcon />,
         label: "Bedroom",
-        value: 1,
+        value: 1
       },
       {
         id: "bathroom",
         icon: <BathroomIcon />,
         label: "Bathroom",
-        value: 1,
+        value: 1
       },
       {
         id: "space",
         icon: <ExpandIcon />,
         label: "sq ft",
-        value: "900",
-      },
+        value: "900"
+      }
     ],
     location: "Algiers, Algeria",
-    images: hotelImages,
-  },
+    images: hotelImages
+  }
 ];
 
 export default function HotelsContainer() {
@@ -230,14 +230,14 @@ export default function HotelsContainer() {
           <div className="relative rounded-full border-2 border-p1 transition-all duration-300 ease-in-out">
             <Search
               className={cn(
-                "absolute left-3 top-1/2 -translate-y-1/2 text-muted",
+                "absolute left-3 top-1/2 -translate-y-1/2 text-muted"
               )}
               size={18}
             />
 
             <Input
               className={cn(
-                "w-full rounded-full border-none bg-white px-10 py-5 shadow-none outline-none !ring-0 !ring-offset-0",
+                "w-full rounded-full border-none bg-white px-10 py-5 shadow-none outline-none !ring-0 !ring-offset-0"
               )}
               placeholder="Search hotels..."
             />
@@ -249,7 +249,7 @@ export default function HotelsContainer() {
                 variant="outline"
                 className={cn(
                   "w-max rounded-full border-2 border-p1 !px-5 !py-5 shadow-none !outline-none !ring-0",
-                  sortBy && "bg-p1 text-white",
+                  sortBy && "bg-p1 text-white"
                 )}
               >
                 <ArrowUpDown size={18} />

@@ -13,7 +13,7 @@ export const generateMetadata = async ({ params }) => {
   propertyType = propertyType[0].toUpperCase() + propertyType?.slice(1);
 
   return {
-    title: `Find Your Dream ${propertyType}`,
+    title: `Find Your Dream ${propertyType}`
   };
 };
 

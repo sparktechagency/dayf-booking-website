@@ -18,29 +18,29 @@ const sidebarLinks = [
     label: "My Profile",
     desc: "Update your profile details",
     route: "/dashboard/profile",
-    icon: "ix:user-profile",
+    icon: "ix:user-profile"
   },
   {
     id: "booking",
     label: "My Booking",
     desc: "Access your booking record",
     route: "/dashboard/booking-history",
-    icon: "iconoir:calendar",
+    icon: "iconoir:calendar"
   },
   {
     id: "change-password",
     label: "Change Password",
     desc: "Update your password",
     route: "/dashboard/change-password",
-    icon: "ic:round-password",
+    icon: "ic:round-password"
   },
   {
     id: "feedback",
     label: "Share Feedback",
     desc: "Help us improve your experience",
     route: "/dashboard/share-feedback",
-    icon: "material-symbols:rate-review-outline-sharp",
-  },
+    icon: "material-symbols:rate-review-outline-sharp"
+  }
 ];
 
 export default function DashboardSidebar() {
@@ -76,7 +76,7 @@ export default function DashboardSidebar() {
             key={link.id}
             className={cn(
               "flex-center-start gap-x-3 rounded-full border border-transparent p-2 transition-all duration-300 ease-in-out",
-              currentPath === link.route && "border border-p1 p-2",
+              currentPath === link.route && "border border-p1 p-2"
             )}
           >
             <BgIcon className="size-12 bg-p1 text-white">
@@ -92,7 +92,7 @@ export default function DashboardSidebar() {
 
         <Button
           className={cn(
-            "flex-center-start w-full gap-x-3 rounded-full border-none bg-transparent p-2 text-black shadow-none transition-all duration-300 ease-in-out hover:bg-transparent",
+            "flex-center-start w-full gap-x-3 rounded-full border-none bg-transparent p-2 text-black shadow-none transition-all duration-300 ease-in-out hover:bg-transparent"
           )}
           onClick={handleLogout}
         >
