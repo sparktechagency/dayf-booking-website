@@ -9,6 +9,7 @@ import PageTopLoader from "@/components/PageTopLoader";
 import ScrollToTopBtn from "@/components/ScrollToTopBtn/ScrollToTopBtn";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import Provider from "@/components/providers/Provider";
 
 export const metadata = {
   title: {
@@ -67,11 +68,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${dmSans.className} ${quicksand.variable} ${roboto.variable} flex flex-col justify-between antialiased ${process.env.NODE_ENV === "development" && "debug-screens"}`}
       >
-        <Navbar />
+        <Provider>
+          <Navbar />
+          <main className="min-h-[75vh] flex-1">{children}</main>
 
-        <main className="min-h-[75vh] flex-1">{children}</main>
-
-        <Footer />
+          <Footer />
+        </Provider>
 
         <PageTopLoader />
         <ScrollToTopBtn />

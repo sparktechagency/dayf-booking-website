@@ -15,10 +15,14 @@ export default function DynamicPropertyImageGallery({ property, images }) {
   const [imagePreviewIndex, setImagePreviewIndex] = useState(-1); // img index -1 to hide lightbox
   const [showImageGalleryModal, setShowImageGalleryModal] = useState(false);
 
+  // return console.log(property);
+
+  if (!property || !images) return null;
+
   return (
     <section className="flex-stretch-start dynamic-hotel-image-gallery mt-8 gap-x-[5px]">
       {/* Thumb Carousel */}
-      <div className="h-[65vh] w-3/4">
+      <div className="h-[75vh] w-full">
         <Swiper
           style={{
             "--swiper-navigation-color": "#fff",
@@ -36,9 +40,10 @@ export default function DynamicPropertyImageGallery({ property, images }) {
           speed={1000}
           className={"largeSwiper"}
         >
-          {images?.slice(0, images?.length - 3)?.map((img) => (
+          {/* images?.slice(0, images?.length - 3) */}
+          {images?.map((img, index) => (
             <SwiperSlide
-              key={img.id}
+              key={img._id}
               className={"swiperSlide group relative cursor-pointer"}
             >
               <Image
@@ -46,13 +51,13 @@ export default function DynamicPropertyImageGallery({ property, images }) {
                 alt={`Photo of Hotel_Name`}
                 height={1600}
                 width={1600}
-                placeholder="blur"
                 className="object-cover object-center transition-all duration-500 ease-in-out group-hover:brightness-75"
+                priority
               />
 
               {/* Full Screen Preview Overlay */}
               <FullScreenPreviewButton
-                setImagePreviewIndex={() => setImagePreviewIndex(img.id)}
+                setImagePreviewIndex={() => setImagePreviewIndex(index)}
               />
             </SwiperSlide>
           ))}
@@ -69,13 +74,12 @@ export default function DynamicPropertyImageGallery({ property, images }) {
           speed={1000}
         >
           {images?.slice(0, 8)?.map((img) => (
-            <SwiperSlide key={img.id} className={"swiperSlide"}>
+            <SwiperSlide key={img._id} className={"swiperSlide"}>
               <Image
                 src={img?.url}
-                alt={`Photo of Hotel_Name`}
+                alt={`Photo of ${property?.name}`}
                 height={400}
                 width={400}
-                placeholder="blur"
                 className="object-cover object-center"
               />
             </SwiperSlide>
@@ -84,7 +88,7 @@ export default function DynamicPropertyImageGallery({ property, images }) {
       </div>
 
       {/* Right Side - Static Images */}
-      <div className="h-[65vh] w-1/4 space-y-[5px]">
+      {/* <div className="h-[65vh] w-1/4 space-y-[5px]">
         {images?.slice(8)?.map((img, idx) => (
           <div key={img.id} className="group relative h-[32.8%]">
             <Image
@@ -92,7 +96,6 @@ export default function DynamicPropertyImageGallery({ property, images }) {
               alt={`Photo of Hotel_Name`}
               height={500}
               width={700}
-              placeholder="blur"
               className={cn(
                 "h-full object-cover object-center transition-all duration-300 ease-in-out",
                 idx === images?.slice(8).length - 1
@@ -119,7 +122,7 @@ export default function DynamicPropertyImageGallery({ property, images }) {
             )}
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Image Previewer */}
       <ImagePreviewer

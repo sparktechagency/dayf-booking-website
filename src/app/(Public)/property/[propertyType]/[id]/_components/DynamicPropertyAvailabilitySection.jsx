@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Tv, Wifi, Wind, Bath, Square, Users } from "lucide-react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { Check } from "lucide-react";
 
 const AVAILABILITY_TABLE_HEADERS = [
   "Room type",
@@ -41,25 +42,64 @@ export default function DynamicPropertyAvailabilitySection({ rooms }) {
           </thead>
 
           <tbody>
-            {rooms.map((room, index) => (
+            {rooms?.map((room, index) => (
               <tr key={index} className="border-b border-gray-200">
-                <td className="p-4">
+                <td className="max-w-48 p-4">
                   <div className="space-y-3">
                     <h5
                       role="button"
                       className="font-medium text-blue-500 hover:underline"
                     >
-                      {room.title}
+                      {room?.roomType}
                     </h5>
 
                     <div className="space-y-1.5">
-                      {room.features.map((feature, index) => (
+                      {room?.bedDetails?.split(", ")?.map((bed, index) => (
                         <div
                           key={index}
                           className="flex items-center gap-2 text-sm text-gray-600"
                         >
-                          <Icon icon={feature.icon} height="18" width="18" />
-                          {feature.title}
+                          <Icon
+                            icon={"lsicon:bed-outline"}
+                            height="18"
+                            width="18"
+                          />
+                          {bed}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div>
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Icon
+                          icon={"pepicons-pop:expand"}
+                          height="18"
+                          width="18"
+                        />
+                        {room?.roomSpace} sq. ft
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      {room?.facilities?.map((feature, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-2 text-sm text-gray-600"
+                        >
+                          <Icon icon={feature?.icon} height="18" width="18" />
+                          {feature?.title}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      {room?.otherFacilities?.map((feature, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-1 text-sm text-gray-600"
+                        >
+                          <Check size={18} />
+                          {feature}
                         </div>
                       ))}
                     </div>
@@ -68,7 +108,7 @@ export default function DynamicPropertyAvailabilitySection({ rooms }) {
 
                 {/* Guests */}
                 <td className="flex-center-start flex-wrap gap-2 p-4">
-                  {Array.from({ length: room.guests }).map((_, idx) => (
+                  {Array.from({ length: room?.guestsAllowed }).map((_, idx) => (
                     <Icon
                       key={idx}
                       icon="lsicon:user-filled"
@@ -80,37 +120,37 @@ export default function DynamicPropertyAvailabilitySection({ rooms }) {
 
                 {/* Price per night */}
                 <td className="p-4">
-                  <div className="font-medium">${room.price_per_night}</div>
+                  <div className="font-medium">${room?.pricePerNight}</div>
                 </td>
 
                 {/* Your choices */}
                 <td className="space-y-1 p-4">
-                  {room.choices.map((choice, index) => (
+                  {room?.customerChoices?.split(", ")?.map((choice, index) => (
                     <div key={index} className="flex-center-start gap-2">
                       <div className="size-2 rounded-full bg-green-500" />
                       <span>{choice}</span>
                     </div>
                   ))}
-
-                  <div className="flex-center-start gap-2 text-red-500">
-                    <div className="size-2 rounded-full bg-red-500" />
-                    <span>Only {room.stock} rooms left!</span>
-                  </div>
                 </td>
 
                 {/* Select Rooms */}
                 <td className="p-4">
-                  <Select>
+                  <Select defaultValue={"1"}>
                     <SelectTrigger className="w-20 shadow-none">
-                      <SelectValue placeholder="0" />
+                      <SelectValue />
                     </SelectTrigger>
 
                     <SelectContent>
-                      {[0, 1, 2, 3, 4].map((num) => (
-                        <SelectItem key={num} value={num.toString()}>
-                          {num}
-                        </SelectItem>
-                      ))}
+                      {Array.from({ length: room?.availableRooms })?.map(
+                        (_, idx) => (
+                          <SelectItem
+                            key={idx + 1}
+                            value={(idx + 1)?.toString()}
+                          >
+                            {idx + 1}
+                          </SelectItem>
+                        )
+                      )}
                     </SelectContent>
                   </Select>
                 </td>

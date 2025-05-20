@@ -169,7 +169,7 @@ export default function HotelFilter() {
         </div>
 
         {/* -------------- Property Type ------------ */}
-        <div>
+        {/* <div>
           <h5 className="mixin/filter-title">Property Type</h5>
 
           <div className="mt-4 grid gap-4">
@@ -196,7 +196,7 @@ export default function HotelFilter() {
               {showMorePropertyTypes ? "See Less" : "See More"}
             </button>
           </div>
-        </div>
+        </div> */}
 
         {/* -------------- Hotel Features ------------ */}
         <div>

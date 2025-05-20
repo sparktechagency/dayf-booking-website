@@ -17,6 +17,8 @@ import ImagePreviewer from "@/components/ui/image-previewer";
 export default function ImageGalleryModal({ open, setOpen, hotel }) {
   const [previewImgIndex, setPreviewImgIndex] = useState(-1);
 
+  if (!hotel) return null;
+
   return (
     <>
       <Dialog
@@ -39,8 +41,8 @@ export default function ImageGalleryModal({ open, setOpen, hotel }) {
           </DialogHeader>
 
           <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 3xl:grid-cols-4">
-            {hotel.images.map((image) => (
-              <div key={image.id} className="group relative">
+            {hotel.images?.map((image) => (
+              <div key={image._id} className="group relative">
                 <Image
                   src={image.url}
                   alt={image.alt || `Photo of ${hotel.name}`}

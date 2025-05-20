@@ -10,7 +10,7 @@ export const metadata = {
     "Welcome to DAYF Booking, home to Algeria's Top Destinations. Discover handpicked hotels and accommodations across Algeria’s most captivating destinations."
 };
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="space-y-14 bg-light-sky-blue pb-20">
       <Hero />

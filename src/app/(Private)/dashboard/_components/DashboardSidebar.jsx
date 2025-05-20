@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { removeFromSessionStorage } from "@/utils/sessionStorage";
 import { SuccessModal } from "@/utils/customModal";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/features/authSlice";
 
 // Constants
 const sidebarLinks = [
@@ -46,9 +48,10 @@ const sidebarLinks = [
 export default function DashboardSidebar() {
   const currentPath = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    removeFromSessionStorage("dayf-user");
+    dispatch(logout());
     SuccessModal("Logout Successful");
     router.push("/");
   };

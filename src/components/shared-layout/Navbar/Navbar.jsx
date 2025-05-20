@@ -15,17 +15,19 @@ import NavDropdown from "./NavDropdown";
 import AnimatedArrow from "@/components/AnimatedArrow/AnimatedArrow";
 import { useState } from "react";
 import { House } from "lucide-react";
-import userAvatar from "/public/images/navbar/dummy-user.jpg";
 import CustomAvatar from "@/components/CustomAvatar/CustomAvatar";
 import { MessageCircleIcon } from "@/utils/svgLibrary";
-import { getFromSessionStorage } from "@/utils/sessionStorage";
 import { useRouter } from "next/navigation";
 import MobileNavbar from "./MobileNavbar";
 import { Icon } from "@iconify/react";
+import { useGetProfileQuery } from "@/redux/api/userApi";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/features/authSlice";
 
 export default function Navbar() {
   const router = useRouter();
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
+  const userId = useSelector(selectUser)?.userId;
 
   // Navbar dropdown states: Currency & Language
   const [selectedCurrency, setSelectedCurrency] = useState(
@@ -35,8 +37,8 @@ export default function Navbar() {
     supportedLanguages[1]
   ); // es
 
-  // TODO: Use actual user data
-  const userId = getFromSessionStorage("dayf-user");
+  // ============== Get User Profile Info ====================
+  const { data: userProfile } = useGetProfileQuery(null, { skip: !userId });
 
   return (
     <header className="sticky top-0 z-50 w-full bg-light-sky-blue dark:bg-gray-950">
@@ -119,11 +121,13 @@ export default function Navbar() {
                 className="flex-center h-10 gap-x-2 rounded-full bg-white/50 pl-2 pr-3 text-p1 hover:text-p1/80"
               >
                 <CustomAvatar
-                  img={userAvatar?.src}
-                  name="Uzzal Bhowmik"
-                  className="size-8"
+                  img={userProfile?.profile}
+                  name={userProfile?.name}
+                  className="size-8 border text-sm"
                 />
-                <h5 className="text-base">Uzzal</h5>
+                <h5 className="text-base">
+                  {userProfile?.name ? userProfile?.name?.split(" ")?.[0] : "-"}
+                </h5>
               </Link>
             </>
           )}

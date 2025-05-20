@@ -1,13 +1,7 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination,
-  Parallax,
-  Autoplay,
-  FreeMode
-} from "swiper/modules";
+import { Navigation, Pagination, Autoplay, FreeMode } from "swiper/modules";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, SeeAllButton } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -194,7 +188,7 @@ export const properties = [
   }
 ];
 
-export default function PropertiesCarousel() {
+export default function PropertiesCarousel({ properties }) {
   const sliderRef = useRef(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -262,13 +256,14 @@ export default function PropertiesCarousel() {
           setIsEnd(false);
         }
       }}
+      className="pe-3"
     >
-      {properties.map((property) => (
+      {properties?.map((property) => (
         <SwiperSlide
-          key={property.id}
+          key={property._id}
           className="overflow-hidden rounded-[2.5rem] border p-3 transition-shadow duration-300 ease-in-out hover:shadow-xl"
         >
-          <PropertyCard key={property.id} property={property} />
+          <PropertyCard key={property._id} property={property} variant="grid" />
         </SwiperSlide>
       ))}
 
@@ -291,7 +286,7 @@ export default function PropertiesCarousel() {
           </Button>
         </div>
 
-        <SeeAllButton href="/hotels" />
+        <SeeAllButton href="/property/hotels" />
       </div>
     </Swiper>
   );

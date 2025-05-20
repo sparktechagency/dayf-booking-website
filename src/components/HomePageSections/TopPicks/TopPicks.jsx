@@ -1,7 +1,17 @@
+"use client";
+
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
 import PropertiesCarousel from "./PropertiesCarousel";
+import {
+  useGetPropertiesQuery,
+  useGetTopPropertiesQuery
+} from "@/redux/api/propertyApi";
 
 export default function TopPicks() {
+  const { data: properties } = useGetTopPropertiesQuery({
+    limit: 10
+  });
+
   return (
     <section className="min-h-screen rounded-[2.8rem] bg-white py-16">
       <ResponsiveContainer>
@@ -15,7 +25,7 @@ export default function TopPicks() {
           </p>
         </div>
 
-        <PropertiesCarousel />
+        <PropertiesCarousel properties={properties} />
       </ResponsiveContainer>
     </section>
   );

@@ -85,10 +85,7 @@ const UInput = ({
               />
             )}
           </FormControl>
-          <FormMessage
-            className="text-danger"
-            style={{ marginTop: 4, paddingInline: 4 }}
-          />
+          <FormMessage style={{ marginTop: 4, paddingInline: 4 }} />
         </FormItem>
       )}
     />

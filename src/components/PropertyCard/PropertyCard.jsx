@@ -6,6 +6,7 @@ export default function PropertyCard({
   variant = "grid",
   type = "hotel"
 }) {
+  console.log("proper ===========>", property, type);
   return variant === "grid" ? (
     <VerticalPropertyCard property={property} type={type} />
   ) : (
