@@ -43,6 +43,7 @@ export default function HotelSearchPanel({ className }) {
     children: 0,
     infants: 0
   });
+  const [types, setTypes] = useState("");
 
   const handleGuest = (e, key, order) => {
     e.preventDefault();
@@ -292,6 +293,54 @@ export default function HotelSearchPanel({ className }) {
                   >
                     <CirclePlus size={18} />
                   </Button>
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        {/* Type */}
+        {/* Type */}
+        <div className="col-span-2 w-full">
+          <Label className="mb-3 block font-semibold text-gray-500">Type</Label>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex w-full items-center justify-start gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-2.5 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
+              <BgIcon>
+                <UsersRound size={16} />
+              </BgIcon>
+
+              <span
+                className={cn(
+                  "text-sm",
+                  types ? "text-black" : "text-muted" // Show muted text when no selection
+                )}
+              >
+                {types === "hotel"
+                  ? "Hotel"
+                  : types === "apartment"
+                    ? "Apartment"
+                    : "Select Type"}{" "}
+                {/* Dynamic display text */}
+              </span>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className="w-full max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4 lg:w-[400px]">
+              <DropdownMenuItem
+                className="flex cursor-pointer items-center justify-between gap-x-8 hover:!bg-transparent"
+                onClick={() => setTypes("hotel")}
+              >
+                <div className="w-max">
+                  <h5 className="text-base font-semibold">Hotel</h5>
+                </div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                className="flex cursor-pointer items-center justify-between gap-x-8 hover:!bg-transparent"
+                onClick={() => setTypes("apartment")}
+              >
+                <div className="w-max">
+                  <h5 className="text-base font-semibold">Apartment</h5>
                 </div>
               </DropdownMenuItem>
             </DropdownMenuContent>

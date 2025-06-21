@@ -1,7 +1,7 @@
 "use client";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import MapHotelFilter from "./MapHotelFilter";
+// import MapHotelFilter from "./MapHotelFilter";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
@@ -78,9 +78,6 @@ export default function HotelFilter() {
       <h4 className="mb-5 text-h4 font-semibold">Filter By</h4>
 
       <section className="space-y-8 mixin/filter-title:mb-4 mixin/filter-title:text-h6 mixin/filter-title:font-semibold">
-        {/* Map */}
-        <MapHotelFilter />
-
         {/*-------------- Price-------------- */}
         <div>
           <h5 className="mixin/filter-title">Price</h5>
@@ -140,7 +137,7 @@ export default function HotelFilter() {
         <div>
           <h5 className="mixin/filter-title">Location</h5>
 
-          <LocationSearch />
+          {/* <LocationSearch /> */}
 
           <div className="mt-4 grid gap-4">
             {LOCATION_SUGGESTIONS?.slice(
@@ -167,36 +164,6 @@ export default function HotelFilter() {
             </button>
           </div>
         </div>
-
-        {/* -------------- Property Type ------------ */}
-        {/* <div>
-          <h5 className="mixin/filter-title">Property Type</h5>
-
-          <div className="mt-4 grid gap-4">
-            {PROPERTY_TYPES?.slice(
-              0,
-              showMorePropertyTypes ? PROPERTY_TYPES.length : 5
-            ).map((type, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <Checkbox id={type} />
-
-                <Label
-                  htmlFor={type}
-                  className="flex-center-start cursor-pointer gap-x-2"
-                >
-                  {type}
-                </Label>
-              </div>
-            ))}
-
-            <button
-              className="text-base text-p1 hover:text-p1/85"
-              onClick={() => setShowMorePropertyTypes(!showMorePropertyTypes)}
-            >
-              {showMorePropertyTypes ? "See Less" : "See More"}
-            </button>
-          </div>
-        </div> */}
 
         {/* -------------- Hotel Features ------------ */}
         <div>
