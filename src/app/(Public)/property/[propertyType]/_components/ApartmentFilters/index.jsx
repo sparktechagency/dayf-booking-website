@@ -6,35 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import LocationSearch from "./LocationSearch";
+import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 
 // Constants
 const RATING_STARS = [5, 4, 3, 2, 1];
-
-const LOCATION_SUGGESTIONS = [
-  "New York",
-  "London",
-  "Paris",
-  "Tokyo",
-  "Sydney",
-  "Berlin",
-  "Rome",
-  "Barcelona",
-  "Mumbai",
-  "Dubai"
-];
-
-const PROPERTY_TYPES = [
-  "Hotel",
-  "Resort",
-  "Hostel",
-  "Motel",
-  "Guesthouse",
-  "Bed & Breakfast",
-  "Villa",
-  "Apartment",
-  "Cottage",
-  "Capsule Hotel"
-];
 
 const HOTEL_FEATURES = [
   "Free Wi-Fi",
@@ -65,19 +40,45 @@ const ROOM_OPTIONS = [
 ];
 
 export default function ApartmentFilters() {
-  const [priceRange, setPriceRange] = useState([25, 75]);
-
   // Show all states
-  const [showMoreLocations, setShowMoreLocations] = useState(false);
   const [showMoreHotelFeatures, setShowMoreHotelFeatures] = useState(false);
+
+  // Get filters values from search params
+
+  // Handle price range
+  const [priceRange, setPriceRange] = useSearchParamsState(
+    "priceRange",
+    [0, 10000],
+    (val) => {
+      const parts = val.split(",").map(Number);
+      return parts.length === 2 ? [parts[0], parts[1]] : [0, 10000];
+    },
+    (val) => val.join(",")
+  );
+
+  // Handle ratings
+  const parseRatings = (val) =>
+    val
+      .split(",")
+      .map((x) => Number(x))
+      .filter((x) => RATING_STARS.includes(x));
+
+  const serializeRatings = (val) => val.join(",");
+
+  const [selectedRatings, setSelectedRatings] = useSearchParamsState(
+    "ratings",
+    [],
+    parseRatings,
+    serializeRatings
+  );
 
   return (
     <>
       <h4 className="mb-5 text-h4 font-semibold">Filter By</h4>
 
-      <section className="space-y-8 mixin/filter-title:mb-4 mixin/filter-title:text-h6 mixin/filter-title:font-semibold">
-        {/* Map */}
-        <MapHotelFilter />
+      <section className="space-y-12 mixin/filter-title:mb-4 mixin/filter-title:text-h6 mixin/filter-title:font-semibold">
+        {/* -------------- Location ------------ */}
+        <LocationSearch />
 
         {/*-------------- Price-------------- */}
         <div>
@@ -85,7 +86,8 @@ export default function ApartmentFilters() {
 
           <Slider
             value={priceRange}
-            onValueChange={setPriceRange}
+            max={10000}
+            onValueChange={(val) => setPriceRange(val)}
             aria-label="Price range slider with minimum and maximum price"
             showTooltip={true}
             thumbClassName="border-p1 focus-visible:outline-p1/40 h-[19px] w-[19px]"
@@ -109,7 +111,21 @@ export default function ApartmentFilters() {
           <div className="grid grid-cols-2 gap-4">
             {RATING_STARS.map((starOption) => (
               <div key={starOption} className="flex items-center gap-3">
-                <Checkbox id={starOption} />
+                <Checkbox
+                  id={`rating-${starOption}`}
+                  checked={selectedRatings.includes(starOption)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      setSelectedRatings(
+                        [...selectedRatings, starOption].sort((a, b) => b - a)
+                      );
+                    } else {
+                      setSelectedRatings(
+                        selectedRatings.filter((r) => r !== starOption)
+                      );
+                    }
+                  }}
+                />
                 <Label
                   htmlFor={starOption}
                   className="flex-center-start cursor-pointer gap-x-2"
@@ -134,69 +150,7 @@ export default function ApartmentFilters() {
           </div>
         </div>
 
-        {/* -------------- Location ------------ */}
-        <div>
-          <h5 className="mixin/filter-title">Location</h5>
-
-          <LocationSearch />
-
-          <div className="mt-4 grid gap-4">
-            {LOCATION_SUGGESTIONS?.slice(
-              0,
-              showMoreLocations ? LOCATION_SUGGESTIONS.length : 5
-            ).map((location, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <Checkbox id={location} />
-
-                <Label
-                  htmlFor={location}
-                  className="flex-center-start cursor-pointer gap-x-2"
-                >
-                  {location}
-                </Label>
-              </div>
-            ))}
-
-            <button
-              className="text-base text-p1 hover:text-p1/85"
-              onClick={() => setShowMoreLocations(!showMoreLocations)}
-            >
-              {showMoreLocations ? "See Less" : "See More"}
-            </button>
-          </div>
-        </div>
-
-        {/* -------------- Property Type ------------ */}
-        {/* <div>
-          <h5 className="mixin/filter-title">Property Type</h5>
-
-          <div className="mt-4 grid gap-4">
-            {PROPERTY_TYPES?.slice(
-              0,
-              showMorePropertyTypes ? PROPERTY_TYPES.length : 5,
-            ).map((type, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <Checkbox id={type} />
-
-                <Label
-                  htmlFor={type}
-                  className="flex-center-start cursor-pointer gap-x-2"
-                >
-                  {type}
-                </Label>
-              </div>
-            ))}
-
-            <button
-              className="text-base text-p1 hover:text-p1/85"
-              onClick={() => setShowMorePropertyTypes(!showMorePropertyTypes)}
-            >
-              {showMorePropertyTypes ? "See Less" : "See More"}
-            </button>
-          </div>
-        </div> */}
-
-        {/* -------------- Hotel Features ------------ */}
+        {/* -------------- Apartment Features ------------ */}
         <div>
           <h5 className="mixin/filter-title">Apartment Features</h5>
 

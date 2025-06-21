@@ -13,16 +13,17 @@ import { Search } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
+import { usePathname, useRouter } from "next/navigation";
 
 // Constants
-const SORT_OPTIONS = [
-  "Top Recommended",
-  "Price: Low to High",
-  "Price: High to Low",
-  "Rating: Low to High",
-  "Rating: High to Low",
-  "Top Reviewed"
-];
+// Constants
+const SORT_OPTIONS = {
+  "Top Recommended": "reviews",
+  "Price: Low to High": "price",
+  "Price: High to Low": "-price",
+  "Rating: Low to High": "avgRating",
+  "Rating: High to Low": "-avgRating"
+};
 
 export default function ApartmentsContainer({
   apartments,
@@ -31,7 +32,9 @@ export default function ApartmentsContainer({
   sort,
   searchParams
 }) {
-  console.log({ apartments });
+  const currentPathname = usePathname();
+  const router = useRouter();
+
   return (
     <div>
       <section className="flex-center-between">
