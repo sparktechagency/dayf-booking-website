@@ -46,7 +46,6 @@ export default function ApartmentFilters({
   setSelectedApartmentFeatures
 }) {
   // Show all states
-  const [showMoreLocations, setShowMoreLocations] = useState(false);
   const [showMoreHotelFeatures, setShowMoreHotelFeatures] = useState(false);
 
   const handleSelectedRatings = (rating) => {
@@ -74,9 +73,9 @@ export default function ApartmentFilters({
     <>
       <h4 className="mb-5 text-h4 font-semibold">Filter By</h4>
 
-      <section className="space-y-8 mixin/filter-title:mb-4 mixin/filter-title:text-h6 mixin/filter-title:font-semibold">
-        {/* Map */}
-        <MapHotelFilter />
+      <section className="space-y-12 mixin/filter-title:mb-4 mixin/filter-title:text-h6 mixin/filter-title:font-semibold">
+        {/* -------------- Location ------------ */}
+        <LocationSearch />
 
         {/*-------------- Price-------------- */}
         <div>
@@ -84,7 +83,8 @@ export default function ApartmentFilters({
 
           <Slider
             value={priceRange}
-            onValueChange={setPriceRange}
+            max={10000}
+            onValueChange={(val) => setPriceRange(val)}
             aria-label="Price range slider with minimum and maximum price"
             showTooltip={true}
             min={1000}

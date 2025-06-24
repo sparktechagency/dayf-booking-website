@@ -76,6 +76,8 @@ export default function ApartmentsPage() {
   }, [apartmentsRes, isError]);
   const apartmentsMeta = apartmentsRes?.meta || {};
 
+  console.log({ apartments });
+
   return (
     <div className="my-10">
       <ApartmentSearchPanel />
@@ -93,13 +95,20 @@ export default function ApartmentsPage() {
         </div>
 
         <div className="flex-1">
-          <ApartmentsContainer
-            apartments={apartments}
-            apartmentsMeta={apartmentsMeta}
-            pagination={{ page, pageSize }}
-            sort={sort}
-            searchParams={searchParams}
-          />
+          {apartments && apartments?.length > 0 ? (
+            <ApartmentsContainer
+              apartments={apartments}
+              apartmentsMeta={apartmentsMeta}
+              pagination={{ page, pageSize }}
+              sort={sort}
+              searchParams={searchParams}
+            />
+          ) : (
+            <EmptyContainer
+              className="h-[50dvh]"
+              message="No apartments found"
+            />
+          )}
         </div>
       </ResponsiveContainer>
     </div>

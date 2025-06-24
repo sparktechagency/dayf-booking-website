@@ -60,7 +60,7 @@ export default function SurroundingContainer({ center }) {
         type
       };
 
-      service.nearbySearch(request, (results, status) => {
+      service?.nearbySearch(request, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK && results) {
           setNearbyMarkers((prev) => {
             const existingIds = new Set(prev.map((m) => m.place_id));
@@ -107,7 +107,7 @@ export default function SurroundingContainer({ center }) {
         <Marker position={center} />
 
         {/* Nearby POI markers */}
-        {nearbyMarkers.map((place) => (
+        {nearbyMarkers?.map((place) => (
           <Marker
             key={place.place_id}
             position={{
@@ -130,13 +130,15 @@ export default function SurroundingContainer({ center }) {
             onCloseClick={() => setSelectedPlace(null)}
           >
             <div className="min-w-[220px]">
-              {selectedPlace.photos[0].getUrl({ maxWidth: 300 }) && (
-                <img
-                  src={selectedPlace.photos[0].getUrl({ maxWidth: 300 })}
-                  alt={selectedPlace.name}
-                  className="mb-2 max-h-[150px] w-full rounded-md object-cover"
-                />
-              )}
+              {selectedPlace?.photos &&
+                selectedPlace?.photos?.length > 0 &&
+                selectedPlace?.photos[0]?.getUrl({ maxWidth: 300 }) && (
+                  <img
+                    src={selectedPlace.photos[0].getUrl({ maxWidth: 300 })}
+                    alt={selectedPlace.name}
+                    className="mb-2 max-h-[150px] w-full rounded-md object-cover"
+                  />
+                )}
               <a
                 href={`https://www.google.com/maps/place/?q=place_id:${selectedPlace.place_id}`}
                 target="_blank"
