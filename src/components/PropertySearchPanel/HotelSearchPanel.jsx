@@ -31,19 +31,56 @@ import { UsersRound } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 import { CircleMinus } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useGetPropertiesQuery } from "@/redux/api/propertyApi";
 
-export default function HotelSearchPanel({ className }) {
-  const [location, setLocation] = useState("");
-  const [checkInOutDate, setCheckInOutDate] = useState({
-    from: "",
-    to: ""
-  });
-  const [guests, setGuests] = useState({
-    adults: 0,
-    children: 0,
-    infants: 0
-  });
-  const [types, setTypes] = useState("");
+export default function HotelSearchPanel({
+  className,
+  existedLocation,
+  existedCheckInOutDate,
+  existedGuests,
+  page,
+  limit,
+  setHotels
+}) {
+  const router = useRouter();
+  const [location, setLocation] = useState(existedLocation || "");
+  const [checkInOutDate, setCheckInOutDate] = useState(
+    existedCheckInOutDate || {
+      from: "",
+      to: ""
+    }
+  );
+  const [guests, setGuests] = useState(
+    existedGuests || {
+      adults: 0,
+      children: 0,
+      infants: 0
+    }
+  );
+  // const [types, setTypes] = useState("");
+  const pathname = usePathname();
+  // URL Search Params
+  const urlSearchParams = new URLSearchParams();
+  urlSearchParams.set("location", location);
+  urlSearchParams.set("checkInOutDate", JSON.stringify(checkInOutDate));
+  urlSearchParams.set("guests", JSON.stringify(guests));
+
+  // Handle search: update URL with search parameters
+  const handleSearch = () => {
+    const urlSearchParams = new URLSearchParams();
+    if (location) urlSearchParams.set("location", location);
+    if (checkInOutDate.from && checkInOutDate.to) {
+      urlSearchParams.set("checkInOutDate", JSON.stringify(checkInOutDate));
+    }
+    if (guests.adults || guests.children || guests.infants) {
+      urlSearchParams.set("guests", JSON.stringify(guests));
+    }
+
+    // Always navigate to /property/hotels with updated query parameters
+    // Use replace instead of push to avoid adding duplicate history entries
+    router.replace(`/property/hotels?${urlSearchParams.toString()}`);
+  };
 
   const handleGuest = (e, key, order) => {
     e.preventDefault();
@@ -300,8 +337,7 @@ export default function HotelSearchPanel({ className }) {
         </div>
 
         {/* Type */}
-        {/* Type */}
-        <div className="col-span-2 w-full">
+        {/* <div className="col-span-2 w-full">
           <Label className="mb-3 block font-semibold text-gray-500">Type</Label>
 
           <DropdownMenu>
@@ -321,7 +357,6 @@ export default function HotelSearchPanel({ className }) {
                   : types === "apartment"
                     ? "Apartment"
                     : "Select Type"}{" "}
-                {/* Dynamic display text */}
               </span>
             </DropdownMenuTrigger>
 
@@ -345,16 +380,14 @@ export default function HotelSearchPanel({ className }) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
+        </div> */}
 
-        <Button
-          variant="primary"
-          size="lg"
-          className="rounded-full !py-4 lg:mt-6"
-          asChild
-        >
-          <Link href="/property/hotels">Search</Link>
-        </Button>
+          <button
+            className="rounded-full !py-2 px-5 lg:mt-6 text-lg bg-[#007dd0] text-white"
+            asChild
+            onClick={handleSearch}
+          >Search
+          </button>
       </section>
     </div>
   );

@@ -34,7 +34,7 @@ export default function UpcomingBookingTable({ bookings }) {
           {/* <TableLoaderWithEmpty isLoading={isLoading} data={pendingQuotes} /> */}
 
           {/* =========== Booking ============ */}
-          {bookings.map((booking, index) => (
+          {bookings?.map((booking, index) => (
             <TableRow
               key={index}
               className="border-primary-black/15 border-b mixin/table-cell:w-max mixin/table-cell:whitespace-nowrap mixin/table-cell:px-5 mixin/table-cell:py-4 mixin/table-cell:font-medium"

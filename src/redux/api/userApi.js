@@ -36,11 +36,10 @@ const userApi = baseApi.injectEndpoints({
         body: data
       }),
 
-      invalidatesTags: [
-        tagTypes.user,
-        tagTypes.users,
-        tagTypes.serviceProviders
-      ]
+      invalidatesTags: () => {
+        const tags = [tagTypes.user, tagTypes.users, tagTypes.serviceProviders];
+        return tags.filter(tag => tag === 'string');
+      }
     }),
 
     deleteAccount: builder.mutation({

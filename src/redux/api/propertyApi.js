@@ -12,11 +12,13 @@ const API_INDEX = "/properties";
 const propertyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProperties: builder.query({
-      query: (args) => ({
-        url: API_INDEX,
-        method: "GET",
-        params: args
-      }),
+      query: (args) => {
+        return {
+          url: API_INDEX,
+          method: "GET",
+          params: args
+        };
+      },
       providesTags: [tagTypes.properties],
       transformResponse: (res) => ({
         data: res?.data?.data,
@@ -47,3 +49,7 @@ export const {
   useGetSingleHotelQuery,
   useGetTopPropertiesQuery
 } = propertyApi;
+
+// function formatPricerRange(range) {
+//   return `${range[0]}-${range[1]}`;
+// }

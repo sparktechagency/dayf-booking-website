@@ -13,7 +13,13 @@ export const tagTypes = {
 
   // ----- Apartment types -----
   apartments: "Apartments",
-  apartment: "Apartment"
+  apartment: "Apartment",
+
+  // ----- Service Providers -----
+  serviceProviders: "ServiceProviders",
+
+  // ----- Booking API -----
+  bookingApi: "BookingApi"
 };
 
 export const tagTypesList = Object.values(tagTypes);

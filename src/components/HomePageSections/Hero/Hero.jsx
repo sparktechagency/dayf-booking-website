@@ -1,13 +1,13 @@
-import HotelSearchPanel from "@/components/PropertySearchPanel/HotelSearchPanel";
 import React from "react";
 import HeroGallery from "./HeroGallery";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
+import ApartmentSearchPanel from "@/components/PropertySearchPanel/ApartmentSearchPanel";
 
 export default function Hero() {
   return (
     <section className="bg-white pb-16 pt-10">
       <ResponsiveContainer className="space-y-16">
-        <HotelSearchPanel />
+        <ApartmentSearchPanel />
 
         <section className="flex-center-between mx-auto flex-col gap-x-4 gap-y-8 lg:flex-row">
           <div className="xl:w-1/2">

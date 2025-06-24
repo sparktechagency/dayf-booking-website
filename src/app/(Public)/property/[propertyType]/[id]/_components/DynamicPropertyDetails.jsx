@@ -163,9 +163,9 @@ export default function DynamicPropertyDetails({ property }) {
         </div>
       </section>
 
-      <section id="availability" className="mt-16">
+      {/* <section id="availability" className="mt-16">
         <DynamicPropertyAvailabilitySection rooms={property?.rooms} />
-      </section>
+      </section> */}
 
       <section id="surroundings" className="mt-16 space-y-5">
         <DynamicApartmentSectionTitle>

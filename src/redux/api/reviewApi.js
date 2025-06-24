@@ -10,8 +10,17 @@ const reviewApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.reviews],
       transformResponse: (res) => res?.data?.data
+    }),
+    createTestimonialReviews: builder.mutation({
+      query: (data) => ({ 
+        url: "/reviews", 
+        method: "POST", 
+        body: data 
+      }),
+      invalidatesTags: [tagTypes.reviews],
+      transformResponse: (res) => res?.data?.data
     })
   })
 });
 
-export const { useGetTestimonialReviewsQuery } = reviewApi;
+export const { useGetTestimonialReviewsQuery, useCreateTestimonialReviewsMutation } = reviewApi;

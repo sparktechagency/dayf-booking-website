@@ -12,6 +12,7 @@ import { removeFromSessionStorage } from "@/utils/sessionStorage";
 import { SuccessModal } from "@/utils/customModal";
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/features/authSlice";
+import { useGetProfileQuery } from "@/redux/api/userApi";
 
 // Constants
 const sidebarLinks = [
@@ -49,6 +50,7 @@ export default function DashboardSidebar() {
   const currentPath = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
+   const {data: profile, isLoading, isError, error} = useGetProfileQuery();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -66,8 +68,8 @@ export default function DashboardSidebar() {
           className="size-20"
         />
         <div>
-          <h5 className="text-h5 font-semibold text-p1">Sunan Rahman</h5>
-          <p className="text-gray-600">sunanrahman007@gmail.com</p>
+          <h5 className="text-h5 font-semibold text-p1">{profile?.name}</h5>
+          <p className="text-gray-600">{profile?.email}</p>
         </div>
       </div>
 

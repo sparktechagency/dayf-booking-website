@@ -6,27 +6,17 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import UpcomingBookingTable from "./UpcomingBookingTable";
 import PastBookingTable from "./PastBookingTable";
-
-const bookings = [
-  {
-    id: "#12345XYZ",
-    hotelName: "Grand Plaza Hotel, Algiers",
-    bookingDate: "January 15-17, 2024"
-  },
-  {
-    id: "#12345XYZ",
-    hotelName: "Grand Plaza Hotel, Algiers",
-    bookingDate: "January 15-17, 2024"
-  },
-  {
-    id: "#12345XYZ",
-    hotelName: "Grand Plaza Hotel, Algiers",
-    bookingDate: "January 15-17, 2024"
-  }
-];
+import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
 
 export default function BookingHistoryContainer() {
   const [activeTab, setActiveTab] = useState("upcoming"); //  ("past" | "upcoming");
+
+  const { data, isError, isLoading, error } = useGetAllBookingsQuery();
+  console.log("Dasta: ", data)
+  let bookings = [];
+  bookings = data?.data?.data;
+  console.log("bookings: ", bookings);
+  console.error("bookings error: ", error);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-4">
@@ -64,7 +54,9 @@ export default function BookingHistoryContainer() {
       </div>
 
       {/* Booking History Table */}
-      {activeTab === "upcoming" ? (
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : activeTab === "upcoming" ? (
         <UpcomingBookingTable bookings={bookings} />
       ) : (
         <PastBookingTable bookings={bookings} />

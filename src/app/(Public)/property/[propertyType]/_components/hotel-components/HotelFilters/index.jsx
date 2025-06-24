@@ -5,22 +5,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
-import LocationSearch from "./LocationSearch";
+import { useGetAllFacilitiesQuery } from "@/redux/api/facilitiesApi";
 
 // Constants
 const RATING_STARS = [5, 4, 3, 2, 1];
 
 const LOCATION_SUGGESTIONS = [
-  "New York",
-  "London",
-  "Paris",
-  "Tokyo",
-  "Sydney",
-  "Berlin",
-  "Rome",
-  "Barcelona",
-  "Mumbai",
-  "Dubai"
+  { name: "New York", latitude: 40.7128, longitude: -74.006 },
+  { name: "London", latitude: 51.5072, longitude: -0.1276 },
+  { name: "Paris", latitude: 48.8566, longitude: 2.3522 },
+  { name: "Tokyo", latitude: 35.6764, longitude: 139.65 },
+  { name: "Sydney", latitude: -33.8688, longitude: 151.2093 },
+  { name: "Berlin", latitude: 52.52, longitude: 13.405 },
+  { name: "Rome", latitude: 41.9028, longitude: 12.4964 },
+  { name: "Barcelona", latitude: 41.3874, longitude: 2.1686 },
+  { name: "Mumbai", latitude: 19.076, longitude: 72.8777 },
+  { name: "Dubai", latitude: 25.276987, longitude: 55.296249 }
 ];
 
 const PROPERTY_TYPES = [
@@ -51,27 +51,40 @@ const HOTEL_FEATURES = [
   "Wheelchair Accessible"
 ];
 
-const ROOM_OPTIONS = [
-  "Single Room",
-  "Double Room",
-  "Twin Room",
-  "Suite",
-  "Family Room",
-  "Deluxe Room",
-  "Executive Room",
-  "Penthouse",
-  "Bungalow",
-  "Studio Apartment"
-];
-
-export default function HotelFilter() {
-  const [priceRange, setPriceRange] = useState([25, 75]);
-
+export default function HotelFilter({
+  priceRange,
+  selectedLocations,
+  setPriceRange,
+  setSelectedRatings,
+  setSelectedLocations,
+  setSelectedHotelFeatures
+}) {
   // Show all states
   const [showMoreLocations, setShowMoreLocations] = useState(false);
   const [showMorePropertyTypes, setShowMorePropertyTypes] = useState(false);
   const [showMoreHotelFeatures, setShowMoreHotelFeatures] = useState(false);
   const [showMoreRoomOptions, setShowMoreRoomOptions] = useState(false);
+
+  const handleSelectedRatings = (rating) => {
+    setSelectedRatings((prevSelected) =>
+      prevSelected.includes(rating)
+        ? prevSelected.filter((r) => r !== rating)
+        : [...prevSelected, rating]
+    );
+  };
+  const handleSelectedHotelFeatures = (feature) => {
+    setSelectedHotelFeatures((prevSelected) =>
+      prevSelected.includes(feature)
+        ? prevSelected.filter((f) => f !== feature)
+        : [...prevSelected, feature]
+    );
+  };
+
+  let features = [];
+  const { data: featuresData } = useGetAllFacilitiesQuery();
+  if (featuresData?.data.length > 0) {
+    features = featuresData?.data;
+  }
 
   return (
     <>
@@ -87,6 +100,8 @@ export default function HotelFilter() {
             onValueChange={setPriceRange}
             aria-label="Price range slider with minimum and maximum price"
             showTooltip={false}
+            min={100}
+            max={1000}
             thumbClassName="border-p1 focus-visible:outline-p1/40 h-[19px] w-[19px]"
             rangeClassName="bg-p1/75"
           />
@@ -107,7 +122,11 @@ export default function HotelFilter() {
 
           <div className="grid grid-cols-2 gap-4">
             {RATING_STARS.map((starOption) => (
-              <div key={starOption} className="flex items-center gap-3">
+              <div
+                key={starOption}
+                onClick={() => handleSelectedRatings(starOption)}
+                className="flex items-center gap-3"
+              >
                 <Checkbox id={starOption} />
                 <Label
                   htmlFor={starOption}
@@ -144,18 +163,39 @@ export default function HotelFilter() {
               0,
               showMoreLocations ? LOCATION_SUGGESTIONS.length : 5
             ).map((location, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <Checkbox id={location} />
-
+              <div
+                key={idx}
+                onClick={() => {
+                  // Toggle: if the clicked location is already selected, clear it; otherwise, select it
+                  setSelectedLocations(
+                    selectedLocations?.name === location.name ? null : location
+                  );
+                }}
+                className="flex items-center gap-3"
+              >
+                <input
+                  type="radio"
+                  id={`location-${idx}`}
+                  name="location"
+                  checked={selectedLocations?.name === location.name}
+                  onChange={() => {
+                    // Same toggle logic in onChange for direct radio input interaction
+                    setSelectedLocations(
+                      selectedLocations?.name === location.name
+                        ? null
+                        : location
+                    );
+                  }}
+                  className="h-5 w-5 cursor-pointer"
+                />
                 <Label
-                  htmlFor={location}
+                  htmlFor={`location-${idx}`}
                   className="flex-center-start cursor-pointer gap-x-2"
                 >
-                  {location}
+                  {location.name}
                 </Label>
               </div>
             ))}
-
             <button
               className="text-base text-p1 hover:text-p1/85"
               onClick={() => setShowMoreLocations(!showMoreLocations)}
@@ -170,18 +210,19 @@ export default function HotelFilter() {
           <h5 className="mixin/filter-title">Hotel Features</h5>
 
           <div className="mt-4 grid gap-4">
-            {HOTEL_FEATURES?.slice(
-              0,
-              showMoreHotelFeatures ? HOTEL_FEATURES.length : 5
-            ).map((feature, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <Checkbox id={feature} />
+            {features?.map((feature) => (
+              <div
+                key={feature._id}
+                onClick={() => handleSelectedHotelFeatures(feature._id)}
+                className="flex items-center gap-3"
+              >
+                <Checkbox id={feature._id} />
 
                 <Label
-                  htmlFor={feature}
+                  htmlFor={feature.title}
                   className="flex-center-start cursor-pointer gap-x-2"
                 >
-                  {feature}
+                  {feature.title}
                 </Label>
               </div>
             ))}
@@ -191,36 +232,6 @@ export default function HotelFilter() {
               onClick={() => setShowMoreHotelFeatures(!showMoreHotelFeatures)}
             >
               {showMoreHotelFeatures ? "See Less" : "See More"}
-            </button>
-          </div>
-        </div>
-
-        {/* -------------- Room Options ------------ */}
-        <div>
-          <h5 className="mixin/filter-title">Room Options</h5>
-
-          <div className="mt-4 grid gap-4">
-            {ROOM_OPTIONS?.slice(
-              0,
-              showMoreRoomOptions ? ROOM_OPTIONS.length : 5
-            ).map((option, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <Checkbox id={option} />
-
-                <Label
-                  htmlFor={option}
-                  className="flex-center-start cursor-pointer gap-x-2"
-                >
-                  {option}
-                </Label>
-              </div>
-            ))}
-
-            <button
-              className="text-base text-p1 hover:text-p1/85"
-              onClick={() => setShowMoreRoomOptions(!showMoreRoomOptions)}
-            >
-              {showMoreRoomOptions ? "See Less" : "See More"}
             </button>
           </div>
         </div>
