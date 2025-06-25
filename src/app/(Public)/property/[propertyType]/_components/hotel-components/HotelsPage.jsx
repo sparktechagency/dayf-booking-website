@@ -50,6 +50,12 @@ export default function HotelsPage() {
   if(sort) {
     query['sort'] = sort;
   }
+  // If Search Text
+  if(searchText) {
+    query['searchTerm'] = searchText;
+  }
+
+  console.log("Query: ", query)
 
   console.log("searchText: ", searchText);
 

@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
 
-export default function VerticalPropertyCard({ property }) {
+export default function VerticalPropertyCard({ property, handleCreateBookmark }) {
   // Find property type
   const isHotel = Array.isArray(property?.rooms) ? true : false;
 
@@ -53,7 +53,7 @@ export default function VerticalPropertyCard({ property }) {
                 </div>
 
                 <Button size="icon" variant="ghost" className="text-white">
-                  <Bookmark className="!size-5" />
+                  <Bookmark onClick={() => handleCreateBookmark(property?._id)} className="!size-5" />
                 </Button>
               </div>
             </SwiperSlide>

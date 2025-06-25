@@ -19,7 +19,10 @@ export const tagTypes = {
   serviceProviders: "ServiceProviders",
 
   // ----- Booking API -----
-  bookingApi: "BookingApi"
+  bookingApi: "BookingApi",
+
+  // ----- Booking API -----
+  bookmark: "Bookmark"
 };
 
 export const tagTypesList = Object.values(tagTypes);

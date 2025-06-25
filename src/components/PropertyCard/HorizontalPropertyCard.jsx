@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { truncateMiddle } from "@/utils/textTruncate";
 
-export default function HorizontalPropertyCard({ property, type }) {
+export default function HorizontalPropertyCard({ property, type,  handleCreateBookmark }) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
 
   const isHotel = Array.isArray(property?.rooms) ? true : false;
@@ -54,7 +54,7 @@ export default function HorizontalPropertyCard({ property, type }) {
 
             {/* Bookmark */}
             <button className="flex-center absolute right-2 top-2 aspect-square size-10 rounded-full bg-white/20 backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black">
-              <Bookmark className="size-5 text-white" />
+              <Bookmark onClick={() => handleCreateBookmark(property?._id)} className="size-5 text-white" />
             </button>
 
             {/* <!-- Floating Badges --> */}

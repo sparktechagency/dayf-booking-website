@@ -16,8 +16,8 @@ import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
+import { useCreateBookmarkMutation } from "@/redux/api/bookmarkApi";
 
-// Constants
 // Constants
 const SORT_OPTIONS = {
   "Top Recommended": "reviews",
@@ -37,6 +37,17 @@ export default function ApartmentsContainer({
 }) {
   const currentPathname = usePathname();
   const router = useRouter();
+  const [createBookmark, {isError, error, loading}] = useCreateBookmarkMutation();
+
+  // Create Bookmark
+  const handleCreateBookmark = async(_id) => {
+    console.log("_id: ", _id);
+    const modelType = "Apartment";
+
+    const data = await createBookmark({_id, modelType}).unwrap();
+
+    console.log("create Bookmark response: ", data);
+  };
 
   return (
     <div>
@@ -127,6 +138,7 @@ export default function ApartmentsContainer({
               property={property}
               variant="list"
               type="apartment"
+              handleCreateBookmark={handleCreateBookmark}
             />
           ))
         ) : (
