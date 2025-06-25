@@ -19,6 +19,7 @@ import { useMemo } from "react";
 import { Marker } from "@react-google-maps/api";
 import { useCallback } from "react";
 import SorroundingContainer from "./SorroundingContainer";
+import { usePathname } from "next/navigation";
 
 const PROPERTY_DETAILS_SECTIONS = [
   { key: "overview", label: "Overview", route: "#overview" },
@@ -28,6 +29,7 @@ const PROPERTY_DETAILS_SECTIONS = [
 ];
 
 export default function DynamicPropertyDetails({ property }) {
+  const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("overview");
   console.log({ property });
 
@@ -163,9 +165,11 @@ export default function DynamicPropertyDetails({ property }) {
         </div>
       </section>
 
-      {/* <section id="availability" className="mt-16">
-        <DynamicPropertyAvailabilitySection rooms={property?.rooms} />
-      </section> */}
+      {pathname.includes("/hotels") && (
+        <section id="availability" className="mt-16">
+          <DynamicPropertyAvailabilitySection rooms={property?.rooms} />
+        </section>
+      )}
 
       <section id="surroundings" className="mt-16 space-y-5">
         <DynamicApartmentSectionTitle>

@@ -37,13 +37,13 @@ const sidebarLinks = [
     route: "/dashboard/change-password",
     icon: "ic:round-password"
   },
-  {
-    id: "feedback",
-    label: "Share Feedback",
-    desc: "Help us improve your experience",
-    route: "/dashboard/share-feedback",
-    icon: "material-symbols:rate-review-outline-sharp"
-  }
+  // {
+  //   id: "feedback",
+  //   label: "Share Feedback",
+  //   desc: "Help us improve your experience",
+  //   route: "/dashboard/share-feedback",
+  //   icon: "material-symbols:rate-review-outline-sharp"
+  // }
 ];
 
 export default function DashboardSidebar() {

@@ -23,7 +23,7 @@ const AVAILABILITY_TABLE_HEADERS = [
   ""
 ];
 
-export default function DynamicPropertyAvailabilitySection({ rooms }) {
+export default function DynamicPropertyAvailabilitySection({ rooms, pathname }) {
   return (
     <div>
       <DynamicApartmentSectionTitle>Availability</DynamicApartmentSectionTitle>

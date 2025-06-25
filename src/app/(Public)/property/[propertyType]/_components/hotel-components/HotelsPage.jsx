@@ -10,6 +10,7 @@ import { useEffect } from "react";
 
 export default function HotelsPage() {
   const [hotels, setHotels] = useState([]);
+  const [searchText, setSearchText] = useState("");
   // Pagination controls
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
@@ -32,9 +33,9 @@ export default function HotelsPage() {
   if (pageSize) {
     query["limit"] = pageSize;
   }
-  if (priceRange.length > 0) {
-    query["priceRange"] = `${priceRange[0]}-${priceRange[1]}`;
-  }
+  // if (priceRange.length > 0) {
+  //   query["priceRange"] = `${priceRange[0]}-${priceRange[1]}`;
+  // }
   if (selectedRatings.length > 0) {
     query["ratingsFilter"] = selectedRatings.toString();
   }
@@ -45,7 +46,12 @@ export default function HotelsPage() {
   if (selectedHotelFeatures.length > 0) {
     query["facilities"] = selectedHotelFeatures.toString();
   }
-  // console.log("Query: ", query);
+  // If Sort
+  if(sort) {
+    query['sort'] = sort;
+  }
+
+  console.log("searchText: ", searchText);
 
   const { data: hotelsRes, isError } = useGetPropertiesQuery(query);
 
@@ -82,6 +88,7 @@ export default function HotelsPage() {
             pagination={{ page, pageSize }}
             sort={sort}
             searchParams={searchParams}
+            setSearchText={setSearchText}
           />
         </div>
       </ResponsiveContainer>

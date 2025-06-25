@@ -148,24 +148,26 @@ export default function HotelSearchPanel({
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
 
       <section className="flex-center-between flex-col gap-4 lg:flex-row">
-        <div className="w-full">
-          <Label className="mb-3 block font-semibold text-gray-500">
-            Destination
-          </Label>
+        {pathname?.includes("/hotels") || (
+          <div className="w-full">
+            <Label className="mb-3 block font-semibold text-gray-500">
+              Destination
+            </Label>
 
-          <div className="flex-center-start gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
-            <BgIcon>
-              <MapPin size={16} />
-            </BgIcon>
+            <div className="flex-center-start gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
+              <BgIcon>
+                <MapPin size={16} />
+              </BgIcon>
 
-            <Input
-              placeholder="Martyr's Memorial, Algeria"
-              className="!border-none px-0 text-sm text-gray-800 shadow-none !outline-none !ring-0 !ring-offset-0 focus-visible:!ring-0"
-              defaultValue={location}
-              onBlur={(e) => setLocation(e.target.value)}
-            />
+              <Input
+                placeholder="Martyr's Memorial, Algeria"
+                className="!border-none px-0 text-sm text-gray-800 shadow-none !outline-none !ring-0 !ring-offset-0 focus-visible:!ring-0"
+                defaultValue={location}
+                onBlur={(e) => setLocation(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="w-full">
           <Label className="mb-3 block font-semibold text-gray-500">
@@ -382,12 +384,13 @@ export default function HotelSearchPanel({
           </DropdownMenu>
         </div> */}
 
-          <button
-            className="rounded-full !py-2 px-5 lg:mt-6 text-lg bg-[#007dd0] text-white"
-            asChild
-            onClick={handleSearch}
-          >Search
-          </button>
+        <button
+          className="rounded-full bg-[#007dd0] !py-2 px-5 text-lg text-white lg:mt-6"
+          asChild
+          onClick={handleSearch}
+        >
+          Search
+        </button>
       </section>
     </div>
   );

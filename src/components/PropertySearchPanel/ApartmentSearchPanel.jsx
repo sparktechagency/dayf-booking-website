@@ -31,8 +31,10 @@ import { UsersRound } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 import { CircleMinus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function ApartmentSearchPanel({ className }) {
+  const router = useRouter();
   const [location, setLocation] = useState("");
   const [checkInOutDate, setCheckInOutDate] = useState({
     from: "",
@@ -90,6 +92,15 @@ export default function ApartmentSearchPanel({ className }) {
         }
         break;
     }
+  };
+
+  const handleNavigate = () => {
+    const urlSearchParams = new URLSearchParams();
+    urlSearchParams.set('location', location);
+    urlSearchParams.set('checkInOutDate', JSON.stringify(checkInOutDate));
+    urlSearchParams.set('guests', JSON.stringify(guests));
+
+    router.replace(`/property/apartments?${urlSearchParams.toString()}`);
   };
 
   return (
@@ -293,14 +304,15 @@ export default function ApartmentSearchPanel({ className }) {
           </DropdownMenu>
         </div>
 
-        <Button
+        {/* <Button
           variant="primary"
           size="lg"
           className="mt-6 rounded-full !py-4"
           asChild
         >
           <Link href="/property/apartments">Search</Link>
-        </Button>
+        </Button> */}
+        <button onClick={handleNavigate} className="bg-p1 text-white text-lg font-semibold px-6 py-2 rounded-full mt-6">Search</button>
       </section>
     </div>
   );

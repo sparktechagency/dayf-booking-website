@@ -47,6 +47,7 @@ export default function ApartmentFilters({
 }) {
   // Show all states
   const [showMoreHotelFeatures, setShowMoreHotelFeatures] = useState(false);
+  const [showMoreLocations, setShowMoreLocations] = useState(false);
 
   const handleSelectedRatings = (rating) => {
     setSelectedRatings((prevSelected) =>
@@ -74,9 +75,6 @@ export default function ApartmentFilters({
       <h4 className="mb-5 text-h4 font-semibold">Filter By</h4>
 
       <section className="space-y-12 mixin/filter-title:mb-4 mixin/filter-title:text-h6 mixin/filter-title:font-semibold">
-        {/* -------------- Location ------------ */}
-        <LocationSearch />
-
         {/*-------------- Price-------------- */}
         <div>
           <h5 className="mixin/filter-title">Price</h5>

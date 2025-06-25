@@ -30,7 +30,8 @@ export default function HotelsContainer({
   hotelsMeta,
   pagination,
   sort,
-  searchParams
+  searchParams,
+  setSearchText
 }) {
   const currentPathname = usePathname();
   const router = useRouter();
@@ -52,6 +53,7 @@ export default function HotelsContainer({
             />
 
             <Input
+              onChange={(e) => setSearchText(e.target.value)}
               className={cn(
                 "w-full rounded-full border-none bg-white px-10 py-5 shadow-none outline-none !ring-0 !ring-offset-0"
               )}

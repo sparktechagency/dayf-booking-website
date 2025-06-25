@@ -8,15 +8,26 @@ import ApartmentSearchPanel from "@/components/PropertySearchPanel/ApartmentSear
 import ApartmentFilters from "../ApartmentFilters";
 import { useState } from "react";
 import { useEffect } from "react";
+import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 
 export default function ApartmentsPage() {
   const [apartments, setApartments] = useState([]);
-  // const [filteredApartments, setFilteredApartments] = useState(apartments);
+  const [searchText, setSearchText] = useState("");
+
   // Pagination controls
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const pageSize = Number(searchParams.get("pageSize")) || 10;
 
+  // Extract the apartment search params from the searchParams
+  const location = searchParams.get('location');
+  const checkInOutDate = searchParams.get('checkInOutDate') ? JSON.parse(searchParams.get('checkInOutDate')) : null;
+  const guests = searchParams.get('guests') ? JSON.parse(searchParams.get('guests')) : null;
+
+  console.log('location: ', location)
+  console.log('checkInOutDate: ', checkInOutDate)
+  console.log('guests: ', guests)
+  
   // Filtering
   const [priceRange, setPriceRange] = useState([1000, 5000]);
   const [selectedRatings, setSelectedRatings] = useState([]);
@@ -24,9 +35,11 @@ export default function ApartmentsPage() {
   const [selectedApartmentFeatures, setSelectedApartmentFeatures] = useState(
     []
   );
-
+  
   // Sort
   const sort = searchParams?.get("sort") || "";
+  
+  console.log("searchText: ", searchText);
 
   const query = {};
 
@@ -49,22 +62,10 @@ export default function ApartmentsPage() {
   if (selectedApartmentFeatures.length > 0) {
     query["facilities"] = selectedApartmentFeatures.toString();
   }
-  console.log("Query: ", query);
-
-  // Filtering functionality
-  // useEffect(() => {
-  //   if (!Array.isArray(priceRange) || priceRange.length < 2) return;
-
-  //   const filteredData = apartments.filter(
-  //     (apartment) =>
-  //       typeof apartment?.price === "number" &&
-  //       apartment.price >= priceRange[0] &&
-  //       apartment.price <= priceRange[1]
-  //   );
-
-  //   setFilteredApartments(filteredData);
-  //   console.log({ filteredData });
-  // }, [apartments, priceRange]);
+  // If Sort
+  if(sort) {
+    query['sort'] = sort;
+  }
 
   const { data: apartmentsRes, isError } = useGetApartmentsQuery(query);
   useEffect(() => {
@@ -76,11 +77,9 @@ export default function ApartmentsPage() {
   }, [apartmentsRes, isError]);
   const apartmentsMeta = apartmentsRes?.meta || {};
 
-  console.log({ apartments });
-
   return (
     <div className="my-10">
-      <ApartmentSearchPanel />
+      <ApartmentSearchPanel  />
 
       <ResponsiveContainer className="flex-start-between mt-16 gap-x-14">
         <div className="w-1/4">
@@ -102,6 +101,7 @@ export default function ApartmentsPage() {
               pagination={{ page, pageSize }}
               sort={sort}
               searchParams={searchParams}
+              setSearchText={setSearchText}
             />
           ) : (
             <EmptyContainer

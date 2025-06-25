@@ -14,6 +14,7 @@ import { ArrowUpDown } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 // Constants
 // Constants
@@ -30,7 +31,8 @@ export default function ApartmentsContainer({
   apartmentsMeta,
   pagination,
   sort,
-  searchParams
+  searchParams,
+  setSearchText
 }) {
   const currentPathname = usePathname();
   const router = useRouter();
@@ -52,6 +54,7 @@ export default function ApartmentsContainer({
             />
 
             <Input
+              onChange={(e) => setSearchText(e.target.value)}
               className={cn(
                 "w-full rounded-full border-none bg-white px-10 py-5 shadow-none outline-none !ring-0 !ring-offset-0"
               )}
