@@ -22,7 +22,10 @@ export const tagTypes = {
   bookingApi: "BookingApi",
 
   // ----- Booking API -----
-  bookmark: "Bookmark"
+  bookmark: "Bookmark",
+
+  // ----- Booking API -----
+  content: "Content"
 };
 
 export const tagTypesList = Object.values(tagTypes);

@@ -5,10 +5,28 @@ import FormWrapper from "@/components/form-components/FormWrapper";
 import UInput from "@/components/form-components/UInput";
 import UTextarea from "@/components/form-components/UTextarea";
 import { Button } from "@/components/ui/button";
+import { useCreateContentMutation } from "@/redux/api/contentApi";
+import { SuccessModal } from "@/utils/customModal";
 
 export default function ContactForm() {
+  const [createContent, {isError, isLoading, error}] = useCreateContentMutation();
+
+  const handleCreateContentSupport = async(data) => {
+    const contentData = {
+      name: data.firstName + " " + data.lastName,
+      email: data.email,
+      subject: data.subject,
+      description: data.description
+    };
+    const res = await createContent(contentData).unwrap();
+    console.log("Content Support response: ", res);
+    if(res?.success) {
+      SuccessModal(res?.message);
+    }
+  };
+
   return (
-    <FormWrapper>
+    <FormWrapper onSubmit={handleCreateContentSupport}>
       <div className="space-y-6">
         <div className="grid grid-cols-1 gap-x-4 gap-y-8 lg:grid-cols-2 lg:gap-y-0">
           {/* first name */}

@@ -1,3 +1,4 @@
+import { tagTypes } from "../tagtypes";
 import { baseApi } from "./baseApi";
 
 const contentApi = baseApi.injectEndpoints({
@@ -8,7 +9,16 @@ const contentApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    createContent: builder.mutation({
+      query: (data) => ({
+        url: "/contents/support",
+        method: "POST",
+        body: data,
+      }),
+
+      invalidatesTags: [tagTypes.content],
+    }),
   }),
 });
 
-export const { useGetContentQuery } = contentApi;
+export const { useGetContentQuery, useCreateContentMutation } = contentApi;
