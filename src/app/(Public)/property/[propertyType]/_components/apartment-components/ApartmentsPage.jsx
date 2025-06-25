@@ -8,7 +8,6 @@ import ApartmentSearchPanel from "@/components/PropertySearchPanel/ApartmentSear
 import ApartmentFilters from "../ApartmentFilters";
 import { useState } from "react";
 import { useEffect } from "react";
-import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 
 export default function ApartmentsPage() {
   const [apartments, setApartments] = useState([]);
@@ -20,13 +19,13 @@ export default function ApartmentsPage() {
   const pageSize = Number(searchParams.get("pageSize")) || 10;
 
   // Extract the apartment search params from the searchParams
-  const location = searchParams.get('location');
-  const checkInOutDate = searchParams.get('checkInOutDate') ? JSON.parse(searchParams.get('checkInOutDate')) : null;
-  const guests = searchParams.get('guests') ? JSON.parse(searchParams.get('guests')) : null;
-
-  console.log('location: ', location)
-  console.log('checkInOutDate: ', checkInOutDate)
-  console.log('guests: ', guests)
+  const locationName = searchParams.get('locationName');
+  const longitude = searchParams.get('longitude');
+  const latitude = searchParams.get('latitude');
+  const rawCheckInOutDate = searchParams.get('checkInOutDate');
+  const checkInOutDate =  (rawCheckInOutDate && rawCheckInOutDate !== 'undefined') ? JSON.parse(rawCheckInOutDate) : null;
+  const rawGuests = searchParams.get('guests');
+  const guests = (rawGuests && rawGuests !== 'undefined') ? JSON.parse(rawGuests) : null;
   
   // Filtering
   const [priceRange, setPriceRange] = useState([1000, 5000]);
@@ -38,11 +37,26 @@ export default function ApartmentsPage() {
   
   // Sort
   const sort = searchParams?.get("sort") || "";
-  
-  console.log("searchText: ", searchText);
 
   const query = {};
 
+  // Global Search
+  if(latitude && longitude) {
+    query['latitude'] = latitude;
+    query['longitude'] = longitude;
+  }
+  if(checkInOutDate?.from &&  checkInOutDate?.to) {
+    query['startDate'] = checkInOutDate.from;
+    query['endDate'] = checkInOutDate.to;
+  }
+  if(guests && Object.values(guests).some(g => g > 0)) {
+    console.log("guests: ", guests);
+    query['adults'] = guests.adults;
+    query['children'] = guests.children;
+    query['infants'] = guests.infants;
+  }
+
+  // Filter
   if (page) {
     query["page"] = page;
   }
@@ -66,6 +80,12 @@ export default function ApartmentsPage() {
   if(sort) {
     query['sort'] = sort;
   }
+  // If Search Text
+  if(searchText) {
+    query['searchTerm'] = searchText;
+  }
+
+  console.log("Query: ", query);
 
   const { data: apartmentsRes, isError } = useGetApartmentsQuery(query);
   useEffect(() => {
@@ -79,7 +99,7 @@ export default function ApartmentsPage() {
 
   return (
     <div className="my-10">
-      <ApartmentSearchPanel  />
+      <ApartmentSearchPanel searchedLocation={locationName} searchedCheckInOutDate={checkInOutDate} searchedGuests={guests} />
 
       <ResponsiveContainer className="flex-start-between mt-16 gap-x-14">
         <div className="w-1/4">
@@ -94,7 +114,6 @@ export default function ApartmentsPage() {
         </div>
 
         <div className="flex-1">
-          {apartments && apartments?.length > 0 ? (
             <ApartmentsContainer
               apartments={apartments}
               apartmentsMeta={apartmentsMeta}
@@ -103,12 +122,6 @@ export default function ApartmentsPage() {
               searchParams={searchParams}
               setSearchText={setSearchText}
             />
-          ) : (
-            <EmptyContainer
-              className="h-[50dvh]"
-              message="No apartments found"
-            />
-          )}
         </div>
       </ResponsiveContainer>
     </div>

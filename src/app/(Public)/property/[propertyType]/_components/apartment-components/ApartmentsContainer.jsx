@@ -15,6 +15,7 @@ import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 
 // Constants
 // Constants
@@ -119,14 +120,18 @@ export default function ApartmentsContainer({
 
       {/* Apartment Lists */}
       <section className="mt-8 grid gap-8">
-        {apartments?.map((property) => (
-          <PropertyCard
-            key={property._id}
-            property={property}
-            variant="list"
-            type="apartment"
-          />
-        ))}
+        {apartments.length > 0 ? (
+          apartments?.map((property) => (
+            <PropertyCard
+              key={property._id}
+              property={property}
+              variant="list"
+              type="apartment"
+            />
+          ))
+        ) : (
+          <EmptyContainer className="h-[50dvh]" message="No apartments found" />
+        )}
 
         {/* <CustomPagination currentPage={currentPage} /> */}
         <PaginationWithLinks

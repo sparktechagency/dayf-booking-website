@@ -81,7 +81,6 @@ export default function ApartmentFilters({
 
           <Slider
             value={priceRange}
-            max={10000}
             onValueChange={(val) => setPriceRange(val)}
             aria-label="Price range slider with minimum and maximum price"
             showTooltip={true}
