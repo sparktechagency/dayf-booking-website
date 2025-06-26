@@ -83,6 +83,8 @@ export default function ContactForm() {
       <Button
         type="submit"
         variant="primary"
+        loading={isLoading}
+        disabled={isLoading}
         className="group w-full rounded-full py-5"
       >
         Submit

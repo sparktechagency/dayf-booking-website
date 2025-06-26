@@ -188,7 +188,7 @@ export const properties = [
   }
 ];
 
-export default function PropertiesCarousel({ properties }) {
+export default function PropertiesCarousel({ properties, bookmarks, handleCreateBookmark, handleDeleteBookmark }) {
   const sliderRef = useRef(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -263,7 +263,7 @@ export default function PropertiesCarousel({ properties }) {
           key={property._id}
           className="overflow-hidden rounded-[2.5rem] border p-3 transition-shadow duration-300 ease-in-out hover:shadow-xl"
         >
-          <PropertyCard key={property._id} property={property} variant="grid" />
+          <PropertyCard key={property._id} property={property} variant="grid" bookmarks={bookmarks} handleCreateBookmark={handleCreateBookmark} handleDeleteBookmark={handleDeleteBookmark} />
         </SwiperSlide>
       ))}
 

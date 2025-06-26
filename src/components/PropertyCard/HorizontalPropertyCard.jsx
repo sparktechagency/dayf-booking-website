@@ -27,7 +27,7 @@ export default function HorizontalPropertyCard({
   const isHotel = Array.isArray(property?.rooms) ? true : false;
 
   useEffect(() => {
-    const foundData = bookmarks.find(
+    const foundData = bookmarks?.find(
       (bookmark) => bookmark?.reference?._id === property?._id
     );
     console.log("Is foundData: ", foundData);

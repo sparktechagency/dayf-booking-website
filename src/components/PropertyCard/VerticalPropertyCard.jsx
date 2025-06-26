@@ -26,7 +26,7 @@ export default function VerticalPropertyCard({
   const isHotel = Array.isArray(property?.rooms) ? true : false;
 
   useEffect(() => {
-    const foundData = bookmarks.find(
+    const foundData = bookmarks?.find(
       (bookmark) => bookmark?.reference?._id === property?._id
     );
     console.log("Is foundData: ", foundData);
@@ -66,25 +66,25 @@ export default function VerticalPropertyCard({
                 className="hotel-card-img-slider-radius h-[270px] w-full overflow-hidden object-cover transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
               />
 
-              <div className="flex-center-between absolute bottom-0 left-0 right-0 z-[9999] mx-auto w-full rounded-b-[1.7rem] bg-black/20 px-8 py-1">
+              <div className="flex-center-between absolute bottom-0 left-0 right-0 z-10 mx-auto w-full rounded-b-[1.7rem] bg-black/20 px-8 py-1">
                 <div className="flex-center-start gap-x-2">
                   <Star className="size-[19px] fill-[#FFDA9E] stroke-[#FFDA9E]" />
                   <p className="text-white">{property?.avgRating}</p>
                 </div>
 
                 <Button
+                  onClick={() => {
+                    if (bookmarked) {
+                      return handleDeleteBookmark(bookmarked?._id);
+                    } else {
+                      return handleCreateBookmark(property?._id);
+                    }
+                  }}
                   size="icon"
                   variant="ghost"
-                  className={`${bookmarked ? "bg-black" : "bg-white"}`}
+                  className={`cursor-pointer z-50 ${bookmarked ? "bg-black text-white" : "bg-white"}`}
                 >
                   <Bookmark
-                    onClick={() => {
-                      if (bookmarked) {
-                        return handleDeleteBookmark(bookmarked?._id);
-                      } else {
-                        return handleCreateBookmark(property?._id);
-                      }
-                    }}
                     className="!size-5"
                   />
                 </Button>
@@ -96,15 +96,15 @@ export default function VerticalPropertyCard({
           <div className="swiper-pagination !absolute !bottom-2 !left-1/2 mx-auto !-translate-x-1/2 space-x-2"></div>
 
           {/* <!-- Floating Badges --> */}
-          <div>
+          <div className="z-50">
             {isHotel ? (
-              <Badge variant={"hotel"} className="absolute right-4 top-4 z-50">
+              <Badge variant={"hotel"} className="absolute right-4 top-4">
                 Hotel
               </Badge>
             ) : (
               <Badge
                 variant={"apartment"}
-                className="absolute right-4 top-4 z-50"
+                className="absolute right-4 top-4"
               >
                 Apartment
               </Badge>
