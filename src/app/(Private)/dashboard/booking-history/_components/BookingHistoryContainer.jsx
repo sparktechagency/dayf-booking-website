@@ -7,12 +7,13 @@ import { useState } from "react";
 import UpcomingBookingTable from "./UpcomingBookingTable";
 import PastBookingTable from "./PastBookingTable";
 import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
+import { isAfter } from "date-fns";
 
 export default function BookingHistoryContainer() {
   const [activeTab, setActiveTab] = useState("upcoming"); //  ("past" | "upcoming");
 
   const { data, isError, isLoading, error } = useGetAllBookingsQuery();
-  console.log("Dasta: ", data)
+  console.log("Dasta: ", data);
   let bookings = [];
   bookings = data?.data?.data;
   console.log("bookings: ", bookings);
@@ -25,7 +26,7 @@ export default function BookingHistoryContainer() {
           My Booking History
         </h1>
 
-        <div className="flex-center-start gap-x-3 lg:w-1/2">
+        <div className="flex-center-end gap-x-3 lg:w-1/2">
           <div className="inline-flex items-center rounded-full border bg-background p-1">
             <Button
               size="sm"
@@ -46,10 +47,10 @@ export default function BookingHistoryContainer() {
             </Button>
           </div>
 
-          <div className="relative h-11 w-full">
+          {/* <div className="relative h-11 w-full">
             <Search className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
             <Input placeholder="Search" className="h-full w-full pl-10" />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -57,9 +58,21 @@ export default function BookingHistoryContainer() {
       {isLoading ? (
         <div>Loading...</div>
       ) : activeTab === "upcoming" ? (
-        <UpcomingBookingTable bookings={bookings} />
+        <UpcomingBookingTable
+          bookings={bookings?.filter(
+            (booking) =>
+              booking?.paymentStatus === "paid" &&
+              new Date(booking?.endDate) >= new Date()
+          )}
+        />
       ) : (
-        <PastBookingTable bookings={bookings} />
+        <PastBookingTable
+          bookings={bookings?.filter(
+            (booking) =>
+              booking?.paymentStatus === "paid" &&
+              new Date(booking?.endDate) <= new Date()
+          )}
+        />
       )}
     </div>
   );

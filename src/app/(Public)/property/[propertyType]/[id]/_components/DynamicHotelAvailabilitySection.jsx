@@ -23,11 +23,14 @@ const AVAILABILITY_TABLE_HEADERS = [
   ""
 ];
 
-export default function DynamicPropertyAvailabilitySection({ rooms, pathname }) {
+export default function DynamicHotelAvailabilitySection({ rooms, pathname }) {
   return (
     <div>
       <DynamicApartmentSectionTitle>Availability</DynamicApartmentSectionTitle>
-      <HotelSearchPanel className="mx-0 mt-4 shadow-none" />
+      <HotelSearchPanel
+        className="mx-0 mt-4 shadow-none"
+        showDestinationSearchInput={false}
+      />
 
       <div className="mt-5 w-full">
         <table className="w-full border-collapse">

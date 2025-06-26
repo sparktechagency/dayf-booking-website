@@ -1,6 +1,13 @@
 "use client";
 
-import { LocateFixed, MapPin, CalendarIcon, UsersRound, CirclePlus, CircleMinus } from "lucide-react";
+import {
+  LocateFixed,
+  MapPin,
+  CalendarIcon,
+  UsersRound,
+  CirclePlus,
+  CircleMinus
+} from "lucide-react";
 import ResponsiveContainer from "../ResponsiveContainer/ResponsiveContainer";
 import BgIcon from "./BgIcon";
 import { Separator } from "@/components/ui/separator";
@@ -12,25 +19,27 @@ import { cn } from "@/lib/utils";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "@/components/ui/popover";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Calendar } from "@/components/ui/calendar";
 import { useRouter, usePathname } from "next/navigation";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { useState, useEffect, useRef } from "react";
+import { XCircle } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 
 // Static list of popular cities in Algeria
 const POPULAR_CITIES = [
   { name: "Algiers", lat: 36.7538, lng: 3.0588 },
   { name: "Oran", lat: 35.6977, lng: -0.6308 },
-  { name: "Constantine", lat: 36.3650, lng: 6.6147 },
-  { name: "Annaba", lat: 36.9000, lng: 7.7667 },
+  { name: "Constantine", lat: 36.365, lng: 6.6147 },
+  { name: "Annaba", lat: 36.9, lng: 7.7667 },
   { name: "Blida", lat: 36.4806, lng: 2.8277 },
   { name: "New York", lat: 40.73061, lng: -73.935242 },
   { name: "London", lat: 51.5072, lng: -0.1276 },
@@ -48,7 +57,7 @@ export default function ApartmentSearchPanel({
   className,
   searchedLocation,
   searchedCheckInOutDate,
-  searchedGuests,
+  searchedGuests
 }) {
   const [nearbyCities, setNearbyCities] = useState(POPULAR_CITIES);
   const [suggestions, setSuggestions] = useState([]);
@@ -59,8 +68,18 @@ export default function ApartmentSearchPanel({
   const inputRef = useRef(null);
 
   // Separate search params for lat, lng, and locationName
-  const [latitude, setLatitude] = useSearchParamsState("latitude", "", (val) => val, (val) => val);
-  const [longitude, setLongitude] = useSearchParamsState("longitude", "", (val) => val, (val) => val);
+  const [latitude, setLatitude] = useSearchParamsState(
+    "latitude",
+    "",
+    (val) => val,
+    (val) => val
+  );
+  const [longitude, setLongitude] = useSearchParamsState(
+    "longitude",
+    "",
+    (val) => val,
+    (val) => val
+  );
   const [searchLocationName, setSearchLocationName] = useSearchParamsState(
     "locationName",
     searchedLocation || "",
@@ -79,7 +98,8 @@ export default function ApartmentSearchPanel({
   // Initialize Google Places Autocomplete Service
   useEffect(() => {
     if (window.google && window.google.maps && window.google.maps.places) {
-      autocompleteService.current = new window.google.maps.places.AutocompleteService();
+      autocompleteService.current =
+        new window.google.maps.places.AutocompleteService();
     }
   }, []);
 
@@ -94,10 +114,13 @@ export default function ApartmentSearchPanel({
       autocompleteService.current.getPlacePredictions(
         {
           input: value,
-          componentRestrictions: { country: "dz" }, // Restrict to Algeria
+          componentRestrictions: { country: "dz" } // Restrict to Algeria
         },
         (predictions, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
+          if (
+            status === window.google.maps.places.PlacesServiceStatus.OK &&
+            predictions
+          ) {
             setSuggestions(predictions);
           } else {
             setSuggestions([]);
@@ -112,7 +135,9 @@ export default function ApartmentSearchPanel({
     } else {
       setSuggestions([]);
       setNearbyCities(
-        POPULAR_CITIES.filter((city) => city.name.toLowerCase().includes(value.toLowerCase()))
+        POPULAR_CITIES.filter((city) =>
+          city.name.toLowerCase().includes(value.toLowerCase())
+        )
       );
     }
   };
@@ -129,10 +154,13 @@ export default function ApartmentSearchPanel({
       setShowSuggestions(false);
     } else if (place.place_id) {
       // Handle selection from Google Places
-      const service = new window.google.maps.places.PlacesService(document.createElement("div"));
+      const service = new window.google.maps.places.PlacesService(
+        document.createElement("div")
+      );
       service.getDetails({ placeId: place.place_id }, (placeResult, status) => {
         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          const selectedLocation = placeResult.formatted_address || place.description;
+          const selectedLocation =
+            placeResult.formatted_address || place.description;
           const lat = placeResult.geometry.location.lat();
           const lng = placeResult.geometry.location.lng();
           setLocation(selectedLocation);
@@ -172,6 +200,23 @@ export default function ApartmentSearchPanel({
     router.replace(`/property/apartments?${urlSearchParams.toString()}`);
   };
 
+  // Check if any filter is active
+  const hasFilter =
+    location.trim() !== "" ||
+    (checkInOutDate?.from && checkInOutDate?.to) ||
+    guests.adults > 0 ||
+    guests.children > 0 ||
+    guests.infants > 0;
+
+  // Reset search filters
+  const handleReset = () => {
+    setLocation("");
+    setCheckInOutDate({ from: "", to: "" });
+    setGuests({ adults: 0, children: 0, infants: 0 });
+
+    router.replace(currentPathname); // Clear all search params
+  };
+
   return (
     <div
       className={cn(
@@ -179,19 +224,30 @@ export default function ApartmentSearchPanel({
         className
       )}
     >
-      <div className="flex-center-start gap-x-2">
-        <BgIcon>
-          <LocateFixed size={16} />
-        </BgIcon>
-        <p className="text-gray-500">Apartments in Algeria</p>
+      <div className="flex items-center justify-between">
+        <div className="flex-center-start gap-x-2">
+          <BgIcon>
+            <LocateFixed size={16} />
+          </BgIcon>
+          <p className="text-gray-500">Apartments in Algeria</p>
+        </div>
+
+        {hasFilter && (
+          <button type="button" onClick={handleReset} className="text-red-500">
+            <RotateCcw size={22} />
+            <div className="sr-only">Reset search filters</div>
+          </button>
+        )}
       </div>
 
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
 
       <section className="flex-center-between gap-x-4">
         <div className="w-full">
-          <Label className="mb-3 block font-semibold text-gray-500">Destination</Label>
-          <div className="relative flex-center-start gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
+          <Label className="mb-3 block font-semibold text-gray-500">
+            Destination
+          </Label>
+          <div className="flex-center-start relative gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
             <BgIcon>
               <MapPin size={16} />
             </BgIcon>
@@ -206,34 +262,37 @@ export default function ApartmentSearchPanel({
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
             />
             {/* Suggestions dropdown */}
-            {showSuggestions && (suggestions.length > 0 || nearbyCities.length > 0) && (
-              <ul className="absolute z-50 max-h-60 w-full overflow-y-auto rounded-b-md border border-t-0 border-gray-300 bg-white shadow-md top-full">
-                {suggestions.length > 0
-                  ? suggestions.map((suggestion) => (
-                      <li
-                        key={suggestion.place_id}
-                        className="cursor-pointer px-3 py-2 hover:bg-blue-500 hover:text-white"
-                        onMouseDown={() => handleSelectPlace(suggestion)}
-                      >
-                        {suggestion.description}
-                      </li>
-                    ))
-                  : nearbyCities.map((city) => (
-                      <li
-                        key={city.name}
-                        className="cursor-pointer px-3 py-2 hover:bg-blue-500 hover:text-white"
-                        onMouseDown={() => handleSelectPlace(city)}
-                      >
-                        {city.name}
-                      </li>
-                    ))}
-              </ul>
-            )}
+            {showSuggestions &&
+              (suggestions.length > 0 || nearbyCities.length > 0) && (
+                <ul className="absolute top-full z-50 max-h-60 w-full overflow-y-auto rounded-b-md border border-t-0 border-gray-300 bg-white shadow-md">
+                  {suggestions.length > 0
+                    ? suggestions.map((suggestion) => (
+                        <li
+                          key={suggestion.place_id}
+                          className="cursor-pointer px-3 py-2 hover:bg-blue-500 hover:text-white"
+                          onMouseDown={() => handleSelectPlace(suggestion)}
+                        >
+                          {suggestion.description}
+                        </li>
+                      ))
+                    : nearbyCities.map((city) => (
+                        <li
+                          key={city.name}
+                          className="cursor-pointer px-3 py-2 hover:bg-blue-500 hover:text-white"
+                          onMouseDown={() => handleSelectPlace(city)}
+                        >
+                          {city.name}
+                        </li>
+                      ))}
+                </ul>
+              )}
           </div>
         </div>
 
         <div className="w-full">
-          <Label className="mb-3 block font-semibold text-gray-500">Check In/Out</Label>
+          <Label className="mb-3 block font-semibold text-gray-500">
+            Check In/Out
+          </Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -275,14 +334,19 @@ export default function ApartmentSearchPanel({
         </div>
 
         <div className="w-full">
-          <Label className="mb-3 block font-semibold text-gray-500">Guests</Label>
+          <Label className="mb-3 block font-semibold text-gray-500">
+            Guests
+          </Label>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex-center-start w-full gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-2.5 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
               <BgIcon>
                 <UsersRound size={16} />
               </BgIcon>
-              <span className={cn("text-sm", guests.adults === 0 && "text-muted")}>
-                {guests.adults} Adults / {guests.children} Children / {guests.infants} Infants
+              <span
+                className={cn("text-sm", guests.adults === 0 && "text-muted")}
+              >
+                {guests.adults} Adults / {guests.children} Children /{" "}
+                {guests.infants} Infants
               </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-[400px] max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4">

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useState } from "react";
-import DynamicPropertyAvailabilitySection from "./DynamicPropertyAvailabilitySection";
+import DynamicHotelAvailabilitySection from "./DynamicHotelAvailabilitySection";
 import MapHotelFilter from "../../_components/ApartmentFilters/MapApartmentFilter";
 import DynamicPropertyReviews from "./DynamicPropertyReviews";
 import DynamicPropertyPolicies from "./DynamicPropertyPolicies";
@@ -20,6 +20,8 @@ import { Marker } from "@react-google-maps/api";
 import { useCallback } from "react";
 import SorroundingContainer from "./SorroundingContainer";
 import { usePathname } from "next/navigation";
+import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
+import DyanamicApartmentAvailabilitySection from "./DyanamicApartmentAvailabilitySection";
 
 const PROPERTY_DETAILS_SECTIONS = [
   { key: "overview", label: "Overview", route: "#overview" },
@@ -31,7 +33,6 @@ const PROPERTY_DETAILS_SECTIONS = [
 export default function DynamicPropertyDetails({ property }) {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("overview");
-  console.log({ property });
 
   // Center property location in google map
   const center = useMemo(() => {
@@ -83,7 +84,7 @@ export default function DynamicPropertyDetails({ property }) {
         {/* <ContentWrapper content={hotel?.desc} /> */}
 
         <div className="space-y-8 lg:w-3/4">
-          <article className="text-h5">{property?.description}</article>
+          <article className="text-h5">{property?.descrimtion}</article>
 
           <div className="w-full">
             <DynamicApartmentSectionTitle>
@@ -113,13 +114,13 @@ export default function DynamicPropertyDetails({ property }) {
           </div>
         </div>
 
-        <div className="flex-1 space-y-5">
-          {/* Property Highlights */}
+        {/* Property Highlights */}
+        {/* <div className="flex-1 space-y-5">
           <div className="rounded-xl border p-4 shadow">
             <h5 className="text-h6 font-bold">Property Highlights</h5>
 
             <ul className="mb-5 mt-3 space-y-3">
-              {/* {property?.propertyHighlights?.map((highlight) => (
+              {property?.propertyHighlights?.map((highlight) => (
                 <li key={highlight.title} className="flex-center-start gap-x-2">
                   <BgIcon className="size-10 bg-light-sky-blue text-p1">
                     <Icon icon={highlight.icon} className="!h-5 !w-5" />
@@ -127,7 +128,7 @@ export default function DynamicPropertyDetails({ property }) {
 
                   {highlight.title}
                 </li>
-              ))} */}
+              ))}
             </ul>
 
             <Button variant="primary" className="w-full" asChild>
@@ -135,13 +136,12 @@ export default function DynamicPropertyDetails({ property }) {
             </Button>
           </div>
 
-          {/* Find On map */}
           <div className="">
             <GoogleMap
               mapContainerClassName="w-full h-[250px] border-slate-200 border rounded-lg rounded-b-none hover:shadow-lg transition-all duration-300 ease-in-out"
               center={center}
               zoom={15}
-              options={{
+              omtions={{
                 disableDefaultUI: true,
                 zoomControl: true,
                 fullscreenControl: true
@@ -162,12 +162,16 @@ export default function DynamicPropertyDetails({ property }) {
               </button>
             </Link>
           </div>
-        </div>
+        </div> */}
       </section>
 
-      {pathname.includes("/hotels") && (
+      {pathname.includes("/hotels") ? (
         <section id="availability" className="mt-16">
-          <DynamicPropertyAvailabilitySection rooms={property?.rooms} />
+          <DynamicHotelAvailabilitySection rooms={property?.rooms} />
+        </section>
+      ) : (
+        <section id="availability" className="mt-16">
+          <DyanamicApartmentAvailabilitySection />
         </section>
       )}
 
@@ -183,8 +187,10 @@ export default function DynamicPropertyDetails({ property }) {
         <DynamicApartmentSectionTitle>
           What Our Guests Say
         </DynamicApartmentSectionTitle>
-        {property?.reviews?.length > 0 && (
+        {property?.reviews?.length > 0 ? (
           <DynamicPropertyReviews reviews={property?.reviews} />
+        ) : (
+          <EmptyContainer message="No reviews found" />
         )}
       </div>
 

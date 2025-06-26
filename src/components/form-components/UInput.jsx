@@ -40,9 +40,12 @@ const UInput = ({
       render={({ field }) => (
         <FormItem className="w-full">
           <FormLabel
-            className={cn("flex-center-start mb-2 gap-x-2", labelClass)}
+            className={cn("flex-center-start mb-2 gap-x-0.5", labelClass)}
           >
-            {label} {required && <span className="text-red-500">*</span>}
+            {label}{" "}
+            {required && (
+              <span className="text-base font-bold text-red-500">*</span>
+            )}
           </FormLabel>
 
           <FormControl>

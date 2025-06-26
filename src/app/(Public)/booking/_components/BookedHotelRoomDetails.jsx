@@ -43,7 +43,7 @@ const hotelImages = [
   hotelImg11
 ];
 
-export default function BookedHotelDetails() {
+export default function BookedRoomHotelDetails() {
   return (
     <div className="mx-auto p-4 lg:w-1/2">
       <Card className="overflow-hidden">

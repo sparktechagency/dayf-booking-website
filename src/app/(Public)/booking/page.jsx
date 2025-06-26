@@ -1,12 +1,10 @@
-import React from 'react'
-import BookingForm from './_components/BookingForm'
-import BookedHotelDetails from './_components/BookedHotelDetails'
+import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
+import DynamicBookedPropertyDetails from "./_components/DynamicBookedPropertyDetails";
 
-export default function page() {
+export default function BookingPage() {
   return (
-    <div>
-        <BookedHotelDetails />
-        <BookingForm />
-    </div>
-  )
+    <ResponsiveContainer className="mb-32 mt-10">
+      <DynamicBookedPropertyDetails />
+    </ResponsiveContainer>
+  );
 }

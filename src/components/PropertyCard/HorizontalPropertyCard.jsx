@@ -9,11 +9,17 @@ import Link from "next/link";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { truncateMiddle } from "@/utils/textTruncate";
+import { useSearchParams } from "next/navigation";
 
-export default function HorizontalPropertyCard({ property, type,  handleCreateBookmark }) {
+export default function HorizontalPropertyCard({
+  property,
+  type,
+  handleCreateBookmark
+}) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
 
   const isHotel = Array.isArray(property?.rooms) ? true : false;
+  const searchParams = useSearchParams();
 
   return (
     <div
@@ -54,7 +60,10 @@ export default function HorizontalPropertyCard({ property, type,  handleCreateBo
 
             {/* Bookmark */}
             <button className="flex-center absolute right-2 top-2 aspect-square size-10 rounded-full bg-white/20 backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black">
-              <Bookmark onClick={() => handleCreateBookmark(property?._id)} className="size-5 text-white" />
+              <Bookmark
+                onClick={() => handleCreateBookmark(property?._id)}
+                className="size-5 text-white"
+              />
             </button>
 
             {/* <!-- Floating Badges --> */}
@@ -77,7 +86,7 @@ export default function HorizontalPropertyCard({ property, type,  handleCreateBo
       <div className="flex flex-col justify-between py-5 pr-8 xl:w-3/4">
         <div>
           <Link
-            href={`/property/hotels/${property?._id}`}
+            href={`/property/hotels/${property?._id}?${searchParams.toString()}`}
             className="text-h4 font-semibold leading-tight text-[#252525]"
           >
             {property?.name}
@@ -138,7 +147,7 @@ export default function HorizontalPropertyCard({ property, type,  handleCreateBo
             asChild
           >
             <Link
-              href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}`}
+              href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
             >
               See Details
             </Link>
