@@ -6,22 +6,31 @@ import UInput from "@/components/form-components/UInput";
 import UTextarea from "@/components/form-components/UTextarea";
 import { Button } from "@/components/ui/button";
 import { useCreateContentMutation } from "@/redux/api/contentApi";
-import { SuccessModal } from "@/utils/customModal";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
+import { useRouter } from "next/navigation";
 
 export default function ContactForm() {
-  const [createContent, {isError, isLoading, error}] = useCreateContentMutation();
+  const router = useRouter();
+  const [createContent, { isError, isLoading, error }] =
+    useCreateContentMutation();
 
-  const handleCreateContentSupport = async(data) => {
+  const handleCreateContentSupport = async (data) => {
     const contentData = {
       name: data.firstName + " " + data.lastName,
       email: data.email,
       subject: data.subject,
       description: data.description
     };
-    const res = await createContent(contentData).unwrap();
-    console.log("Content Support response: ", res);
-    if(res?.success) {
-      SuccessModal(res?.message);
+    try {
+      const res = await createContent(contentData).unwrap();
+      console.log("Content Support response: ", res);
+      if (res?.success) {
+        SuccessModal(res?.message);
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error)
+      ErrorModal(error?.message || "Something went wrong!");
     }
   };
 

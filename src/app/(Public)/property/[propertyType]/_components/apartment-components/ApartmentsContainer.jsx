@@ -16,7 +16,13 @@ import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
-import { useCreateBookmarkMutation } from "@/redux/api/bookmarkApi";
+import {
+  useCreateBookmarkMutation,
+  useDeleteBookmarkMutation,
+  useGetAllBookmarkQuery
+} from "@/redux/api/bookmarkApi";
+import { ErrorModal } from "@/utils/customModal";
+import { useEffect } from "react";
 
 // Constants
 const SORT_OPTIONS = {
@@ -37,17 +43,71 @@ export default function ApartmentsContainer({
 }) {
   const currentPathname = usePathname();
   const router = useRouter();
-  const [createBookmark, {isError, error, loading}] = useCreateBookmarkMutation();
+  const [apartmentBookmarks, setApartmentBookmarks] = useState([]);
 
-  // Create Bookmark
-  const handleCreateBookmark = async(_id) => {
+  const [createBookmark, { isError, error, loading }] =
+    useCreateBookmarkMutation();
+  const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
+    useDeleteBookmarkMutation();
+
+  // Handle Bookmark
+  const handleCreateBookmark = async (_id) => {
     console.log("_id: ", _id);
     const modelType = "Apartment";
 
-    const data = await createBookmark({_id, modelType}).unwrap();
+    // Bookmark the data
+    const data = await createBookmark({ reference: _id, modelType }).unwrap();
+    if (data.success) {
+      SuccessModal(data.message);
+    }
 
     console.log("create Bookmark response: ", data);
+
+    if (isError) {
+      console.error("Error while creating bookmark: ", error);
+      ErrorModal(error?.data?.message);
+    }
   };
+
+  // Create Bookmark
+  const handleDeleteBookmark = async (_id) => {
+    console.log("_id: ", _id);
+
+    const res = await deleteBookmark(_id);
+    console.log("Delete bookmark response: ", res);
+    if (isDeleteError) {
+      console.error("Error while deleting bookmark: ", deleteError);
+    }
+  };
+
+  // Get bookmarks
+  const {
+    data: bookmarkData,
+    isError: isGetError,
+    getError,
+    getIsLoading
+  } = useGetAllBookmarkQuery();
+  console.log("Bookmark data: ", bookmarkData);
+  // Update bookmarks state when bookmarkData changes
+  useEffect(() => {
+    console.log("Bookmark data: ", bookmarkData);
+    if (bookmarkData?.length > 0) {
+      const filteredData = bookmarkData.filter(
+        (bookmark) => bookmark.modelType === "Apartment"
+      );
+      console.log("Filtered apartment bookmark data: ", filteredData);
+      setApartmentBookmarks(filteredData);
+    }
+  }, [bookmarkData]);
+
+  // Handle errors in useEffect
+  useEffect(() => {
+    if (isGetError) {
+      console.error("Error fetching bookmarks:", getError);
+      // Optionally show an error modal
+      // ErrorModal(getError?.data?.message || "Failed to fetch bookmarks");
+    }
+  }, [isGetError, getError]);
 
   return (
     <div>
@@ -138,7 +198,9 @@ export default function ApartmentsContainer({
               property={property}
               variant="list"
               type="apartment"
+              bookmarks={apartmentBookmarks}
               handleCreateBookmark={handleCreateBookmark}
+              handleDeleteBookmark={handleDeleteBookmark}
             />
           ))
         ) : (
