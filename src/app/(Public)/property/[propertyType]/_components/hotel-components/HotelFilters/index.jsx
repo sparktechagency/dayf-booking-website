@@ -20,7 +20,8 @@ const LOCATION_SUGGESTIONS = [
   { name: "Rome", latitude: 41.9028, longitude: 12.4964 },
   { name: "Barcelona", latitude: 41.3874, longitude: 2.1686 },
   { name: "Mumbai", latitude: 19.076, longitude: 72.8777 },
-  { name: "Dubai", latitude: 25.276987, longitude: 55.296249 }
+  { name: "Dubai", latitude: 25.276987, longitude: 55.296249 },
+  { name: "Miami", latitude: 25.7906, longitude: -80.1345 }
 ];
 
 export default function HotelFilter({

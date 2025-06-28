@@ -1,3 +1,5 @@
+"use client";
+
 import { Bookmark } from "lucide-react";
 import { Star } from "lucide-react";
 import Image from "next/image";
@@ -9,12 +11,28 @@ import AnimatedArrow from "../AnimatedArrow/AnimatedArrow";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
+import { useGetBookmarkByIdQuery } from "@/redux/api/bookmarkApi";
+import { useEffect } from "react";
+import { useState } from "react";
 
 export default function VerticalPropertyCard({
   property,
-  handleCreateBookmark
+  bookmarks,
+  handleCreateBookmark,
+  handleDeleteBookmark
 }) {
-  const isHotel = property?.price === undefined;
+  const [bookmarked, setBookmarked] = useState(null);
+  // Find property type
+  const isHotel = Array.isArray(property?.rooms) ? true : false;
+
+  useEffect(() => {
+    const foundData = bookmarks?.find(
+      (bookmark) => bookmark?.reference?._id === property?._id
+    );
+    console.log("Is foundData: ", foundData);
+    if (foundData) setBookmarked(foundData);
+    else setBookmarked(null);
+  }, [bookmarks]);
 
   return (
     <div className="property-card flex h-full flex-col justify-between gap-y-4">
@@ -48,15 +66,25 @@ export default function VerticalPropertyCard({
                 className="hotel-card-img-slider-radius h-[270px] w-full overflow-hidden object-cover transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
               />
 
-              <div className="flex-center-between absolute bottom-0 left-0 right-0 z-[9999] mx-auto w-full rounded-b-[1.7rem] bg-black/20 px-8 py-1">
+              <div className="flex-center-between absolute bottom-0 left-0 right-0 z-10 mx-auto w-full rounded-b-[1.7rem] bg-black/20 px-8 py-1">
                 <div className="flex-center-start gap-x-2">
                   <Star className="size-[19px] fill-[#FFDA9E] stroke-[#FFDA9E]" />
                   <p className="text-white">{property?.avgRating}</p>
                 </div>
 
-                <Button size="icon" variant="ghost" className="text-white">
+                <Button
+                  onClick={() => {
+                    if (bookmarked) {
+                      return handleDeleteBookmark(bookmarked?._id);
+                    } else {
+                      return handleCreateBookmark(property?._id);
+                    }
+                  }}
+                  size="icon"
+                  variant="ghost"
+                  className={`cursor-pointer z-50 ${bookmarked ? "bg-black text-white" : "bg-white"}`}
+                >
                   <Bookmark
-                    onClick={() => handleCreateBookmark(property?._id)}
                     className="!size-5"
                   />
                 </Button>
@@ -68,15 +96,15 @@ export default function VerticalPropertyCard({
           <div className="swiper-pagination !absolute !bottom-2 !left-1/2 mx-auto !-translate-x-1/2 space-x-2"></div>
 
           {/* <!-- Floating Badges --> */}
-          <div>
+          <div className="z-50">
             {isHotel ? (
-              <Badge variant={"hotel"} className="absolute right-4 top-4 z-50">
+              <Badge variant={"hotel"} className="absolute right-4 top-4">
                 Hotel
               </Badge>
             ) : (
               <Badge
                 variant={"apartment"}
-                className="absolute right-4 top-4 z-50"
+                className="absolute right-4 top-4"
               >
                 Apartment
               </Badge>

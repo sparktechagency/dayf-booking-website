@@ -3,9 +3,17 @@ import { baseApi } from "./baseApi";
 
 const bookmarkApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getBookmark: builder.query({
+    getAllBookmark: builder.query({
       query: () => ({
         url: '/bookmark',
+        method: "GET"
+      }),
+      providesTags: [tagTypes.bookmark],
+      transformResponse: (res) => res?.data?.data
+    }),
+    getBookmarkById: builder.query({
+      query: (_id) => ({
+        url: `/bookmark/${_id}`,
         method: "GET"
       }),
       providesTags: [tagTypes.bookmark],
@@ -19,11 +27,21 @@ const bookmarkApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.bookmark],
       transformResponse: (res) => res?.data?.data
-    })
+    }),
+    deleteBookmark: builder.mutation({
+      query: (_id) => ({
+        url: `/bookmark/${_id}`,
+        method: "DELETE"
+      }),
+      invalidatesTags: [tagTypes.bookmark],
+      transformResponse: (res) => res?.data?.data
+    }),
   })
 });
 
 export const {
-  useGetBookmarkQuery,
-  useCreateBookmarkMutation
+  useGetAllBookmarkQuery,
+  useGetBookmarkByIdQuery,
+  useCreateBookmarkMutation,
+  useDeleteBookmarkMutation
 } = bookmarkApi;

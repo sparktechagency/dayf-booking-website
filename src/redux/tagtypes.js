@@ -25,8 +25,11 @@ export const tagTypes = {
   bookingApi: "BookingApi",
   singleBooking: "SingleBooking",
 
-  // ----- Bookmark API -----
-  bookmark: "Bookmark"
+  // ----- Booking API -----
+  bookmark: "Bookmark",
+
+  // ----- Booking API -----
+  content: "Content"
 };
 
 export const tagTypesList = Object.values(tagTypes);

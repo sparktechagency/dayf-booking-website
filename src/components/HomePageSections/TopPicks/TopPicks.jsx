@@ -6,11 +6,78 @@ import {
   useGetPropertiesQuery,
   useGetTopPropertiesQuery
 } from "@/redux/api/propertyApi";
+import { useState } from "react";
+import {
+  useCreateBookmarkMutation,
+  useDeleteBookmarkMutation,
+  useGetAllBookmarkQuery
+} from "@/redux/api/bookmarkApi";
+import { useEffect } from "react";
 
 export default function TopPicks() {
+  const [bookmarks, setBookmarks] = useState([]);
   const { data: properties } = useGetTopPropertiesQuery({
     limit: 10
   });
+
+  const [createBookmark, { isError, error, isLoading }] =
+    useCreateBookmarkMutation();
+  const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
+    useDeleteBookmarkMutation();
+
+  // Create Bookmark
+  const handleCreateBookmark = async (_id) => {
+    console.log("_id: ", _id);
+    const modelType = "Property";
+
+    // Bookmark the data
+    const data = await createBookmark({ reference: _id, modelType }).unwrap();
+    if (data.success) {
+      SuccessModal(data.message);
+    }
+
+    console.log("create Bookmark response: ", data);
+
+    if (isError) {
+      console.error("Error while creating bookmark: ", error);
+      ErrorModal(error?.data?.message);
+    }
+  };
+
+  // Create Bookmark
+  const handleDeleteBookmark = async (_id) => {
+    console.log("_id: ", _id);
+
+    const res = await deleteBookmark(_id);
+    console.log("Delete bookmark response: ", res);
+    if (isDeleteError) {
+      console.error("Error while deleting bookmark: ", deleteError);
+    }
+  };
+
+  // Get bookmarks
+  const {
+    data: bookmarkData,
+    isError: isGetError,
+    getError,
+    getIsLoading
+  } = useGetAllBookmarkQuery();
+  console.log("Bookmark data: ", bookmarkData);
+  // Update bookmarks state when bookmarkData changes
+  useEffect(() => {
+    console.log("Bookmark data: ", bookmarkData);
+
+    setBookmarks(bookmarkData);
+  }, [bookmarkData]);
+
+  // Handle errors in useEffect
+  useEffect(() => {
+    if (isGetError) {
+      console.error("Error fetching bookmarks:", getError);
+      // Optionally show an error modal
+      // ErrorModal(getError?.data?.message || "Failed to fetch bookmarks");
+    }
+  }, [isGetError, getError]);
 
   return (
     <section className="min-h-screen rounded-[2.8rem] bg-white py-16">
@@ -25,7 +92,7 @@ export default function TopPicks() {
           </p>
         </div>
 
-        <PropertiesCarousel properties={properties} />
+        <PropertiesCarousel properties={properties} bookmarks={bookmarks} handleCreateBookmark={handleCreateBookmark} handleDeleteBookmark={handleDeleteBookmark} />
       </ResponsiveContainer>
     </section>
   );

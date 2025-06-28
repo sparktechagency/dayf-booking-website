@@ -77,7 +77,7 @@ export default function HotelSearchPanel({
 
     // Always navigate to /property/hotels with updated query parameters
     // Use replace instead of push to avoid adding duplicate history entries
-    router.replace(`/property/hotels?${urlSearchParams.toString()}`);
+    // router.replace(`/property/hotels?${urlSearchParams.toString()}`);
   };
 
   const handleGuest = (e, key, order) => {

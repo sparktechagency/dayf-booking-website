@@ -1,3 +1,5 @@
+"use client";
+
 import { MapPinned } from "lucide-react";
 import CustomStarRating from "../CustomStarRating/CustomStarRating";
 import { Button } from "../ui/button";
@@ -9,17 +11,31 @@ import Link from "next/link";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { truncateMiddle } from "@/utils/textTruncate";
+import { useGetBookmarkByIdQuery } from "@/redux/api/bookmarkApi";
+import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 export default function HorizontalPropertyCard({
   property,
   type,
-  handleCreateBookmark
+  bookmarks,
+  handleCreateBookmark,
+  handleDeleteBookmark
 }) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
+  const [bookmarked, setBookmarked] = useState(null);
 
   const isHotel = property?.price === undefined;
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const foundData = bookmarks?.find(
+      (bookmark) => bookmark?.reference?._id === property?._id
+    );
+    console.log("Is foundData: ", foundData);
+    if (foundData) setBookmarked(foundData);
+    else setBookmarked(null);
+  }, [bookmarks]);
 
   return (
     <div
@@ -59,9 +75,15 @@ export default function HorizontalPropertyCard({
             />
 
             {/* Bookmark */}
-            <button className="flex-center absolute right-2 top-2 aspect-square size-10 rounded-full bg-white/20 backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black">
+            <button className={`flex-center absolute right-2 top-2 aspect-square size-10 rounded-full ${bookmarked ? 'bg-black' : 'bg-white/20'} backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black`}>
               <Bookmark
-                onClick={() => handleCreateBookmark(property?._id)}
+                onClick={() => {
+                  if(bookmarked) {
+                    return handleDeleteBookmark(bookmarked?._id)
+                  }else {
+                    return handleCreateBookmark(property?._id)
+                  }
+                }}
                 className="size-5 text-white"
               />
             </button>

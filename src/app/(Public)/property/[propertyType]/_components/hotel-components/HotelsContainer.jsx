@@ -15,6 +15,14 @@ import { useState } from "react";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
+import {
+  useCreateBookmarkMutation,
+  useDeleteBookmarkMutation,
+  useGetAllBookmarkQuery
+} from "@/redux/api/bookmarkApi";
+import { useEffect } from "react";
+import { useGetBookmarksData } from "@/hooks/useGetBookmarksData";
 
 // Constants
 const SORT_OPTIONS = {
@@ -35,6 +43,45 @@ export default function HotelsContainer({
 }) {
   const currentPathname = usePathname();
   const router = useRouter();
+  const [hotelBookmarks, setHotelBookmarks] = useState([]);
+
+  const [createBookmark, { isError, error, isLoading }] =
+    useCreateBookmarkMutation();
+  const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
+    useDeleteBookmarkMutation();
+
+  useGetBookmarksData("Property", setHotelBookmarks);
+  console.log("HOtel booKmarks: ", hotelBookmarks);
+
+  // Create Bookmark
+  const handleCreateBookmark = async (_id) => {
+    console.log("_id: ", _id);
+    const modelType = "Property";
+
+    // Bookmark the data
+    const data = await createBookmark({ reference: _id, modelType }).unwrap();
+    console.log("create Bookmark response: ", data);
+
+    if (isError) {
+      console.error("Error while creating bookmark: ", error);
+      ErrorModal(error?.data?.message);
+    } else {
+      SuccessModal(data.message);
+      useGetBookmarksData("Property", setHotelBookmarks);
+    }
+  };
+
+  // Create Bookmark
+  const handleDeleteBookmark = async (_id) => {
+    console.log("_id: ", _id);
+
+    const res = await deleteBookmark(_id);
+    console.log("Delete bookmark response: ", res);
+    useGetBookmarksData("Property", setHotelBookmarks);
+    if (isDeleteError) {
+      console.error("Error while deleting bookmark: ", deleteError);
+    }
+  };
 
   return (
     <div>
@@ -122,8 +169,11 @@ export default function HotelsContainer({
         {hotels?.map((property) => (
           <PropertyCard
             key={property._id}
-            property={property?.property}
             variant="list"
+            bookmarks={hotelBookmarks}
+            handleCreateBookmark={handleCreateBookmark}
+            handleDeleteBookmark={handleDeleteBookmark}
+            property={property?.property}
           />
         ))}
 
