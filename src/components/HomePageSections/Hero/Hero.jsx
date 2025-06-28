@@ -1,14 +1,14 @@
 import React from "react";
 import HeroGallery from "./HeroGallery";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
-import ApartmentSearchPanel from "@/components/PropertySearchPanel/ApartmentSearchPanel";
+import PropertySearchPanel from "@/components/PropertySearchPanel/PropertySearchPanel";
 
 export default function Hero() {
   return (
     <section className="bg-white pb-16 pt-10">
-      <ResponsiveContainer className="space-y-16">
-        <ApartmentSearchPanel />
+      <PropertySearchPanel />
 
+      <ResponsiveContainer className="mt-16">
         <section className="flex-center-between mx-auto flex-col gap-x-4 gap-y-8 lg:flex-row">
           <div className="xl:w-1/2">
             <h1 className="heading-gradient heading text-center font-quicksand lg:w-[75%] lg:text-left">

@@ -7,10 +7,17 @@ export default function PropertyCard({
   type = "hotel",
   handleCreateBookmark
 }) {
-  console.log("proper ===========>", property, type);
   return variant === "grid" ? (
-    <VerticalPropertyCard property={property} type={type} handleCreateBookmark={handleCreateBookmark} />
+    <VerticalPropertyCard
+      property={property}
+      type={type}
+      handleCreateBookmark={handleCreateBookmark}
+    />
   ) : (
-    <HorizontalPropertyCard property={property} type={type} handleCreateBookmark={handleCreateBookmark} />
+    <HorizontalPropertyCard
+      property={property}
+      type={type}
+      handleCreateBookmark={handleCreateBookmark}
+    />
   );
 }

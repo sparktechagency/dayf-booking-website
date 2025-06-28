@@ -38,6 +38,7 @@ const DynamicHotel = () => {
   } = useGetSingleHotelQuery(hotelId, {
     skip: !hotelId
   });
+  console.log({ hotelData });
 
   if (isLoading) {
     return "loading...";
@@ -54,7 +55,11 @@ const DynamicHotel = () => {
           <h2 className="font-quicksand text-h3 font-bold">
             {hotelData?.name}
           </h2>
-          <p className="text-h6 text-gray-500">{hotelData?.description}</p>
+          <p className="max-w-[90%] text-h6 text-gray-500">
+            {hotelData?.shortDescription || hotelData?.description?.length > 300
+              ? hotelData?.description?.slice(0, 100) + "..."
+              : hotelData?.description}
+          </p>
         </div>
 
         <div className="flex-center-start gap-x-4">
@@ -133,7 +138,9 @@ const DynamicApartment = () => {
           <h2 className="font-quicksand text-h3 font-bold">
             {apartment?.name}
           </h2>
-          <p className="text-h6 text-gray-500">{apartment?.shortDescription}</p>
+          <p className="max-w-[90%] text-h6 text-gray-500">
+            {apartment?.shortDescription}
+          </p>
         </div>
 
         <div className="flex-center-start gap-x-4">

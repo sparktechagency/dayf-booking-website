@@ -1,6 +1,5 @@
 "use client";
 
-import ContentWrapper from "@/components/ContentWrapper/ContentWrapper";
 import BgIcon from "@/components/PropertySearchPanel/BgIcon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -8,16 +7,11 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useState } from "react";
 import DynamicHotelAvailabilitySection from "./DynamicHotelAvailabilitySection";
-import MapHotelFilter from "../../_components/ApartmentFilters/MapApartmentFilter";
 import DynamicPropertyReviews from "./DynamicPropertyReviews";
 import DynamicPropertyPolicies from "./DynamicPropertyPolicies";
 import PropertiesCarousel from "@/components/HomePageSections/TopPicks/PropertiesCarousel";
 import Image from "next/image";
-import { GoogleMap } from "@react-google-maps/api";
-import { useEffect } from "react";
 import { useMemo } from "react";
-import { Marker } from "@react-google-maps/api";
-import { useCallback } from "react";
 import SorroundingContainer from "./SorroundingContainer";
 import { usePathname } from "next/navigation";
 import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
@@ -84,7 +78,7 @@ export default function DynamicPropertyDetails({ property }) {
         {/* <ContentWrapper content={hotel?.desc} /> */}
 
         <div className="space-y-8 lg:w-3/4">
-          <article className="text-h5">{property?.descrimtion}</article>
+          <article className="text-h5">{property?.description}</article>
 
           <div className="w-full">
             <DynamicApartmentSectionTitle>
@@ -110,64 +104,27 @@ export default function DynamicPropertyDetails({ property }) {
                   {feature.title}
                 </span>
               ))}
+
+              {property?.Other?.map((otherFeature, index) => (
+                <span
+                  key={otherFeature + index}
+                  className="flex-center-start gap-x-2 text-base"
+                >
+                  <BgIcon className="size-11 rounded bg-light-sky-blue text-p1">
+                    <Icon icon={"mingcute:check-line"} className="!h-6 !w-6" />
+                  </BgIcon>
+
+                  {otherFeature}
+                </span>
+              ))}
             </div>
           </div>
         </div>
-
-        {/* Property Highlights */}
-        {/* <div className="flex-1 space-y-5">
-          <div className="rounded-xl border p-4 shadow">
-            <h5 className="text-h6 font-bold">Property Highlights</h5>
-
-            <ul className="mb-5 mt-3 space-y-3">
-              {property?.propertyHighlights?.map((highlight) => (
-                <li key={highlight.title} className="flex-center-start gap-x-2">
-                  <BgIcon className="size-10 bg-light-sky-blue text-p1">
-                    <Icon icon={highlight.icon} className="!h-5 !w-5" />
-                  </BgIcon>
-
-                  {highlight.title}
-                </li>
-              ))}
-            </ul>
-
-            <Button variant="primary" className="w-full" asChild>
-              <Link href={"#availability"}>Reserve</Link>
-            </Button>
-          </div>
-
-          <div className="">
-            <GoogleMap
-              mapContainerClassName="w-full h-[250px] border-slate-200 border rounded-lg rounded-b-none hover:shadow-lg transition-all duration-300 ease-in-out"
-              center={center}
-              zoom={15}
-              omtions={{
-                disableDefaultUI: true,
-                zoomControl: true,
-                fullscreenControl: true
-              }}
-            >
-              <Marker
-                position={{ lat: center?.lat, lng: center?.lng }}
-                animation={google.maps.Animation.DROP}
-              />
-            </GoogleMap>
-
-            <Link
-              href={`https://www.google.com/maps?q=${center?.lat},${center?.lng}&z=15`}
-              target="_blank"
-            >
-              <button className="block w-full rounded-b-2xl border border-t-0 bg-gray-50 py-2.5 text-base text-p1 hover:text-p1/85">
-                View in Map
-              </button>
-            </Link>
-          </div>
-        </div> */}
       </section>
 
       {pathname.includes("/hotels") ? (
         <section id="availability" className="mt-16">
-          <DynamicHotelAvailabilitySection rooms={property?.rooms} />
+          <DynamicHotelAvailabilitySection propertyId={property?._id} />
         </section>
       ) : (
         <section id="availability" className="mt-16">

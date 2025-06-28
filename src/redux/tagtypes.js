@@ -10,6 +10,8 @@ export const tagTypes = {
   // ----- Property types -----
   properties: "Properties",
   property: "Property",
+  propertyRoomCategories: "PropertyRoomCategories",
+  propertyRoomCategory: "PropertyRoomCategory",
 
   // ----- Apartment types -----
   apartments: "Apartments",
@@ -20,8 +22,9 @@ export const tagTypes = {
 
   // ----- Booking API -----
   bookingApi: "BookingApi",
+  singleBooking: "SingleBooking",
 
-  // ----- Booking API -----
+  // ----- Bookmark API -----
   bookmark: "Bookmark"
 };
 

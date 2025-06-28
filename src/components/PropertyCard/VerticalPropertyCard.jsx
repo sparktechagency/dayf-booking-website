@@ -10,9 +10,11 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
 
-export default function VerticalPropertyCard({ property, handleCreateBookmark }) {
-  // Find property type
-  const isHotel = Array.isArray(property?.rooms) ? true : false;
+export default function VerticalPropertyCard({
+  property,
+  handleCreateBookmark
+}) {
+  const isHotel = property?.price === undefined;
 
   return (
     <div className="property-card flex h-full flex-col justify-between gap-y-4">
@@ -53,7 +55,10 @@ export default function VerticalPropertyCard({ property, handleCreateBookmark })
                 </div>
 
                 <Button size="icon" variant="ghost" className="text-white">
-                  <Bookmark onClick={() => handleCreateBookmark(property?._id)} className="!size-5" />
+                  <Bookmark
+                    onClick={() => handleCreateBookmark(property?._id)}
+                    className="!size-5"
+                  />
                 </Button>
               </div>
             </SwiperSlide>

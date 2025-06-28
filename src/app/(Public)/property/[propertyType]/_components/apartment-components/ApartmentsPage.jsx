@@ -4,7 +4,7 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 import { useSearchParams } from "next/navigation";
 import { useGetApartmentsQuery } from "@/redux/api/apartmentApi";
 import ApartmentsContainer from "./ApartmentsContainer";
-import ApartmentSearchPanel from "@/components/PropertySearchPanel/ApartmentSearchPanel";
+import PropertySearchPanel from "@/components/PropertySearchPanel/PropertySearchPanel";
 import ApartmentFilters from "../ApartmentFilters";
 import { useState } from "react";
 
@@ -30,7 +30,7 @@ export default function ApartmentsPage() {
     rawGuests && rawGuests !== "undefined" ? JSON.parse(rawGuests) : null;
 
   // Filtering
-  const [priceRange, setPriceRange] = useState([1000, 5000]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [selectedLocations, setSelectedLocations] = useState(null);
   const [selectedApartmentFeatures, setSelectedApartmentFeatures] = useState(
@@ -98,7 +98,7 @@ export default function ApartmentsPage() {
 
   return (
     <div className="my-10">
-      <ApartmentSearchPanel
+      <PropertySearchPanel
         searchedLocation={locationName}
         searchedCheckInOutDate={checkInOutDate}
         searchedGuests={guests}

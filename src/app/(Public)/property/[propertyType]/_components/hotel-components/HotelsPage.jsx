@@ -6,18 +6,17 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 import { useGetPropertiesQuery } from "@/redux/api/propertyApi";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { useEffect } from "react";
 
 export default function HotelsPage() {
-  const [hotels, setHotels] = useState([]);
   const [searchText, setSearchText] = useState("");
+
   // Pagination controls
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const pageSize = Number(searchParams.get("pageSize")) || 10;
 
   // Filtering
-  const [priceRange, setPriceRange] = useState([100, 300]);
+  const [priceRange, setPriceRange] = useState([0, 100000]);
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [selectedLocations, setSelectedLocations] = useState(null);
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState([]);
@@ -33,9 +32,9 @@ export default function HotelsPage() {
   if (pageSize) {
     query["limit"] = pageSize;
   }
-  // if (priceRange.length > 0) {
-  //   query["priceRange"] = `${priceRange[0]}-${priceRange[1]}`;
-  // }
+  if (priceRange.length > 0) {
+    query["priceRange"] = `${priceRange[0]}-${priceRange[1]}`;
+  }
   if (selectedRatings.length > 0) {
     query["ratingsFilter"] = selectedRatings.toString();
   }
@@ -47,31 +46,20 @@ export default function HotelsPage() {
     query["facilities"] = selectedHotelFeatures.toString();
   }
   // If Sort
-  if(sort) {
-    query['sort'] = sort;
+  if (sort) {
+    query["sort"] = sort;
   }
   // If Search Text
-  if(searchText) {
-    query['searchTerm'] = searchText;
+  if (searchText) {
+    query["searchTerm"] = searchText;
   }
 
-  console.log("Query: ", query)
+  const { data: hotelsRes } = useGetPropertiesQuery(query);
 
-  console.log("searchText: ", searchText);
-
-  const { data: hotelsRes, isError } = useGetPropertiesQuery(query);
-
-  useEffect(() => {
-    if (hotelsRes?.data) {
-      setHotels(hotelsRes.data);
-    } else if (isError) {
-      setHotels([]); // Clear hotels on error
-    }
-  }, [hotelsRes, isError]);
-
+  const hotels = hotelsRes?.data || [];
   const hotelsMeta = hotelsRes?.meta || {};
-  console.log("Hotels Data: ", hotels);
-  // console.log("HotelsMeta Data: ", hotelsMeta);
+
+  console.log({ hotels });
 
   return (
     <div className="my-10">

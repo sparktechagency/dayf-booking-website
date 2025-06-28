@@ -24,19 +24,6 @@ const LOCATION_SUGGESTIONS = [
   { name: "Dubai", latitude: 25.276987, longitude: 55.296249 }
 ];
 
-// const PROPERTY_TYPES = [
-//   "Hotel",
-//   "Resort",
-//   "Hostel",
-//   "Motel",
-//   "Guesthouse",
-//   "Bed & Breakfast",
-//   "Villa",
-//   "Apartment",
-//   "Cottage",
-//   "Capsule Hotel"
-// ];
-
 export default function ApartmentFilters({
   priceRange,
   selectedLocations,
@@ -84,8 +71,8 @@ export default function ApartmentFilters({
             onValueChange={(val) => setPriceRange(val)}
             aria-label="Price range slider with minimum and maximum price"
             showTooltip={true}
-            min={1000}
-            max={5000}
+            min={0}
+            max={10000}
             thumbClassName="border-p1 focus-visible:outline-p1/40 h-[19px] w-[19px]"
             rangeClassName="bg-p1/75"
           />
@@ -147,23 +134,13 @@ export default function ApartmentFilters({
               0,
               showMoreLocations ? LOCATION_SUGGESTIONS.length : 5
             ).map((location, idx) => (
-              <div
-                key={idx}
-                onClick={() => {
-                  // Toggle: if the clicked location is already selected, clear it; otherwise, select it
-                  setSelectedLocations(
-                    selectedLocations?.name === location.name ? null : location
-                  );
-                }}
-                className="flex items-center gap-3"
-              >
+              <div key={idx} className="flex items-center gap-3">
                 <input
                   type="radio"
                   id={`location-${idx}`}
                   name="location"
                   checked={selectedLocations?.name === location.name}
                   onChange={() => {
-                    // Same toggle logic in onChange for direct radio input interaction
                     setSelectedLocations(
                       selectedLocations?.name === location.name
                         ? null

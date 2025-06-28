@@ -8,13 +8,12 @@ import {
   CirclePlus,
   CircleMinus
 } from "lucide-react";
-import ResponsiveContainer from "../ResponsiveContainer/ResponsiveContainer";
 import BgIcon from "./BgIcon";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -31,41 +30,30 @@ import { Calendar } from "@/components/ui/calendar";
 import { useRouter, usePathname } from "next/navigation";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { useState, useEffect, useRef } from "react";
-import { XCircle } from "lucide-react";
 import { RotateCcw } from "lucide-react";
+import { Building } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { StandaloneSearchBox } from "@react-google-maps/api";
+import { getGoogleMapAPIKey } from "@/config/envConfig";
+import { useLoadScript } from "@react-google-maps/api";
 
-// Static list of popular cities in Algeria
-const POPULAR_CITIES = [
-  { name: "Algiers", lat: 36.7538, lng: 3.0588 },
-  { name: "Oran", lat: 35.6977, lng: -0.6308 },
-  { name: "Constantine", lat: 36.365, lng: 6.6147 },
-  { name: "Annaba", lat: 36.9, lng: 7.7667 },
-  { name: "Blida", lat: 36.4806, lng: 2.8277 },
-  { name: "New York", lat: 40.73061, lng: -73.935242 },
-  { name: "London", lat: 51.5072, lng: -0.1276 },
-  { name: "Paris", lat: 48.8566, lng: 2.3522 },
-  { name: "Tokyo", lat: 35.6764, lng: 139.65 },
-  { name: "Sydney", lat: -33.8688, lng: 151.2093 },
-  { name: "Berlin", lat: 52.52, lng: 13.405 },
-  { name: "Rome", lat: 41.9028, lng: 12.4964 },
-  { name: "Barcelona", lat: 41.3874, lng: 2.1686 },
-  { name: "Mumbai", lat: 19.076, lng: 72.8777 },
-  { name: "Dubai", lat: 25.276987, lng: 55.296249 }
-];
-
-export default function ApartmentSearchPanel({
+export default function PropertySearchPanel({
   className,
   searchedLocation,
   searchedCheckInOutDate,
-  searchedGuests
+  searchedGuests,
+  page = "home" // home | property-details
 }) {
-  const [nearbyCities, setNearbyCities] = useState(POPULAR_CITIES);
-  const [suggestions, setSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const router = useRouter();
   const currentPathname = usePathname();
   const autocompleteService = useRef(null);
   const inputRef = useRef(null);
+
+  // Load google map places library
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: getGoogleMapAPIKey(),
+    libraries: ["places"]
+  });
 
   // Separate search params for lat, lng, and locationName
   const [latitude, setLatitude] = useSearchParamsState(
@@ -94,8 +82,8 @@ export default function ApartmentSearchPanel({
   const [guests, setGuests] = useState(
     searchedGuests || { adults: 0, children: 0, infants: 0 }
   );
+  const [propertyType, setPropertyType] = useState("hotel");
 
-  // Initialize Google Places Autocomplete Service
   useEffect(() => {
     if (window.google && window.google.maps && window.google.maps.places) {
       autocompleteService.current =
@@ -103,78 +91,6 @@ export default function ApartmentSearchPanel({
     }
   }, []);
 
-  // Handle input change to fetch suggestions
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setLocation(value);
-    setSearchLocationName(value);
-    setShowSuggestions(!!value);
-
-    if (value && autocompleteService.current) {
-      autocompleteService.current.getPlacePredictions(
-        {
-          input: value,
-          componentRestrictions: { country: "dz" } // Restrict to Algeria
-        },
-        (predictions, status) => {
-          if (
-            status === window.google.maps.places.PlacesServiceStatus.OK &&
-            predictions
-          ) {
-            setSuggestions(predictions);
-          } else {
-            setSuggestions([]);
-            // Filter popular cities based on input
-            const filteredCities = POPULAR_CITIES.filter((city) =>
-              city.name.toLowerCase().includes(value.toLowerCase())
-            );
-            setNearbyCities(filteredCities);
-          }
-        }
-      );
-    } else {
-      setSuggestions([]);
-      setNearbyCities(
-        POPULAR_CITIES.filter((city) =>
-          city.name.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    }
-  };
-
-  // Handle place selection
-  const handleSelectPlace = (place) => {
-    if (place.lat && place.lng) {
-      // Handle selection from POPULAR_CITIES
-      setLocation(place.name);
-      setSearchLocationName(place.name);
-      setLatitude(place.lat.toString());
-      setLongitude(place.lng.toString());
-      setSuggestions([]);
-      setShowSuggestions(false);
-    } else if (place.place_id) {
-      // Handle selection from Google Places
-      const service = new window.google.maps.places.PlacesService(
-        document.createElement("div")
-      );
-      service.getDetails({ placeId: place.place_id }, (placeResult, status) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          const selectedLocation =
-            placeResult.formatted_address || place.description;
-          const lat = placeResult.geometry.location.lat();
-          const lng = placeResult.geometry.location.lng();
-          setLocation(selectedLocation);
-          setSearchLocationName(selectedLocation);
-          setLatitude(lat.toString());
-          setLongitude(lng.toString());
-          setSuggestions([]);
-          setShowSuggestions(false);
-        }
-      });
-    }
-  };
-
-  // Handle guest updates
   const handleGuest = (e, key, order) => {
     e.preventDefault();
     setGuests((prev) => {
@@ -191,13 +107,25 @@ export default function ApartmentSearchPanel({
   // Handle navigation
   const handleNavigate = () => {
     const urlSearchParams = new URLSearchParams();
-    urlSearchParams.set("locationName", searchLocationName);
-    urlSearchParams.set("latitude", latitude);
-    urlSearchParams.set("longitude", longitude);
+    if (page !== "property-details") {
+      urlSearchParams.set("locationName", searchLocationName);
+      urlSearchParams.set("latitude", latitude);
+      urlSearchParams.set("longitude", longitude);
+      urlSearchParams.set("propertyType", JSON.stringify(propertyType));
+    }
+
     urlSearchParams.set("checkInOutDate", JSON.stringify(checkInOutDate));
     urlSearchParams.set("guests", JSON.stringify(guests));
 
-    router.replace(`/property/apartments?${urlSearchParams.toString()}`);
+    if (page !== "property-details") {
+      router.replace(
+        `/property/${propertyType === "hotel" ? "hotels" : "apartments"}?${urlSearchParams.toString()}`
+      );
+    } else {
+      router.replace(currentPathname + `?${urlSearchParams.toString()}`, {
+        scroll: false
+      });
+    }
   };
 
   // Check if any filter is active
@@ -213,9 +141,14 @@ export default function ApartmentSearchPanel({
     setLocation("");
     setCheckInOutDate({ from: "", to: "" });
     setGuests({ adults: 0, children: 0, infants: 0 });
+    setPropertyType("hotel");
 
-    router.replace(currentPathname); // Clear all search params
+    router.replace(currentPathname, {
+      scroll: false
+    }); // Clear all search params
   };
+
+  if (!isLoaded) return null;
 
   return (
     <div
@@ -229,13 +162,26 @@ export default function ApartmentSearchPanel({
           <BgIcon>
             <LocateFixed size={16} />
           </BgIcon>
-          <p className="text-gray-500">Apartments in Algeria</p>
+          {page === "property-details" ? (
+            <p className="text-gray-500">Check availability</p>
+          ) : (
+            <p className="text-gray-500">
+              {currentPathname?.includes("apartments")
+                ? "Apartments"
+                : "Hotels"}{" "}
+              in Algeria
+            </p>
+          )}
         </div>
 
         {hasFilter && (
-          <button type="button" onClick={handleReset} className="text-red-500">
-            <RotateCcw size={22} />
-            <div className="sr-only">Reset search filters</div>
+          <button
+            type="button"
+            onClick={handleReset}
+            className="flex items-center justify-end gap-x-2"
+          >
+            <RotateCcw size={22} className="text-red-600" />
+            <div>Reset filters</div>
           </button>
         )}
       </div>
@@ -243,52 +189,50 @@ export default function ApartmentSearchPanel({
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
 
       <section className="flex-center-between gap-x-4">
-        <div className="w-full">
-          <Label className="mb-3 block font-semibold text-gray-500">
-            Destination
-          </Label>
-          <div className="flex-center-start relative gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
-            <BgIcon>
-              <MapPin size={16} />
-            </BgIcon>
-            <Input
-              ref={inputRef}
-              type="text"
-              value={location}
-              onChange={handleInputChange}
-              placeholder="Martyr's Memorial, Algeria"
-              className="!border-none px-0 text-sm text-gray-800 shadow-none !outline-none !ring-0 !ring-offset-0 focus-visible:!ring-0"
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-            />
-            {/* Suggestions dropdown */}
-            {showSuggestions &&
-              (suggestions.length > 0 || nearbyCities.length > 0) && (
-                <ul className="absolute top-full z-50 max-h-60 w-full overflow-y-auto rounded-b-md border border-t-0 border-gray-300 bg-white shadow-md">
-                  {suggestions.length > 0
-                    ? suggestions.map((suggestion) => (
-                        <li
-                          key={suggestion.place_id}
-                          className="cursor-pointer px-3 py-2 hover:bg-blue-500 hover:text-white"
-                          onMouseDown={() => handleSelectPlace(suggestion)}
-                        >
-                          {suggestion.description}
-                        </li>
-                      ))
-                    : nearbyCities.map((city) => (
-                        <li
-                          key={city.name}
-                          className="cursor-pointer px-3 py-2 hover:bg-blue-500 hover:text-white"
-                          onMouseDown={() => handleSelectPlace(city)}
-                        >
-                          {city.name}
-                        </li>
-                      ))}
-                </ul>
-              )}
-          </div>
-        </div>
+        {page !== "property-details" && (
+          <div className="w-full">
+            <Label className="mb-3 block font-semibold text-gray-500">
+              Destination
+            </Label>
 
+            {typeof window !== "undefined" && (
+              <StandaloneSearchBox
+                onLoad={(ref) => {
+                  inputRef.current = ref;
+                }}
+                onPlacesChanged={() => {
+                  const [place] = inputRef.current.getPlaces();
+                  if (place) {
+                    const formatted = place.formatted_address || place.name;
+                    const lat = place.geometry.location.lat();
+                    const lng = place.geometry.location.lng();
+
+                    setLocation(formatted);
+                    setSearchLocationName(formatted);
+                    setLatitude(lat.toString());
+                    setLongitude(lng.toString());
+                  }
+                }}
+              >
+                <>
+                  <div className="flex-center-start relative gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
+                    <BgIcon>
+                      <MapPin size={16} />
+                    </BgIcon>
+
+                    <Input
+                      type="text"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      placeholder="Search by Location"
+                      className="!border-none px-0 text-sm text-gray-800 shadow-none !outline-none !ring-0 !ring-offset-0 focus-visible:!ring-0"
+                    />
+                  </div>
+                </>
+              </StandaloneSearchBox>
+            )}
+          </div>
+        )}
         <div className="w-full">
           <Label className="mb-3 block font-semibold text-gray-500">
             Check In/Out
@@ -435,11 +379,60 @@ export default function ApartmentSearchPanel({
           </DropdownMenu>
         </div>
 
+        {page !== "property-details" && (
+          <div className="w-[20%]">
+            <Label className="mb-3 block font-semibold text-gray-500">
+              Type
+            </Label>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex w-full items-center justify-between gap-x-8 rounded-full bg-[#F6F6F6] px-3 py-2.5 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
+                <div className="flex items-center justify-start gap-x-2">
+                  <BgIcon>
+                    <Building size={16} />
+                  </BgIcon>
+
+                  <span
+                    className={cn(
+                      "text-sm capitalize",
+                      propertyType ? "text-black" : "text-muted" // Show muted text when no selection
+                    )}
+                  >
+                    {propertyType}
+                  </span>
+                </div>
+
+                <ChevronDown className="size-[16px] text-gray-400 lg:size-[16px]" />
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="w-full max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4 lg:w-[200px]">
+                <DropdownMenuItem
+                  className="flex cursor-pointer items-center justify-between gap-x-8 hover:!bg-transparent"
+                  onClick={() => setPropertyType("hotel")}
+                >
+                  <div className="w-max">
+                    <h5 className="text-base font-semibold">Hotel</h5>
+                  </div>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  className="flex cursor-pointer items-center justify-between gap-x-8 hover:!bg-transparent"
+                  onClick={() => setPropertyType("apartment")}
+                >
+                  <div className="w-max">
+                    <h5 className="text-base font-semibold">Apartment</h5>
+                  </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
+
         <button
           onClick={handleNavigate}
-          className="mt-6 rounded-full bg-p1 px-6 py-2 text-lg font-semibold text-white"
+          className="mt-6 w-max whitespace-nowrap rounded-full bg-p1 px-6 py-2 text-base font-semibold text-white"
         >
-          Search
+          {page === "property-details" ? "Search rooms" : "Search"}
         </button>
       </section>
 

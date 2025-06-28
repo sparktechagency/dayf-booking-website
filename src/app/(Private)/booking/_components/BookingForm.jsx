@@ -22,7 +22,12 @@ const bookingSchema = z.object({
     .refine(isValidPhoneNumber, "Invalid phone number!")
 });
 
-export default function BookingForm({ apartment, checkInOutDate }) {
+export default function BookingForm({
+  apartment,
+  hotelRoom,
+  roomQuanity,
+  checkInOutDate
+}) {
   const [createBooking, { isLoading: createBookingLoading }] =
     useCreateBookingMutation();
   const [checkout, { isLoading: checkoutLoading }] = useCheckoutMutation();
@@ -30,16 +35,31 @@ export default function BookingForm({ apartment, checkInOutDate }) {
   const router = useRouter();
 
   const handleSubmit = async (data) => {
-    const payload = {
-      additionalInfo: {
-        name: data?.name,
-        phoneNumber: data?.phoneNumber
-      },
-      modelType: "Apartment",
-      reference: apartment?._id,
-      startDate: checkInOutDate?.from,
-      endDate: checkInOutDate?.to
-    };
+    let payload;
+    if (apartment?._id) {
+      payload = {
+        additionalInfo: {
+          name: data?.name,
+          phoneNumber: data?.phoneNumber
+        },
+        modelType: "Apartment",
+        reference: apartment?._id,
+        startDate: checkInOutDate?.from,
+        endDate: checkInOutDate?.to
+      };
+    } else if (hotelRoom?._id) {
+      payload = {
+        additionalInfo: {
+          name: data?.name,
+          phoneNumber: data?.phoneNumber
+        },
+        modelType: "RoomTypes",
+        reference: hotelRoom?._id,
+        totalRooms: roomQuanity,
+        startDate: checkInOutDate?.from,
+        endDate: checkInOutDate?.to
+      };
+    }
 
     try {
       const response = await createBooking(payload).unwrap();
@@ -49,7 +69,8 @@ export default function BookingForm({ apartment, checkInOutDate }) {
 
         // proceed to checkout/payment
         const checkoutPayload = {
-          bookings: bookingId
+          bookings: bookingId,
+          redirectType: "website"
         };
 
         const checkoutResponse = await checkout(checkoutPayload).unwrap();

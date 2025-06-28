@@ -29,12 +29,16 @@ import { UsersRound } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 import { CircleMinus } from "lucide-react";
 import { useEffect } from "react";
+import CustomFormError from "@/components/CustomFormError/CustomFormError";
+import { getBackendBaseUrl } from "@/config/envConfig";
 
 export default function DyanamicApartmentAvailabilitySection() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { id: apartmentId } = useParams();
   const isUserLoggedIn = useSelector(selectToken);
+  const [formError, setFormError] = useState("");
+  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
 
   const existedCheckInOutDate = JSON.parse(searchParams?.get("checkInOutDate"));
   const existedGuests = JSON.parse(searchParams?.get("guests"));
@@ -69,7 +73,7 @@ export default function DyanamicApartmentAvailabilitySection() {
   };
 
   // Handle reserve
-  const handleReserve = () => {
+  const handleReserve = async () => {
     if (!isUserLoggedIn) {
       router.push(
         `/login?from-href=${typeof window !== undefined ? window.location.href : ""}`
@@ -77,22 +81,44 @@ export default function DyanamicApartmentAvailabilitySection() {
       return;
     }
 
-    // Check availability of the aparment in
-    // selected check-in and check-out date with selected guests
-    // if(!existedCheckInOutDate) {
+    // First check availability for the choosen dates
+    // then redirect to bookning page
+    try {
+      // check if check in date is less than today
+      if (checkInOutDate.from < new Date()) {
+        return setFormError("Check in date can't be in the past.");
+      }
 
-    // }
+      setIsCheckingAvailability(true);
 
-    // if availability is already checked in apartments page
-    // then no need to check availability again
-    if (existedCheckInOutDate) {
-      const urlSearchParams = new URLSearchParams();
-      urlSearchParams.set("checkInOutDate", JSON.stringify(checkInOutDate));
-      urlSearchParams.set("guests", JSON.stringify(guests));
-
-      router.push(
-        `/booking?apartmentId=${apartmentId}&${urlSearchParams.toString()}`
+      // Get apartments by check in/out date to check availabilty
+      const res = await fetch(
+        getBackendBaseUrl() +
+          `/apartments?startDate=${checkInOutDate.from}&endDate=${checkInOutDate.to}&_id=${apartmentId}`,
+        {
+          method: "GET"
+        }
       );
+
+      const data = await res.json();
+
+      if (data?.data?.data?.length > 0) {
+        const urlSearchParams = new URLSearchParams();
+        urlSearchParams.set("checkInOutDate", JSON.stringify(checkInOutDate));
+        urlSearchParams.set("guests", JSON.stringify(guests));
+
+        router.push(
+          `/booking?apartmentId=${apartmentId}&${urlSearchParams.toString()}`
+        );
+      } else {
+        return setFormError("Aparment is not available during selected dates.");
+      }
+    } catch (error) {
+      return setFormError(
+        error?.message || error?.data?.message || "Something went wrong"
+      );
+    } finally {
+      setIsCheckingAvailability(false);
     }
   };
 
@@ -255,12 +281,16 @@ export default function DyanamicApartmentAvailabilitySection() {
         <Button
           variant="primary"
           className="h-12 rounded-full px-10"
-          disabled={!checkInOutDate.from || !checkInOutDate.to}
+          disabled={
+            !checkInOutDate.from || !checkInOutDate.to || isCheckingAvailability
+          }
           onClick={handleReserve}
         >
           Reserve
         </Button>
       </div>
+
+      {formError && <CustomFormError formError={formError} className="mt-4" />}
     </div>
   );
 }

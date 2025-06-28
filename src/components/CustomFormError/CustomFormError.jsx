@@ -22,7 +22,7 @@ const scaleUpVariants = {
 export default function CustomFormError({ formError, extraClass }) {
   return (
     <motion.div
-      className={`flex-center-start mt-5 gap-x-2 rounded-xl bg-red-500 px-4 py-2 text-sm font-medium text-white ${extraClass}`}
+      className={`flex-center-start mt-5 gap-x-2 rounded-xl bg-red-500 px-4 py-2 text-base font-medium text-white ${extraClass}`}
       variants={scaleUpVariants}
       initial="initial"
       animate="animate"

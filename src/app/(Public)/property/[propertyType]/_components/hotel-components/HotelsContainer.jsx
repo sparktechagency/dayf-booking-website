@@ -120,7 +120,11 @@ export default function HotelsContainer({
       {/* Hotel Lists */}
       <section className="mt-8 grid gap-8">
         {hotels?.map((property) => (
-          <PropertyCard key={property._id} property={property} variant="list" />
+          <PropertyCard
+            key={property._id}
+            property={property?.property}
+            variant="list"
+          />
         ))}
 
         <PaginationWithLinks
