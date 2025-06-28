@@ -12,6 +12,7 @@ export const tagTypes = {
   property: "Property",
   propertyRoomCategories: "PropertyRoomCategories",
   propertyRoomCategory: "PropertyRoomCategory",
+  globalSearchProperties: "GlobalSearchProperties",
 
   // ----- Apartment types -----
   apartments: "Apartments",

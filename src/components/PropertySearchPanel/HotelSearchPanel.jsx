@@ -1,7 +1,6 @@
 "use client";
 
 import { LocateFixed } from "lucide-react";
-import ResponsiveContainer from "../ResponsiveContainer/ResponsiveContainer";
 import BgIcon from "./BgIcon";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -9,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { MapPin } from "lucide-react";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -30,9 +29,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { UsersRound } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 import { CircleMinus } from "lucide-react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useGetPropertiesQuery } from "@/redux/api/propertyApi";
 
 export default function HotelSearchPanel({
   className,

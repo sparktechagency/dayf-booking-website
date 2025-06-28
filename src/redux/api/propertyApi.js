@@ -59,6 +59,20 @@ const propertyApi = baseApi.injectEndpoints({
       }),
       transformResponse: (res) => res?.data,
       providesTags: [tagTypes.propertyRoomCategory]
+    }),
+
+    // Get properties for global search
+    getPropertiesByFilters: builder.query({
+      query: (args) => ({
+        url: `/property-types/global-search`,
+        method: "GET",
+        params: args
+      }),
+      providesTags: [tagTypes.globalSearchProperties],
+      transformResponse: (res) => ({
+        data: res?.data?.data,
+        meta: res?.data?.meta
+      })
     })
   })
 });
@@ -68,7 +82,8 @@ export const {
   useGetSingleHotelQuery,
   useGetTopPropertiesQuery,
   useGetRoomCategoriesByPropertyIdQuery,
-  useGetSingleRoomCategoryQuery
+  useGetSingleRoomCategoryQuery,
+  useGetPropertiesByFiltersQuery
 } = propertyApi;
 
 // function formatPricerRange(range) {
