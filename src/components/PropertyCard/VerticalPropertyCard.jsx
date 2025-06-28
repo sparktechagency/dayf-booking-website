@@ -23,7 +23,7 @@ export default function VerticalPropertyCard({
 }) {
   const [bookmarked, setBookmarked] = useState(null);
   // Find property type
-  const isHotel = Array.isArray(property?.rooms) ? true : false;
+  const isHotel = property?.price === undefined;
 
   useEffect(() => {
     const foundData = bookmarks?.find(
@@ -82,11 +82,9 @@ export default function VerticalPropertyCard({
                   }}
                   size="icon"
                   variant="ghost"
-                  className={`cursor-pointer z-50 ${bookmarked ? "bg-black text-white" : "bg-white"}`}
+                  className={`z-50 cursor-pointer ${bookmarked ? "bg-black text-white" : "bg-white"}`}
                 >
-                  <Bookmark
-                    className="!size-5"
-                  />
+                  <Bookmark className="!size-5" />
                 </Button>
               </div>
             </SwiperSlide>
@@ -102,10 +100,7 @@ export default function VerticalPropertyCard({
                 Hotel
               </Badge>
             ) : (
-              <Badge
-                variant={"apartment"}
-                className="absolute right-4 top-4"
-              >
+              <Badge variant={"apartment"} className="absolute right-4 top-4">
                 Apartment
               </Badge>
             )}
@@ -120,7 +115,7 @@ export default function VerticalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              ${property?.priceRange?.min} - ${property?.priceRange?.max}{" "}
+              ${property?.minPrice} - ${property?.maxPrice}{" "}
               <span className="text-sm">Per Night</span>
             </h3>
           ) : (

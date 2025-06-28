@@ -182,7 +182,11 @@ function SelectRowsPerPage({ options, setPageSize, pageSize }) {
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (
-            <SelectItem key={option} value={String(option)}>
+            <SelectItem
+              className="!text-base"
+              key={option}
+              value={String(option)}
+            >
               {option}
             </SelectItem>
           ))}

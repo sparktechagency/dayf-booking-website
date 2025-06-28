@@ -16,7 +16,7 @@ export default function HotelsPage() {
   const pageSize = Number(searchParams.get("pageSize")) || 10;
 
   // Filtering
-  const [priceRange, setPriceRange] = useState([0, 100000]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [selectedLocations, setSelectedLocations] = useState(null);
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState([]);

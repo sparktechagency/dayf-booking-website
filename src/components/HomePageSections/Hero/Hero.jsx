@@ -1,12 +1,28 @@
+"use client";
+
 import React from "react";
 import HeroGallery from "./HeroGallery";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
 import PropertySearchPanel from "@/components/PropertySearchPanel/PropertySearchPanel";
+import FloatingPropertySearchResults from "@/components/FloatingPropertySearchResults";
 
 export default function Hero() {
+  const [showPropertySearchResults, setShowPropertySearchResults] =
+    React.useState(false);
+
   return (
     <section className="bg-white pb-16 pt-10">
-      <PropertySearchPanel />
+      <div className="relative">
+        <PropertySearchPanel
+          page="home"
+          onSearch={() => setShowPropertySearchResults(true)}
+        />
+
+        <FloatingPropertySearchResults
+          showResults={showPropertySearchResults}
+          setShowResults={setShowPropertySearchResults}
+        />
+      </div>
 
       <ResponsiveContainer className="mt-16">
         <section className="flex-center-between mx-auto flex-col gap-x-4 gap-y-8 lg:flex-row">

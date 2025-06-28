@@ -75,13 +75,15 @@ export default function HorizontalPropertyCard({
             />
 
             {/* Bookmark */}
-            <button className={`flex-center absolute right-2 top-2 aspect-square size-10 rounded-full ${bookmarked ? 'bg-black' : 'bg-white/20'} backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black`}>
+            <button
+              className={`flex-center absolute right-2 top-2 aspect-square size-10 rounded-full ${bookmarked ? "bg-black" : "bg-white/20"} backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black`}
+            >
               <Bookmark
                 onClick={() => {
-                  if(bookmarked) {
-                    return handleDeleteBookmark(bookmarked?._id)
-                  }else {
-                    return handleCreateBookmark(property?._id)
+                  if (bookmarked) {
+                    return handleDeleteBookmark(bookmarked?._id);
+                  } else {
+                    return handleCreateBookmark(property?._id);
                   }
                 }}
                 className="size-5 text-white"
@@ -126,7 +128,7 @@ export default function HorizontalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              ${property?.priceRange?.min} - ${property?.priceRange?.max}{" "}
+              ${property?.minPrice} - ${property?.maxPrice}{" "}
               <span className="text-sm">Per Night</span>
             </h3>
           ) : (

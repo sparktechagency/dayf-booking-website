@@ -42,7 +42,9 @@ export default function PropertySearchPanel({
   searchedLocation,
   searchedCheckInOutDate,
   searchedGuests,
-  page = "home" // home | property-details
+  page = "home", // home | property-details
+  onSearch,
+  setShowSearchResults
 }) {
   const router = useRouter();
   const currentPathname = usePathname();
@@ -117,10 +119,17 @@ export default function PropertySearchPanel({
     urlSearchParams.set("checkInOutDate", JSON.stringify(checkInOutDate));
     urlSearchParams.set("guests", JSON.stringify(guests));
 
-    if (page !== "property-details") {
+    if (page !== "property-details" && page !== "home") {
       router.replace(
         `/property/${propertyType === "hotel" ? "hotels" : "apartments"}?${urlSearchParams.toString()}`
       );
+    } else if (page === "home") {
+      // Add the search params to the current path
+      router.replace(currentPathname + `?${urlSearchParams.toString()}`, {
+        scroll: false
+      });
+
+      onSearch?.();
     } else {
       router.replace(currentPathname + `?${urlSearchParams.toString()}`, {
         scroll: false
@@ -142,6 +151,7 @@ export default function PropertySearchPanel({
     setCheckInOutDate({ from: "", to: "" });
     setGuests({ adults: 0, children: 0, infants: 0 });
     setPropertyType("hotel");
+    setShowSearchResults(false);
 
     router.replace(currentPathname, {
       scroll: false
@@ -398,7 +408,7 @@ export default function PropertySearchPanel({
                       propertyType ? "text-black" : "text-muted" // Show muted text when no selection
                     )}
                   >
-                    {propertyType}
+                    {propertyType || "Choose"}
                   </span>
                 </div>
 
@@ -430,18 +440,20 @@ export default function PropertySearchPanel({
 
         <button
           onClick={handleNavigate}
-          className="mt-6 w-max whitespace-nowrap rounded-full bg-p1 px-6 py-2 text-base font-semibold text-white"
+          className="mt-6 w-max whitespace-nowrap rounded-full bg-p1 px-6 py-2 text-base font-semibold text-white disabled:opacity-50"
+          type="button"
+          disabled={!checkInOutDate?.from || !checkInOutDate?.to}
         >
           {page === "property-details" ? "Search rooms" : "Search"}
         </button>
       </section>
 
       {/* Load Google Maps Script */}
-      <script
+      {/* <script
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
         async
         defer
-      ></script>
+      ></script> */}
     </div>
   );
 }
