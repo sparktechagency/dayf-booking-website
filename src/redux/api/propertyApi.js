@@ -7,7 +7,7 @@ import { baseApi } from "./baseApi";
  ** frontend is basically property in backend (e.g. propertyApi = hotelApi)
  */
 
-const API_INDEX = "/properties";
+const API_INDEX = "/property-types";
 
 const propertyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -28,7 +28,7 @@ const propertyApi = baseApi.injectEndpoints({
 
     getSingleHotel: builder.query({
       query: (id) => ({
-        url: API_INDEX + `/${id}`,
+        url: "/properties" + `/${id}`,
         method: "GET"
       }),
       transformResponse: (res) => res?.data,
@@ -40,6 +40,25 @@ const propertyApi = baseApi.injectEndpoints({
       query: () => "/properties/home-page-data",
       providesTags: [tagTypes.properties, tagTypes.apartments],
       transformResponse: (res) => res?.data
+    }),
+
+    getRoomCategoriesByPropertyId: builder.query({
+      query: ({ propertyId, args }) => ({
+        url: `/property-types?property=${propertyId}`,
+        method: "GET",
+        params: args
+      }),
+
+      providesTags: [tagTypes.propertyRoomCategories],
+      transformResponse: (res) => res?.data?.data
+    }),
+    getSingleRoomCategory: builder.query({
+      query: (id) => ({
+        url: `/property-types/${id}`,
+        method: "GET"
+      }),
+      transformResponse: (res) => res?.data,
+      providesTags: [tagTypes.propertyRoomCategory]
     })
   })
 });
@@ -47,7 +66,9 @@ const propertyApi = baseApi.injectEndpoints({
 export const {
   useGetPropertiesQuery,
   useGetSingleHotelQuery,
-  useGetTopPropertiesQuery
+  useGetTopPropertiesQuery,
+  useGetRoomCategoriesByPropertyIdQuery,
+  useGetSingleRoomCategoryQuery
 } = propertyApi;
 
 // function formatPricerRange(range) {

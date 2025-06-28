@@ -147,3 +147,25 @@
     }
   }
 }
+
+/* ======================= */
+/* Google map search */
+/* ======================= */
+.pac-container.pac-logo {
+  border-radius: 15px;
+  padding: 10px 12px !important;
+  padding-top: 0 !important;
+  z-index: 9999999999 !important;
+  margin-top: 5px;
+  width: 260px !important;
+  margin-left: -20px !important;
+}
+
+.pac-container:after {
+  /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+
+  background-image: none !important;
+  height: 0px;
+  padding: 0px !important;
+  margin: 0px !important;
+}

@@ -12,6 +12,7 @@ import { notFound, useParams } from "next/navigation";
 import DynamicPropertyDetails from "./DynamicPropertyDetails";
 import { useGetSingleHotelQuery } from "@/redux/api/propertyApi";
 import { useGetSingleApartmentQuery } from "@/redux/api/apartmentApi";
+import sectionScrollWithOffset from "@/utils/sectionScrollWithOffset";
 
 export default function DynamicPropertyContainer() {
   const { propertyType } = useParams();
@@ -37,6 +38,7 @@ const DynamicHotel = () => {
   } = useGetSingleHotelQuery(hotelId, {
     skip: !hotelId
   });
+  console.log({ hotelData });
 
   if (isLoading) {
     return "loading...";
@@ -53,7 +55,11 @@ const DynamicHotel = () => {
           <h2 className="font-quicksand text-h3 font-bold">
             {hotelData?.name}
           </h2>
-          <p className="text-h6 text-gray-500">{hotelData?.description}</p>
+          <p className="max-w-[90%] text-h6 text-gray-500">
+            {hotelData?.shortDescription || hotelData?.description?.length > 300
+              ? hotelData?.description?.slice(0, 100) + "..."
+              : hotelData?.description}
+          </p>
         </div>
 
         <div className="flex-center-start gap-x-4">
@@ -104,7 +110,6 @@ const DynamicHotel = () => {
 
 // Dynamic Apartment
 const DynamicApartment = () => {
-  // Get hotel data
   const { id: apartmentId } = useParams();
 
   const {
@@ -116,6 +121,8 @@ const DynamicApartment = () => {
     skip: !apartmentId
   });
 
+  console.log({ apartment });
+
   if (isLoading) {
     return "loading...";
   }
@@ -125,13 +132,15 @@ const DynamicApartment = () => {
   }
 
   return (
-    <ResponsiveContainer className="my-10">
+    <ResponsiveContainer className="py-10">
       <section className="flex-center-between">
         <div className="w-3/4 space-y-1">
           <h2 className="font-quicksand text-h3 font-bold">
             {apartment?.name}
           </h2>
-          <p className="text-h6 text-gray-500">{apartment?.shortDescription}</p>
+          <p className="max-w-[90%] text-h6 text-gray-500">
+            {apartment?.shortDescription}
+          </p>
         </div>
 
         <div className="flex-center-start gap-x-4">
@@ -159,11 +168,9 @@ const DynamicApartment = () => {
             variant="primary"
             size="lg"
             className="group rounded-full font-semibold"
-            asChild
+            onClick={() => sectionScrollWithOffset("availability", 120)}
           >
-            <Link href="#availability">
-              Reserve <AnimatedArrow />
-            </Link>
+            Reserve <AnimatedArrow />
           </Button>
         </div>
       </section>

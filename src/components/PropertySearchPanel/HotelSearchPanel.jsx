@@ -39,6 +39,7 @@ export default function HotelSearchPanel({
   existedLocation,
   existedCheckInOutDate,
   existedGuests,
+  showDestinationSearchInput,
   page,
   limit,
   setHotels
@@ -148,7 +149,7 @@ export default function HotelSearchPanel({
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
 
       <section className="flex-center-between flex-col gap-4 lg:flex-row">
-        {pathname?.includes("/hotels") || (
+        {showDestinationSearchInput && (
           <div className="w-full">
             <Label className="mb-3 block font-semibold text-gray-500">
               Destination

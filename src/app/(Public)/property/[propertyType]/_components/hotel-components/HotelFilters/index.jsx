@@ -24,34 +24,6 @@ const LOCATION_SUGGESTIONS = [
   { name: "Miami", latitude: 25.7906, longitude: -80.1345 }
 ];
 
-const PROPERTY_TYPES = [
-  "Hotel",
-  "Resort",
-  "Hostel",
-  "Motel",
-  "Guesthouse",
-  "Bed & Breakfast",
-  "Villa",
-  "Apartment",
-  "Cottage",
-  "Capsule Hotel"
-];
-
-const HOTEL_FEATURES = [
-  "Free Wi-Fi",
-  "Swimming Pool",
-  "Fitness Center",
-  "Spa & Wellness",
-  "24/7 Front Desk",
-  "Free Parking",
-  "Airport Shuttle",
-  "Pet-Friendly",
-  "Restaurant & Bar",
-  "Business Center",
-  "Concierge Service",
-  "Wheelchair Accessible"
-];
-
 export default function HotelFilter({
   priceRange,
   selectedLocations,
@@ -62,9 +34,7 @@ export default function HotelFilter({
 }) {
   // Show all states
   const [showMoreLocations, setShowMoreLocations] = useState(false);
-  const [showMorePropertyTypes, setShowMorePropertyTypes] = useState(false);
   const [showMoreHotelFeatures, setShowMoreHotelFeatures] = useState(false);
-  const [showMoreRoomOptions, setShowMoreRoomOptions] = useState(false);
 
   const handleSelectedRatings = (rating) => {
     setSelectedRatings((prevSelected) =>
@@ -100,9 +70,9 @@ export default function HotelFilter({
             value={priceRange}
             onValueChange={setPriceRange}
             aria-label="Price range slider with minimum and maximum price"
-            showTooltip={false}
-            min={100}
-            max={1000}
+            showTooltip={true}
+            min={0}
+            max={10000}
             thumbClassName="border-p1 focus-visible:outline-p1/40 h-[19px] w-[19px]"
             rangeClassName="bg-p1/75"
           />
@@ -164,23 +134,13 @@ export default function HotelFilter({
               0,
               showMoreLocations ? LOCATION_SUGGESTIONS.length : 5
             ).map((location, idx) => (
-              <div
-                key={idx}
-                onClick={() => {
-                  // Toggle: if the clicked location is already selected, clear it; otherwise, select it
-                  setSelectedLocations(
-                    selectedLocations?.name === location.name ? null : location
-                  );
-                }}
-                className="flex items-center gap-3"
-              >
+              <div key={idx} className="flex items-center gap-3">
                 <input
                   type="radio"
                   id={`location-${idx}`}
                   name="location"
                   checked={selectedLocations?.name === location.name}
                   onChange={() => {
-                    // Same toggle logic in onChange for direct radio input interaction
                     setSelectedLocations(
                       selectedLocations?.name === location.name
                         ? null

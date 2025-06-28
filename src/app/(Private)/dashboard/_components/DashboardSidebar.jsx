@@ -36,7 +36,7 @@ const sidebarLinks = [
     desc: "Update your password",
     route: "/dashboard/change-password",
     icon: "ic:round-password"
-  },
+  }
   // {
   //   id: "feedback",
   //   label: "Share Feedback",
@@ -50,7 +50,7 @@ export default function DashboardSidebar() {
   const currentPath = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
-   const {data: profile, isLoading, isError, error} = useGetProfileQuery();
+  const { data: profile, isLoading, isError, error } = useGetProfileQuery();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -58,15 +58,17 @@ export default function DashboardSidebar() {
     router.push("/");
   };
 
+  console.log({ profile });
   return (
     <div className="lg:w-1/4">
       {/* Profile Picture */}
       <div className="flex-center-start mb-8 gap-x-3">
         <CustomAvatar
-          img={userAvatar}
-          alt="Profile Picture of Sunan Rahman"
-          className="size-20"
+          img={profile?.profile || ""}
+          name={profile?.name}
+          className="size-20 text-2xl"
         />
+
         <div>
           <h5 className="text-h5 font-semibold text-p1">{profile?.name}</h5>
           <p className="text-gray-600">{profile?.email}</p>

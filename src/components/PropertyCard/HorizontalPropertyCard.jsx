@@ -24,7 +24,8 @@ export default function HorizontalPropertyCard({
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [bookmarked, setBookmarked] = useState(null);
 
-  const isHotel = Array.isArray(property?.rooms) ? true : false;
+  const isHotel = property?.price === undefined;
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const foundData = bookmarks?.find(
@@ -106,13 +107,21 @@ export default function HorizontalPropertyCard({
       <div className="flex flex-col justify-between py-5 pr-8 xl:w-3/4">
         <div>
           <Link
-            href={`/property/hotels/${property?._id}`}
+            href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
             className="text-h4 font-semibold leading-tight text-[#252525]"
           >
             {property?.name}
           </Link>
 
-          <p className="mt-2 text-[#626262]">{property?.shortDescription}</p>
+          <p
+            className="mt-2 text-[#626262]"
+            title={property?.shortDescription || property?.description}
+          >
+            {property?.shortDescription ||
+              (property?.description?.length > 100
+                ? property?.description?.slice(0, 100) + "..."
+                : property?.description)}
+          </p>
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
@@ -167,7 +176,7 @@ export default function HorizontalPropertyCard({
             asChild
           >
             <Link
-              href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}`}
+              href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
             >
               See Details
             </Link>

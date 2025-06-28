@@ -4,13 +4,11 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 import { useSearchParams } from "next/navigation";
 import { useGetApartmentsQuery } from "@/redux/api/apartmentApi";
 import ApartmentsContainer from "./ApartmentsContainer";
-import ApartmentSearchPanel from "@/components/PropertySearchPanel/ApartmentSearchPanel";
+import PropertySearchPanel from "@/components/PropertySearchPanel/PropertySearchPanel";
 import ApartmentFilters from "../ApartmentFilters";
 import { useState } from "react";
-import { useEffect } from "react";
 
 export default function ApartmentsPage() {
-  const [apartments, setApartments] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   // Pagination controls
@@ -19,41 +17,45 @@ export default function ApartmentsPage() {
   const pageSize = Number(searchParams.get("pageSize")) || 10;
 
   // Extract the apartment search params from the searchParams
-  const locationName = searchParams.get('locationName');
-  const longitude = searchParams.get('longitude');
-  const latitude = searchParams.get('latitude');
-  const rawCheckInOutDate = searchParams.get('checkInOutDate');
-  const checkInOutDate =  (rawCheckInOutDate && rawCheckInOutDate !== 'undefined') ? JSON.parse(rawCheckInOutDate) : null;
-  const rawGuests = searchParams.get('guests');
-  const guests = (rawGuests && rawGuests !== 'undefined') ? JSON.parse(rawGuests) : null;
-  
+  const locationName = searchParams.get("locationName");
+  const longitude = searchParams.get("longitude");
+  const latitude = searchParams.get("latitude");
+  const rawCheckInOutDate = searchParams.get("checkInOutDate");
+  const checkInOutDate =
+    rawCheckInOutDate && rawCheckInOutDate !== "undefined"
+      ? JSON.parse(rawCheckInOutDate)
+      : null;
+  const rawGuests = searchParams.get("guests");
+  const guests =
+    rawGuests && rawGuests !== "undefined" ? JSON.parse(rawGuests) : null;
+
   // Filtering
-  const [priceRange, setPriceRange] = useState([1000, 5000]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [selectedLocations, setSelectedLocations] = useState(null);
   const [selectedApartmentFeatures, setSelectedApartmentFeatures] = useState(
     []
   );
-  
+
   // Sort
   const sort = searchParams?.get("sort") || "";
 
   const query = {};
 
   // Global Search
-  if(latitude && longitude) {
-    query['latitude'] = latitude;
-    query['longitude'] = longitude;
+  if (latitude && longitude) {
+    query["latitude"] = latitude;
+    query["longitude"] = longitude;
   }
-  if(checkInOutDate?.from &&  checkInOutDate?.to) {
-    query['startDate'] = checkInOutDate.from;
-    query['endDate'] = checkInOutDate.to;
+  if (checkInOutDate?.from && checkInOutDate?.to) {
+    query["startDate"] = checkInOutDate.from;
+    query["endDate"] = checkInOutDate.to;
   }
-  if(guests && Object.values(guests).some(g => g > 0)) {
+  if (guests && Object.values(guests).some((g) => g > 0)) {
     console.log("guests: ", guests);
-    query['adults'] = guests.adults;
-    query['children'] = guests.children;
-    query['infants'] = guests.infants;
+    query["adults"] = guests.adults;
+    query["children"] = guests.children;
+    query["infants"] = guests.infants;
   }
 
   // Filter
@@ -77,29 +79,30 @@ export default function ApartmentsPage() {
     query["facilities"] = selectedApartmentFeatures.toString();
   }
   // If Sort
-  if(sort) {
-    query['sort'] = sort;
+  if (sort) {
+    query["sort"] = sort;
   }
   // If Search Text
-  if(searchText) {
-    query['searchTerm'] = searchText;
+  if (searchText) {
+    query["searchTerm"] = searchText;
   }
 
-  console.log("Query: ", query);
-
-  const { data: apartmentsRes, isError } = useGetApartmentsQuery(query);
-  useEffect(() => {
-    if (apartmentsRes?.data) {
-      setApartments(apartmentsRes.data);
-    } else if (isError) {
-      setApartments([]); // Clear hotels on error
-    }
-  }, [apartmentsRes, isError]);
+  const { data: apartmentsRes, isLoading: isApartmentsLoading } =
+    useGetApartmentsQuery(query);
+  const apartments = apartmentsRes?.data || [];
   const apartmentsMeta = apartmentsRes?.meta || {};
+
+  if (isApartmentsLoading) {
+    return "Loading...";
+  }
 
   return (
     <div className="my-10">
-      <ApartmentSearchPanel searchedLocation={locationName} searchedCheckInOutDate={checkInOutDate} searchedGuests={guests} />
+      <PropertySearchPanel
+        searchedLocation={locationName}
+        searchedCheckInOutDate={checkInOutDate}
+        searchedGuests={guests}
+      />
 
       <ResponsiveContainer className="flex-start-between mt-16 gap-x-14">
         <div className="w-1/4">
@@ -114,14 +117,14 @@ export default function ApartmentsPage() {
         </div>
 
         <div className="flex-1">
-            <ApartmentsContainer
-              apartments={apartments}
-              apartmentsMeta={apartmentsMeta}
-              pagination={{ page, pageSize }}
-              sort={sort}
-              searchParams={searchParams}
-              setSearchText={setSearchText}
-            />
+          <ApartmentsContainer
+            apartments={apartments}
+            apartmentsMeta={apartmentsMeta}
+            pagination={{ page, pageSize }}
+            sort={sort}
+            searchParams={searchParams}
+            setSearchText={setSearchText}
+          />
         </div>
       </ResponsiveContainer>
     </div>

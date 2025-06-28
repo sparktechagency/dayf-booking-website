@@ -9,7 +9,6 @@ export default function PropertyCard({
   handleCreateBookmark,
   handleDeleteBookmark
 }) {
-  console.log("proper ===========>", property, type);
   return variant === "grid" ? (
     <VerticalPropertyCard property={property} type={type} bookmarks={bookmarks} handleCreateBookmark={handleCreateBookmark} handleDeleteBookmark={handleDeleteBookmark} />
   ) : (

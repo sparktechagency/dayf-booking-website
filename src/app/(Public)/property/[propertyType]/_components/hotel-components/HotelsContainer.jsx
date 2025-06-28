@@ -194,11 +194,16 @@ export default function HotelsContainer({
         {hotels?.map((property) => (
           <PropertyCard
             key={property._id}
+<<<<<<< HEAD
             property={property}
             variant="list"
             bookmarks={hotelBookmarks}
             handleCreateBookmark={handleCreateBookmark}
             handleDeleteBookmark={handleDeleteBookmark}
+=======
+            property={property?.property}
+            variant="list"
+>>>>>>> f5c3590bc8631c761842339e766f1d883a21b987
           />
         ))}
 
