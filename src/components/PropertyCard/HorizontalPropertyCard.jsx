@@ -13,6 +13,7 @@ import { Badge } from "../ui/badge";
 import { truncateMiddle } from "@/utils/textTruncate";
 import { useGetBookmarkByIdQuery } from "@/redux/api/bookmarkApi";
 import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function HorizontalPropertyCard({
   property,

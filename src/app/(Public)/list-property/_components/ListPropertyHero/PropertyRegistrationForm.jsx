@@ -1,6 +1,7 @@
 "use client";
 
 import AnimatedArrow from "@/components/AnimatedArrow/AnimatedArrow";
+import CustomFormError from "@/components/CustomFormError/CustomFormError";
 import CustomTooltip from "@/components/CustomTooltip/CustomTooltip";
 import FormWrapper from "@/components/form-components/FormWrapper";
 import UInput from "@/components/form-components/UInput";
@@ -9,26 +10,52 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { useSignUpMutation } from "@/redux/api/authApi";
+import { SuccessModal } from "@/utils/customModal";
+import { setToSessionStorage } from "@/utils/sessionStorage";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const PROPERTY_TYPE = [
   {
     label: "Hotel",
-    value: "Hotel"
+    value: "hotel"
   },
   {
     label: "Apartment",
-    value: "Apartment"
+    value: "apartment"
   }
 ];
 
 export default function PropertyRegistrationForm() {
   const [selectedPropertyType, setSelectedPropertyType] = useState("Hotel");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const router = useRouter();
+  const [formError, setFormError] = useState(null);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  // Sign Up Handler
+  const [signUp, { isLoading: isSigningUp }] = useSignUpMutation();
+
+  const onSubmit = async (data) => {
+    const {contact, ...formData} = data;
+    try {
+      const res = await signUp({...formData, phoneNumber: data?.contact, role: "hotel_admin"}).unwrap();
+      SuccessModal("Sign up successful", "Please verify your email.");
+      console.log("res- sign up: ", res); 
+
+      // Store temp sign up token for otp verification
+      setToSessionStorage("dayf-signup-token", res?.data?.otpToken?.token);
+
+      router.push("/otp-verification");
+    } catch (error) {
+      console.log({ error });
+      setFormError(
+        error?.data?.message || error?.message || "Something went wrong"
+      );
+    }
   };
 
   return (
@@ -88,6 +115,7 @@ export default function PropertyRegistrationForm() {
             {PROPERTY_TYPE.map((type) => (
               <button
                 key={type.value}
+                type="button"
                 className={cn(
                   "rounded-full border-2 border-p1 px-6 py-2 text-sm",
                   type.value === selectedPropertyType && "bg-p1 text-white"
@@ -101,6 +129,8 @@ export default function PropertyRegistrationForm() {
         </div>
 
         <Separator className="my-4" />
+
+        {formError && <CustomFormError formError={formError} />}
 
         <div className="grid place-items-center">
           <Button

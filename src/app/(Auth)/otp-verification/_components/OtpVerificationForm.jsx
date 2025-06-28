@@ -13,6 +13,7 @@ import {
   useResendOtpMutation,
   useVerifyOtpMutation
 } from "@/redux/api/authApi";
+import { useGetUserByIdQuery } from "@/redux/api/userApi";
 import { setUser } from "@/redux/features/authSlice";
 import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import {
@@ -37,9 +38,13 @@ export default function OtpVerificationForm() {
   const dispatch = useDispatch();
   const fromHref = useSearchParams().get("from-href");
   const [formError, setFormError] = useState(null);
+  // const [currentUser, setCurrentUser] = useState(null);
 
   const [verifyOtp, { isLoading: isVerifyOtpLoading }] = useVerifyOtpMutation();
   const [resendOtp, { isLoading: isResendOtpLoading }] = useResendOtpMutation();
+
+  // const decodedUser = jwtDecode(getFromSessionStorage("dayf-signup-token"));
+  // console.log("decoded: ", decodedUser);
 
   useEffect(() => {
     if (timer > 0) {
@@ -158,6 +163,16 @@ export default function OtpVerificationForm() {
 
   // Login user
   const handleLoginUser = (token) => {
+    const user = jwtDecode(token);
+    if (user?.role === "hotel_admin") {
+      const dashboard_login_page_url = "http://localhost:5012/login";
+      return window.open(
+        dashboard_login_page_url,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }
+
     dispatch(
       setUser({
         user: jwtDecode(token),
@@ -166,6 +181,7 @@ export default function OtpVerificationForm() {
     );
 
     router.refresh();
+
     router.push(fromHref ? fromHref : "/");
   };
 

@@ -22,6 +22,7 @@ import {
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
 import { useEffect } from "react";
+import { useGetBookmarksData } from "@/hooks/useGetBookmarksData";
 
 // Constants
 const SORT_OPTIONS = {
@@ -49,6 +50,9 @@ export default function HotelsContainer({
   const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
     useDeleteBookmarkMutation();
 
+  useGetBookmarksData("Property", setHotelBookmarks);
+  console.log("HOtel booKmarks: ", hotelBookmarks);
+
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {
     console.log("_id: ", _id);
@@ -56,15 +60,14 @@ export default function HotelsContainer({
 
     // Bookmark the data
     const data = await createBookmark({ reference: _id, modelType }).unwrap();
-    if (data.success) {
-      SuccessModal(data.message);
-    }
-
     console.log("create Bookmark response: ", data);
 
     if (isError) {
       console.error("Error while creating bookmark: ", error);
       ErrorModal(error?.data?.message);
+    } else {
+      SuccessModal(data.message);
+      useGetBookmarksData("Property", setHotelBookmarks);
     }
   };
 
@@ -74,39 +77,11 @@ export default function HotelsContainer({
 
     const res = await deleteBookmark(_id);
     console.log("Delete bookmark response: ", res);
-    if(isDeleteError) {
+    useGetBookmarksData("Property", setHotelBookmarks);
+    if (isDeleteError) {
       console.error("Error while deleting bookmark: ", deleteError);
     }
   };
-
-  // Get bookmarks
-  const {
-    data: bookmarkData,
-    isError: isGetError,
-    getError,
-    getIsLoading
-  } = useGetAllBookmarkQuery();
-  console.log("Bookmark data: ", bookmarkData);
-  // Update bookmarks state when bookmarkData changes
-  useEffect(() => {
-    console.log("Bookmark data: ", bookmarkData);
-    if (bookmarkData?.length > 0) {
-      const filteredData = bookmarkData.filter(
-        (bookmark) => bookmark.modelType === "Property"
-      );
-      console.log("Filtered hotel bookmark data: ", filteredData);
-      setHotelBookmarks(filteredData);
-    }
-  }, [bookmarkData]);
-
-  // Handle errors in useEffect
-  useEffect(() => {
-    if (isGetError) {
-      console.error("Error fetching bookmarks:", getError);
-      // Optionally show an error modal
-      // ErrorModal(getError?.data?.message || "Failed to fetch bookmarks");
-    }
-  }, [isGetError, getError]);
 
   return (
     <div>
@@ -194,16 +169,11 @@ export default function HotelsContainer({
         {hotels?.map((property) => (
           <PropertyCard
             key={property._id}
-<<<<<<< HEAD
-            property={property}
             variant="list"
             bookmarks={hotelBookmarks}
             handleCreateBookmark={handleCreateBookmark}
             handleDeleteBookmark={handleDeleteBookmark}
-=======
             property={property?.property}
-            variant="list"
->>>>>>> f5c3590bc8631c761842339e766f1d883a21b987
           />
         ))}
 

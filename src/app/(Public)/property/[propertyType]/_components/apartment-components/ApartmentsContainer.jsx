@@ -23,6 +23,7 @@ import {
 } from "@/redux/api/bookmarkApi";
 import { ErrorModal } from "@/utils/customModal";
 import { useEffect } from "react";
+import { useGetBookmarksData } from "@/hooks/useGetBookmarksData";
 
 // Constants
 const SORT_OPTIONS = {
@@ -50,6 +51,8 @@ export default function ApartmentsContainer({
   const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
     useDeleteBookmarkMutation();
 
+  useGetBookmarksData("Apartment", setApartmentBookmarks);
+
   // Handle Bookmark
   const handleCreateBookmark = async (_id) => {
     console.log("_id: ", _id);
@@ -57,15 +60,15 @@ export default function ApartmentsContainer({
 
     // Bookmark the data
     const data = await createBookmark({ reference: _id, modelType }).unwrap();
-    if (data.success) {
-      SuccessModal(data.message);
-    }
 
     console.log("create Bookmark response: ", data);
 
     if (isError) {
       console.error("Error while creating bookmark: ", error);
       ErrorModal(error?.data?.message);
+    } else {
+      SuccessModal(data?.message);
+      useGetBookmarksData("Apartment", setApartmentBookmarks);
     }
   };
 
@@ -77,37 +80,11 @@ export default function ApartmentsContainer({
     console.log("Delete bookmark response: ", res);
     if (isDeleteError) {
       console.error("Error while deleting bookmark: ", deleteError);
+    } else {
+      SuccessModal(data?.message);
+      useGetBookmarksData("Apartment", setApartmentBookmarks);
     }
   };
-
-  // Get bookmarks
-  const {
-    data: bookmarkData,
-    isError: isGetError,
-    getError,
-    getIsLoading
-  } = useGetAllBookmarkQuery();
-  console.log("Bookmark data: ", bookmarkData);
-  // Update bookmarks state when bookmarkData changes
-  useEffect(() => {
-    console.log("Bookmark data: ", bookmarkData);
-    if (bookmarkData?.length > 0) {
-      const filteredData = bookmarkData.filter(
-        (bookmark) => bookmark.modelType === "Apartment"
-      );
-      console.log("Filtered apartment bookmark data: ", filteredData);
-      setApartmentBookmarks(filteredData);
-    }
-  }, [bookmarkData]);
-
-  // Handle errors in useEffect
-  useEffect(() => {
-    if (isGetError) {
-      console.error("Error fetching bookmarks:", getError);
-      // Optionally show an error modal
-      // ErrorModal(getError?.data?.message || "Failed to fetch bookmarks");
-    }
-  }, [isGetError, getError]);
 
   return (
     <div>
