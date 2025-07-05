@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import usdIcon from "/public/images/navbar/dollar-circle.svg";
@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 export default function NavDropdown({
   values,
   selectedValue,
-  setSelectedValue,
+  setSelectedValue
 }) {
   return (
     <DropdownMenu>
@@ -46,7 +46,7 @@ export default function NavDropdown({
               "cursor-pointer rounded-lg hover:!bg-light-sky-blue",
               value.id === selectedValue.id
                 ? "bg-light-sky-blue text-p1"
-                : "bg-transparent",
+                : "bg-transparent"
             )}
           >
             <Image

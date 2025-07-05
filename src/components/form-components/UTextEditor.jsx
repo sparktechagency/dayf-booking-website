@@ -6,7 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "../ui/form";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
@@ -24,7 +24,7 @@ export default function UTextEditor({ name, label, placeholder, required }) {
       //   fontSize: "20px",
       // },
       uploader: {
-        insertImageAsBase64URI: true,
+        insertImageAsBase64URI: true
       },
 
       controls: {
@@ -33,7 +33,7 @@ export default function UTextEditor({ name, label, placeholder, required }) {
           //   8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28,
           //   30, 34, 38, 42, 44, 46, 50, 60, 70, 90, 100,
           // ]),
-        },
+        }
       },
       buttons: [
         "bold",
@@ -56,11 +56,11 @@ export default function UTextEditor({ name, label, placeholder, required }) {
         "table",
         "lineHeight",
         "image",
-        "preview",
+        "preview"
       ],
-      toolbarAdaptive: false,
+      toolbarAdaptive: false
     }),
-    [placeholder],
+    [placeholder]
   );
 
   return (

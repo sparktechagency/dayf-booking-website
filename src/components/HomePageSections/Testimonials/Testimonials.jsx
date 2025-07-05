@@ -10,7 +10,7 @@ const testimonials = Array.from({ length: 6 }).map((_, idx) => ({
   reviewDesc:
     "Sofitel Algiers Hamma Garden offers luxurious accommodations overlooking the stunning Botanical Garden of Hamma. With world-class dining, a relaxing spa, and proximity to Algiers’ top landmarks, it’s the perfect blend of elegance and convenience.",
   user: "Steve Smith",
-  reviewedAt: "2 days ago",
+  reviewedAt: "2 days ago"
 }));
 
 export default function Testimonials() {

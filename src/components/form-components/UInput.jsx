@@ -4,7 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import EyeIconInverse from "../EyeIconInverse/EyeIconInverse";
@@ -40,9 +40,12 @@ const UInput = ({
       render={({ field }) => (
         <FormItem className="w-full">
           <FormLabel
-            className={cn("flex-center-start mb-2 gap-x-2", labelClass)}
+            className={cn("flex-center-start mb-2 gap-x-0.5", labelClass)}
           >
-            {label} {required && <span className="text-red-500">*</span>}
+            {label}{" "}
+            {required && (
+              <span className="text-base font-bold text-red-500">*</span>
+            )}
           </FormLabel>
 
           <FormControl>
@@ -51,7 +54,7 @@ const UInput = ({
                 <Input
                   className={cn(
                     "w-full border border-gray-400 px-4 py-6",
-                    className,
+                    className
                   )}
                   name={name}
                   type={showPassword ? "text" : "password"}
@@ -70,7 +73,7 @@ const UInput = ({
               <Input
                 className={cn(
                   "w-full border border-gray-400 px-4 py-6 disabled:border-gray-300 disabled:text-muted disabled:opacity-100",
-                  className,
+                  className
                 )}
                 name={name}
                 type={type}
@@ -85,10 +88,7 @@ const UInput = ({
               />
             )}
           </FormControl>
-          <FormMessage
-            className="text-danger"
-            style={{ marginTop: 4, paddingInline: 4 }}
-          />
+          <FormMessage style={{ marginTop: 4, paddingInline: 4 }} />
         </FormItem>
       )}
     />

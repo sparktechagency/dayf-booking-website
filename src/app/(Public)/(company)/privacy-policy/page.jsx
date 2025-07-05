@@ -3,7 +3,7 @@ import PrivacyPolicyContainer from "./_components/PrivacyPolicyContainer";
 
 export const metadata = {
   title: "Privacy Policy",
-  description: "Privacy Policy page",
+  description: "Privacy Policy page"
 };
 
 export default function AboutUsPage() {

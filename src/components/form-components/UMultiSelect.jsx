@@ -5,7 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import {
   MultiSelector,
@@ -13,7 +13,7 @@ import {
   MultiSelectorInput,
   MultiSelectorItem,
   MultiSelectorList,
-  MultiSelectorTrigger,
+  MultiSelectorTrigger
 } from "../ui/multiple-selector";
 
 /**
@@ -25,7 +25,7 @@ const UMultiSelect = ({
   placeholder,
   data,
   disabled,
-  emptyText,
+  emptyText
 }) => {
   const { control } = useFormContext() ?? {};
 

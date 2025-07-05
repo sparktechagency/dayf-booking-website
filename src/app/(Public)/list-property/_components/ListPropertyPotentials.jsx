@@ -7,50 +7,50 @@ const POTENTIALS = [
     id: 1,
     title: "Turn Your Space into Income Instantly",
     description:
-      "Have an extra room, apartment, or vacation home? Start earning by hosting travelers from around the world—on your terms.",
+      "Have an extra room, apartment, or vacation home? Start earning by hosting travelers from around the world—on your terms."
   },
   {
     id: 2,
     title: "Get Maximum Exposure for Your Property",
     description:
-      "Your listing is showcased to thousands of travelers actively searching for a stay in your area, helping you get more bookings.",
+      "Your listing is showcased to thousands of travelers actively searching for a stay in your area, helping you get more bookings."
   },
   {
     id: 3,
     title: "You're in Charge – Total Control Over Your Listing",
     description:
-      "Set your own pricing, availability, and guest policies. Whether you want to rent full-time or occasionally, the choice is yours.",
+      "Set your own pricing, availability, and guest policies. Whether you want to rent full-time or occasionally, the choice is yours."
   },
   {
     id: 4,
     title: "Fast & Secure Payments – No More Hassles",
     description:
-      "Get paid directly to your account with secure transactions and guaranteed payouts—no delays, no stress.",
+      "Get paid directly to your account with secure transactions and guaranteed payouts—no delays, no stress."
   },
   {
     id: 5,
     title: "Flexibility to Host However You Want",
     description:
-      "Rent daily, weekly, or monthly—whatever works for you. Adjust your availability and pricing at any time.",
+      "Rent daily, weekly, or monthly—whatever works for you. Adjust your availability and pricing at any time."
   },
   {
     id: 6,
     title: "A Simple Dashboard to Manage Everything",
     description:
-      "Track bookings, update your calendar, and communicate with guests seamlessly, all in one place.",
+      "Track bookings, update your calendar, and communicate with guests seamlessly, all in one place."
   },
   {
     id: 7,
     title: "24/7 Host Support – We've Got Your Back",
     description:
-      "Whether you need help with a booking or have a question, our dedicated support team is available anytime.",
+      "Whether you need help with a booking or have a question, our dedicated support team is available anytime."
   },
   {
     id: 8,
     title: "Professional Marketing to Attract More Bookings",
     description:
-      "We promote your property through advanced marketing strategies, helping you stand out and get more bookings.",
-  },
+      "We promote your property through advanced marketing strategies, helping you stand out and get more bookings."
+  }
 ];
 
 const ListPropertyPotentials = () => {

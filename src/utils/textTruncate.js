@@ -12,3 +12,15 @@ export default function textTruncate(text, maxLength = 60) {
 
   return `${finalText}...`;
 }
+
+export function truncateMiddle(text, maxLength = 20) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  const halfLength = Math.floor(maxLength / 2);
+  const start = text.slice(0, halfLength);
+  const end = text.slice(-halfLength);
+
+  return `${start}...${end}`;
+}

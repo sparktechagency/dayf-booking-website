@@ -8,7 +8,7 @@ export default function BgIcon({ children, className, as = "", ...props }) {
     <div
       className={cn(
         "flex-center aspect-square size-7 rounded-full bg-p1 text-white",
-        className,
+        className
       )}
       role={as}
       {...props}

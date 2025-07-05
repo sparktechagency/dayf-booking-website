@@ -7,7 +7,7 @@ import { Mail } from "lucide-react";
 export const metadata = {
   title: "Contact Us",
   description:
-    "Contact us at DAYF for any kind of queries and issues you are facing. We are open to help you.",
+    "Contact us at DAYF for any kind of queries and issues you are facing. We are open to help you."
 };
 
 export default function page() {

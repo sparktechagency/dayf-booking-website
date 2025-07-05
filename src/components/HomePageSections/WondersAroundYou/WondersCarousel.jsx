@@ -18,20 +18,20 @@ const images = [
     id: 1,
     img: img1,
     title: "Constantine",
-    desc: "Charming Annaba is where Amazigh theologian St Augustine – a figure crucial to and “Father” of the Catholic Church – taught and wrote works that remain cornerstones of modern Christian theology. Augustine was bishop of Roman Hippo Regius, now a flower-filled ruin in the town suburbs. On a hill above is the Basilica de Saint Augustine, built by the French in the late 19th century and overlooking the Basilica of Peace, where Augustine taught and beneath which he was buried. It is still tended by Annaba’s Augustinian community and a site of Catholic pilgrimage.",
+    desc: "Charming Annaba is where Amazigh theologian St Augustine – a figure crucial to and “Father” of the Catholic Church – taught and wrote works that remain cornerstones of modern Christian theology. Augustine was bishop of Roman Hippo Regius, now a flower-filled ruin in the town suburbs. On a hill above is the Basilica de Saint Augustine, built by the French in the late 19th century and overlooking the Basilica of Peace, where Augustine taught and beneath which he was buried. It is still tended by Annaba’s Augustinian community and a site of Catholic pilgrimage."
   },
   {
     id: 2,
     img: img2,
     title: "Timgad",
-    desc: "Since the 4th century BCE, Constantine has occupied a rocky pinnacle above the river Rhumel, encircled by 200m(656ft)-deep ravines. It’s a pleasure to admire the ingenuity behind this improbably located city – and to snap pictures from the Sidi M’Cid Bridge and the Monument aux Morts, a WWI memorial that offers a bird’s-eye view. Once you hit the streets, you can visit the finely decorated Ottoman Palace of Ahmed Bey, the National Museum and the beautifully contemporary Emir Abdelkader Mosque, one of the largest on the continent.",
+    desc: "Since the 4th century BCE, Constantine has occupied a rocky pinnacle above the river Rhumel, encircled by 200m(656ft)-deep ravines. It’s a pleasure to admire the ingenuity behind this improbably located city – and to snap pictures from the Sidi M’Cid Bridge and the Monument aux Morts, a WWI memorial that offers a bird’s-eye view. Once you hit the streets, you can visit the finely decorated Ottoman Palace of Ahmed Bey, the National Museum and the beautifully contemporary Emir Abdelkader Mosque, one of the largest on the continent."
   },
   {
     id: 3,
     img: img3,
     title: "The Arch of Trajan",
-    desc: "The Arch of Trajan (Italian: Arco di Traiano) is an ancient Roman triumphal arch in Benevento, southern Italy. It was erected in honour of the Emperor Trajan across the Via Appia, at the point where it enters the city. The arch was built between 114 and 117. In Lombard times, it was incorporated into the southern sector of the city walls and became known as Porta Aurea ('Golden Gate'). The church of Sant'Ilario, now housing the Videomuseum of the Arch, was built nearby. The arch was studied by Sebastiano Serlio in Renaissance times and drawn by Giovanni Battista Piranesi in the 18th century.",
-  },
+    desc: "The Arch of Trajan (Italian: Arco di Traiano) is an ancient Roman triumphal arch in Benevento, southern Italy. It was erected in honour of the Emperor Trajan across the Via Appia, at the point where it enters the city. The arch was built between 114 and 117. In Lombard times, it was incorporated into the southern sector of the city walls and became known as Porta Aurea ('Golden Gate'). The church of Sant'Ilario, now housing the Videomuseum of the Arch, was built nearby. The arch was studied by Sebastiano Serlio in Renaissance times and drawn by Giovanni Battista Piranesi in the 18th century."
+  }
 ];
 
 // Motion Variants
@@ -39,7 +39,7 @@ const fadeUpParentVariants = {
   initial: {
     opacity: 0,
     filter: "blur(5px)",
-    y: 50,
+    y: 50
   },
   animate: {
     opacity: 1,
@@ -50,8 +50,8 @@ const fadeUpParentVariants = {
       ease: "easeInOut",
       delay: 0.1,
       staggerChildren: 0.3,
-      when: "beforeChildren",
-    },
+      when: "beforeChildren"
+    }
   },
   exit: {
     opacity: 0,
@@ -61,16 +61,16 @@ const fadeUpParentVariants = {
       duration: 0.5,
       ease: "easeInOut",
       delay: 0.1,
-      staggerChildren: 0.3,
-    },
-  },
+      staggerChildren: 0.3
+    }
+  }
 };
 
 const fadeUpChildVariants = {
   initial: {
     opacity: 0,
     filter: "blur(5px)",
-    y: 50,
+    y: 50
   },
   animate: {
     opacity: 1,
@@ -80,14 +80,14 @@ const fadeUpChildVariants = {
       type: "spring",
       stiffness: 210,
       damping: 40,
-      mass: 1,
-    },
+      mass: 1
+    }
   },
   exit: {
     opacity: 0,
     y: 50,
-    filter: "blur(5px)",
-  },
+    filter: "blur(5px)"
+  }
 };
 
 export default function WondersCarousel() {
@@ -131,13 +131,27 @@ export default function WondersCarousel() {
           stretch: 1,
           depth: 200,
           modifier: 1,
-          slideShadows: true,
+          slideShadows: true
         }}
         modules={[EffectCoverflow, Autoplay]}
         autoplay={{
           delay: 5000,
           disableOnInteraction: false,
-          pauseOnMouseEnter: true,
+          pauseOnMouseEnter: true
+        }}
+        breakpoints={{
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 5
+          },
+          640: {
+            slidesPerView: 1,
+            spaceBetween: 8
+          },
+          1024: {
+            slidesPerView: 2,
+            spaceBetween: 120
+          }
         }}
         onActiveIndexChange={(e) => {
           if (e.isBeginning) {
@@ -166,7 +180,7 @@ export default function WondersCarousel() {
               height={1200}
               width={1200}
               className={cn(
-                "-z-10 h-[450px] w-full object-cover object-center",
+                "-z-10 h-[450px] w-full object-cover object-center"
               )}
             />
 
@@ -181,7 +195,7 @@ export default function WondersCarousel() {
                   animate="animate"
                   exit="exit"
                   className={cn(
-                    "absolute inset-0 top-5 w-full px-5 text-white",
+                    "absolute inset-0 top-5 w-full px-5 text-white"
                   )}
                 >
                   <motion.h5
@@ -200,7 +214,7 @@ export default function WondersCarousel() {
           </SwiperSlide>
         ))}
 
-        <div className="flex-center-between absolute top-1/2 z-[9999] w-full -translate-y-1/2 space-x-2 px-10">
+        {/* <div className="flex-center-between absolute top-1/2 z-[9999] hidden w-full -translate-y-1/2 space-x-2 px-10 lg:flex">
           <Button
             onClick={handlePrev}
             disabled={isBeginning}
@@ -216,7 +230,7 @@ export default function WondersCarousel() {
           >
             <ChevronRight className="!size-10 stroke-2" />
           </Button>
-        </div>
+        </div> */}
       </Swiper>
     </div>
   );

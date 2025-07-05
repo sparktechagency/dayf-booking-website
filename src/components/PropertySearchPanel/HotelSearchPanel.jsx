@@ -1,7 +1,6 @@
 "use client";
 
 import { LocateFixed } from "lucide-react";
-import ResponsiveContainer from "../ResponsiveContainer/ResponsiveContainer";
 import BgIcon from "./BgIcon";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -9,12 +8,12 @@ import { Input } from "@/components/ui/input";
 import { MapPin } from "lucide-react";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "@/components/ui/popover";
 import {
   DropdownMenu,
@@ -22,7 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
 import { CalendarIcon } from "lucide-react";
@@ -30,19 +29,56 @@ import { Calendar } from "@/components/ui/calendar";
 import { UsersRound } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 import { CircleMinus } from "lucide-react";
-import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
-export default function HotelSearchPanel({ className }) {
-  const [location, setLocation] = useState("");
-  const [checkInOutDate, setCheckInOutDate] = useState({
-    from: "",
-    to: "",
-  });
-  const [guests, setGuests] = useState({
-    adults: 0,
-    children: 0,
-    infants: 0,
-  });
+export default function HotelSearchPanel({
+  className,
+  existedLocation,
+  existedCheckInOutDate,
+  existedGuests,
+  showDestinationSearchInput,
+  page,
+  limit,
+  setHotels
+}) {
+  const router = useRouter();
+  const [location, setLocation] = useState(existedLocation || "");
+  const [checkInOutDate, setCheckInOutDate] = useState(
+    existedCheckInOutDate || {
+      from: "",
+      to: ""
+    }
+  );
+  const [guests, setGuests] = useState(
+    existedGuests || {
+      adults: 0,
+      children: 0,
+      infants: 0
+    }
+  );
+  // const [types, setTypes] = useState("");
+  const pathname = usePathname();
+  // URL Search Params
+  const urlSearchParams = new URLSearchParams();
+  urlSearchParams.set("location", location);
+  urlSearchParams.set("checkInOutDate", JSON.stringify(checkInOutDate));
+  urlSearchParams.set("guests", JSON.stringify(guests));
+
+  // Handle search: update URL with search parameters
+  const handleSearch = () => {
+    const urlSearchParams = new URLSearchParams();
+    if (location) urlSearchParams.set("location", location);
+    if (checkInOutDate.from && checkInOutDate.to) {
+      urlSearchParams.set("checkInOutDate", JSON.stringify(checkInOutDate));
+    }
+    if (guests.adults || guests.children || guests.infants) {
+      urlSearchParams.set("guests", JSON.stringify(guests));
+    }
+
+    // Always navigate to /property/hotels with updated query parameters
+    // Use replace instead of push to avoid adding duplicate history entries
+    // router.replace(`/property/hotels?${urlSearchParams.toString()}`);
+  };
 
   const handleGuest = (e, key, order) => {
     e.preventDefault();
@@ -52,12 +88,12 @@ export default function HotelSearchPanel({ className }) {
         if (order === "plus") {
           setGuests((prev) => ({
             ...prev,
-            adults: prev.adults + 1,
+            adults: prev.adults + 1
           }));
         } else if (order === "minus") {
           setGuests((prev) => ({
             ...prev,
-            adults: prev.adults - 1,
+            adults: prev.adults - 1
           }));
         }
         break;
@@ -66,12 +102,12 @@ export default function HotelSearchPanel({ className }) {
         if (order === "plus") {
           setGuests((prev) => ({
             ...prev,
-            children: prev.children + 1,
+            children: prev.children + 1
           }));
         } else if (order === "minus") {
           setGuests((prev) => ({
             ...prev,
-            children: prev.children - 1,
+            children: prev.children - 1
           }));
         }
         break;
@@ -80,12 +116,12 @@ export default function HotelSearchPanel({ className }) {
         if (order === "plus") {
           setGuests((prev) => ({
             ...prev,
-            infants: prev.infants + 1,
+            infants: prev.infants + 1
           }));
         } else if (order === "minus") {
           setGuests((prev) => ({
             ...prev,
-            infants: prev.infants - 1,
+            infants: prev.infants - 1
           }));
         }
         break;
@@ -96,7 +132,7 @@ export default function HotelSearchPanel({ className }) {
     <div
       className={cn(
         "mx-auto w-full rounded-2xl border bg-white !p-4 shadow-[0px_4px_23.2px_0px_rgba(159,159,159,0.25)] 2xl:w-[75%]",
-        className,
+        className
       )}
     >
       <div className="flex-center-start gap-x-2">
@@ -110,24 +146,26 @@ export default function HotelSearchPanel({ className }) {
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
 
       <section className="flex-center-between flex-col gap-4 lg:flex-row">
-        <div className="w-full">
-          <Label className="mb-3 block font-semibold text-gray-500">
-            Destination
-          </Label>
+        {showDestinationSearchInput && (
+          <div className="w-full">
+            <Label className="mb-3 block font-semibold text-gray-500">
+              Destination
+            </Label>
 
-          <div className="flex-center-start gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
-            <BgIcon>
-              <MapPin size={16} />
-            </BgIcon>
+            <div className="flex-center-start gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-1 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
+              <BgIcon>
+                <MapPin size={16} />
+              </BgIcon>
 
-            <Input
-              placeholder="Martyr's Memorial, Algeria"
-              className="!border-none px-0 text-sm text-gray-800 shadow-none !outline-none !ring-0 !ring-offset-0 focus-visible:!ring-0"
-              defaultValue={location}
-              onBlur={(e) => setLocation(e.target.value)}
-            />
+              <Input
+                placeholder="Martyr's Memorial, Algeria"
+                className="!border-none px-0 text-sm text-gray-800 shadow-none !outline-none !ring-0 !ring-offset-0 focus-visible:!ring-0"
+                defaultValue={location}
+                onBlur={(e) => setLocation(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="w-full">
           <Label className="mb-3 block font-semibold text-gray-500">
@@ -141,7 +179,7 @@ export default function HotelSearchPanel({ className }) {
                 variant={"outline"}
                 className={cn(
                   "inline-flex w-full justify-start rounded-full border-none bg-[#F6F6F6] !px-3 !py-6 text-left font-normal shadow-none",
-                  !checkInOutDate && "text-muted-foreground",
+                  !checkInOutDate && "text-muted-foreground"
                 )}
               >
                 <BgIcon>
@@ -193,7 +231,7 @@ export default function HotelSearchPanel({ className }) {
                   guests.adults === 0 &&
                     guests.children === 0 &&
                     guests.infants === 0 &&
-                    "text-muted",
+                    "text-muted"
                 )}
               >
                 {guests.adults} Adults / {guests.children} Children /{" "}
@@ -298,14 +336,59 @@ export default function HotelSearchPanel({ className }) {
           </DropdownMenu>
         </div>
 
-        <Button
-          variant="primary"
-          size="lg"
-          className="rounded-full !py-4 lg:mt-6"
+        {/* Type */}
+        {/* <div className="col-span-2 w-full">
+          <Label className="mb-3 block font-semibold text-gray-500">Type</Label>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex w-full items-center justify-start gap-x-2 rounded-full bg-[#F6F6F6] px-3 py-2.5 text-black transition-all duration-300 ease-in-out focus-within:ring-1 focus-within:ring-p1">
+              <BgIcon>
+                <UsersRound size={16} />
+              </BgIcon>
+
+              <span
+                className={cn(
+                  "text-sm",
+                  types ? "text-black" : "text-muted" // Show muted text when no selection
+                )}
+              >
+                {types === "hotel"
+                  ? "Hotel"
+                  : types === "apartment"
+                    ? "Apartment"
+                    : "Select Type"}{" "}
+              </span>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className="w-full max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4 lg:w-[400px]">
+              <DropdownMenuItem
+                className="flex cursor-pointer items-center justify-between gap-x-8 hover:!bg-transparent"
+                onClick={() => setTypes("hotel")}
+              >
+                <div className="w-max">
+                  <h5 className="text-base font-semibold">Hotel</h5>
+                </div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                className="flex cursor-pointer items-center justify-between gap-x-8 hover:!bg-transparent"
+                onClick={() => setTypes("apartment")}
+              >
+                <div className="w-max">
+                  <h5 className="text-base font-semibold">Apartment</h5>
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div> */}
+
+        <button
+          className="rounded-full bg-[#007dd0] !py-2 px-5 text-lg text-white lg:mt-6"
           asChild
+          onClick={handleSearch}
         >
-          <Link href="/property/hotels">Search</Link>
-        </Button>
+          Search
+        </button>
       </section>
     </div>
   );

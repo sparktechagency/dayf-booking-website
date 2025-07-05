@@ -6,11 +6,14 @@ import UPhoneInput from "@/components/form-components/UPhoneInput";
 import USelect from "@/components/form-components/USelect";
 import ModalWrapper from "@/components/ModalWrapper.js/ModalWrapper";
 import { Button } from "@/components/ui/button";
+import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/api/userApi";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 
 export default function ProfileContainer() {
   const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false);
+  const {data: profile, isLoading, isError, error, refetch} = useGetProfileQuery();
 
   return (
     <div className="">
@@ -31,31 +34,31 @@ export default function ProfileContainer() {
       <div className="mt-5 grid w-full grid-cols-2 gap-6">
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">Name</h6>
-          <p>Sunan Rahaman</p>
+          <p>{profile?.name}</p>
         </div>
 
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">
             Email Address
           </h6>
-          <p>sunanrahman007@gmail.com</p>
+          <p>{profile?.email}</p>
         </div>
 
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">Gender</h6>
-          <p>Male</p>
+          <p>{profile?.gender || 'Not Specified'}</p>
         </div>
 
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">Contact</h6>
-          <p>Not Specified</p>
+          <p>{profile?.phoneNumber || 'Not Specified'}</p>
         </div>
 
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">
             Nationality
           </h6>
-          <p>Algerian</p>
+          <p>{profile?.nationality || 'Not Specified'}</p>
         </div>
       </div>
 
@@ -63,26 +66,42 @@ export default function ProfileContainer() {
       <UpdateProfileModal
         open={showUpdateProfileModal}
         setOpen={setShowUpdateProfileModal}
+        currentData={profile}
+        refetch={refetch}
       />
     </div>
   );
 }
 
-const UpdateProfileModal = ({ open, setOpen }) => {
-  const onSubmit = (data) => {
+const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
+  const [updateProfile, {isLoading, isError, error}] = useUpdateProfileMutation();
+
+  const onSubmit = async(data) => {
     console.log(data);
+
+    try {
+      const res = await updateProfile({_id: data?._id, email: data?.email, ...data, phoneNumber: data.contact}).unwrap();
+      console.log("res: ", res);
+      refetch();
+      SuccessModal("Profile updated successfully");
+      setOpen(false);
+
+    } catch (error) {
+      console.error("Error while updating profile: ", error);
+      ErrorModal(error);
+    }
   };
 
   return (
     <ModalWrapper open={open} setOpen={setOpen} title="Update Profile">
       <FormWrapper
         onSubmit={onSubmit}
-        // defaultValues={{
-        //   name: "Sunan Rahman",
-        //   gender: "male",
-        //   contact: "+1234567890",
-        //   nationality: "Algerian",
-        // }}
+        defaultValues={{
+          name: currentData?.name,
+          gender: currentData?.gender,
+          contact: currentData?.phoneNumber,
+          nationality: currentData?.nationality,
+        }}
       >
         <UInput name="name" label="Name" placeholder="Enter your full name" />
 
@@ -92,7 +111,7 @@ const UpdateProfileModal = ({ open, setOpen }) => {
           selectTrigger="Select your gender"
           selectItems={[
             { label: "Male", value: "male" },
-            { label: "Female", value: "female" },
+            { label: "Female", value: "female" }
           ]}
         />
 
@@ -109,7 +128,7 @@ const UpdateProfileModal = ({ open, setOpen }) => {
           selectItems={[
             { label: "USA", value: "usa" },
             { label: "Algerian", value: "algerian" },
-            { label: "French", value: "french" },
+            { label: "French", value: "french" }
           ]}
         />
 

@@ -7,17 +7,17 @@ import WondersAroundYou from "@/components/HomePageSections/WondersAroundYou/Won
 export const metadata = {
   title: "Home - Find Your Dream Place at DAYF Booking",
   description:
-    "Welcome to DAYF Booking, home to Algeria's Top Destinations. Discover handpicked hotels and accommodations across Algeria’s most captivating destinations.",
+    "Welcome to DAYF Booking, home to Algeria's Top Destinations. Discover handpicked hotels and accommodations across Algeria’s most captivating destinations."
 };
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="space-y-14 bg-light-sky-blue pb-20">
       <Hero />
-      {/* <WhyChooseUs /> */}
-      {/* <TopPicks /> */}
-      {/* <WondersAroundYou /> */}
-      {/* <Testimonials /> */}
+      <WhyChooseUs />
+      <TopPicks />
+      <WondersAroundYou />
+      <Testimonials />
     </div>
   );
 }

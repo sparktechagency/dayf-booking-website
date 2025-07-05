@@ -5,7 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,7 @@ export default function UTextarea({
               placeholder={placeholder}
               className={cn(
                 "min-h-[100px] resize-none border border-gray-400",
-                className,
+                className
               )}
               maxLength={max}
               readOnly={props?.readOnly}

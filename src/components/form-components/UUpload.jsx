@@ -7,7 +7,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "../ui/form";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ export default function UUpload({
   label,
   maxSize = 10,
   maxFileCount = 4,
-  className,
+  className
 }) {
   const { control } = useFormContext() ?? {};
 

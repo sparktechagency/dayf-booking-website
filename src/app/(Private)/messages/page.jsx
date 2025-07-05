@@ -2,7 +2,7 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 import MessageContainer from "./_components/MessageContainer";
 
 export const metadata = {
-  title: "Messages",
+  title: "Messages"
 };
 
 export default function MessagesPage() {

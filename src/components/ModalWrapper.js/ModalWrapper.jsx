@@ -5,7 +5,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
+  AlertDialogTitle
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
@@ -16,14 +16,14 @@ export default function ModalWrapper({
   open,
   setOpen,
   title = "",
-  className,
+  className
 }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen} className="relative">
       <AlertDialogContent
         className={cn(
           `max-h-[85vh] max-w-full overflow-auto scrollbar-thin 2xl:max-w-[35%]`,
-          className,
+          className
         )}
       >
         <AlertDialogHeader>

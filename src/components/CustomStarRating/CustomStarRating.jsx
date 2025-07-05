@@ -8,7 +8,7 @@ export default function CustomStarRating({
   setRating,
   starRatedColor = "#FFAD33",
   starEmptyColor = "#bfbfbf",
-  starHoverColor = "#FFAD33",
+  starHoverColor = "#FFAD33"
 }) {
   return (
     <StarRatings

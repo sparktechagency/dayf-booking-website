@@ -6,33 +6,34 @@ import {
   isImageFitCover,
   isImageSlide,
   useLightboxProps,
-  useLightboxState,
+  useLightboxState
 } from "yet-another-react-lightbox";
 import {
   Fullscreen,
   Zoom,
   Slideshow,
-  Thumbnails,
+  Thumbnails
 } from "yet-another-react-lightbox/plugins";
 
 export default function ImagePreviewer({
   images,
   previewImgIndex,
   setPreviewImgIndex,
-  onClose = () => {},
+  onClose = () => {}
 }) {
+  console.log({ images });
   // Define image slides for lightbox -- don't remove this part
   // This is a workaround if images are not local next-js images
-  // const imageSlides = images?.map((image) => {
-  //   return { src: image.url?.src, id: image.id };
-  // });
+  const imageSlides = images?.map((image, index) => {
+    return { src: image.url, id: index };
+  });
 
   if (!images) return null;
 
   return (
     <Lightbox
       index={previewImgIndex}
-      slides={images.map((image) => image.url)}
+      slides={imageSlides}
       render={{ slide: NextJsImage }}
       open={previewImgIndex >= 0}
       close={() => {
@@ -42,7 +43,7 @@ export default function ImagePreviewer({
       plugins={[Fullscreen, Zoom, Slideshow, Thumbnails]}
       thumbnails={{
         borderColor: "var(--color-1)",
-        showToggle: true,
+        showToggle: true
       }}
     />
   );
@@ -59,7 +60,7 @@ function isNextJsImage(slide) {
 function NextJsImage({ slide, offset, rect }) {
   const {
     on: { click },
-    carousel: { imageFit },
+    carousel: { imageFit }
   } = useLightboxProps();
 
   const { currentIndex } = useLightboxState();
@@ -70,13 +71,13 @@ function NextJsImage({ slide, offset, rect }) {
 
   const width = !cover
     ? Math.round(
-        Math.min(rect.width, (rect.height / slide.height) * slide.width),
+        Math.min(rect.width, (rect.height / slide.height) * slide.width)
       )
     : rect.width;
 
   const height = !cover
     ? Math.round(
-        Math.min(rect.height, (rect.width / slide.width) * slide.height),
+        Math.min(rect.height, (rect.width / slide.width) * slide.height)
       )
     : rect.height;
 
@@ -91,7 +92,7 @@ function NextJsImage({ slide, offset, rect }) {
         placeholder={slide.blurDataURL ? "blur" : undefined}
         style={{
           objectFit: cover ? "cover" : "contain",
-          cursor: click ? "pointer" : undefined,
+          cursor: click ? "pointer" : undefined
         }}
         sizes={`${Math.ceil((width / window.innerWidth) * 100)}vw`}
         onClick={

@@ -10,7 +10,7 @@ export const SuccessModal = (message, text = "") => {
     timer: 2200,
     showCloseButton: true,
     background: "var(--color-p1)",
-    color: "white",
+    color: "white"
   });
 };
 
@@ -25,7 +25,7 @@ export const ErrorModal = (message, text = "") => {
     confirmButtonColor: "#f11a00",
     showCloseButton: true,
     background: "var(--color-p1)",
-    color: "white",
+    color: "white"
   });
 };
 
@@ -39,6 +39,6 @@ export const ConfirmModal = (title, message, confirmBtnText, cancelBtnText) => {
     cancelButtonColor: "#f11a00",
     confirmButtonText: confirmBtnText || "Yes, delete it!",
     cancelButtonText: cancelBtnText || "Cancel",
-    showCloseButton: true,
+    showCloseButton: true
   });
 };

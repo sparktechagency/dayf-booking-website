@@ -10,7 +10,7 @@ export default function CustomAvatar({
   alt,
   name,
   className,
-  bannerColor,
+  bannerColor
 }) {
   return (
     <Avatar className={cn("", className)}>
@@ -23,7 +23,7 @@ export default function CustomAvatar({
         className={cn("font-bold")}
         style={{
           backgroundColor: bannerColor,
-          color: bannerColor ? "white" : "var(--color-p1)",
+          color: bannerColor ? "white" : "var(--color-p1)"
         }}
       >
         {transformNameInitials(name)}

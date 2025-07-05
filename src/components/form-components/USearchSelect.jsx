@@ -10,19 +10,19 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
+  CommandList
 } from "@/components/ui/command";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "@/components/ui/popover";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
@@ -33,7 +33,7 @@ export function USearchSelect({
   placeholder,
   data = [],
   onChange,
-  disabled = false,
+  disabled = false
 }) {
   const { control } = useFormContext() ?? {};
   const [showDropdown, setShowDropdown] = useState(false);
@@ -54,7 +54,7 @@ export function USearchSelect({
                   role="combobox"
                   className={cn(
                     "border-red w-full justify-between rounded-lg border border-gray-400 px-3 py-5 text-base font-normal",
-                    !field.value && "text-muted-foreground",
+                    !field.value && "text-muted-foreground"
                   )}
                   disabled={disabled}
                   onClick={() => setShowDropdown(true)}
@@ -73,7 +73,7 @@ export function USearchSelect({
                 </Button>
               </PopoverTrigger>
 
-              <PopoverContent className="max-h-[--radix-popover-content-available-height] w-[--radix-popover-trigger-width] border border-gray-400 p-0 font-dm-sans">
+              <PopoverContent className="font-dm-sans max-h-[--radix-popover-content-available-height] w-[--radix-popover-trigger-width] border border-gray-400 p-0">
                 <Command>
                   <CommandInput placeholder={"Search..."} />
                   <CommandList>
@@ -85,7 +85,7 @@ export function USearchSelect({
                           key={d.value}
                           onSelect={() => {
                             field.onChange(
-                              field.value === d.value ? "" : d.value,
+                              field.value === d.value ? "" : d.value
                             );
                             if (onChange) onChange(d.value);
                             setShowDropdown(false);
@@ -97,7 +97,7 @@ export function USearchSelect({
                               "ml-auto",
                               d.value === field.value
                                 ? "opacity-100"
-                                : "opacity-0",
+                                : "opacity-0"
                             )}
                           />
                         </CommandItem>

@@ -19,7 +19,7 @@ export default function DynamicHotelReviews({ reviews }) {
       autoplay={{
         delay: 6000,
         disableOnInteraction: false,
-        pauseOnMouseEnter: true,
+        pauseOnMouseEnter: true
       }}
       className="pr-2"
     >
