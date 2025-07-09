@@ -1,3 +1,5 @@
+"use client";
+
 import { MapPinned } from "lucide-react";
 import CustomStarRating from "../CustomStarRating/CustomStarRating";
 import { Button } from "../ui/button";
@@ -7,13 +9,38 @@ import Image from "next/image";
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { Badge } from "../ui/badge";
+import { truncateMiddle } from "@/utils/textTruncate";
+import { useGetBookmarkByIdQuery } from "@/redux/api/bookmarkApi";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
-export default function HorizontalPropertyCard({ property, type }) {
+export default function HorizontalPropertyCard({
+  property,
+  type,
+  bookmarks,
+  handleCreateBookmark,
+  handleDeleteBookmark
+}) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
+  const [bookmarked, setBookmarked] = useState(null);
+
+  const isHotel = property?.price === undefined;
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const foundData = bookmarks?.find(
+      (bookmark) => bookmark?.reference?._id === property?._id
+    );
+    console.log("Is foundData: ", foundData);
+    if (foundData) setBookmarked(foundData);
+    else setBookmarked(null);
+  }, [bookmarks]);
+
   return (
     <div
       className="flex-stretch-start property-card gap-x-5 overflow-hidden rounded-3xl border border-[#EDEDED] bg-white shadow"
-      onMouseEnter={() => setHoveredCardId(property.id)}
+      onMouseEnter={() => setHoveredCardId(property?._id)}
       onMouseLeave={() => setHoveredCardId(null)}
     >
       <Swiper
@@ -25,44 +52,51 @@ export default function HorizontalPropertyCard({ property, type }) {
           el: ".swiper-pagination",
           clickable: true,
           bulletClass: "swiper-pagination-bullet",
-          bulletActiveClass: "swiper-pagination-bullet-active",
+          bulletActiveClass: "swiper-pagination-bullet-active"
         }}
         grabCursor
         direction="horizontal"
-        navigation={hoveredCardId === property?.id ? true : false}
+        navigation={hoveredCardId === property?._id ? true : false}
         speed={600}
         className="rounded-l-3xl xl:!w-1/3"
       >
-        {property?.images?.slice(0, 4)?.map((image) => (
+        {property?.images?.map((image) => (
           <SwiperSlide
-            key={image?.src}
+            key={image?._id}
             className="overflow-hidden rounded-l-3xl"
           >
             <Image
-              src={image}
-              alt={`Photo of the ${property.name} hotel.`}
+              src={image?.url}
+              alt={`Photo of the ${property?.name} hotel.`}
               height={900}
               width={900}
-              className="h-[370px] w-full overflow-hidden object-cover object-center transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
-              placeholder="blur"
+              className="h-[340px] w-full overflow-hidden object-cover object-center transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
+              // placeholder="blur"
             />
 
             {/* Bookmark */}
-            <button className="flex-center absolute right-2 top-2 aspect-square size-10 rounded-full bg-white/20 backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black">
-              <Bookmark className="size-5 text-white" />
+            <button
+              className={`flex-center absolute right-2 top-2 aspect-square size-10 rounded-full ${bookmarked ? "bg-black" : "bg-white/20"} backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black`}
+            >
+              <Bookmark
+                onClick={() => {
+                  if (bookmarked) {
+                    return handleDeleteBookmark(bookmarked?._id);
+                  } else {
+                    return handleCreateBookmark(property?._id);
+                  }
+                }}
+                className="size-5 text-white"
+              />
             </button>
 
             {/* <!-- Floating Badges --> */}
-            <div>
-              {property?.type && (
-                <Badge
-                  variant={property.type.toLowerCase()}
-                  className="absolute right-4 top-4 z-50"
-                >
-                  {property.type}
-                </Badge>
-              )}
-            </div>
+            <Badge
+              variant={isHotel ? "hotel" : "apartment"}
+              className="absolute left-4 top-4 z-50"
+            >
+              {isHotel ? "Hotel" : "Apartment"}
+            </Badge>
           </SwiperSlide>
         ))}
 
@@ -73,49 +107,71 @@ export default function HorizontalPropertyCard({ property, type }) {
         <div className="swiper-arrow-navigation"></div>
       </Swiper>
 
-      <div className="py-5 pr-8 xl:w-3/4">
-        <Link
-          href={`/property/hotels/${property?.id}`}
-          className="text-h4 font-semibold leading-tight text-[#252525]"
-        >
-          {property?.name}
-        </Link>
+      <div className="flex flex-col justify-between py-5 pr-8 xl:w-3/4">
+        <div>
+          <Link
+            href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
+            className="text-h4 font-semibold leading-tight text-[#252525]"
+          >
+            {property?.name}
+          </Link>
 
-        <p className="my-2 mb-4 text-[#626262]">{property?.description}</p>
+          <p
+            className="mt-2 text-[#626262]"
+            title={property?.shortDescription || property?.description}
+          >
+            {property?.shortDescription ||
+              (property?.description?.length > 100
+                ? property?.description?.slice(0, 100) + "..."
+                : property?.description)}
+          </p>
 
-        <div className="flex-center-between my-5 w-3/4">
-          {property?.features?.map((feature, idx) => (
-            <div key={feature.id} className="flex-center-start gap-x-3">
-              <>
-                {feature.icon}
-                <span className="sr-only">{feature.label}</span>
-              </>
+          {isHotel ? (
+            <h3 className="mt-3 text-h4 text-[#252525]">
+              ${property?.minPrice} - ${property?.maxPrice}{" "}
+              <span className="text-sm">Per Night</span>
+            </h3>
+          ) : (
+            <h3 className="mt-3 text-h4 text-[#252525]">
+              ${property?.price} <span className="text-sm">Per Night</span>
+            </h3>
+          )}
 
-              <h3 className="text-h6 font-medium">
-                {feature.value}{" "}
-                <span className="text-sm font-normal">{feature.label}</span>
-              </h3>
-            </div>
-          ))}
+          {/* <div className="flex-center-between my-5 w-3/4">
+            {property?.facility?.map((feature) => (
+              <div key={feature._id} className="flex-center-start gap-x-2">
+                <>
+                  <Image
+                    src={feature.icon}
+                    alt={feature.title}
+                    height={16}
+                    width={16}
+                  />
+                  <span className="sr-only">{feature.title}</span>
+                </>
+
+                <h3 className="text-h6 font-medium">
+                  <span className="text-sm font-normal">{feature.title}</span>
+                </h3>
+              </div>
+            ))}
+          </div> */}
+
+          <div className="flex-center-start mt-5 gap-x-4">
+            <CustomStarRating
+              rating={property?.avgRating}
+              starSize={"22px"}
+              starRatedColor="#007dd0"
+              starHoverColor="#007dd0"
+            />
+
+            <p className="pt-2 text-gray-600">
+              {property?.reviews?.length} Reviews
+            </p>
+          </div>
         </div>
 
-        <div className="flex-center-start gap-x-4">
-          <CustomStarRating
-            rating={property?.rating}
-            starSize={"22px"}
-            starRatedColor="#007dd0"
-            starHoverColor="#007dd0"
-          />
-
-          <p className="pt-2 text-gray-600">{property?.reviewCount}+ Reviews</p>
-        </div>
-
-        <h3 className="mb-5 mt-4 text-h4 text-[#252525]">
-          ${property?.price_per_night}{" "}
-          <span className="text-sm">Per Night</span>
-        </h3>
-
-        <div className="flex-center-between">
+        <div className="flex-center-between mt-8">
           <Button
             size="lg"
             variant="primary"
@@ -123,7 +179,7 @@ export default function HorizontalPropertyCard({ property, type }) {
             asChild
           >
             <Link
-              href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?.id}`}
+              href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
             >
               See Details
             </Link>
@@ -131,7 +187,9 @@ export default function HorizontalPropertyCard({ property, type }) {
 
           <p className="flex-center gap-x-2 text-gray-700">
             <MapPinned size={20} />
-            <span>{property?.location}</span>
+            <span title={property?.address}>
+              {property?.address && truncateMiddle(property?.address, 30)}
+            </span>
           </p>
         </div>
       </div>

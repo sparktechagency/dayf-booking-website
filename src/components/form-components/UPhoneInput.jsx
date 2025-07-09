@@ -4,13 +4,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { PhoneInput } from "../ui/PhoneInput";
-import { PhoneNumber } from "react-phone-number-input";
+// import { PhoneNumber } from "react-phone-number-input";
+import { cn } from "@/lib/utils";
 
 export default function UPhoneInput({
-  defaultValue,
+  // defaultValue,
   name,
   label,
   className,
@@ -18,6 +19,9 @@ export default function UPhoneInput({
   countrySelectClassName,
   placeholder,
   readOnly,
+  required = false,
+  labelClass,
+  defaultCountry
 }) {
   const { control } = useFormContext();
 
@@ -27,12 +31,19 @@ export default function UPhoneInput({
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col items-start">
-          <FormLabel className="text-left">{label || "Phone Number"}</FormLabel>
+          <FormLabel
+            className={cn("flex-center-start mb-2 gap-x-0.5", labelClass)}
+          >
+            {label}{" "}
+            {required && (
+              <span className="text-base font-bold text-red-500">*</span>
+            )}
+          </FormLabel>
           <FormControl className="w-full">
             <PhoneInput
               placeholder={placeholder || "Enter a phone number"}
               international
-              defaultCountry="US"
+              defaultCountry={defaultCountry || "US"}
               className={className}
               inputClassName={inputClassName}
               countrySelectClassName={countrySelectClassName}

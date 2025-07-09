@@ -1,24 +1,65 @@
 "use client";
 
+import CustomFormError from "@/components/CustomFormError/CustomFormError";
 import FormWrapper from "@/components/form-components/FormWrapper";
 import UInput from "@/components/form-components/UInput";
 import { Button } from "@/components/ui/button";
+import { useSignInMutation } from "@/redux/api/authApi";
+import { selectUser, setUser } from "@/redux/features/authSlice";
 import { SuccessModal } from "@/utils/customModal";
-import { setToSessionStorage } from "@/utils/sessionStorage";
+import { authValidationSchema } from "@/zod/authSchema.validation";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const [formError, setFormError] = useState(null);
+  const dispatch = useDispatch();
+  // const userId = useSelector(selectUser)?.userId;
 
-  const onSubmit = (data) => {
-    console.log(data);
-    router.push("/");
+  /**
+   * Check if from-href exist
+   * [from-href]: Indicates previous page before login and
+   *              it is used to redirect user to specific page after login
+   */
+  const fromHref = useSearchParams().get("from-href");
 
-    SuccessModal("Login Successful");
-    setToSessionStorage("dayf-user", JSON.stringify(true));
+  // Login api handler
+  const [signIn, { isLoading }] = useSignInMutation();
+
+  const onLoginSubmit = async (data) => {
+    setFormError(null);
+    try {
+      const res = await signIn(data).unwrap();
+
+      if (res?.success) {
+        SuccessModal("Login Successful!");
+
+        // Set user info into store
+        dispatch(
+          setUser({
+            user: jwtDecode(res?.data?.accessToken),
+
+            token: res?.data?.accessToken
+          })
+        );
+
+        // Redirect based on user role
+        const userRole = jwtDecode(res?.data?.accessToken)?.role;
+
+        router.push(fromHref || (userRole ? `/dashboard/profile` : "/"));
+        router.refresh();
+        setFormError(null);
+      }
+    } catch (error) {
+      setFormError(error?.message || error?.data?.message || error?.error);
+    }
   };
 
   return (
@@ -30,7 +71,11 @@ export default function LoginForm() {
         </p>
       </div>
 
-      <FormWrapper className="space-y-6" onSubmit={onSubmit}>
+      <FormWrapper
+        className="space-y-6"
+        onSubmit={onLoginSubmit}
+        resolver={zodResolver(authValidationSchema.loginSchema)}
+      >
         <UInput
           type="email"
           name="email"
@@ -60,9 +105,15 @@ export default function LoginForm() {
           setShowPassword={setShowPassword}
         />
 
+        {formError && (
+          <CustomFormError formError={formError} extraClass="mt-4" />
+        )}
+
         <Button
           variant="primary"
           className="w-full rounded-full py-6 text-base"
+          loading={isLoading}
+          loadingText="Signing In"
         >
           Sign In
         </Button>

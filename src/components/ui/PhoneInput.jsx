@@ -12,13 +12,13 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
+  CommandList
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -33,7 +33,7 @@ const PhoneInput = React.forwardRef(
       countrySelectClassName,
       ...props
     },
-    ref,
+    ref
   ) => {
     return (
       <RPNInput.default
@@ -58,7 +58,7 @@ const PhoneInput = React.forwardRef(
         {...props}
       />
     );
-  },
+  }
 );
 PhoneInput.displayName = "PhoneInput";
 
@@ -66,7 +66,7 @@ const InputComponent = React.forwardRef(({ className, ...props }, ref) => (
   <Input
     className={cn(
       "rounded-e-full rounded-s-none border border-none px-3 py-6",
-      className,
+      className
     )}
     {...props}
     ref={ref}
@@ -79,13 +79,13 @@ const CountrySelect = ({
   value,
   onChange,
   options,
-  className,
+  className
 }) => {
   const handleSelect = React.useCallback(
     (country) => {
       onChange(country);
     },
-    [onChange],
+    [onChange]
   );
 
   return (
@@ -96,7 +96,7 @@ const CountrySelect = ({
           variant={"outline"}
           className={cn(
             "flex h-9 gap-1 rounded-e-none rounded-s-full border bg-white/75 px-3 py-[23px] shadow-none",
-            className,
+            className
           )}
           disabled={disabled}
         >
@@ -104,7 +104,7 @@ const CountrySelect = ({
           <ChevronsUpDown
             className={cn(
               "-mr-2 h-4 w-4 opacity-50",
-              disabled ? "hidden" : "opacity-100",
+              disabled ? "hidden" : "opacity-100"
             )}
           />
         </Button>
@@ -137,7 +137,7 @@ const CountrySelect = ({
                       <CheckIcon
                         className={cn(
                           "ml-auto h-4 w-4",
-                          option.value === value ? "opacity-100" : "opacity-0",
+                          option.value === value ? "opacity-100" : "opacity-0"
                         )}
                       />
                     </CommandItem>

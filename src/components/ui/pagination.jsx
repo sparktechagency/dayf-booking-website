@@ -35,10 +35,10 @@ const PaginationLink = ({ className, isActive, size = "icon", ...props }) => (
     className={cn(
       buttonVariants({
         variant: isActive ? "outline" : "ghostLightSkyBlue",
-        size,
+        size
       }),
       isActive && "bg-p1 text-white hover:bg-p1/90 hover:text-white",
-      className,
+      className
     )}
     {...props}
   />
@@ -76,7 +76,7 @@ const PaginationEllipsis = ({ className, ...props }) => (
     aria-hidden
     className={cn(
       "flex h-9 w-9 items-center justify-center text-p1",
-      className,
+      className
     )}
     {...props}
   >
@@ -93,5 +93,5 @@ export {
   PaginationItem,
   PaginationPrevious,
   PaginationNext,
-  PaginationEllipsis,
+  PaginationEllipsis
 };

@@ -9,7 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input"; // Import Input component for text input
 
@@ -59,7 +59,7 @@ export default function URadioGroup({ name, label, items }) {
               <FormItem>
                 <Input
                   placeholder="Please specify timeline"
-                  className="mt-2 border border-primary-blue"
+                  className="border-primary-blue mt-2 border"
                 />
               </FormItem>
             </FormControl>

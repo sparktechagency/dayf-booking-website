@@ -26,13 +26,13 @@ const badgeVariants = cva(
         hotel:
           "bg-[#e6f4ff] text-p1 hover:bg-[#e6f4ff] border-none font-semibold shadow-none",
         apartment:
-          "bg-[#fff7e6] text-[#d46b08] hover:bg-[#fff7e6] border-none font-semibold shadow-none",
-      },
+          "bg-[#fff7e6] text-[#d46b08] hover:bg-[#fff7e6] border-none font-semibold shadow-none"
+      }
     },
     defaultVariants: {
-      variant: "default",
-    },
-  },
+      variant: "default"
+    }
+  }
 );
 
 function Badge({ className, variant, ...props }) {

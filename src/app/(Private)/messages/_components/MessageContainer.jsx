@@ -44,7 +44,7 @@ const MessageContainer = () => {
                   user={{
                     img: userImg,
                     name: "Elmer Laverty",
-                    latestMsg: "omg, this is amazing 🔥",
+                    latestMsg: "omg, this is amazing 🔥"
                   }}
                   active={idx === 1 ? true : false}
                 />

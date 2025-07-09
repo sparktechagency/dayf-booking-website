@@ -22,7 +22,7 @@ export default async function AuthLayout({ children }) {
               background: "linear-gradient(180deg, #09F 0%, #0068AD 100%)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              WebkitTextFillColor: "transparent"
             }}
           >
             Book Your Dream Stay in Algeria’s Top Destinations

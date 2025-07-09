@@ -10,20 +10,15 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals"),
-  {
-    plugins: ["import"],
+  ...compat.config({
     rules: {
       "no-unused-vars": "warn",
       "no-console": "off",
       "react/react-in-jsx-scope": "off",
-
-      "import/named": "error",
-      "import/namespace": "error",
-      "import/default": "error",
-      "import/export": "error",
+      "no-unused-expressions": "error",
+      "no-unused-vars": "error",
     },
-  },
+  }),
 ];
 
 export default eslintConfig;

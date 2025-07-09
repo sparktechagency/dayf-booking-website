@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { ArrowRight } from "lucide-react";
+import { useGetTestimonialReviewsQuery } from "@/redux/api/reviewApi";
 
 export default function TestimonialsCarousel({ testimonials }) {
   const sliderRef = useRef(null);
@@ -32,6 +33,10 @@ export default function TestimonialsCarousel({ testimonials }) {
     }
   }, [sliderRef]);
 
+  // Get testimonial reviews
+  const { data: reviews } = useGetTestimonialReviewsQuery({});
+  console.log({ reviews });
+
   return (
     <div className="relative">
       <Swiper
@@ -49,7 +54,7 @@ export default function TestimonialsCarousel({ testimonials }) {
         autoplay={{
           delay: 6000,
           disableOnInteraction: false,
-          pauseOnMouseEnter: true,
+          pauseOnMouseEnter: true
         }}
         onActiveIndexChange={(e) => {
           if (e.isBeginning) {
@@ -69,8 +74,8 @@ export default function TestimonialsCarousel({ testimonials }) {
           setActiveIndex(e.activeIndex);
         }}
       >
-        {testimonials?.map((testimonial, idx) => (
-          <SwiperSlide key={testimonial.id} className="overflow-hidden">
+        {reviews?.map((testimonial, idx) => (
+          <SwiperSlide key={testimonial._id} className="overflow-hidden">
             <TestimonialCard
               testimonial={testimonial}
               isActive={activeIndex === idx}
@@ -82,7 +87,7 @@ export default function TestimonialsCarousel({ testimonials }) {
       <Button
         onClick={handlePrev}
         disabled={isBeginning}
-        className="absolute -left-40 top-1/2 z-[9999] aspect-square size-20 -translate-y-1/2 rounded-full bg-light-sky-blue text-xl text-p1 shadow-none hover:bg-p1 hover:text-white"
+        className="absolute -left-40 top-1/2 z-[9999] hidden aspect-square size-16 -translate-y-1/2 rounded-full bg-light-sky-blue text-xl text-p1 shadow-none hover:bg-p1 hover:text-white lg:flex lg:items-center lg:justify-center"
       >
         <ArrowLeft className="!size-8" />
       </Button>
@@ -90,7 +95,7 @@ export default function TestimonialsCarousel({ testimonials }) {
       <Button
         onClick={handleNext}
         disabled={isEnd}
-        className="absolute -right-40 top-1/2 z-[9999] aspect-square size-20 -translate-y-1/2 rounded-full bg-light-sky-blue text-p1 shadow-none hover:bg-p1 hover:text-white"
+        className="absolute -right-40 top-1/2 z-[9999] hidden aspect-square size-16 -translate-y-1/2 rounded-full bg-light-sky-blue text-p1 shadow-none hover:bg-p1 hover:text-white lg:flex lg:items-center lg:justify-center"
       >
         <ArrowRight className="!size-8" />
       </Button>

@@ -10,7 +10,7 @@ const FormWrapper = ({
   defaultValues,
   className,
   onSubmit,
-  onKeyDown,
+  onKeyDown
 }) => {
   const formConfig = {};
 
@@ -25,7 +25,7 @@ const FormWrapper = ({
   const form = useForm(formConfig) ?? {};
 
   const submit = (data) => {
-    onSubmit(data);
+    onSubmit(data, {reset: form.reset});
     // form.reset();
   };
 

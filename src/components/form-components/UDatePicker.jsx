@@ -8,14 +8,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import CalendarDatePicker from "../ui/calendar-date-picker";
 
 export default function UDatePicker({
   name,
   label,
-  disabledBeforeToday = false,
+  disabledBeforeToday = false
 }) {
   const { control } = useFormContext();
 
