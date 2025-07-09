@@ -173,7 +173,8 @@ export default function HotelsContainer({
             bookmarks={hotelBookmarks}
             handleCreateBookmark={handleCreateBookmark}
             handleDeleteBookmark={handleDeleteBookmark}
-            property={property}
+            property={property?.property}
+            fullProperty={property}
           />
         ))}
 
