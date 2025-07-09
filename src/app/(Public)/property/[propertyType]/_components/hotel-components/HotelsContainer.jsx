@@ -66,7 +66,7 @@ export default function HotelsContainer({
       console.error("Error while creating bookmark: ", error);
       ErrorModal(error?.data?.message);
     } else {
-      SuccessModal(data.message);
+      SuccessModal(data?.message);
       useGetBookmarksData("Property", setHotelBookmarks);
     }
   };
@@ -80,6 +80,8 @@ export default function HotelsContainer({
     useGetBookmarksData("Property", setHotelBookmarks);
     if (isDeleteError) {
       console.error("Error while deleting bookmark: ", deleteError);
+    }else {
+      SuccessModal("Bookmark deleted successfully");
     }
   };
 

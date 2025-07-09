@@ -34,7 +34,7 @@ const bookmarkApi = baseApi.injectEndpoints({
         method: "DELETE"
       }),
       invalidatesTags: [tagTypes.bookmark],
-      transformResponse: (res) => res?.data?.data
+      transformResponse: (res) => res?.data
     }),
   })
 });
