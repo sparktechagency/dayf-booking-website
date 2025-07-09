@@ -17,6 +17,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function HorizontalPropertyCard({
   property,
+  fullProperty,
   type,
   bookmarks,
   handleCreateBookmark,
@@ -128,7 +129,7 @@ export default function HorizontalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              ${property?.minPrice} - ${property?.maxPrice}{" "}
+              ${fullProperty?.minPrice} - ${fullProperty?.maxPrice}{" "}
               <span className="text-sm">Per Night</span>
             </h3>
           ) : (
