@@ -23,6 +23,7 @@ import { Icon } from "@iconify/react";
 import { useGetProfileQuery } from "@/redux/api/userApi";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/features/authSlice";
+import LangSwitcherDropdownMenu from "./LangSwitcherDropdownMenu";
 
 export default function Navbar() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function Navbar() {
     supportedCurrencies[1]
   ); // euro
   const [selectedLanguage, setSelectedLanguage] = useState(
-    supportedLanguages[1]
+    supportedLanguages[0]
   ); // es
 
   // ============== Get User Profile Info ====================
@@ -81,10 +82,10 @@ export default function Navbar() {
             setSelectedValue={setSelectedCurrency}
           />
 
-          <NavDropdown
+          <LangSwitcherDropdownMenu
             values={supportedLanguages}
             selectedValue={selectedLanguage}
-            setSelectedValue={setSelectedLanguage}
+            // setSelectedValue={setSelectedLanguage}
           />
 
           <Button

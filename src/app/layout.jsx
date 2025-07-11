@@ -10,6 +10,7 @@ import ScrollToTopBtn from "@/components/ScrollToTopBtn/ScrollToTopBtn";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Provider from "@/components/providers/Provider";
+import Script from "next/script";
 
 export const metadata = {
   title: {
@@ -63,6 +64,13 @@ export default function RootLayout({ children }) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
+
+        <Script src="/scripts/lang-config.js" strategy="beforeInteractive" />
+        <Script src="/scripts/translation.js" strategy="beforeInteractive" />
+        <Script
+          src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
+          strategy="afterInteractive"
+        />
       </head>
 
       <body
@@ -70,6 +78,8 @@ export default function RootLayout({ children }) {
       >
         <Provider>
           <Navbar />
+
+          <div id="google_translate_element" />
           <main className="min-h-[75vh] flex-1">{children}</main>
 
           <Footer />
