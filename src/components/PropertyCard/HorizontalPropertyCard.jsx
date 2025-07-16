@@ -25,6 +25,7 @@ export default function HorizontalPropertyCard({
 }) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [bookmarked, setBookmarked] = useState(null);
+  console.log("Property::::::::=> ", property);
 
   const isHotel = property?.price === undefined;
   const searchParams = useSearchParams();
