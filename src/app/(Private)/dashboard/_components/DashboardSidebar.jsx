@@ -60,7 +60,7 @@ export default function DashboardSidebar() {
 
   console.log({ profile });
   return (
-    <div className="lg:w-1/4">
+    <div className="w-full lg:w-1/4">
       {/* Profile Picture */}
       <div className="flex-center-start mb-8 gap-x-3">
         <CustomAvatar

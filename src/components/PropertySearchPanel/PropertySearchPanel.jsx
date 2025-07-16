@@ -198,7 +198,7 @@ export default function PropertySearchPanel({
 
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
 
-      <section className="flex-center-between gap-x-4">
+      <section className="flex flex-col md:flex-row items-center justify-between gap-x-4">
         {page !== "property-details" && (
           <div className="w-full">
             <Label className="mb-3 block font-semibold text-gray-500">
@@ -390,7 +390,7 @@ export default function PropertySearchPanel({
         </div>
 
         {page !== "property-details" && (
-          <div className="w-[20%]">
+          <div className="w-full md:w-[20%]">
             <Label className="mb-3 block font-semibold text-gray-500">
               Type
             </Label>
