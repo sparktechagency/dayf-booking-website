@@ -39,7 +39,7 @@ const faqs = [
 const ListPropertyFaq = () => {
   return (
     <div className="bg-white py-20">
-      <div className="mx-auto mb-14 w-1/2 text-center">
+      <div className="mx-auto mb-14 w-full md:w-1/2 px-4 md:px-0 text-center">
         <h1 className="heading">Everything You Need to Know Before Hosting</h1>
         <p className="description mt-3">
           Got questions? We’ve got answers! Whether you're new to hosting or

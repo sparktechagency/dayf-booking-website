@@ -31,7 +31,7 @@ export default function ProfileContainer() {
         </Button>
       </div>
 
-      <div className="mt-5 grid w-full grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="mt-5 grid w-full grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">Name</h6>
           <p>{profile?.name}</p>

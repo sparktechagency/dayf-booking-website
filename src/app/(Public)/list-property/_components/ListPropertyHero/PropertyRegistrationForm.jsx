@@ -59,7 +59,7 @@ export default function PropertyRegistrationForm() {
   };
 
   return (
-    <div className="rounded-2xl border bg-white p-7 text-black shadow-xl">
+    <div className="w-full rounded-2xl border bg-white p-7 text-black shadow-xl">
       <h3 className="mb-6 text-2xl font-semibold">
         Create Property Owner Account
       </h3>
