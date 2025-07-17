@@ -7,15 +7,19 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
-import usdIcon from "/public/images/navbar/dollar-circle.svg";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrency, setCurrency } from "@/redux/features/currencySlice";
 
-export default function NavDropdown({
-  values,
-  selectedValue,
-  setSelectedValue
-}) {
+export default function NavDropdown({ values }) {
+  const dispatch = useDispatch();
+  const currentCurrency = useSelector(selectCurrency);
+
+  // Find the full data for the current currency
+  const selectedValue =
+    values.find((v) => v.id === currentCurrency) || values[0];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -35,13 +39,10 @@ export default function NavDropdown({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-32 space-y-1 rounded-xl" align="start">
-        {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
-    <DropdownMenuSeparator /> */}
-
         {values?.map((value) => (
           <DropdownMenuItem
             key={value.id}
-            onClick={() => setSelectedValue(value)}
+            onClick={() => dispatch(setCurrency(value.id))}
             className={cn(
               "cursor-pointer rounded-lg hover:!bg-light-sky-blue",
               value.id === selectedValue.id
