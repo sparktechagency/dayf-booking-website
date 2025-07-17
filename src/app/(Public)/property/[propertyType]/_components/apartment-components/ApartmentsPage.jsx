@@ -104,8 +104,8 @@ export default function ApartmentsPage() {
         searchedGuests={guests}
       />
 
-      <ResponsiveContainer className="flex-start-between mt-16 gap-x-14">
-        <div className="w-1/4">
+      <ResponsiveContainer className="flex flex-col lg:flex-row flex-start-between mt-16 lg:gap-x-14 gap-y-12 lg:gap-y-0">
+        <div className="w-full lg:w-1/4">
           <ApartmentFilters
             priceRange={priceRange}
             setPriceRange={setPriceRange}
