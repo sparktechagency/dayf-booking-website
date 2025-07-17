@@ -118,14 +118,14 @@ export default function Navbar() {
 
               <Link
                 href="/dashboard/profile"
-                className="flex-center h-10 gap-x-2 rounded-full bg-white/50 pl-2 pr-3 text-p1 hover:text-p1/80"
+                className="flex-center h-10 gap-x-2 rounded-full bg-white/50 px-1 md:pl-2 md:pr-3 text-p1 hover:text-p1/80"
               >
                 <CustomAvatar
                   img={userProfile?.profile}
                   name={userProfile?.name}
                   className="size-8 border text-sm"
                 />
-                <h5 className="text-base">
+                <h5 className="hidden md:block text-base">
                   {userProfile?.name ? userProfile?.name?.split(" ")?.[0] : "-"}
                 </h5>
               </Link>

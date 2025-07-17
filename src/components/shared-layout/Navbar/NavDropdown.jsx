@@ -31,7 +31,7 @@ export default function NavDropdown({
           priority={true}
         />
 
-        <ChevronDown className="size-[16px] text-p1 lg:size-[22px]" />
+        <ChevronDown className="hidden md:block size-[16px] text-p1 lg:size-[22px]" />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-32 space-y-1 rounded-xl" align="start">
