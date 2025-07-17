@@ -24,13 +24,13 @@ export default function BookingHistoryContainer() {
   const bookings = bookingsRes?.data?.data || [];
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6 p-4">
+    <div className="mx-auto max-w-5xl space-y-6 md:p-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold tracking-tight">
           My Booking History
         </h1>
 
-        <div className="flex-center-end gap-x-3 lg:w-1/2">
+        <div className="md:flex-center-end flex-col md:flex-row md:gap-x-3 space-y-3 md:space-y-0 lg:w-1/2">
           <div className="inline-flex items-center rounded-full border bg-background p-1">
             {TABS.map((tab) => (
               <Button

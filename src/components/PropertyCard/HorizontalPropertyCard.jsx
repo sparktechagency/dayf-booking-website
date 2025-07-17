@@ -40,7 +40,7 @@ export default function HorizontalPropertyCard({
 
   return (
     <div
-      className="flex-stretch-start property-card gap-x-5 overflow-hidden rounded-3xl border border-[#EDEDED] bg-white shadow"
+      className="flex flex-col lg:flex-row lg:flex-stretch-start property-card gap-x-5 overflow-hidden rounded-3xl border border-[#EDEDED] bg-white shadow"
       onMouseEnter={() => setHoveredCardId(property?._id)}
       onMouseLeave={() => setHoveredCardId(null)}
     >
@@ -108,7 +108,7 @@ export default function HorizontalPropertyCard({
         <div className="swiper-arrow-navigation"></div>
       </Swiper>
 
-      <div className="flex flex-col justify-between py-5 pr-8 xl:w-3/4">
+      <div className="flex flex-col justify-between py-5 px-6 lg:pr-8 w-full xl:w-3/4">
         <div>
           <Link
             href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}

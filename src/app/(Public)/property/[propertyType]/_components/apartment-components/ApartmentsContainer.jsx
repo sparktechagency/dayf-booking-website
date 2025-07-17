@@ -88,7 +88,7 @@ export default function ApartmentsContainer({
 
   return (
     <div>
-      <section className="flex-center-between">
+      <section className="flex flex-col md:flex-row flex-center-between gap-6 md:gap-0">
         <h3 className="text-h4 font-semibold">
           {apartments?.length} Apartment{apartments?.length > 1 && "s"} Found 🌟
         </h3>

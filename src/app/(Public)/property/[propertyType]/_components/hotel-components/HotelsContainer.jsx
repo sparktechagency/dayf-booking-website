@@ -87,7 +87,7 @@ export default function HotelsContainer({
 
   return (
     <div>
-      <section className="flex-center-between">
+      <section className="flex flex-col md:flex-row items-center justify-between gap-y-6 md:gap-y-0">
         <h3 className="text-h4 font-semibold">
           {hotels?.length} Hotel{hotels?.length > 1 && "s"} Found 🌟
         </h3>

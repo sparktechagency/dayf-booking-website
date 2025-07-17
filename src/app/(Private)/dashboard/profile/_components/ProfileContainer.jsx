@@ -17,7 +17,7 @@ export default function ProfileContainer() {
 
   return (
     <div className="">
-      <div className="flex-center-between">
+      <div className="flex items-center justify-between">
         <h3 className="text-h4 font-semibold text-p1">Profile</h3>
 
         <Button
@@ -31,7 +31,7 @@ export default function ProfileContainer() {
         </Button>
       </div>
 
-      <div className="mt-5 grid w-full grid-cols-2 gap-6">
+      <div className="mt-5 grid w-full grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">Name</h6>
           <p>{profile?.name}</p>

@@ -6,15 +6,15 @@ import imgRight2 from "/public/images/hero/right-2.png";
 
 export default function HeroGallery() {
   return (
-    <div className="-space-y-12">
-      <div className="flex items-start justify-center gap-x-4">
-        <div className="relative">
+    <div className="space-y-8 md:-space-y-12">
+      <div className="flex flex-col md:flex-row items-start justify-center md:gap-x-4 gap-y-12 md:gap-y-0">
+        <div className="relative overflow-hidden md:overflow-visible rounded-[32px] md:rounded-none">
           <Image
             src={imgLeft1}
             alt="Image of a hotel in algeria"
             height={1200}
             width={1200}
-            className="mx-auto block size-auto"
+            className="mx-auto block size-auto w-[320px] md:w-auto"
           />
 
           {/* Floating Badge */}
@@ -24,7 +24,7 @@ export default function HeroGallery() {
               background: "rgba(255, 255, 255, 0.10)",
               backdropFilter: "blur(17.5px)"
             }}
-            className="absolute -left-20 top-1/2 -translate-y-1/2 border border-gray-500 border-opacity-15 p-4"
+            className="absolute w-full md:w-fit left-0 md:-left-20 top-[50px] md:top-1/2 -translate-y-1/2 border border-gray-500 border-opacity-15 p-4 px-6 md:px-4"
           >
             <h3 className="text-h4 font-semibold">25k</h3>
             <p className="text-lg">Satisfied Customers</p>
@@ -37,7 +37,7 @@ export default function HeroGallery() {
             alt="Image of a hotel in algeria"
             height={1200}
             width={1200}
-            className="size-auto"
+            className="size-auto w-[320px] md:w-auto"
           />
           {/* Floating Badge */}
           <div
@@ -55,7 +55,7 @@ export default function HeroGallery() {
         </div>
       </div>
 
-      <div className="flex items-end justify-center gap-x-4">
+      <div className="flex flex-col md:flex-row items-end justify-center md:gap-x-4 gap-y-8 md:gap-y-0">
         <Image
           src={imgLeft2}
           alt="Image of a hotel in algeria"
@@ -69,7 +69,7 @@ export default function HeroGallery() {
           alt="Image of a hotel in algeria"
           height={1200}
           width={1200}
-          className="size-auto"
+          className="size-auto w-full"
         />
       </div>
     </div>

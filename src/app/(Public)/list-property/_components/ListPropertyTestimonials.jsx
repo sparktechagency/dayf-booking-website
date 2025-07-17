@@ -6,7 +6,7 @@ import AnimatedArrow from "@/components/AnimatedArrow/AnimatedArrow";
 const ListPropertyTestimonials = () => {
   return (
     <div className="bg-white py-20">
-      <div className="mx-auto mb-14 w-1/2 text-center">
+      <div className="mx-auto mb-14 w-full md:w-1/2 px-4 md:px-0 text-center">
         <h1 className="heading">Real Stories from Happy Hosts</h1>
         <p className="description mt-3">
           Discover the beauty, culture, and excitement that surrounds our
@@ -32,7 +32,7 @@ const ListPropertyTestimonials = () => {
       <div className="flex-center mt-14">
         <Button
           variant="outline-primary"
-          className="group relative rounded-full px-12 py-7"
+          className="group relative rounded-full px-6 md:px-12 py-7"
         >
           Join Our Community of Happy Hosts <AnimatedArrow />
         </Button>
