@@ -198,7 +198,7 @@ export default function PropertySearchPanel({
 
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
 
-      <section className="flex flex-col md:flex-row items-center justify-between gap-x-4">
+      <section className="grid grid-cols-1 md:grid-cols-2 xl:flex-start-between md:gap-x-4 gap-y-4 xl:gap-y-0">
         {page !== "property-details" && (
           <div className="w-full">
             <Label className="mb-3 block font-semibold text-gray-500">
@@ -390,7 +390,7 @@ export default function PropertySearchPanel({
         </div>
 
         {page !== "property-details" && (
-          <div className="w-full md:w-[20%]">
+          <div className="w-full xl:w-[20%]">
             <Label className="mb-3 block font-semibold text-gray-500">
               Type
             </Label>
@@ -440,8 +440,8 @@ export default function PropertySearchPanel({
 
         <button
           onClick={handleNavigate}
-          className="mt-6 w-max whitespace-nowrap rounded-full bg-p1 px-6 py-2 text-base font-semibold text-white disabled:opacity-50"
-          type="button"
+          className="md:col-span-2 w-full lg:w-max mt-6 whitespace-nowrap rounded-full bg-p1 px-6 py-2 text-base font-semibold text-white disabled:opacity-50"
+         type="button"
           disabled={!checkInOutDate?.from || !checkInOutDate?.to}
         >
           {page === "property-details" ? "Search rooms" : "Search"}
