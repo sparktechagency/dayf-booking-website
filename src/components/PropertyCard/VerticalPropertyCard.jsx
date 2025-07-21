@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 export default function VerticalPropertyCard({
+  fullProperty,
   property,
   bookmarks,
   handleCreateBookmark,
@@ -33,6 +34,8 @@ export default function VerticalPropertyCard({
     if (foundData) setBookmarked(foundData);
     else setBookmarked(null);
   }, [bookmarks]);
+
+  console.log({ property, fullProperty, price: property?.price });
 
   return (
     <div className="property-card flex h-full flex-col justify-between gap-y-4">
@@ -115,8 +118,12 @@ export default function VerticalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              ${property?.minPrice} - ${property?.maxPrice}{" "}
-              <span className="text-sm">Per Night</span>
+              {/* {fullProperty?.minPrice ||
+                property?.minPrice ||
+                property?.price / 2}{" "}
+              - $
+              {fullProperty?.maxPrice || property?.maxPrice || property?.price}{" "} */}
+              {/* <span className="text-sm">{property?.price}Per Night</span> */}
             </h3>
           ) : (
             <h3 className="mt-3 text-h4 text-[#252525]">
