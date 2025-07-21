@@ -37,6 +37,7 @@ export default function HotelFilter({
   const [showMoreHotelFeatures, setShowMoreHotelFeatures] = useState(false);
 
   const handleSelectedRatings = (rating) => {
+    console.log("🚀 ~ handleSelectedRatings ~ rating:", rating)
     setSelectedRatings((prevSelected) =>
       prevSelected.includes(rating)
         ? prevSelected.filter((r) => r !== rating)

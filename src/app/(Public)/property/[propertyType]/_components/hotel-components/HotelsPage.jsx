@@ -53,7 +53,7 @@ export default function HotelsPage() {
   if (searchText) {
     query["searchTerm"] = searchText;
   }
-
+console.log("------------------------------->>",query)
   const { data: hotelsRes } = useGetPropertiesQuery(query);
 
   const hotels = hotelsRes?.data || [];
