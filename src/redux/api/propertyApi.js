@@ -7,7 +7,7 @@ import { baseApi } from "./baseApi";
  ** frontend is basically property in backend (e.g. propertyApi = hotelApi)
  */
 
-const API_INDEX = "/property-types";
+const API_INDEX = "/properties";
 
 const propertyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

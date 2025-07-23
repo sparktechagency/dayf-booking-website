@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
-import { useState } from "react";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
@@ -21,8 +20,6 @@ import {
   useDeleteBookmarkMutation,
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
-import { useEffect } from "react";
-import { useGetBookmarksData } from "@/hooks/useGetBookmarksData";
 
 // Constants
 const SORT_OPTIONS = {
@@ -49,7 +46,6 @@ export default function HotelsContainer({
   const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
     useDeleteBookmarkMutation();
 
-  // useGetBookmarksData("Property", setHotelBookmarks);
   const {
     data: hotelBookmarks,
     isError: isBookmarkError,
@@ -60,7 +56,7 @@ export default function HotelsContainer({
   if (isBookmarkError) {
     console.log("Error while fetching the bookmark data: ", bookmarkError);
   }
-  console.log("Hotel booKmarks: ", hotelBookmarks);
+  // console.log("Hotel booKmarks: ", hotelBookmarks);
 
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {
@@ -186,7 +182,7 @@ export default function HotelsContainer({
             bookmarks={hotelBookmarks}
             handleCreateBookmark={handleCreateBookmark}
             handleDeleteBookmark={handleDeleteBookmark}
-            property={property?.property}
+            property={property}
             fullProperty={property}
           />
         ))}

@@ -12,16 +12,14 @@ const RATING_STARS = [5, 4, 3, 2, 1];
 
 const LOCATION_SUGGESTIONS = [
   { name: "New York", latitude: 40.7128, longitude: -74.006 },
+  { name: "California", latitude: 37.7749, longitude: -122.4194 },
+  { name: "Miami", latitude: 25.7906, longitude: -80.1345 },
   { name: "London", latitude: 51.5072, longitude: -0.1276 },
   { name: "Paris", latitude: 48.8566, longitude: 2.3522 },
   { name: "Tokyo", latitude: 35.6764, longitude: 139.65 },
   { name: "Sydney", latitude: -33.8688, longitude: 151.2093 },
   { name: "Berlin", latitude: 52.52, longitude: 13.405 },
-  { name: "Rome", latitude: 41.9028, longitude: 12.4964 },
-  { name: "Barcelona", latitude: 41.3874, longitude: 2.1686 },
-  { name: "Mumbai", latitude: 19.076, longitude: 72.8777 },
   { name: "Dubai", latitude: 25.276987, longitude: 55.296249 },
-  { name: "Miami", latitude: 25.7906, longitude: -80.1345 }
 ];
 
 export default function HotelFilter({

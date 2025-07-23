@@ -11,7 +11,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { truncateMiddle } from "@/utils/textTruncate";
-import { useGetBookmarkByIdQuery } from "@/redux/api/bookmarkApi";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -30,12 +29,13 @@ export default function HorizontalPropertyCard({
   const searchParams = useSearchParams();
 
   // console.log("Bookmarks from the Card: ", bookmarks);
+  // console.log("property from the card: ", property);
 
   useEffect(() => {
     const foundData = bookmarks?.find(
       (bookmark) => bookmark?.reference?._id === property?._id
     );
-    console.log("Is foundData: ", foundData);
+    // console.log("Is foundData: ", foundData);
     if (foundData) setBookmarked(foundData);
     else setBookmarked(null);
   }, [bookmarks]);

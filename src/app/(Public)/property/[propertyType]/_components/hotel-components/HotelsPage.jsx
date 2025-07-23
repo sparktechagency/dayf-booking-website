@@ -33,7 +33,7 @@ export default function HotelsPage() {
     query["limit"] = pageSize;
   }
   if (priceRange.length > 0) {
-    query["priceRange"] = `${priceRange[0]}-${priceRange[1]}`;
+    // query["priceRange"] = `${priceRange[0]}-${priceRange[1]}`;
   }
   if (selectedRatings.length > 0) {
     query["ratingsFilter"] = selectedRatings.toString();
@@ -53,17 +53,18 @@ export default function HotelsPage() {
   if (searchText) {
     query["searchTerm"] = searchText;
   }
-console.log("------------------------------->>",query)
+  console.log("------------------------------->>", query);
   const { data: hotelsRes } = useGetPropertiesQuery(query);
 
   const hotels = hotelsRes?.data || [];
   const hotelsMeta = hotelsRes?.meta || {};
 
-  console.log({ hotels });
+  console.log("Hotels data: ", hotels);
+  console.log("Hotels meta: ", hotelsMeta);
 
   return (
     <div className="my-10">
-      <ResponsiveContainer className="flex flex-col lg:flex-row flex-start justify-between mt-16  lg:gap-x-14 gap-y-12 lg:gap-y-0">
+      <ResponsiveContainer className="flex-start mt-16 flex flex-col justify-between gap-y-12 lg:flex-row lg:gap-x-14 lg:gap-y-0">
         <div className="w-full lg:w-1/4">
           <HotelFilter
             priceRange={priceRange}

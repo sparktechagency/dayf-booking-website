@@ -92,6 +92,8 @@ export default function ApartmentsPage() {
   const apartments = apartmentsRes?.data || [];
   const apartmentsMeta = apartmentsRes?.meta || {};
 
+  console.log("Apartments: ", apartments);
+
   if (isApartmentsLoading) {
     return "Loading...";
   }
