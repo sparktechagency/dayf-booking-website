@@ -54,7 +54,7 @@ export default function LangSwitcherDropdownMenu({
   }
 
   const selectedLang = supportedLanguages?.find(
-    (lang) => lang.name === currentLanguage
+    (lang) => lang?.name === currentLanguage
   );
 
   // The following function switches the current language
@@ -76,8 +76,8 @@ export default function LangSwitcherDropdownMenu({
         )}
       >
         <Image
-          src={selectedLang.icon}
-          alt={selectedLang.label}
+          src={selectedLang?.icon}
+          alt={selectedLang?.label}
           height={250}
           width={250}
           className="aspect-square size-[20px] rounded-full object-cover lg:size-[25px]"
@@ -90,36 +90,36 @@ export default function LangSwitcherDropdownMenu({
       <DropdownMenuContent className="w-32 space-y-1 rounded-xl" align="start">
         {supportedLanguages?.map((lang) => (
           <DropdownMenuItem
-            key={lang.name}
+            key={lang?.name}
             onClick={() => {
               if (
-                lang.name === selectedLang.name ||
+                lang?.name === selectedLang?.name ||
                 (currentLanguage === "auto" &&
-                  languageConfig.defaultLanguage === lang.name)
+                  languageConfig?.defaultLanguage === lang?.name)
               ) {
                 return;
               }
-              switchLanguage(lang.name)();
+              switchLanguage(lang?.name)();
             }}
             className={cn(
               "cursor-pointer rounded-lg hover:!bg-light-sky-blue",
-              lang.name === selectedLang.name ||
+              lang?.name === selectedLang?.name ||
                 (currentLanguage === "auto" &&
-                  languageConfig.defaultLanguage === lang.name)
+                  languageConfig?.defaultLanguage === lang?.name)
                 ? "bg-light-sky-blue text-p1"
                 : "bg-transparent"
             )}
           >
             <Image
-              src={lang.icon}
-              alt={lang.label}
+              src={lang?.icon}
+              alt={lang?.label}
               height={20}
               width={20}
               className="aspect-square rounded-full object-cover"
               priority={true}
             />
 
-            <span>{lang.label}</span>
+            <span>{lang?.label}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
