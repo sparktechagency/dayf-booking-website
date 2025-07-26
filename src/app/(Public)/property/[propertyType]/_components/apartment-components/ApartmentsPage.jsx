@@ -100,12 +100,6 @@ export default function ApartmentsPage() {
 
   return (
     <div className="my-10">
-      <PropertySearchPanel
-        searchedLocation={locationName}
-        searchedCheckInOutDate={checkInOutDate}
-        searchedGuests={guests}
-      />
-
       <ResponsiveContainer className="flex flex-col lg:flex-row flex-start-between mt-16 lg:gap-x-14 gap-y-12 lg:gap-y-0">
         <div className="w-full lg:w-1/4">
           <ApartmentFilters
