@@ -5,6 +5,7 @@ import HotelsContainer from "./HotelsContainer";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
 import { useGetPropertiesQuery } from "@/redux/api/propertyApi";
 import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 import { useState } from "react";
 
 export default function HotelsPage() {
@@ -32,9 +33,6 @@ export default function HotelsPage() {
   if (pageSize) {
     query["limit"] = pageSize;
   }
-  if (priceRange.length > 0) {
-    // query["priceRange"] = `${priceRange[0]}-${priceRange[1]}`;
-  }
   if (selectedRatings.length > 0) {
     query["ratingsFilter"] = selectedRatings.toString();
   }
@@ -53,14 +51,42 @@ export default function HotelsPage() {
   if (searchText) {
     query["searchTerm"] = searchText;
   }
-  console.log("------------------------------->>", query);
+  // console.log("------------------------------->>", query);
   const { data: hotelsRes } = useGetPropertiesQuery(query);
 
   const hotels = hotelsRes?.data || [];
   const hotelsMeta = hotelsRes?.meta || {};
 
-  console.log("Hotels data: ", hotels);
-  console.log("Hotels meta: ", hotelsMeta);
+  const finalHotels = useMemo(() => {
+    let filtered = [...hotels];
+
+    // Filter by price range
+    filtered = filtered.filter((hotel) => {
+      // Treat null minPrice and maxPrice as 0
+      const min = hotel?.minPrice ?? 0;
+      const max = hotel?.maxPrice ?? 0;
+
+      // Check for overlap between hotel's price range and user's price range
+      return min <= priceRange[1] && max >= priceRange[0];
+    });
+
+    // Sort
+    if (sort.includes("price")) {
+      const isAsc = sort === "price";
+      filtered = filtered.sort((a, b) => {
+        // Treat null minPrice as 0 for sorting
+        const priceA = a?.minPrice ?? 0;
+        const priceB = b?.minPrice ?? 0;
+        return isAsc ? priceA - priceB : priceB - priceA;
+      });
+    }
+
+    return filtered;
+  }, [hotels, priceRange, sort]);
+
+  console.log("finalHotels: ====> ", finalHotels);
+  // console.log("Hotels data: ", hotels);
+  // console.log("Hotels meta: ", hotelsMeta);
 
   return (
     <div className="my-10">
@@ -78,7 +104,7 @@ export default function HotelsPage() {
 
         <div className="w-full flex-1">
           <HotelsContainer
-            hotels={hotels}
+            hotels={finalHotels?.length > 0 ? finalHotels : hotels}
             hotelsMeta={hotelsMeta}
             pagination={{ page, pageSize }}
             sort={sort}
