@@ -6,7 +6,7 @@ const MobileNavbar = ({ open, setOpen }) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTitle className="sr-only">Open Mobile Navigation Menu</SheetTitle>
-      <SheetContent side="left" className="md:hidden">
+      <SheetContent side="left" className="lg:hidden">
         <div className="mt-8 grid gap-5">
           {mobileNavbarLinks.map((link) => (
             <Link
