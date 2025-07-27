@@ -89,7 +89,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 <li>
                   <Link
-                    href="#"
+                    href="tel:+15551234567"
                     className="flex items-center gap-2 text-sm text-gray-200 transition-colors hover:text-white"
                   >
                     <Phone className="h-4 w-4" />
@@ -98,7 +98,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="mailto:support@dayf.com"
                     className="flex items-center gap-2 text-sm text-gray-200 transition-colors hover:text-white"
                   >
                     <Mail className="h-4 w-4" />

@@ -19,6 +19,23 @@ export default function BookingHistoryContainer() {
   if (searchTerm) {
     query.searchTerm = searchTerm;
   }
+  let status = "confirmed";
+  switch (activeTab) {
+    case "upcoming":
+      status = "confirmed";
+      break;
+    case "pending":
+      status = "pending";
+      break;
+    case "past":
+      status = "completed";
+      break;
+    default:
+      status = "confirmed";
+  }
+  if(status) {
+    query.status = status;
+  }
 
   const { data: bookingsRes, isLoading } = useGetAllBookingsQuery(query);
   const bookings = bookingsRes?.data?.data || [];
@@ -30,7 +47,7 @@ export default function BookingHistoryContainer() {
           My Booking History
         </h1>
 
-        <div className="md:flex-center-end flex-col md:flex-row md:gap-x-3 space-y-3 md:space-y-0 lg:w-1/2">
+        <div className="md:flex-center-end flex-col space-y-3 md:flex-row md:gap-x-3 md:space-y-0 lg:w-1/2">
           <div className="inline-flex items-center rounded-full border bg-background p-1">
             {TABS.map((tab) => (
               <Button
@@ -61,25 +78,7 @@ export default function BookingHistoryContainer() {
         <div>Loading...</div>
       ) : (
         <BookingHistoryTable
-          bookings={
-            activeTab === "upcoming"
-              ? bookings?.filter(
-                  (booking) =>
-                    booking?.paymentStatus === "paid" &&
-                    new Date(booking?.endDate) >= new Date()
-                )
-              : activeTab === "past"
-                ? bookings?.filter(
-                    (booking) =>
-                      booking?.paymentStatus === "paid" &&
-                      new Date(booking?.endDate) <= new Date()
-                  )
-                : activeTab === "pending"
-                  ? bookings?.filter(
-                      (booking) => booking?.paymentStatus === "pending"
-                    )
-                  : []
-          }
+          bookings={bookings}
         />
       )}
     </div>

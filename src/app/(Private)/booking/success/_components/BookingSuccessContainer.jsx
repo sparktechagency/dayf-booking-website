@@ -68,9 +68,7 @@ export default function BookingSuccessContainer() {
                     Name
                   </p>
                   <p className="font-semibold text-gray-900">
-                    {booking?.modelType === "Apartment"
-                      ? booking?.reference?.name
-                      : booking?.hotel?.name}
+                    {booking?.reference?.category}
                   </p>
                 </div>
               )}

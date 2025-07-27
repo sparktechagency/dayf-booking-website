@@ -10,8 +10,18 @@ import {
 import { format } from "date-fns";
 import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-const TABLE_HEADERS = ["Name", "Type", "Booking Date", "Booking Id", "Payment"];
+const TABLE_HEADERS = [
+  "Name",
+  "Type",
+  "Booking Date",
+  "Booking Id",
+  "Payment Status",
+  "Booking Status",
+  "Action"
+];
 
 export default function BookingHistoryTable({ bookings }) {
   return (
@@ -43,7 +53,7 @@ export default function BookingHistoryTable({ bookings }) {
                 className="border-primary-black/15 border-b mixin/table-cell:w-max mixin/table-cell:whitespace-nowrap mixin/table-cell:px-5 mixin/table-cell:py-4 mixin/table-cell:font-medium"
               >
                 <TableCell className="mixin/table-cell">
-                  {booking.hotelName || booking?.reference?.name}
+                  {booking?.author?.name}
                 </TableCell>
 
                 <TableCell className="mixin/table-cell">
@@ -67,15 +77,31 @@ export default function BookingHistoryTable({ bookings }) {
                 >
                   {booking.paymentStatus}
                 </TableCell>
+                <TableCell
+                  className={cn(
+                    "mixin/table-cell capitalize",
+                    booking.status === "confirmed"
+                      ? "text-green-500"
+                      : booking?.status === "completed"
+                        ? "text-blue-500"
+                        : "text-red-500"
+                  )}
+                >
+                  {booking.status}
+                </TableCell>
 
-                {/* <TableCell className="mixin/table-cell space-x-2 text-right">
-                <Button size="sm" variant="primary">
-                  View Details
-                </Button>
-                <Button variant="destructive" size="sm">
-                  Cancel
-                </Button>
-              </TableCell> */}
+                <TableCell className="mixin/table-cell space-x-2 text-right">
+                  <Link
+                    href={`/dashboard/booking-history/details/${booking?._id}`}
+                  >
+                    <Button size="sm" variant="primary">
+                      View Details
+                    </Button>
+                  </Link>
+                  <Button variant="destructive" size="sm">
+                    Cancel
+                  </Button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
