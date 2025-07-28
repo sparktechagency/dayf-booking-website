@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
-import BookingHistoryTable from "./BookingHistoryTable";
+import BookingHistoryTable from './BookingHistoryTable';
 
 const TABS = ["upcoming", "pending", "past"];
 

@@ -1,4 +1,4 @@
-import { passwordRegex } from "@/utils/commonRegex";
+import { passwordRegex } from "../utils/commonRegex";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import * as z from "zod";
 

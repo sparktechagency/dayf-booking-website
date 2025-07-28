@@ -8,10 +8,10 @@ import {
   TableRow
 } from "@/components/ui/table";
 import { format } from "date-fns";
-import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import EmptyContainer from "../../../../../components/EmptyContainer/EmptyContainer";
 
 const TABLE_HEADERS = [
   "Name",
@@ -53,7 +53,9 @@ export default function BookingHistoryTable({ bookings }) {
                 className="border-primary-black/15 border-b mixin/table-cell:w-max mixin/table-cell:whitespace-nowrap mixin/table-cell:px-5 mixin/table-cell:py-4 mixin/table-cell:font-medium"
               >
                 <TableCell className="mixin/table-cell">
-                  {booking?.author?.name}
+                  {booking?.modelType === "Apartment"
+                    ? booking?.reference?.name
+                    : booking?.reference?.category}
                 </TableCell>
 
                 <TableCell className="mixin/table-cell">

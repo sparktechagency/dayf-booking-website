@@ -1,52 +1,62 @@
 "use client";
 
-import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
+import React, { useState } from "react";
 import { format } from "date-fns";
-import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { useGetSingleBookingQuery } from "@/redux/api/bookingApi";
-import { useParams, useSearchParams } from "next/navigation";
+import { useCreateTestimonialReviewsMutation } from "../../../../../../../redux/api/reviewApi";
+import { useParams, useRouter } from "next/navigation";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Bath, BedDouble, HelpCircle, Maximize } from "lucide-react";
+import { BedDouble, Maximize } from "lucide-react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import CustomTooltip from "@/components/CustomTooltip/CustomTooltip";
-import { getNumberOfNights } from "@/utils/getNumberOfNights";
-
-const TABLE_HEADERS = [
-  "Name",
-  "Type",
-  "Booking Date",
-  "Booking Id",
-  "Payment Status",
-  "Booking Status",
-  "Action"
-];
+import ReviewForm from "./ReviewForm";
+import {
+  ErrorModal,
+  SuccessModal
+} from "../../../../../../../utils/customModal";
 
 export default function BookingHistoryDetailsContainer() {
   const params = useParams();
-  console.log("Params --------------> ", params);
+  const router = useRouter();
+  // console.log("Params --------------> ", params);
+
+  const [rating, setRating] = useState(0);
 
   const { data: booking, isLoading } = useGetSingleBookingQuery(params?.id);
   console.log("Single Booking =====================> ", booking);
-  //   const bookings = bookingsRes?.data?.data || [];
-  // return;
+
+  const [createTestimonialReviews, { isLoading: isReviewLoading }] =
+    useCreateTestimonialReviewsMutation();
+
+  const handleCreateBooking = async (data) => {
+    const reviewData = {
+      ...data,
+      rating,
+      reference: booking?.reference?._id,
+      modelType:
+        booking?.modelType === "RoomTypes" ? "Property" : booking?.modelType
+    };
+    console.log("Create Review data: ====> ", reviewData);
+
+    try {
+      const res = await createTestimonialReviews(reviewData).unwrap();
+      console.log("Create Review response: ", res);
+      if (res?.success) {
+        SuccessModal(res?.message);
+        router.push("/dashboard/booking-history");
+      }
+    } catch (error) {
+      console.log(error);
+      ErrorModal(error?.data?.message || "Something went wrong!");
+    }
+  };
+
   return (
-    <div className="mx-auto p-4 lg:w-1/2">
-      <Card className="overflow-hidden">
-        <div className="relative">
+    <div className="mx-auto w-full md:p-0">
+      <Card className="overflow-hidden border-none shadow-none">
+        <div className="relative flex flex-col md:flex-row gap-8 md:p-6">
           <Swiper
             modules={[Pagination]}
             spaceBetween={5}
@@ -61,12 +71,12 @@ export default function BookingHistoryDetailsContainer() {
             }}
             direction="horizontal"
             speed={600}
-            className="hotel-card-img-slider-radius"
+            className="hotel-card-img-slider-radius w-full md:max-w-[50%]"
           >
             {booking?.reference?.images?.map((image) => (
               <SwiperSlide
                 key={image?.url}
-                className="hotel-card-img-slider-radius relative overflow-hidden"
+                className="hotel-card-img-slider-radius relative overflow-hidden rounded-xl"
               >
                 <Image
                   src={image?.url}
@@ -81,16 +91,15 @@ export default function BookingHistoryDetailsContainer() {
             {/* <!-- Pagination --> */}
             <div className="swiper-pagination !absolute !bottom-2 !left-1/2 mx-auto !-translate-x-1/2 space-x-2"></div>
           </Swiper>
-        </div>
-
-        <CardContent className="grid gap-6 p-6 md:grid-cols-2">
-          <div className="space-y-4">
+          <div className="w-full space-y-4">
             <div>
               <h1 className="text-h3 font-semibold tracking-tight">
-                {booking?.reference?.category}
+                {booking?.modelType === "Apartment"
+                  ? booking?.reference?.name
+                  : booking?.reference?.category}
               </h1>
               <p className="text-gray-600">
-                {booking?.reference?.descriptions?.slice(0, 100) + "..."}
+                {booking?.reference?.descriptions}
               </p>
             </div>
 
@@ -109,66 +118,123 @@ export default function BookingHistoryDetailsContainer() {
                 </span>
               </div>
             </div>
+            {/* Guests Info */}
+            <div className="text-gray-600">
+              <h4 className="text-lg font-semibold">Guest Info</h4>
+              <ul className="ml-12 mt-2 list-disc">
+                <li>
+                  <p className="text-base">
+                    <span className="font-medium">Adult:</span>{" "}
+                    {booking?.reference?.guests?.adult}
+                  </p>
+                </li>
+                <li>
+                  <p className="text-base">
+                    <span className="font-medium">Children:</span>{" "}
+                    {booking?.reference?.guests?.children}
+                  </p>
+                </li>
+                <li>
+                  <p className="text-base">
+                    <span className="font-medium">Infants:</span>{" "}
+                    {booking?.reference?.guests?.infants}
+                  </p>
+                </li>
+              </ul>
+            </div>
           </div>
+        </div>
 
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold">
-                  ${booking?.reference?.pricePerNight}
-                </span>
-                <span className="text-muted-foreground text-sm">Per Night</span>
+        <CardContent className="space-y-6 border-t p-6">
+          <div className="flex items-baseline gap-1">
+            <p className="text-2xl font-bold">Booking Info</p>
+          </div>
+          <div className="grid gap-6 md:divide-x-2 md:grid-cols-2">
+            <div className="space-y-6">
+              <div className="grid gap-4">
+                {/* Total Price */}
+                <div className="flex justify-between">
+                  <p className="font-semibold">Name</p>
+                  <p>{booking?.author?.name}</p>
+                </div>
+                <div className="flex justify-between">
+                  <p className="font-semibold">Email</p>
+                  <p>{booking?.author?.email}</p>
+                </div>
+
+                {/* Booking Type */}
+                <div className="flex justify-between">
+                  <p className="font-semibold">Booking Type</p>
+                  <p>{booking?.modelType}</p>
+                </div>
+                {/* Total Room */}
+                <div className="flex justify-between">
+                  <p className="font-semibold">Total Room</p>
+                  <p>{booking?.totalRooms}</p>
+                </div>
+                {/* Price Per Night */}
+                <div className="flex justify-between">
+                  {booking?.modelType === "Apartment" ? (
+                    <>
+                      <p className="font-semibold">Price</p>
+                      <p>${booking?.reference?.price}</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-semibold">Price Per Night</p>
+                      <p>${booking?.reference?.pricePerNight}</p>
+                    </>
+                  )}
+                </div>
               </div>
-
-              <CustomTooltip
-                title="This payment is non-refundable!"
-                className="flex items-center gap-1 text-sm text-red-500"
-              >
-                Non-Refundable
-                <HelpCircle className="h-4 w-4" />
-              </CustomTooltip>
             </div>
 
-            <div className="grid gap-4">
-              {/* Total Price */}
-              <div className="flex justify-between">
-                <p>Name</p>
-                <p>{booking?.author?.name}</p>
-              </div>
-              <div className="flex justify-between">
-                <p>Email</p>
-                <p>{booking?.author?.email}</p>
-              </div>
+            <div className="space-y-6 md:pl-6">
+              <div className="grid gap-4">
+                {/* Payment Status */}
+                <div className="flex justify-between">
+                  <p className="font-semibold">Payment Status</p>
+                  <p>{booking?.paymentStatus}</p>
+                </div>
+                <div className="flex justify-between">
+                  <p className="font-semibold">Booking Status</p>
+                  <p>{booking?.status}</p>
+                </div>
 
-              {/* Start Date */}
-              <div className="flex justify-between">
-                <p>Start Date</p>
-                <p>
-                  {booking?.startDate &&
-                    format(booking?.startDate, "MMM dd, yyyy")}
-                </p>
-              </div>
-              {/* End Date */}
-              <div className="flex justify-between">
-                <p>End Date</p>
-                <p>
-                  {booking?.endDate && format(booking?.endDate, "MMM dd, yyyy")}
-                </p>
-              </div>
-              {/* Total Price */}
-              <div className="flex justify-between">
-                <p>Total Price</p>
-                <p>${booking?.totalPrice}</p>
+                {/* Start Date */}
+                <div className="flex justify-between">
+                  <p className="font-semibold">Start Date</p>
+                  <p>
+                    {booking?.startDate &&
+                      format(booking?.startDate, "MMM dd, yyyy")}
+                  </p>
+                </div>
+                {/* End Date */}
+                <div className="flex justify-between">
+                  <p className="font-semibold">End Date</p>
+                  <p>
+                    {booking?.endDate &&
+                      format(booking?.endDate, "MMM dd, yyyy")}
+                  </p>
+                </div>
+                {/* Total Price */}
+                <div className="flex justify-between">
+                  <p className="font-semibold">Total Price</p>
+                  <p>${booking?.totalPrice}</p>
+                </div>
               </div>
             </div>
-            {/* 
-                //! Payment Status
-                //! Booking Status
-                //! Other Info here....
-            
-            */}
           </div>
         </CardContent>
+
+        {/* Review Form */}
+        {booking?.status === "completed" && (
+          <ReviewForm
+            setRating={setRating}
+            handleCreateBooking={handleCreateBooking}
+            isLoading={isReviewLoading}
+          />
+        )}
       </Card>
     </div>
   );

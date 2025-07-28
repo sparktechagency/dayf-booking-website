@@ -58,9 +58,8 @@ export default function DashboardSidebar() {
     router.push("/");
   };
 
-  console.log({ profile });
   return (
-    <div className="w-full lg:w-1/4">
+    <div className={`${currentPath.includes('/booking-history/details') && 'hidden'} w-full lg:w-1/4`}>
       {/* Profile Picture */}
       <div className="flex-center-start mb-8 gap-x-3">
         <CustomAvatar

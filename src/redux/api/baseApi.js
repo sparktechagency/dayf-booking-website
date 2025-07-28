@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { tagTypesList } from "../tagtypes";
-import { getFromSessionStorage } from "@/utils/sessionStorage";
-import { getBackendBaseUrl } from "@/config/envConfig";
+import { getFromSessionStorage } from "../../utils/sessionStorage";
+import { getBackendBaseUrl } from "../../config/envConfig";
 import { setUser } from "../features/authSlice";
 
 const baseQuery = fetchBaseQuery({

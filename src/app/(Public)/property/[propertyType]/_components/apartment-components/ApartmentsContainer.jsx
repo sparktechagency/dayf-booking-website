@@ -14,7 +14,7 @@ import { ArrowUpDown } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
-import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
+import EmptyContainer from "../../../../../../components/EmptyContainer/EmptyContainer";
 import {
   useCreateBookmarkMutation,
   useDeleteBookmarkMutation,

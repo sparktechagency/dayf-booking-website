@@ -63,13 +63,27 @@ export default function BookingSuccessContainer() {
 
               {booking?.reference && (
                 <div className="space-y-1">
-                  <p className="font-medium text-gray-500">
-                    {booking?.modelType === "Apartment" ? "Apartment" : "Hotel"}{" "}
-                    Name
-                  </p>
-                  <p className="font-semibold text-gray-900">
-                    {booking?.reference?.category}
-                  </p>
+                  {
+                    booking?.modelType === "Apartment" ? (
+                      <>
+                        <p className="font-medium text-gray-500">
+                          Apartment Name
+                        </p>
+                        <p className="font-semibold text-gray-900">
+                          {booking?.reference?.name}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                       <p className="font-medium text-gray-500">
+                          Hotel Name
+                        </p>                   
+                      <p className="font-semibold text-gray-900">
+                        {booking?.reference?.category}
+                      </p>
+                      </>
+                    )
+                  }
                 </div>
               )}
 

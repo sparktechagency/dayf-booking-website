@@ -30,7 +30,7 @@ const PROPERTY_TYPE = [
 ];
 
 export default function PropertyRegistrationForm() {
-  const [selectedPropertyType, setSelectedPropertyType] = useState("Hotel");
+  // const [selectedPropertyType, setSelectedPropertyType] = useState("Hotel");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
@@ -90,7 +90,7 @@ export default function PropertyRegistrationForm() {
           required
         />
 
-        <div>
+        {/* <div>
           <Label className="flex-center-start gap-x-3">
             Property Type
             <CustomTooltip
@@ -126,9 +126,9 @@ export default function PropertyRegistrationForm() {
               </button>
             ))}
           </div>
-        </div>
+        </div> */}
 
-        <Separator className="my-4" />
+        {/* <Separator className="my-4" /> */}
 
         {formError && <CustomFormError formError={formError} />}
 
