@@ -44,7 +44,7 @@ export default function OtpVerificationForm() {
   const [resendOtp, { isLoading: isResendOtpLoading }] = useResendOtpMutation();
 
   // const decodedUser = jwtDecode(getFromSessionStorage("dayf-signup-token"));
-  // console.log("decoded: ", decodedUser);
+  console.log("decoded: ", decodedUser);
 
   useEffect(() => {
     if (timer > 0) {

@@ -56,7 +56,7 @@ export default function HotelsContainer({
   if (isBookmarkError) {
     console.log("Error while fetching the bookmark data: ", bookmarkError);
   }
-  // console.log("Hotel booKmarks: ", hotelBookmarks);
+  console.log("Hotel booKmarks: ", hotelBookmarks);
 
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {

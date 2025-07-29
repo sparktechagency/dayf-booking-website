@@ -51,7 +51,7 @@ export default function HotelsPage() {
   if (searchText) {
     query["searchTerm"] = searchText;
   }
-  // console.log("------------------------------->>", query);
+  console.log("------------------------------->>", query);
   const { data: hotelsRes } = useGetPropertiesQuery(query);
 
   const hotels = hotelsRes?.data || [];
@@ -85,8 +85,8 @@ export default function HotelsPage() {
   }, [hotels, priceRange, sort]);
 
   console.log("finalHotels: ====> ", finalHotels);
-  // console.log("Hotels data: ", hotels);
-  // console.log("Hotels meta: ", hotelsMeta);
+  console.log("Hotels data: ", hotels);
+  console.log("Hotels meta: ", hotelsMeta);
 
   return (
     <div className="my-10">

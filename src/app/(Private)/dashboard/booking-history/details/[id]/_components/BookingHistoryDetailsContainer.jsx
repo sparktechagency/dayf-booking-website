@@ -20,7 +20,7 @@ import {
 export default function BookingHistoryDetailsContainer() {
   const params = useParams();
   const router = useRouter();
-  // console.log("Params --------------> ", params);
+  console.log("Params --------------> ", params);
 
   const [rating, setRating] = useState(0);
 
