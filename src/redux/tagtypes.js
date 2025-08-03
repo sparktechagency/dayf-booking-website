@@ -6,6 +6,7 @@ export const tagTypes = {
   messages: "Messages",
   notifications: "Notifications",
   reviews: "Reviews",
+  chats: "Chats",
 
   // ----- Property types -----
   properties: "Properties",

@@ -32,7 +32,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/app/(Private)/messages/_components_2/MessageForm.jsx", "src/components/skeletons/Spinner.jsx", "src/components/skeletons/ErrorComponent.jsx"  ],
   "exclude": [
     "node_modules"
   ]
