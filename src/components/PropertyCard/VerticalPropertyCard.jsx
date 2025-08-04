@@ -62,12 +62,12 @@ export default function VerticalPropertyCard({
             >
               {image?.url ? (
                 <Image
-                src={image?.url}
-                alt={`Photo of the ${property.name} hotel.`}
-                height={900}
-                width={900}
-                className="hotel-card-img-slider-radius h-[270px] w-full overflow-hidden object-cover transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
-              />
+                  src={image?.url}
+                  alt={`Photo of the ${property.name} hotel.`}
+                  height={900}
+                  width={900}
+                  className="hotel-card-img-slider-radius h-[270px] w-full overflow-hidden object-cover transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
+                />
               ) : (
                 <div className="h-[270px] w-full bg-gray-100"></div>
               )}
@@ -151,7 +151,7 @@ export default function VerticalPropertyCard({
         asChild
       >
         <Link
-          href={`/property/${isHotel ? "hotels" : "apartments"}/${property?._id}`}
+          href={`/property/${property?.isProperty ? "hotels" : "apartments"}/${property?._id}`}
           scroll={true}
         >
           See Details <AnimatedArrow />

@@ -24,6 +24,10 @@ const TABLE_HEADERS = [
 ];
 
 export default function BookingHistoryTable({ bookings }) {
+  const handleRepay = () => {
+
+  };
+  
   return (
     <div className="rounded-lg border">
       <Table>
@@ -93,16 +97,26 @@ export default function BookingHistoryTable({ bookings }) {
                 </TableCell>
 
                 <TableCell className="mixin/table-cell space-x-2 text-right">
-                  <Link
-                    href={`/dashboard/booking-history/details/${booking?._id}`}
-                  >
-                    <Button size="sm" variant="primary">
-                      View Details
-                    </Button>
-                  </Link>
-                  <Button variant="destructive" size="sm">
-                    Cancel
-                  </Button>
+                  {booking?.status === "pending" ? (
+                    <>
+                      <Button variant="solid" size="sm" className="bg-green-600 hover:bg-green-700 text-white">
+                        Repay
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href={`/dashboard/booking-history/details/${booking?._id}`}
+                      >
+                        <Button size="sm" variant="primary">
+                          View Details
+                        </Button>
+                      </Link>
+                      <Button variant="destructive" size="sm">
+                        Cancel
+                      </Button>
+                    </>
+                  )}
                 </TableCell>
               </TableRow>
             ))

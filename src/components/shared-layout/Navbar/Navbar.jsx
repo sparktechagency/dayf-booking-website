@@ -30,6 +30,8 @@ export default function Navbar() {
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   const userId = useSelector(selectUser)?.userId;
 
+  console.log("User ID from Navbar:", userId);
+
   // Navbar dropdown states: Currency & Language
   const [selectedCurrency, setSelectedCurrency] = useState(
     supportedCurrencies[1]
@@ -88,17 +90,20 @@ export default function Navbar() {
             // setSelectedValue={setSelectedLanguage}
           />
 
-          <Button
-            variant="outline"
-            className="group hidden h-10 gap-x-2 rounded-full border border-[#A5D3F1] bg-transparent px-4 text-p1 shadow-none transition-all duration-300 ease-in-out hover:bg-p1 hover:text-white lg:inline-flex"
-            onClick={() => router.push("/list-property")}
-          >
-            <span className="hidden xl:flex xl:items-center xl:gap-x-2">
-              List your property <AnimatedArrow variant="vertical" />
-            </span>
+          {/* Logged user will not seen this button */}
+          {!userId && (
+            <Button
+              variant="outline"
+              className="group hidden h-10 gap-x-2 rounded-full border border-[#A5D3F1] bg-transparent px-4 text-p1 shadow-none transition-all duration-300 ease-in-out hover:bg-p1 hover:text-white lg:inline-flex"
+              onClick={() => router.push("/list-property")}
+            >
+              <span className="hidden xl:flex xl:items-center xl:gap-x-2">
+                List your property <AnimatedArrow variant="vertical" />
+              </span>
 
-            <House className="block xl:hidden" />
-          </Button>
+              <House className="block xl:hidden" />
+            </Button>
+          )}
 
           {!userId ? (
             <Button
@@ -119,14 +124,14 @@ export default function Navbar() {
 
               <Link
                 href="/dashboard/profile"
-                className="flex-center h-10 gap-x-2 rounded-full bg-white/50 px-1 md:pl-2 md:pr-3 text-p1 hover:text-p1/80"
+                className="flex-center h-10 gap-x-2 rounded-full bg-white/50 px-1 text-p1 hover:text-p1/80 md:pl-2 md:pr-3"
               >
                 <CustomAvatar
                   img={userProfile?.profile}
                   name={userProfile?.name}
                   className="size-8 border text-sm"
                 />
-                <h5 className="hidden md:block text-base">
+                <h5 className="hidden text-base md:block">
                   {userProfile?.name ? userProfile?.name?.split(" ")?.[0] : "-"}
                 </h5>
               </Link>

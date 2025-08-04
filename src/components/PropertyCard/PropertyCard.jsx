@@ -14,7 +14,6 @@ export default function PropertyCard({
     <VerticalPropertyCard
       property={property}
       fullProperty={fullProperty}
-      type={type}
       bookmarks={bookmarks}
       handleCreateBookmark={handleCreateBookmark}
       handleDeleteBookmark={handleDeleteBookmark}

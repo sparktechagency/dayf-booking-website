@@ -3,7 +3,7 @@
 import { useGetPropertiesByFiltersQuery } from "@/redux/api/propertyApi";
 import { X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import PropertyCard from "../PropertyCard/PropertyCard";
 import HorizontalPropertyCardSkeleton from "../shared/HorizontalPropertyCardSkeleton";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,7 +13,9 @@ import { PaginationWithLinks } from "../ui/pagination-with-links";
 
 export default function FloatingPropertySearchResults({
   showResults,
-  setShowResults
+  setShowResults,
+  isRefetch,
+  setIsRefetch
 }) {
   const searchParams = useSearchParams();
   const checkInOutDate = JSON.parse(searchParams.get("checkInOutDate")) || "";
@@ -41,7 +43,8 @@ export default function FloatingPropertySearchResults({
   // Get properties for global search
   const {
     data: propertiesByFitlers,
-    isFetching: isLoadingPropertiesByFilters
+    isFetching: isLoadingPropertiesByFilters,
+    refetch
   } = useGetPropertiesByFiltersQuery(query, {
     skip: !checkInOutDate?.from || !checkInOutDate?.to || !showResults
   });
@@ -49,6 +52,13 @@ export default function FloatingPropertySearchResults({
   const propertiesMeta = propertiesByFitlers?.meta || {};
 
   console.log({ properties });
+
+  useEffect(() => {
+    if (isRefetch && propertiesByFitlers?.data) {
+      refetch();
+      setIsRefetch(false);
+    }
+  }, [isRefetch, propertiesByFitlers, refetch, setIsRefetch]);
 
   return (
     <div>
