@@ -33,7 +33,7 @@ const MessageContainer = () => {
     }
   }, [isLoading, isError, chats]);
 
-  const handleChangeActiveChat = (id: string) => {
+  const handleChangeActiveChat = (id) => {
     router.push(`/message?activeChat=${id}`);
     setActiveChat(id);
 
@@ -57,7 +57,7 @@ const MessageContainer = () => {
       }
 
       // Listen for real-time notification event
-      socket.on(`chat-list::${user?._id}`, (newChatList: any) => {
+      socket.on(`chat-list::${user?._id}`, (newChatList) => {
         setChatData(newChatList);
         console.log("received realtime chat list,", newChatList);
       });
@@ -82,14 +82,14 @@ const MessageContainer = () => {
   if (isError)
     return (
       <ErrorComponent
-        message={(error as any)?.data?.message}
+        message={error.data?.message}
         onRetry={refetch}
         className="flex h-[65vh] items-center justify-center"
       />
     );
 
   const activeChatData =
-    chatData.find((data: any) => data.chat._id === activeChat) ||
+    chatData.find((data) => data.chat._id === activeChat) ||
     chats[0] ||
     {};
 
@@ -124,7 +124,7 @@ const MessageContainer = () => {
 
             {/* users list - TODO: Use dynamic data */}
             <div className="scroll-hide mt-4 max-h-[85vh] space-y-4 overflow-y-scroll pb-44">
-              {chatData?.map((data: any, idx: number) => (
+              {chatData?.map((data, idx) => (
                 <div
                   onClick={() => handleChangeActiveChat(data?.chat?._id)}
                   key={idx}
@@ -142,10 +142,10 @@ const MessageContainer = () => {
 
         {/* right */}
         <MessagesBox
-          receiverId={activeChatData.chat.participants[0]._id}
-          image={activeChatData.chat.participants[0].photoUrl}
-          name={activeChatData.chat.participants[0].name}
-          chatId={activeChatData.chat._id}
+          receiverId={activeChatData?.chat?.participants[0]?._id}
+          image={activeChatData?.chat?.participants[0]?.photoUrl}
+          name={activeChatData?.chat?.participants[0]?.name}
+          chatId={activeChatData?.chat?._id}
         />
       </div>
     </div>

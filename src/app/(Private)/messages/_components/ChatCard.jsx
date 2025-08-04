@@ -1,20 +1,14 @@
-import CustomAvatar from "@/components/CustomAvatar"
-import { useAppSelector } from "@/redux/hooks"
-import { selectUser } from "@/redux/slices/authSlice"
-import { timeAgo } from "@/utils/timeAgo"
+import CustomAvatar from "@/components/CustomAvatar/CustomAvatar";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/features/authSlice";
+import { timeAgo } from "@/utils/timeAgo";
 
-interface ChatCardProps {
-  data: any
-  active: boolean
-  unreadMessageCount?: number
-}
-
-const ChatCard = ({ data, active }: ChatCardProps) => {
-  const me = useAppSelector(selectUser)
-  const { chat, message, unreadMessageCount } = data
-  const user = chat?.participants[0]
-  const isLasterSenderMe = message?.sender == me?._id
-  const isRead = isLasterSenderMe || message?.seen || active
+const ChatCard = ({ data, active }) => {
+  const me = useSelector(selectUser);
+  const { chat, message, unreadMessageCount } = data;
+  const user = chat?.participants[0];
+  const isLasterSenderMe = message?.sender == me?._id;
+  const isRead = isLasterSenderMe || message?.seen || active;
 
   return (
     <div
@@ -49,7 +43,7 @@ const ChatCard = ({ data, active }: ChatCardProps) => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChatCard
+export default ChatCard;

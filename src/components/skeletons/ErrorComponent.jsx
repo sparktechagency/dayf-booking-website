@@ -20,7 +20,7 @@ export default function ErrorComponent({
       {/* Retry Button */}
       <Button
         onClick={onRetry}
-        className="!bg-primary hover:!bg-primary/90 !border-primary rounded-lg !text-white !transition-all !duration-300 !ease-in-out"
+        className="!bg-primary hover:!bg-primary/90 !border-primary rounded-lg !text-black !transition-all !duration-300 !ease-in-out"
       >
         Retry
       </Button>

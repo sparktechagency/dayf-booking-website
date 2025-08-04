@@ -1,68 +1,63 @@
-"use client"
+"use client";
 
-import { Form, Input, Button } from "antd"
-import { Icon } from "@iconify/react"
-import { Loader } from "lucide-react"
-import { useEffect, useState } from "react"
-import { useAppSelector } from "@/redux/hooks"
-import { selectUser } from "@/redux/slices/authSlice"
-import { useSocket } from "@/redux/hooks/useSocket"
+import { Form, Input, Button } from "antd";
+import { Icon } from "@iconify/react";
+import { Loader } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/features/authSlice";
+import useSocket from "@/hooks/useSocket";
 
-interface MessageFormProps {
-  chatId: string
-  receiverId: string
-}
+export default function MessageForm({ receiverId }) {
+  const [isMessageSending, setIsMessageSending] = useState(false);
+  const [form] = Form.useForm();
+  const user = useSelector(selectUser);
 
-export default function MessageForm({ receiverId }: MessageFormProps) {
-  const [isMessageSending, setIsMessageSending] = useState(false)
-  const [form] = Form.useForm()
-  const user = useAppSelector(selectUser)
-
-  const socket = useSocket()
+  const socket = useSocket();
   useEffect(() => {
     if (socket) {
       // Connect socket if not already connected
       if (!socket.connected) {
-        socket.connect()
+        socket.connect();
       }
 
       socket.on("connect", () => {
-        console.log("Socket connected")
-      })
+        console.log("Socket connected");
+      });
       socket.on("disconnect", () => {
-        console.log("Socket disconnected")
-      })
+        console.log("Socket disconnected");
+      });
 
       return () => {
-        socket.off("connect")
-        socket.off("disconnect")
+        socket.off("connect");
+        socket.off("disconnect");
         // Do not disconnect socket here to maintain connection across components
-      }
+      };
     }
-  }, [socket])
+  }, [socket]);
 
   /** submit ------------------------------------------------------------ */
-  const handleSendMessage = ({ message }: { message: string }) => {
-    setIsMessageSending(true)
-    const text = message.trim()
-    if (!text) return // double‑check (shouldn’t be possible)
+  const handleSendMessage = ({ message }) => {
+    setIsMessageSending(true);
+    const text = message.trim();
+    if (!text) return; // double‑check (shouldn’t be possible)
 
     const payload = {
       text,
       receiver: receiverId,
-      sender: user?._id || "",
-    }
+      sender: user?._id || ""
+    };
 
     // return console.log("Sending message:", JSON.stringify(payload))
     if (socket.connected) {
-      form.resetFields()
-      setIsMessageSending(false)
-      socket.emit("send-message", payload)
+      form.resetFields();
+      setIsMessageSending(false);
+      socket.emit("send-message", payload);
     } else {
-      setIsMessageSending(false)
-      console.error("Socket not connected, message not sent")
+      setIsMessageSending(false);
+      console.error("Socket not connected, message not sent");
     }
-  }
+  };
 
   /** UI ---------------------------------------------------------------- */
   return (
@@ -88,7 +83,7 @@ export default function MessageForm({ receiverId }: MessageFormProps) {
         {() => {
           // disable if empty / only whitespace OR while loading
           const disabled =
-            isMessageSending || !form.getFieldValue("message")?.trim()?.length
+            isMessageSending || !form.getFieldValue("message")?.trim()?.length;
 
           return (
             <Button
@@ -104,9 +99,9 @@ export default function MessageForm({ receiverId }: MessageFormProps) {
                 <Icon icon="material-symbols:send" height={20} width={20} />
               )}
             </Button>
-          )
+          );
         }}
       </Form.Item>
     </Form>
-  )
+  );
 }

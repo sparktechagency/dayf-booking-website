@@ -1,4 +1,4 @@
-import { toast, Id } from "react-toastify";
+import { toast } from "react-toastify";
 
 /**
  * Helper to run an RTK‑Query mutation with optional toast feedback.
@@ -10,7 +10,6 @@ import { toast, Id } from "react-toastify";
  * @param onSuccess   – callback invoked with the resolved data.
  * @param onFailure   – callback invoked with the error / response.
  */
-
 const handleMutation = async (
   data,
   mutation,

@@ -32,7 +32,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/(Private)/messages/_components_2/MessageForm.jsx", "src/components/skeletons/Spinner.jsx", "src/components/skeletons/ErrorComponent.jsx"  ],
+, "src/app/(Private)/messages/_components_2/MessageForm.jsx", "src/components/skeletons/Spinner.jsx", "src/components/skeletons/ErrorComponent.jsx", "src/app/(Private)/messages/_components/MessageContainer.jsx", "src/app/(Private)/messages/_components/MessageBox.jsx", "src/utils/timeAgo.js", "src/app/(Private)/messages/_components/ChatCard.jsx", "src/app/(Private)/messages/_components/MessageForm.jsx", "src/app/(Private)/messages/_components/OwnerMsgCard.jsx", "src/app/(Private)/messages/_components/ReceivedMessage.jsx"  ],
   "exclude": [
     "node_modules"
   ]
