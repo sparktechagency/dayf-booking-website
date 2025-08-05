@@ -108,6 +108,10 @@ export default function PropertySearchPanel({
 
   // Handle navigation
   const handleNavigate = () => {
+    console.log("latitude ----> ", latitude);
+    console.log("longitude ----->", longitude);
+
+    // return;
     const urlSearchParams = new URLSearchParams();
     if (page !== "property-details") {
       urlSearchParams.set("locationName", searchLocationName);
@@ -219,8 +223,8 @@ export default function PropertySearchPanel({
 
                     setLocation(formatted);
                     setSearchLocationName(formatted);
-                    setLatitude(lat.toString());
-                    setLongitude(lng.toString());
+                    setLatitude(lat);
+                    setLongitude(lng);
                   }
                 }}
               >
