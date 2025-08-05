@@ -77,7 +77,7 @@ export default function HotelsContainer({
     }
   };
 
-  // Create Bookmark
+  // Delete Bookmark
   const handleDeleteBookmark = async (_id) => {
     console.log("_id: ", _id);
 
