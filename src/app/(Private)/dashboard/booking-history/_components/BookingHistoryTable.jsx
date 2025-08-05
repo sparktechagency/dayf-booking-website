@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import EmptyContainer from "../../../../../components/EmptyContainer/EmptyContainer";
+import ModalWrapper from "@/components/ModalWrapper.js/ModalWrapper";
+import ReviewForm from "../details/[id]/_components/ReviewForm";
 
 const TABLE_HEADERS = [
   "Name",
@@ -27,9 +29,14 @@ export default function BookingHistoryTable({
   bookings,
   handleRepay,
   checkoutLoading,
+  completeBookingLoading,
   handleCompleteBooking,
-  activeTab
+  activeTab,
+  refetch
 }) {
+  const [reviewModalOpen, setReviewModalOpen] = React.useState(false);
+  const [selectedBooking, setSelectedBooking] = React.useState(null);
+
   return (
     <div className="rounded-lg border">
       <Table>
@@ -127,8 +134,8 @@ export default function BookingHistoryTable({
                         onClick={() => handleCompleteBooking(booking?._id)}
                         variant="solid"
                         size="sm"
-                        disabled={checkoutLoading}
-                        loading={checkoutLoading}
+                        disabled={completeBookingLoading}
+                        loading={completeBookingLoading}
                         className="bg-green-600 text-white hover:bg-green-700"
                       >
                         Complete
@@ -147,6 +154,19 @@ export default function BookingHistoryTable({
                           View Details
                         </Button>
                       </Link>
+                      {/* Review */}
+                      <Button
+                        onClick={() => {
+                          setReviewModalOpen(true);
+                          setSelectedBooking(booking);
+                        }}
+                        variant="solid"
+                        size="sm"
+                        disabled={booking?.isReviewed}
+                        className="bg-green-600 text-white hover:bg-green-700"
+                      >
+                        Review
+                      </Button>
                     </>
                   )}
                 </TableCell>
@@ -164,6 +184,22 @@ export default function BookingHistoryTable({
           )}
         </TableBody>
       </Table>
+
+      {/* Display Modals */}
+      <ModalWrapper
+        title="Write a Review"
+        open={reviewModalOpen}
+        setOpen={setReviewModalOpen}
+      >
+        <div className="p-4">
+          {/* Review Form goes here */}
+          <ReviewForm
+            booking={selectedBooking}
+            setOpenReviewModal={setReviewModalOpen}
+            refetchBooking={refetch}
+          />
+        </div>
+      </ModalWrapper>
     </div>
   );
 }

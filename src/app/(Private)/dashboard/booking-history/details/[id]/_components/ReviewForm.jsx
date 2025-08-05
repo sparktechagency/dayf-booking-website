@@ -1,11 +1,44 @@
+"use client";
+
 import React from "react";
 import FormWrapper from "../../../../../../../components/form-components/FormWrapper";
 import UTextarea from "../../../../../../../components/form-components/UTextarea";
 import AnimatedArrow from "../../../../../../../components/AnimatedArrow/AnimatedArrow";
-import StarRating from './StarRating';
+import StarRating from "./StarRating";
 import { Button } from "@/components/ui/button";
+import { useCreateTestimonialReviewsMutation } from "@/redux/api/reviewApi";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
 
-export default function ReviewForm({setRating, handleCreateBooking, isLoading}) {
+export default function ReviewForm({ booking, setOpenReviewModal, refetchBooking }) {
+  const [rating, setRating] = React.useState(0);
+  const [createTestimonialReviews, { isLoading: isReviewLoading }] =
+    useCreateTestimonialReviewsMutation();
+
+  const handleCreateBooking = async (data) => {
+    const reviewData = {
+      ...data,
+      rating,
+      booking: booking?._id,
+      reference: booking?.reference?._id,
+      modelType:
+        booking?.modelType === "RoomTypes" ? "Property" : booking?.modelType
+    };
+    console.log("Create Review data: ====> ", reviewData);
+
+    try {
+      const res = await createTestimonialReviews(reviewData).unwrap();
+      console.log("Create Review response: ", res);
+      if (res?.success) {
+        SuccessModal(res?.message);
+        setOpenReviewModal?.(false);
+        refetchBooking();
+      }
+    } catch (error) {
+      console.log(error);
+      ErrorModal(error?.data?.message || "Something went wrong!");
+    }
+  };
+
   return (
     <div className="mt-6 px-6">
       <h2 className="mb-6 text-2xl font-semibold">Please give your review</h2>
@@ -27,8 +60,8 @@ export default function ReviewForm({setRating, handleCreateBooking, isLoading}) 
         <Button
           type="submit"
           variant="primary"
-          loading={isLoading}
-          disabled={isLoading}
+          loading={isReviewLoading}
+          disabled={isReviewLoading}
           className="group w-full rounded-full py-5"
         >
           Submit

@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { format } from "date-fns";
 import { useGetSingleBookingQuery } from "@/redux/api/bookingApi";
-import { useCreateTestimonialReviewsMutation } from "../../../../../../../redux/api/reviewApi";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { BedDouble, Maximize } from "lucide-react";
@@ -12,51 +11,17 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import ReviewForm from "./ReviewForm";
-import {
-  ErrorModal,
-  SuccessModal
-} from "../../../../../../../utils/customModal";
 
 export default function BookingHistoryDetailsContainer() {
   const params = useParams();
-  const router = useRouter();
-  console.log("Params --------------> ", params);
 
-  const [rating, setRating] = useState(0);
-
-  const { data: booking, isLoading } = useGetSingleBookingQuery(params?.id);
+  const { data: booking, refetch } = useGetSingleBookingQuery(params?.id);
   console.log("Single Booking =====================> ", booking);
-
-  const [createTestimonialReviews, { isLoading: isReviewLoading }] =
-    useCreateTestimonialReviewsMutation();
-
-  const handleCreateBooking = async (data) => {
-    const reviewData = {
-      ...data,
-      rating,
-      reference: booking?.reference?._id,
-      modelType:
-        booking?.modelType === "RoomTypes" ? "Property" : booking?.modelType
-    };
-    console.log("Create Review data: ====> ", reviewData);
-
-    try {
-      const res = await createTestimonialReviews(reviewData).unwrap();
-      console.log("Create Review response: ", res);
-      if (res?.success) {
-        SuccessModal(res?.message);
-        router.push("/dashboard/booking-history");
-      }
-    } catch (error) {
-      console.log(error);
-      ErrorModal(error?.data?.message || "Something went wrong!");
-    }
-  };
 
   return (
     <div className="mx-auto w-full md:p-0">
       <Card className="overflow-hidden border-none shadow-none">
-        <div className="relative flex flex-col md:flex-row gap-8 md:p-6">
+        <div className="relative flex flex-col gap-8 md:flex-row md:p-6">
           <Swiper
             modules={[Pagination]}
             spaceBetween={5}
@@ -149,7 +114,7 @@ export default function BookingHistoryDetailsContainer() {
           <div className="flex items-baseline gap-1">
             <p className="text-2xl font-bold">Booking Info</p>
           </div>
-          <div className="grid gap-6 md:divide-x-2 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2 md:divide-x-2">
             <div className="space-y-6">
               <div className="grid gap-4">
                 {/* Total Price */}
@@ -228,13 +193,7 @@ export default function BookingHistoryDetailsContainer() {
         </CardContent>
 
         {/* Review Form */}
-        {booking?.status === "completed" && (
-          <ReviewForm
-            setRating={setRating}
-            handleCreateBooking={handleCreateBooking}
-            isLoading={isReviewLoading}
-          />
-        )}
+        {booking?.status === "completed" && !booking?.isReviewed && <ReviewForm booking={booking} refetchBooking={refetch} />}
       </Card>
     </div>
   );

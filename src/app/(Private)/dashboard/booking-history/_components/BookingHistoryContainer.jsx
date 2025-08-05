@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
-import { useCompleteBookingMutation, useGetAllBookingsQuery } from "@/redux/api/bookingApi";
+import {
+  useCompleteBookingMutation,
+  useGetAllBookingsQuery
+} from "@/redux/api/bookingApi";
 import BookingHistoryTable from "./BookingHistoryTable";
 import { useCheckoutMutation } from "@/redux/api/paymentApi";
 import { useRouter } from "next/navigation";
@@ -18,7 +21,14 @@ export default function BookingHistoryContainer() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [checkout, { isLoading: checkoutLoading }] = useCheckoutMutation();
-  const [completeBooking, {isError: isCompleteBookingError, error: completeBookingError}] = useCompleteBookingMutation();
+  const [
+    completeBooking,
+    {
+      isError: isCompleteBookingError,
+      error: completeBookingError,
+      isLoading: completeBookingLoading
+    }
+  ] = useCompleteBookingMutation();
   const router = useRouter();
 
   // Queries
@@ -45,7 +55,11 @@ export default function BookingHistoryContainer() {
     query.status = status;
   }
 
-  const { data: bookingsRes, isLoading, refetch } = useGetAllBookingsQuery(query);
+  const {
+    data: bookingsRes,
+    isLoading,
+    refetch
+  } = useGetAllBookingsQuery(query);
   const bookings = bookingsRes?.data?.data || [];
 
   const handleRepay = async (bookingId) => {
@@ -70,7 +84,7 @@ export default function BookingHistoryContainer() {
 
   const handleCompleteBooking = async (bookingId) => {
     console.log("Complete booking with ID:", bookingId);
-    
+
     if (!bookingId) {
       console.error("Booking ID is required to complete the booking.");
       return;
@@ -86,7 +100,7 @@ export default function BookingHistoryContainer() {
     } catch (error) {
       console.error("Error completing booking:", error);
       // Handle error appropriately, e.g., show a notification
-      <ErrorModal text={error?.data?.message} />
+      <ErrorModal text={error?.data?.message} />;
     }
   };
 
@@ -131,8 +145,10 @@ export default function BookingHistoryContainer() {
           bookings={bookings}
           handleRepay={handleRepay}
           checkoutLoading={checkoutLoading}
+          completeBookingLoading={completeBookingLoading}
           handleCompleteBooking={handleCompleteBooking}
           activeTab={activeTab}
+          refetch={refetch}
         />
       )}
     </div>
