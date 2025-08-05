@@ -87,19 +87,19 @@ export default function ProfileContainer() {
 const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
   const [updateProfile, { isLoading, isError, error }] =
     useUpdateProfileMutation();
-    const [uploadedImage, setUploadedImage] = useState(null);
-    const [imageUrl, setImageUrl] = useState(currentData?.profile || "");
-    console.log("uploaded profile image: ", uploadedImage);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(currentData?.profile || "");
+  console.log("uploaded profile image: ", uploadedImage);
 
   useEffect(() => {
-    if(uploadedImage) {
+    if (uploadedImage) {
       const reader = new FileReader();
       reader.onload = () => {
         setImageUrl(reader.result);
-      }
+      };
       reader.onerror = (error) => {
         console.error("Error reading file: ", error);
-      }
+      };
       reader.readAsDataURL(uploadedImage);
     }
   }, [uploadedImage]);
@@ -108,14 +108,19 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
   const onSubmit = async (data) => {
     console.log(data);
 
+    const payload = {
+      _id: data?._id,
+      email: data?.email,
+      ...data,
+      phoneNumber: data.contact
+    };
+
+    const formData = new FormData();
+    formData.append("profile", uploadedImage);
+    formData.append("data", JSON.stringify(payload));
+
     try {
-      const res = await updateProfile({
-        _id: data?._id,
-        email: data?.email,
-        ...data,
-        phoneNumber: data.contact,
-        profile: uploadedImage
-      }).unwrap();
+      const res = await updateProfile(formData).unwrap();
       console.log("res: ", res);
       refetch();
       SuccessModal("Profile updated successfully");
@@ -125,6 +130,12 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
       ErrorModal(error);
     }
   };
+
+  useEffect(() => {
+    if (currentData) {
+      setImageUrl(currentData?.profile || "");
+    }
+  }, [currentData]);
 
   return (
     <ModalWrapper open={open} setOpen={setOpen} title="Update Profile">
@@ -141,7 +152,13 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
             htmlFor="profile"
             className="absolute bottom-1.5 right-1.5 cursor-pointer"
           >
-            <input id="profile" type="file" max={1} onChange={(e) => setUploadedImage(e?.target?.files?.[0])} className="hidden" />
+            <input
+              id="profile"
+              type="file"
+              max={1}
+              onChange={(e) => setUploadedImage(e?.target?.files?.[0])}
+              className="hidden"
+            />
             <span>
               <ImageUp />
             </span>
