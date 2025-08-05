@@ -23,11 +23,13 @@ const TABLE_HEADERS = [
   "Action"
 ];
 
-export default function BookingHistoryTable({ bookings }) {
-  const handleRepay = () => {
-
-  };
-  
+export default function BookingHistoryTable({
+  bookings,
+  handleRepay,
+  checkoutLoading,
+  handleCompleteBooking,
+  activeTab
+}) {
   return (
     <div className="rounded-lg border">
       <Table>
@@ -99,8 +101,41 @@ export default function BookingHistoryTable({ bookings }) {
                 <TableCell className="mixin/table-cell space-x-2 text-right">
                   {booking?.status === "pending" ? (
                     <>
-                      <Button variant="solid" size="sm" className="bg-green-600 hover:bg-green-700 text-white">
+                      <Button
+                        onClick={() => handleRepay(booking?._id)}
+                        variant="solid"
+                        size="sm"
+                        disabled={checkoutLoading}
+                        loading={checkoutLoading}
+                        className="bg-green-600 text-white hover:bg-green-700"
+                      >
                         Repay
+                      </Button>
+                    </>
+                  ) : booking?.status === "confirmed" ? (
+                    <>
+                      <Link
+                        href={`/dashboard/booking-history/details/${booking?._id}`}
+                      >
+                        <Button size="sm" variant="primary">
+                          View Details
+                        </Button>
+                      </Link>
+
+                      {/* Complete */}
+                      <Button
+                        onClick={() => handleCompleteBooking(booking?._id)}
+                        variant="solid"
+                        size="sm"
+                        disabled={checkoutLoading}
+                        loading={checkoutLoading}
+                        className="bg-green-600 text-white hover:bg-green-700"
+                      >
+                        Complete
+                      </Button>
+
+                      <Button variant="destructive" size="sm">
+                        Cancel
                       </Button>
                     </>
                   ) : (
@@ -112,9 +147,6 @@ export default function BookingHistoryTable({ bookings }) {
                           View Details
                         </Button>
                       </Link>
-                      <Button variant="destructive" size="sm">
-                        Cancel
-                      </Button>
                     </>
                   )}
                 </TableCell>
@@ -124,7 +156,7 @@ export default function BookingHistoryTable({ bookings }) {
             <TableRow>
               <TableCell colSpan={4} className="text-center">
                 <EmptyContainer
-                  message="No upcoming bookings found"
+                  message={`No ${activeTab} bookings found`}
                   className="mb-2 mt-0"
                 />
               </TableCell>

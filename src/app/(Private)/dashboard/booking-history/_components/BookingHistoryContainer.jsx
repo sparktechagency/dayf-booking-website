@@ -4,14 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
-import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
-import BookingHistoryTable from './BookingHistoryTable';
+import { useCompleteBookingMutation, useGetAllBookingsQuery } from "@/redux/api/bookingApi";
+import BookingHistoryTable from "./BookingHistoryTable";
+import { useCheckoutMutation } from "@/redux/api/paymentApi";
+import { useRouter } from "next/navigation";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
+import { toast } from "react-toastify";
 
 const TABS = ["upcoming", "pending", "past"];
 
 export default function BookingHistoryContainer() {
   const [activeTab, setActiveTab] = useState("upcoming"); //  ("past" | "upcoming" | "pending");
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [checkout, { isLoading: checkoutLoading }] = useCheckoutMutation();
+  const [completeBooking, {isError: isCompleteBookingError, error: completeBookingError}] = useCompleteBookingMutation();
+  const router = useRouter();
 
   // Queries
   const query = {};
@@ -33,12 +41,54 @@ export default function BookingHistoryContainer() {
     default:
       status = "confirmed";
   }
-  if(status) {
+  if (status) {
     query.status = status;
   }
 
-  const { data: bookingsRes, isLoading } = useGetAllBookingsQuery(query);
+  const { data: bookingsRes, isLoading, refetch } = useGetAllBookingsQuery(query);
   const bookings = bookingsRes?.data?.data || [];
+
+  const handleRepay = async (bookingId) => {
+    console.log("Repay booking with ID:", bookingId);
+    if (!bookingId) {
+      console.error("Booking ID is required for repayment.");
+      return;
+    }
+
+    // proceed to checkout/payment
+    const checkoutPayload = {
+      bookings: bookingId,
+      redirectType: "website"
+    };
+
+    const checkoutResponse = await checkout(checkoutPayload).unwrap();
+
+    if (checkoutResponse?.success) {
+      router.push(checkoutResponse?.data);
+    }
+  };
+
+  const handleCompleteBooking = async (bookingId) => {
+    console.log("Complete booking with ID:", bookingId);
+    
+    if (!bookingId) {
+      console.error("Booking ID is required to complete the booking.");
+      return;
+    }
+    try {
+      const response = await completeBooking(bookingId).unwrap();
+      if (response?.success) {
+        console.log("Booking Complete response", response);
+        toast.success("Booking completed successfully!");
+        refetch();
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Error completing booking:", error);
+      // Handle error appropriately, e.g., show a notification
+      <ErrorModal text={error?.data?.message} />
+    }
+  };
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 md:p-4">
@@ -79,6 +129,10 @@ export default function BookingHistoryContainer() {
       ) : (
         <BookingHistoryTable
           bookings={bookings}
+          handleRepay={handleRepay}
+          checkoutLoading={checkoutLoading}
+          handleCompleteBooking={handleCompleteBooking}
+          activeTab={activeTab}
         />
       )}
     </div>
