@@ -14,7 +14,7 @@ const baseQuery = fetchBaseQuery({
     const changePassToken = getFromSessionStorage("changePasswordToken");
 
     const token = getState().auth.token;
-console.log(token)
+    // console.log(token)
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }

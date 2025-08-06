@@ -31,7 +31,7 @@ const PROPERTY_TYPE = [
 
 export default function PropertyRegistrationForm() {
   // const [selectedPropertyType, setSelectedPropertyType] = useState("Hotel");
-  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
   const [formError, setFormError] = useState(null);
@@ -40,6 +40,13 @@ export default function PropertyRegistrationForm() {
   const [signUp, { isLoading: isSigningUp }] = useSignUpMutation();
 
   const onSubmit = async (data) => {
+    if(data?.password?.length < 6) {
+      setFormError("Password must be at least 6 characters long.");
+      return;
+    }else if(data?.password !== data?.confirmPassword) {
+      setFormError("Passwords do not match.");
+      return;
+    }
     const {contact, ...formData} = data;
     try {
       const res = await signUp({...formData, phoneNumber: data?.contact, role: "hotel_admin"}).unwrap();
@@ -80,61 +87,29 @@ export default function PropertyRegistrationForm() {
         <UInput
           name="password"
           label="Password"
+          type={"password"}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
           placeholder="Enter your password"
           required
         />
         <UInput
           name="confirmPassword"
           label="Confirm Password"
+          type={"password"}
+          showPassword={showConfirmPassword}
+          setShowPassword={setShowConfirmPassword}
           placeholder="Confirm your password"
           required
         />
-
-        {/* <div>
-          <Label className="flex-center-start gap-x-3">
-            Property Type
-            <CustomTooltip
-              title={
-                <span>
-                  If you can't find your property type, don't worry. <br />{" "}
-                  Select the one that matches your requirement the most. We use
-                  it to display the most relevant results.
-                </span>
-              }
-            >
-              <Icon
-                icon="pajamas:question"
-                width="16"
-                height="16"
-                color="var(--color-p1)"
-              />
-            </CustomTooltip>
-          </Label>
-
-          <div className="flex-center mt-4 gap-x-2">
-            {PROPERTY_TYPE.map((type) => (
-              <button
-                key={type.value}
-                type="button"
-                className={cn(
-                  "rounded-full border-2 border-p1 px-6 py-2 text-sm",
-                  type.value === selectedPropertyType && "bg-p1 text-white"
-                )}
-                onClick={() => setSelectedPropertyType(type.value)}
-              >
-                {type.label}
-              </button>
-            ))}
-          </div>
-        </div> */}
-
-        {/* <Separator className="my-4" /> */}
 
         {formError && <CustomFormError formError={formError} />}
 
         <div className="grid place-items-center">
           <Button
             variant="primary"
+            loading={isSigningUp}
+            disabled={isSigningUp}
             className="group relative w-3/4 rounded-full py-6 text-base"
           >
             Register Now <AnimatedArrow />

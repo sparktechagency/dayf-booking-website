@@ -66,7 +66,7 @@ export default function LangSwitcherDropdownMenu({
     window.location.reload();
   };
 
-  console.log({ currentLanguage });
+  // console.log({ currentLanguage });
   return (
     <DropdownMenu>
       <DropdownMenuTrigger

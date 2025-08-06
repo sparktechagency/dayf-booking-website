@@ -20,6 +20,7 @@ import {
   useDeleteBookmarkMutation,
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
+import { useEffect } from "react";
 
 // Constants
 const SORT_OPTIONS = {
@@ -51,12 +52,15 @@ export default function HotelsContainer({
     isError: isBookmarkError,
     error: bookmarkError,
     refetch
-  } = useGetAllBookmarkQuery({modelType: "Property"});
+  } = useGetAllBookmarkQuery({ modelType: "Property" });
 
-  if (isBookmarkError) {
-    console.log("Error while fetching the bookmark data: ", bookmarkError);
-  }
-  console.log("Hotel booKmarks: ", hotelBookmarks);
+  useEffect(() => {
+    if (isBookmarkError) {
+      console.error("Error fetching bookmarks: ", bookmarkError);
+      ErrorModal(bookmarkError?.data?.message || "Failed to fetch bookmarks");
+    }
+  }, [isBookmarkError, bookmarkError]);
+  // console.log("Hotel booKmarks: ", hotelBookmarks);
 
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {
@@ -70,12 +74,16 @@ export default function HotelsContainer({
       SuccessModal(data?.message);
       refetch();
     }
+  };
 
+  useEffect(() => {
     if (isError) {
       console.error("Error while creating bookmark: ", error);
-      ErrorModal(error?.data?.message);
+      if (error?.status === 401 || error?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(error?.data?.message);
     }
-  };
+  }, [isError, error]);
 
   // Delete Bookmark
   const handleDeleteBookmark = async (_id) => {
@@ -87,10 +95,16 @@ export default function HotelsContainer({
       SuccessModal(res?.data?.message);
       refetch();
     }
+  };
+
+  useEffect(() => {
     if (isDeleteError) {
       console.error("Error while deleting bookmark: ", deleteError);
+      if (deleteError?.status === 401 || deleteError?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(deleteError?.data?.message);
     }
-  };
+  }, [isDeleteError, deleteError]);
 
   return (
     <div>

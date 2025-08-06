@@ -13,21 +13,103 @@ import DynamicPropertyDetails from "./DynamicPropertyDetails";
 import { useGetSingleHotelQuery } from "@/redux/api/propertyApi";
 import { useGetSingleApartmentQuery } from "@/redux/api/apartmentApi";
 import sectionScrollWithOffset from "@/utils/sectionScrollWithOffset";
+import { useCreateBookmarkMutation, useDeleteBookmarkMutation, useGetAllBookmarkQuery } from "@/redux/api/bookmarkApi";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
+import { useEffect } from "react";
 
 export default function DynamicPropertyContainer() {
   const { propertyType } = useParams();
 
+  const [createBookmark, { isError, error, isLoading }] =
+    useCreateBookmarkMutation();
+  const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
+    useDeleteBookmarkMutation();
+
+  const modelType = propertyType === "hotels" ? "Property" : "Apartment";
+
+  const {
+    data: bookmarks,
+    isError: isBookmarkError,
+    error: bookmarkError,
+    refetch
+  } = useGetAllBookmarkQuery({ modelType });
+
+  useEffect(() => {
+    if (isBookmarkError) {
+      console.error("Error fetching bookmarks: ", bookmarkError);
+      ErrorModal(bookmarkError?.data?.message || "Failed to fetch bookmarks");
+    }
+  }, [isBookmarkError, bookmarkError]);
+
+  // Create Bookmark
+  const handleCreateBookmark = async (_id) => {
+    console.log("_id: ", _id);
+    const modelType = "Property";
+
+    // Bookmark the data
+    const data = await createBookmark({ reference: _id, modelType }).unwrap();
+    console.log("create Bookmark response: ", data);
+    if (data?.success) {
+      SuccessModal(data?.message);
+      refetch();
+    }
+  };
+
+  useEffect(() => {
+    if (isError) {
+      console.error("Error while creating bookmark: ", error);
+      if (error?.status === 401 || error?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(error?.data?.message);
+    }
+  }, [isError, error]);
+
+  // Delete Bookmark
+  const handleDeleteBookmark = async (_id) => {
+    console.log("_id: ", _id);
+
+    const res = await deleteBookmark(_id);
+    console.log("Delete bookmark response: ", res);
+    if (res?.data?.success) {
+      SuccessModal(res?.data?.message);
+      refetch();
+    }
+  };
+
+  useEffect(() => {
+    if (isDeleteError) {
+      console.error("Error while deleting bookmark: ", deleteError);
+      if (deleteError?.status === 401 || deleteError?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(deleteError?.data?.message);
+    }
+  }, [isDeleteError, deleteError]);
+
+  // Final Return from the component
+  // Check propertyType and return respective component
   return propertyType === "hotels" ? (
-    <DynamicHotel />
+    <DynamicHotel
+      bookmarks={bookmarks}
+      handleCreateBookmark={handleCreateBookmark}
+      handleDeleteBookmark={handleDeleteBookmark}
+    />
   ) : propertyType === "apartments" ? (
-    <DynamicApartment />
+    <DynamicApartment
+      bookmarks={bookmarks}
+      handleCreateBookmark={handleCreateBookmark}
+      handleDeleteBookmark={handleDeleteBookmark}
+    />
   ) : (
     notFound()
   );
 }
 
 // Dynamic Hotel
-const DynamicHotel = () => {
+const DynamicHotel = ({
+  bookmarks,
+  handleCreateBookmark,
+  handleDeleteBookmark
+}) => {
   // Get hotel data
   const { id: hotelId } = useParams();
   const {
@@ -38,7 +120,7 @@ const DynamicHotel = () => {
   } = useGetSingleHotelQuery(hotelId, {
     skip: !hotelId
   });
-  console.log({ hotelData });
+  // console.log({ hotelData });
 
   if (isLoading) {
     return "loading...";
@@ -47,6 +129,17 @@ const DynamicHotel = () => {
   if (isError) {
     return error?.message;
   }
+
+  const [bookmarked, setBookmarked] = useState(null);
+
+  useEffect(() => {
+    const foundData = bookmarks?.find(
+      (bookmark) => bookmark?.reference?._id === property?._id
+    );
+    console.log("Is foundData: ", foundData);
+    if (foundData) setBookmarked(foundData);
+    else setBookmarked(null);
+  }, [bookmarks]);
 
   return (
     <ResponsiveContainer className="my-10">

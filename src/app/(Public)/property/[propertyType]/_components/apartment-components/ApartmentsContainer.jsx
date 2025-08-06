@@ -47,55 +47,68 @@ export default function ApartmentsContainer({
   const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
     useDeleteBookmarkMutation();
 
- const {
-     data: apartmentBookmarks,
-     isError: isBookmarkError,
-     error: bookmarkError,
-     refetch
-   } = useGetAllBookmarkQuery({modelType: "Apartment"});
- 
-   if (isBookmarkError) {
-     console.log("Error while fetching the bookmark data: ", bookmarkError);
-   }
+  const {
+    data: apartmentBookmarks,
+    isError: isBookmarkError,
+    error: bookmarkError,
+    refetch
+  } = useGetAllBookmarkQuery({ modelType: "Apartment" });
+
+  useEffect(() => {
+    if (isBookmarkError) {
+      console.error("Error fetching bookmarks: ", bookmarkError);
+      ErrorModal(bookmarkError?.data?.message || "Failed to fetch bookmarks");
+    }
+  }, [isBookmarkError, bookmarkError]);
   //  console.log("Hotel booKmarks: ", apartmentBookmarks);
- 
-   // Create Bookmark
-   const handleCreateBookmark = async (_id) => {
-     console.log("_id: ", _id);
-     const modelType = "Apartment";
- 
-     // Bookmark the data
-     const data = await createBookmark({ reference: _id, modelType }).unwrap();
-     console.log("create Bookmark response: ", data);
-     if (data?.success) {
-       SuccessModal(data?.message);
-       refetch();
-     }
- 
-     if (isError) {
-       console.error("Error while creating bookmark: ", error);
-       ErrorModal(error?.data?.message);
-     }
-   };
- 
-   // Create Bookmark
-   const handleDeleteBookmark = async (_id) => {
-     console.log("_id: ", _id);
- 
-     const res = await deleteBookmark(_id);
-     console.log("Delete bookmark response: ", res);
-     if (res?.data?.success) {
-       SuccessModal(res?.data?.message);
-       refetch();
-     }
-     if (isDeleteError) {
-       console.error("Error while deleting bookmark: ", deleteError);
-     }
-   };
+
+  // Create Bookmark
+  const handleCreateBookmark = async (_id) => {
+    console.log("_id: ", _id);
+    const modelType = "Apartment";
+
+    // Bookmark the data
+    const data = await createBookmark({ reference: _id, modelType }).unwrap();
+    console.log("create Bookmark response: ", data);
+    if (data?.success) {
+      SuccessModal(data?.message);
+      refetch();
+    }
+  };
+
+  useEffect(() => {
+    if (isError) {
+      console.error("Error while creating bookmark: ", error);
+      if (error?.status === 401 || error?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(error?.data?.message);
+    }
+  }, [isError, error]);
+
+  // Create Bookmark
+  const handleDeleteBookmark = async (_id) => {
+    console.log("_id: ", _id);
+
+    const res = await deleteBookmark(_id);
+    console.log("Delete bookmark response: ", res);
+    if (res?.data?.success) {
+      SuccessModal(res?.data?.message);
+      refetch();
+    }
+  };
+
+  useEffect(() => {
+    if (isDeleteError) {
+      console.error("Error while deleting bookmark: ", deleteError);
+      if (deleteError?.status === 401 || deleteError?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(deleteError?.data?.message);
+    }
+  }, [isDeleteError, deleteError]);
 
   return (
     <div>
-      <section className="flex flex-col md:flex-row flex-center-between gap-6 md:gap-0">
+      <section className="flex-center-between flex flex-col gap-6 md:flex-row md:gap-0">
         <h3 className="text-h4 font-semibold">
           {apartments?.length} Apartment{apartments?.length > 1 && "s"} Found 🌟
         </h3>

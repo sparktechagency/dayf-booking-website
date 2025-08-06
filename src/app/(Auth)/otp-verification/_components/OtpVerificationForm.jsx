@@ -165,7 +165,7 @@ export default function OtpVerificationForm() {
   const handleLoginUser = (token) => {
     const user = jwtDecode(token);
     if (user?.role === "hotel_admin") {
-      const dashboard_login_page_url = "http://localhost:5012/login";
+      const dashboard_login_page_url = process.env.NEXT_PUBLIC_DASHBOARD_URL;
       return window.open(
         dashboard_login_page_url,
         "_blank",

@@ -28,14 +28,16 @@ export default function HorizontalPropertyCard({
   const isHotel = property?.price === undefined;
   const searchParams = useSearchParams();
 
-  console.log("Bookmarks from the Card: ", bookmarks);
-  console.log("property from the card: ", property);
+  // console.log("Property from HorizontalCard: ", property);
+
+  // console.log("Bookmarks from the Card: ", bookmarks);
+  // console.log("property from the card: ", property);
 
   useEffect(() => {
     const foundData = bookmarks?.find(
       (bookmark) => bookmark?.reference?._id === property?._id
     );
-    console.log("Is foundData: ", foundData);
+    // console.log("Is foundData: ", foundData);
     if (foundData) setBookmarked(foundData);
     else setBookmarked(null);
   }, [bookmarks]);
@@ -73,7 +75,7 @@ export default function HorizontalPropertyCard({
               alt={`Photo of the ${property?.name} hotel.`}
               height={900}
               width={900}
-              className="h-[340px] w-full overflow-hidden object-cover object-center transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
+              className="h-[340px] lg:w-full w-auto overflow-hidden object-cover object-center transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
               // placeholder="blur"
             />
 

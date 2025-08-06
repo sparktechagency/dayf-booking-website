@@ -35,7 +35,7 @@ export default function TestimonialsCarousel() {
 
   // Get testimonial reviews
   const { data: reviews } = useGetTestimonialReviewsQuery({});
-  console.log({ reviews });
+  // console.log({ reviews });
 
   return (
     <div className="relative">
