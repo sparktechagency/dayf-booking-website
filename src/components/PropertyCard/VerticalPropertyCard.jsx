@@ -19,7 +19,8 @@ export default function VerticalPropertyCard({
   property,
   bookmarks,
   handleCreateBookmark,
-  handleDeleteBookmark
+  handleDeleteBookmark,
+  type
 }) {
   const [bookmarked, setBookmarked] = useState(null);
   // Find property type
@@ -148,7 +149,7 @@ export default function VerticalPropertyCard({
         asChild
       >
         <Link
-          href={`/property/${property?.isProperty ? "hotels" : "apartments"}/${property?._id}`}
+          href={`/property/${type}/${property?._id}`}
           scroll={true}
         >
           See Details <AnimatedArrow />

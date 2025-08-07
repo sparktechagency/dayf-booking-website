@@ -5,7 +5,7 @@ export default function PropertyCard({
   property,
   fullProperty,
   variant = "grid",
-  type = "hotel",
+  type = "hotels",
   bookmarks,
   handleCreateBookmark,
   handleDeleteBookmark
@@ -17,6 +17,7 @@ export default function PropertyCard({
       bookmarks={bookmarks}
       handleCreateBookmark={handleCreateBookmark}
       handleDeleteBookmark={handleDeleteBookmark}
+      type={type}
     />
   ) : (
     <HorizontalPropertyCard

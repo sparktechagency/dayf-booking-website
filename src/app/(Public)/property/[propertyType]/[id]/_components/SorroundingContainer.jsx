@@ -84,7 +84,7 @@ export default function SurroundingContainer({ center }) {
     }
   }, [map, center, activePOIs]);
 
-  console.log({ selectedPlace });
+  // console.log({ selectedPlace });
 
   return (
     <div>

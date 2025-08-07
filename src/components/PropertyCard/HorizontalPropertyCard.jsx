@@ -115,7 +115,7 @@ export default function HorizontalPropertyCard({
       <div className="flex w-full flex-col justify-between px-6 py-5 lg:pr-8 xl:w-3/4">
         <div>
           <Link
-            href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
+            href={`/property/${type === "hotels" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
             className="text-h4 font-semibold leading-tight text-[#252525]"
           >
             {property?.name}
@@ -191,7 +191,7 @@ export default function HorizontalPropertyCard({
             asChild
           >
             <Link
-              href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
+              href={`/property/${type === "hotels" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
             >
               See Details
             </Link>

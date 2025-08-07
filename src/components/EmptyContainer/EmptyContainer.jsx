@@ -8,7 +8,7 @@ export default function EmptyContainer({
   return (
     <div
       className={cn(
-        "flex-center mx-auto my-[8vh] max-w-max text-center",
+        "flex-center w-full mx-auto my-[8vh] max-w-max text-center",
         className
       )}
     >

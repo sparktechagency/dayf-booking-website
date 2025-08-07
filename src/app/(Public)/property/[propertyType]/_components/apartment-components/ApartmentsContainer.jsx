@@ -34,8 +34,8 @@ const SORT_OPTIONS = {
 
 export default function ApartmentsContainer({
   apartments,
-  apartmentsMeta,
   pagination,
+  apartmentsMeta,
   sort,
   searchParams,
   setSearchText

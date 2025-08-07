@@ -63,7 +63,7 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
       }
     );
 
-  console.log({ roomCategories });
+  // console.log({ roomCategories });
 
   // Handle room quantity selection
   const handleQuantityChange = (roomId, value) => {
@@ -108,7 +108,7 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
     }
   }, [checkInOutDate, hotelRoomId]);
 
-  console.log({ selectedQuantities });
+  // console.log({ selectedQuantities });
 
   return (
     <div>

@@ -62,12 +62,16 @@ export default function TopPicks() {
       SuccessModal(data?.message);
       bookingRefetch();
     }
+  };
 
+  useEffect(() => {
     if (isError) {
       console.error("Error while creating bookmark: ", error);
-      ErrorModal(error?.data?.message);
+      if (error?.status === 401 || error?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(error?.data?.message);
     }
-  };
+  }, [isError, error]);
 
   // Create Bookmark
   const handleDeleteBookmark = async (_id) => {
@@ -79,10 +83,16 @@ export default function TopPicks() {
       SuccessModal(res?.data?.message);
       bookingRefetch();
     }
+  };
+
+  useEffect(() => {
     if (isDeleteError) {
       console.error("Error while deleting bookmark: ", deleteError);
+      if (deleteError?.status === 401 || deleteError?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(deleteError?.data?.message);
     }
-  };
+  }, [isDeleteError, deleteError]);
 
   return (
     <section className="min-h-screen rounded-[2.8rem] bg-white py-16">

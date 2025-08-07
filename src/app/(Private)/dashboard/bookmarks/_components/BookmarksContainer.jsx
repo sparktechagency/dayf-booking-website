@@ -54,12 +54,16 @@ export default function BookmarksContainer() {
       SuccessModal(data?.message);
       bookingRefetch();
     }
+  };
 
+  useEffect(() => {
     if (isError) {
       console.error("Error while creating bookmark: ", error);
-      ErrorModal(error?.data?.message);
+      if (error?.status === 401 || error?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(error?.data?.message);
     }
-  };
+  }, [isError, error]);
 
   // Create Bookmark
   const handleDeleteBookmark = async (_id) => {
@@ -71,17 +75,23 @@ export default function BookmarksContainer() {
       SuccessModal(res?.data?.message);
       bookingRefetch();
     }
+  };
+
+  useEffect(() => {
     if (isDeleteError) {
       console.error("Error while deleting bookmark: ", deleteError);
+      if (deleteError?.status === 401 || deleteError?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(deleteError?.data?.message);
     }
-  };
+  }, [isDeleteError, deleteError]);
 
   return (
     <div>
-      <section className="mt-8 grid grid-cols-2 w-full max-w-5xl gap-8 overflow-hidden">
+      <section className="mt-8 grid w-full max-w-5xl grid-cols-2 gap-8 overflow-hidden">
         {bookmarkData?.length > 0 ? (
           bookmarkData?.map((data) => (
-            <div className="w-full" key={data?._id}>
+            <div className="w-full rounded-[2.5rem] border p-4" key={data?._id}>
               <PropertyCard
                 key={data?._id}
                 property={data?.reference}
@@ -93,7 +103,10 @@ export default function BookmarksContainer() {
             </div>
           ))
         ) : (
-          <EmptyContainer className="h-[50dvh]" message="No bookmarks found" />
+          <EmptyContainer
+            className="col-span-2 h-[50dvh]"
+            message="No bookmarks found"
+          />
         )}
 
         {/* <CustomPagination currentPage={currentPage} /> */}
