@@ -98,7 +98,7 @@ export default function VerticalPropertyCard({
           </div>
         </Swiper>
 
-        <section className="mt-3 px-1">
+        <section className="mt-3 px-1 relative">
           <div className="absolute right-8 z-50">
             <Button
               onClick={() => {
@@ -122,11 +122,8 @@ export default function VerticalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              {/* {fullProperty?.minPrice ||
-                property?.minPrice ||
-                property?.price / 2}{" "}
-              - $
-              {fullProperty?.maxPrice || property?.maxPrice || property?.price}{" "} */}
+              {console.log("property ------------------> ", property)}
+             ${property?.minPrice}{" "}-{" "}${property?.price}
               {/* <span className="text-sm">{property?.price}Per Night</span> */}
             </h3>
           ) : (

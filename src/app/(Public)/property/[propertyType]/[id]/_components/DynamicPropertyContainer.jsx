@@ -1,4 +1,5 @@
 "use client";
+
 import CustomTooltip from "@/components/CustomTooltip/CustomTooltip";
 import BgIcon from "@/components/PropertySearchPanel/BgIcon";
 import { Icon } from "@iconify/react";
@@ -13,12 +14,18 @@ import DynamicPropertyDetails from "./DynamicPropertyDetails";
 import { useGetSingleHotelQuery } from "@/redux/api/propertyApi";
 import { useGetSingleApartmentQuery } from "@/redux/api/apartmentApi";
 import sectionScrollWithOffset from "@/utils/sectionScrollWithOffset";
-import { useCreateBookmarkMutation, useDeleteBookmarkMutation, useGetAllBookmarkQuery } from "@/redux/api/bookmarkApi";
+import {
+  useCreateBookmarkMutation,
+  useDeleteBookmarkMutation,
+  useGetAllBookmarkQuery
+} from "@/redux/api/bookmarkApi";
 import { ErrorModal, SuccessModal } from "@/utils/customModal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function DynamicPropertyContainer() {
   const { propertyType } = useParams();
+  const { id } = useParams();
+  const [bookmarked, setBookmarked] = useState(null);
 
   const [createBookmark, { isError, error, isLoading }] =
     useCreateBookmarkMutation();
@@ -43,12 +50,11 @@ export default function DynamicPropertyContainer() {
 
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {
-    console.log("_id: ", _id);
-    const modelType = "Property";
+    // console.log("_id: ", _id);
 
     // Bookmark the data
     const data = await createBookmark({ reference: _id, modelType }).unwrap();
-    console.log("create Bookmark response: ", data);
+    // console.log("create Bookmark response: ", data);
     if (data?.success) {
       SuccessModal(data?.message);
       refetch();
@@ -66,10 +72,10 @@ export default function DynamicPropertyContainer() {
 
   // Delete Bookmark
   const handleDeleteBookmark = async (_id) => {
-    console.log("_id: ", _id);
+    // console.log("_id: ", _id);
 
     const res = await deleteBookmark(_id);
-    console.log("Delete bookmark response: ", res);
+    // console.log("Delete bookmark response: ", res);
     if (res?.data?.success) {
       SuccessModal(res?.data?.message);
       refetch();
@@ -85,28 +91,51 @@ export default function DynamicPropertyContainer() {
     }
   }, [isDeleteError, deleteError]);
 
+  // Match Bookmark with Property
+  useEffect(() => {
+    const foundData = bookmarks?.find(
+      (bookmark) => bookmark?.reference?._id === id
+    );
+    // console.log("Is foundData: ", foundData);
+    if (foundData) setBookmarked(foundData);
+    else setBookmarked(null);
+  }, [bookmarks]);
+
   // Final Return from the component
   // Check propertyType and return respective component
-  return propertyType === "hotels" ? (
-    <DynamicHotel
-      bookmarks={bookmarks}
-      handleCreateBookmark={handleCreateBookmark}
-      handleDeleteBookmark={handleDeleteBookmark}
-    />
-  ) : propertyType === "apartments" ? (
-    <DynamicApartment
-      bookmarks={bookmarks}
-      handleCreateBookmark={handleCreateBookmark}
-      handleDeleteBookmark={handleDeleteBookmark}
-    />
-  ) : (
-    notFound()
-  );
+  if (propertyType === "hotels") {
+    return (
+      <DynamicHotel
+        id={id}
+        bookmarks={bookmarks}
+        bookmarked={bookmarked}
+        setBookmarked={setBookmarked}
+        handleCreateBookmark={handleCreateBookmark}
+        handleDeleteBookmark={handleDeleteBookmark}
+      />
+    );
+  }
+
+  if (propertyType === "apartments") {
+    return (
+      <DynamicApartment
+        id={id}
+        bookmarks={bookmarks}
+        bookmarked={bookmarked}
+        setBookmarked={setBookmarked}
+        handleCreateBookmark={handleCreateBookmark}
+        handleDeleteBookmark={handleDeleteBookmark}
+      />
+    );
+  }
+
+  return notFound();
 }
 
 // Dynamic Hotel
 const DynamicHotel = ({
-  bookmarks,
+  id,
+  bookmarked,
   handleCreateBookmark,
   handleDeleteBookmark
 }) => {
@@ -120,7 +149,6 @@ const DynamicHotel = ({
   } = useGetSingleHotelQuery(hotelId, {
     skip: !hotelId
   });
-  // console.log({ hotelData });
 
   if (isLoading) {
     return "loading...";
@@ -129,17 +157,6 @@ const DynamicHotel = ({
   if (isError) {
     return error?.message;
   }
-
-  const [bookmarked, setBookmarked] = useState(null);
-
-  useEffect(() => {
-    const foundData = bookmarks?.find(
-      (bookmark) => bookmark?.reference?._id === property?._id
-    );
-    console.log("Is foundData: ", foundData);
-    if (foundData) setBookmarked(foundData);
-    else setBookmarked(null);
-  }, [bookmarks]);
 
   return (
     <ResponsiveContainer className="my-10">
@@ -158,13 +175,21 @@ const DynamicHotel = ({
         <div className="flex-center-start gap-x-4">
           <CustomTooltip title="Save for Later">
             <BgIcon
-              className="size-12 bg-p1/10 text-p1"
+              className={`size-12 bg-p1/10 text-p1`}
               as="button"
               onClick={() => {
-                console.log("saved");
+                if (bookmarked) {
+                  return handleDeleteBookmark(bookmarked?._id);
+                } else {
+                  return handleCreateBookmark(id);
+                }
               }}
             >
-              <Icon icon="solar:bookmark-linear" width="24" height="24" />
+              {bookmarked ? (
+                <Icon icon="solar:bookmark-bold" width="24" height="24" />
+              ) : (
+                <Icon icon="solar:bookmark-linear" width="24" height="24" />
+              )}
               <span className="sr-only">Save for Later</span>
             </BgIcon>
           </CustomTooltip>
@@ -202,7 +227,12 @@ const DynamicHotel = ({
 };
 
 // Dynamic Apartment
-const DynamicApartment = () => {
+const DynamicApartment = ({
+  id,
+  bookmarked,
+  handleCreateBookmark,
+  handleDeleteBookmark
+}) => {
   const { id: apartmentId } = useParams();
 
   const {
@@ -213,8 +243,6 @@ const DynamicApartment = () => {
   } = useGetSingleApartmentQuery(apartmentId, {
     skip: !apartmentId
   });
-
-  console.log({ apartment });
 
   if (isLoading) {
     return "loading...";
@@ -242,10 +270,18 @@ const DynamicApartment = () => {
               className="size-12 bg-p1/10 text-p1"
               as="button"
               onClick={() => {
-                console.log("saved");
+                if (bookmarked) {
+                  return handleDeleteBookmark(bookmarked?._id);
+                } else {
+                  return handleCreateBookmark(id);
+                }
               }}
             >
-              <Icon icon="solar:bookmark-linear" width="24" height="24" />
+              {bookmarked ? (
+                <Icon icon="solar:bookmark-bold" width="24" height="24" />
+              ) : (
+                <Icon icon="solar:bookmark-linear" width="24" height="24" />
+              )}
               <span className="sr-only">Save for Later</span>
             </BgIcon>
           </CustomTooltip>

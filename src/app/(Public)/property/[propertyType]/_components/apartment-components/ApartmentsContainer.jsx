@@ -21,6 +21,7 @@ import {
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
 import { ErrorModal, SuccessModal } from "@/utils/customModal";
+import { useEffect } from "react";
 
 // Constants
 const SORT_OPTIONS = {
