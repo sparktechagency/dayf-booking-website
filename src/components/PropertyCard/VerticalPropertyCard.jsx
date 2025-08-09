@@ -123,8 +123,8 @@ export default function VerticalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              {console.log("property ------------------> ", property)}
-             ${property?.minPrice}{" "}-{" "}${property?.price}
+              {/* {console.log("property ------------------> ", property)} */}
+             ${property?.minPrice ?? 0}{" "}-{" "}${property?.maxPrice ?? 0}
               {/* <span className="text-sm">{property?.price}Per Night</span> */}
             </h3>
           ) : (
@@ -141,7 +141,7 @@ export default function VerticalPropertyCard({
           )}
         </section>
       </div>
-
+      
       <Button
         variant="primary"
         size="lg"

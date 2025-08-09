@@ -75,7 +75,7 @@ export default function HorizontalPropertyCard({
               alt={`Photo of the ${property?.name} hotel.`}
               height={900}
               width={900}
-              className="h-[340px] lg:w-full w-auto overflow-hidden object-cover object-center transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
+              className="h-[340px] w-auto overflow-hidden object-cover object-center transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110 lg:w-full"
               // placeholder="blur"
             />
 
@@ -133,14 +133,8 @@ export default function HorizontalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              $
-              {fullProperty?.minPrice ||
-                property?.minPrice ||
-                fullProperty?.pricePerNight / 2}{" "}
-              - $
-              {fullProperty?.maxPrice ||
-                property?.maxPrice ||
-                fullProperty?.pricePerNight}{" "}
+              ${fullProperty?.minPrice ? fullProperty.minPrice / 2 : 0} - $
+              {fullProperty?.maxPrice ? fullProperty.maxPrice : 0}{" "}
               <span className="text-sm">Per Night</span>
             </h3>
           ) : (

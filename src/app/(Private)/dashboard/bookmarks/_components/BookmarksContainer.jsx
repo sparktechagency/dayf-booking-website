@@ -1,10 +1,8 @@
 "use client";
 
 import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
-import PropertiesCarousel from "@/components/HomePageSections/TopPicks/PropertiesCarousel";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import {
-  useCreateBookmarkMutation,
   useDeleteBookmarkMutation,
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
@@ -13,8 +11,6 @@ import React, { useEffect, useState } from "react";
 export default function BookmarksContainer() {
   const [bookmarks, setBookmarks] = useState([]);
 
-  const [createBookmark, { isError, error, isLoading }] =
-    useCreateBookmarkMutation();
   const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
     useDeleteBookmarkMutation();
 
@@ -28,8 +24,7 @@ export default function BookmarksContainer() {
   console.log("Bookmark data: ", bookmarkData);
   // Update bookmarks state when bookmarkData changes
   useEffect(() => {
-    console.log("Bookmark data: ", bookmarkData);
-
+    // console.log("Bookmark data: ", bookmarkData);
     setBookmarks(bookmarkData);
   }, [bookmarkData]);
 
@@ -42,30 +37,7 @@ export default function BookmarksContainer() {
     }
   }, [isGetError, getError]);
 
-  // Create Bookmark
-  const handleCreateBookmark = async (_id) => {
-    console.log("_id: ", _id);
-    const modelType = "Property";
-
-    // Bookmark the data
-    const data = await createBookmark({ reference: _id, modelType }).unwrap();
-    console.log("create Bookmark response: ", data);
-    if (data?.success) {
-      SuccessModal(data?.message);
-      bookingRefetch();
-    }
-  };
-
-  useEffect(() => {
-    if (isError) {
-      console.error("Error while creating bookmark: ", error);
-      if (error?.status === 401 || error?.status === 403) {
-        ErrorModal("You need to login to bookmark properties.");
-      } else ErrorModal(error?.data?.message);
-    }
-  }, [isError, error]);
-
-  // Create Bookmark
+  // Delete Bookmark
   const handleDeleteBookmark = async (_id) => {
     console.log("_id: ", _id);
 
@@ -96,8 +68,9 @@ export default function BookmarksContainer() {
                 key={data?._id}
                 property={data?.reference}
                 variant="grid"
+                type={data?.modelType === "Property" ? 'hotels' : 'apartments'}
                 bookmarks={bookmarks}
-                handleCreateBookmark={handleCreateBookmark}
+                handleCreateBookmark={() => {}}
                 handleDeleteBookmark={handleDeleteBookmark}
               />
             </div>
