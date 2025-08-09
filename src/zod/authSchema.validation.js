@@ -97,10 +97,17 @@ const resetPasswordSchema = z
     }
   });
 
+  const otpSchema = z.object({
+    otp: z
+    .string()
+    .min(6, {message: "OTP must be 6 characters long"})
+  });
+
 export const authValidationSchema = {
   loginSchema,
   signUpSchema,
   forgotPasswordSchema,
   setNewPasswordSchema,
-  resetPasswordSchema
+  resetPasswordSchema,
+  otpSchema
 };

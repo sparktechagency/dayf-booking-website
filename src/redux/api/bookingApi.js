@@ -32,7 +32,15 @@ const bookingApi = baseApi.injectEndpoints({
         method: "PATCH",
       }),
       invalidatesTags: [tagTypes.bookingApi]
-    })
+    }),
+
+    cancelBooking: builder.mutation({
+      query: (id) => ({
+        url: `/bookings/canceled/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: [tagTypes.bookingApi]
+    }),
   })
 });
 
@@ -40,5 +48,6 @@ export const {
   useGetAllBookingsQuery,
   useCreateBookingMutation,
   useGetSingleBookingQuery,
-  useCompleteBookingMutation
+  useCompleteBookingMutation,
+  useCancelBookingMutation
 } = bookingApi;

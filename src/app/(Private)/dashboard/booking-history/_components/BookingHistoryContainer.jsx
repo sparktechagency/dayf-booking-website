@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import {
+  useCancelBookingMutation,
   useCompleteBookingMutation,
   useGetAllBookingsQuery
 } from "@/redux/api/bookingApi";
@@ -17,6 +18,7 @@ import { toast } from "react-toastify";
 const TABS = ["upcoming", "pending", "past"];
 
 export default function BookingHistoryContainer() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("upcoming"); //  ("past" | "upcoming" | "pending");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -29,7 +31,14 @@ export default function BookingHistoryContainer() {
       isLoading: completeBookingLoading
     }
   ] = useCompleteBookingMutation();
-  const router = useRouter();
+  const [
+    cancelBooking,
+    {
+      isError: isCancelBookingError,
+      error: cancelBookingError,
+      isLoading: cancelBookingLoading
+    }
+  ] = useCancelBookingMutation();
 
   // Queries
   const query = {};
@@ -75,10 +84,15 @@ export default function BookingHistoryContainer() {
       redirectType: "website"
     };
 
-    const checkoutResponse = await checkout(checkoutPayload).unwrap();
+    try {
+      const checkoutResponse = await checkout(checkoutPayload).unwrap();
 
-    if (checkoutResponse?.success) {
-      router.push(checkoutResponse?.data);
+      if (checkoutResponse?.success) {
+        router.push(checkoutResponse?.data);
+      }
+    } catch (error) {
+      console.error("Error while Repay: ", error);
+      ErrorModal(error?.message || error?.data?.message || "Failed to repay");
     }
   };
 
@@ -93,14 +107,34 @@ export default function BookingHistoryContainer() {
       const response = await completeBooking(bookingId).unwrap();
       if (response?.success) {
         console.log("Booking Complete response", response);
-        toast.success("Booking completed successfully!");
+        SuccessModal("Booking completed successfully!");
         refetch();
-        router.refresh();
       }
     } catch (error) {
       console.error("Error completing booking:", error);
       // Handle error appropriately, e.g., show a notification
-      <ErrorModal text={error?.data?.message} />;
+      ErrorModal(error?.data?.message);
+    }
+  };
+
+  const handleCancelBooking = async (bookingId) => {
+    console.log("Cancel booking with ID:", bookingId);
+
+    if (!bookingId) {
+      console.error("Booking ID is required to cancel the booking.");
+      return;
+    }
+    try {
+      const response = await cancelBooking(bookingId).unwrap();
+      if (response?.success) {
+        console.log("Booking Cancel response", response);
+        SuccessModal("Booking canceled successfully!");
+        refetch();
+      }
+    } catch (error) {
+      console.error("Error completing booking:", error);
+      // Handle error appropriately, e.g., show a notification
+      ErrorModal(error?.data?.message);
     }
   };
 
@@ -147,6 +181,8 @@ export default function BookingHistoryContainer() {
           checkoutLoading={checkoutLoading}
           completeBookingLoading={completeBookingLoading}
           handleCompleteBooking={handleCompleteBooking}
+          handleCancelBooking={handleCancelBooking}
+          cancelBookingLoading={cancelBookingLoading}
           activeTab={activeTab}
           refetch={refetch}
         />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -31,11 +31,14 @@ export default function BookingHistoryTable({
   checkoutLoading,
   completeBookingLoading,
   handleCompleteBooking,
+  handleCancelBooking,
+  cancelBookingLoading,
   activeTab,
   refetch
 }) {
   const [reviewModalOpen, setReviewModalOpen] = React.useState(false);
   const [selectedBooking, setSelectedBooking] = React.useState(null);
+  const [currentId, setCurrentId] = useState('');
 
   return (
     <div className="rounded-lg border">
@@ -109,11 +112,11 @@ export default function BookingHistoryTable({
                   {booking?.status === "pending" ? (
                     <>
                       <Button
-                        onClick={() => handleRepay(booking?._id)}
+                        onClick={() => {handleRepay(booking?._id); setCurrentId(booking?._id);}}
                         variant="solid"
                         size="sm"
-                        disabled={checkoutLoading}
-                        loading={checkoutLoading}
+                        disabled={currentId === booking?._id && checkoutLoading}
+                        loading={currentId === booking?._id && checkoutLoading}
                         className="bg-green-600 text-white hover:bg-green-700"
                       >
                         Repay
@@ -131,17 +134,23 @@ export default function BookingHistoryTable({
 
                       {/* Complete */}
                       <Button
-                        onClick={() => handleCompleteBooking(booking?._id)}
+                        onClick={() => {handleCompleteBooking(booking?._id); setCurrentId(booking?._id);}}
                         variant="solid"
                         size="sm"
-                        disabled={completeBookingLoading}
-                        loading={completeBookingLoading}
+                        disabled={currentId === booking?._id && completeBookingLoading}
+                        loading={currentId === booking?._id && completeBookingLoading}
                         className="bg-green-600 text-white hover:bg-green-700"
-                      >
+                        >
                         Complete
                       </Button>
 
-                      <Button variant="destructive" size="sm">
+                      <Button
+                        onClick={() => {handleCancelBooking(booking?._id); setCurrentId(booking?._id);}}
+                        variant="destructive"
+                        disabled={currentId === booking?._id && cancelBookingLoading}
+                        loading={currentId === booking?._id && cancelBookingLoading}
+                        size="sm"
+                      >
                         Cancel
                       </Button>
                     </>
@@ -174,7 +183,7 @@ export default function BookingHistoryTable({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={4} className="text-center">
+              <TableCell colSpan={7} className="text-center">
                 <EmptyContainer
                   message={`No ${activeTab} bookings found`}
                   className="mb-2 mt-0"

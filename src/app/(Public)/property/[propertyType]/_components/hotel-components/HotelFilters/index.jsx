@@ -12,14 +12,14 @@ const RATING_STARS = [5, 4, 3, 2, 1];
 
 const LOCATION_SUGGESTIONS = [
   { name: "New York", latitude: 40.7128, longitude: -74.006 },
-  { name: "California", latitude: 37.7749, longitude: -122.4194 },
+  { name: "Dhaka", latitude: 23.804092999999998, longitude: 90.4152376 },
   { name: "Miami", latitude: 25.7906, longitude: -80.1345 },
   { name: "London", latitude: 51.5072, longitude: -0.1276 },
   { name: "Paris", latitude: 48.8566, longitude: 2.3522 },
   { name: "Tokyo", latitude: 35.6764, longitude: 139.65 },
   { name: "Sydney", latitude: -33.8688, longitude: 151.2093 },
   { name: "Berlin", latitude: 52.52, longitude: 13.405 },
-  { name: "Dubai", latitude: 25.276987, longitude: 55.296249 },
+  { name: "Dubai", latitude: 25.276987, longitude: 55.296249 }
 ];
 
 export default function HotelFilter({
@@ -35,7 +35,7 @@ export default function HotelFilter({
   const [showMoreHotelFeatures, setShowMoreHotelFeatures] = useState(false);
 
   const handleSelectedRatings = (rating) => {
-    console.log("🚀 ~ handleSelectedRatings ~ rating:", rating)
+    console.log("🚀 ~ handleSelectedRatings ~ rating:", rating);
     setSelectedRatings((prevSelected) =>
       prevSelected.includes(rating)
         ? prevSelected.filter((r) => r !== rating)
@@ -132,30 +132,37 @@ export default function HotelFilter({
             {LOCATION_SUGGESTIONS?.slice(
               0,
               showMoreLocations ? LOCATION_SUGGESTIONS.length : 5
-            ).map((location, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <input
-                  type="radio"
-                  id={`location-${idx}`}
-                  name="location"
-                  checked={selectedLocations?.name === location.name}
-                  onChange={() => {
-                    setSelectedLocations(
-                      selectedLocations?.name === location.name
-                        ? null
-                        : location
-                    );
-                  }}
-                  className="h-5 w-5 cursor-pointer"
-                />
-                <Label
-                  htmlFor={`location-${idx}`}
-                  className="flex-center-start cursor-pointer gap-x-2"
-                >
-                  {location.name}
-                </Label>
-              </div>
-            ))}
+            ).map((location, idx) => {
+              const isSelected = selectedLocations?.name === location?.name;
+              return (
+                <div key={idx} className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    id={`location-${idx}`}
+                    name="location"
+                    checked={isSelected}
+                    onClick={() => {
+                      // If clicking on the same location, Clear it
+                      if (isSelected) {
+                        setSelectedLocations(null);
+                      }
+                    }}
+                    onChange={() => {
+                      if (!isSelected) {
+                        setSelectedLocations(location);
+                      }
+                    }}
+                    className="h-5 w-5 cursor-pointer"
+                  />
+                  <Label
+                    htmlFor={`location-${idx}`}
+                    className="flex-center-start cursor-pointer gap-x-2"
+                  >
+                    {location.name}
+                  </Label>
+                </div>
+              );
+            })}
             <button
               className="text-base text-p1 hover:text-p1/85"
               onClick={() => setShowMoreLocations(!showMoreLocations)}

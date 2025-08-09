@@ -57,7 +57,7 @@ export default function HotelsContainer({
   useEffect(() => {
     if (isBookmarkError) {
       console.error("Error fetching bookmarks: ", bookmarkError);
-      ErrorModal(bookmarkError?.data?.message || "Failed to fetch bookmarks");
+      // ErrorModal(bookmarkError?.data?.message || "Failed to fetch bookmarks");
     }
   }, [isBookmarkError, bookmarkError]);
   // console.log("Hotel booKmarks: ", hotelBookmarks);
