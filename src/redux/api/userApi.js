@@ -38,7 +38,7 @@ const userApi = baseApi.injectEndpoints({
 
       invalidatesTags: () => {
         const tags = [tagTypes.user, tagTypes.users, tagTypes.serviceProviders];
-        return tags.filter(tag => tag === 'string');
+        return tags.filter((tag) => tag === "string");
       }
     }),
 

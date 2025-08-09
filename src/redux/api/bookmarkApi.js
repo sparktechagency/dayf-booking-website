@@ -5,7 +5,7 @@ const bookmarkApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllBookmark: builder.query({
       query: (arg) => ({
-        url: '/bookmark',
+        url: "/bookmark",
         method: "GET",
         params: arg
       }),
@@ -34,7 +34,7 @@ const bookmarkApi = baseApi.injectEndpoints({
         method: "DELETE"
       }),
       invalidatesTags: [tagTypes.bookmark]
-    }),
+    })
   })
 });
 
