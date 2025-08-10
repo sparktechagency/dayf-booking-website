@@ -35,7 +35,6 @@ const PROPERTY_DETAILS_SECTIONS = [
 export default function DynamicPropertyDetails({ property }) {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("overview");
-  // const [recommendedProperties, setRecommendedProperties] = useState([]);
 
   const propertyType = pathname.includes("/hotels") ? "hotels" : "apartments";
 
@@ -82,26 +81,9 @@ export default function DynamicPropertyDetails({ property }) {
     }
   }, [propertyType, hotelQueryResult, apartmentQueryResult]);
 
-  // useEffect;
-  // () => {
-  //   if (recommendedPropertiesData && recommendedPropertiesData?.length > 0) {
-  //     const filteredProperties = recommendedPropertiesData?.filter(
-  //       (p) => p._id !== property._id && p?.location?.coordinates?.length > 0
-  //     );
-  //     setRecommendedProperties(filteredProperties);
-  //   }
-  // },
-  //   [recommendedPropertiesData, property];
-
   const recommendedProperties = recommendedPropertiesData?.filter(
     (p) => p._id !== property._id && p?.location?.coordinates?.length > 0
   );
-
-  // console.log("Recommended properties: ", recommendedProperties);
-
-  // if (recommendedPropertiesRes) {
-  //   setRecommendedProperties(recommendedPropertiesRes?.data || []);
-  // }
 
   useEffect(() => {
     // Handle errors

@@ -207,6 +207,8 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
         <Button
           type="submit"
           variant="primary"
+          disabled={isLoading}
+          loading={isLoading}
           className="w-full rounded-full py-6 text-base"
           size="lg"
         >

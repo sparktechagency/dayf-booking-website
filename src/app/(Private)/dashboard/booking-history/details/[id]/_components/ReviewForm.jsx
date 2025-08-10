@@ -14,7 +14,7 @@ export default function ReviewForm({ booking, setOpenReviewModal, refetchBooking
   const [createTestimonialReviews, { isLoading: isReviewLoading }] =
     useCreateTestimonialReviewsMutation();
 
-  const handleCreateBooking = async (data) => {
+  const handleReviewBooking = async (data) => {
     const reviewData = {
       ...data,
       rating,
@@ -23,7 +23,7 @@ export default function ReviewForm({ booking, setOpenReviewModal, refetchBooking
       modelType:
         booking?.modelType === "RoomTypes" ? "Property" : booking?.modelType
     };
-    console.log("Create Review data: ====> ", reviewData);
+    // console.log("Create Review data: ====> ", reviewData);
 
     try {
       const res = await createTestimonialReviews(reviewData).unwrap();
@@ -32,6 +32,7 @@ export default function ReviewForm({ booking, setOpenReviewModal, refetchBooking
         SuccessModal(res?.message);
         setOpenReviewModal?.(false);
         refetchBooking();
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -43,7 +44,7 @@ export default function ReviewForm({ booking, setOpenReviewModal, refetchBooking
     <div className="mt-6 px-6">
       <h2 className="mb-6 text-2xl font-semibold">Please give your review</h2>
 
-      <FormWrapper onSubmit={handleCreateBooking}>
+      <FormWrapper onSubmit={handleReviewBooking}>
         <div className="space-y-6">
           {/* Rating */}
           <StarRating onRatingChange={setRating} />

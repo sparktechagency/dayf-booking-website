@@ -44,7 +44,7 @@ export default function DynamicPropertyContainer() {
   useEffect(() => {
     if (isBookmarkError) {
       console.error("Error fetching bookmarks: ", bookmarkError);
-      ErrorModal(bookmarkError?.data?.message || "Failed to fetch bookmarks");
+      // ErrorModal(bookmarkError?.data?.message || "Failed to fetch bookmarks");
     }
   }, [isBookmarkError, bookmarkError]);
 

@@ -42,7 +42,7 @@ export default function BookmarksContainer() {
     console.log("_id: ", _id);
 
     const res = await deleteBookmark(_id);
-    console.log("Delete bookmark response: ", res);
+    // console.log("Delete bookmark response: ", res);
     if (res?.data?.success) {
       SuccessModal(res?.data?.message);
       bookingRefetch();

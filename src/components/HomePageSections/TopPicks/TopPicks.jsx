@@ -51,9 +51,9 @@ export default function TopPicks() {
   }, [isGetError, getError]);
 
   // Create Bookmark
-  const handleCreateBookmark = async (_id) => {
-    console.log("_id: ", _id);
-    const modelType = "Property";
+  const handleCreateBookmark = async (_id, isProperty) => {
+    // console.log("_id: ", _id);
+    const modelType = isProperty ? "Property" : "Apartment";
 
     // Bookmark the data
     const data = await createBookmark({ reference: _id, modelType }).unwrap();
@@ -75,7 +75,7 @@ export default function TopPicks() {
 
   // Create Bookmark
   const handleDeleteBookmark = async (_id) => {
-    console.log("_id: ", _id);
+    // console.log("_id: ", _id);
 
     const res = await deleteBookmark(_id);
     console.log("Delete bookmark response: ", res);

@@ -188,7 +188,13 @@ export const properties = [
   }
 ];
 
-export default function PropertiesCarousel({ properties, bookmarks, handleCreateBookmark, handleDeleteBookmark, type }) {
+export default function PropertiesCarousel({
+  properties,
+  bookmarks,
+  handleCreateBookmark,
+  handleDeleteBookmark,
+  type
+}) {
   const sliderRef = useRef(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -262,14 +268,25 @@ export default function PropertiesCarousel({ properties, bookmarks, handleCreate
       }}
       className="pe-3"
     >
-      {properties?.map((property) => (
+      {properties?.map((property) => {
+        const modelType = property?.isProperty ? "hotels" : "apartments";
+        return(
         <SwiperSlide
           key={property._id}
           className="overflow-hidden rounded-[2.5rem] border p-3 transition-shadow duration-300 ease-in-out hover:shadow-xl"
         >
-          <PropertyCard key={property._id} property={property} variant="grid" bookmarks={bookmarks} handleCreateBookmark={handleCreateBookmark} handleDeleteBookmark={handleDeleteBookmark} type={type} />
+          <PropertyCard
+            key={property._id}
+            property={property}
+            variant="grid"
+            bookmarks={bookmarks}
+            type={type ? type : modelType}
+            handleCreateBookmark={handleCreateBookmark}
+            handleDeleteBookmark={handleDeleteBookmark}
+          />
         </SwiperSlide>
-      ))}
+      )
+      })}
 
       <div className="flex-center-between mt-4">
         <div className="space-x-2">

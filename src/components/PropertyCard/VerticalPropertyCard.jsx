@@ -106,7 +106,7 @@ export default function VerticalPropertyCard({
                 if (bookmarked) {
                   return handleDeleteBookmark(bookmarked?._id);
                 } else {
-                  return handleCreateBookmark(property?._id);
+                  return handleCreateBookmark(property?._id, property?.isProperty);
                 }
               }}
               size="icon"

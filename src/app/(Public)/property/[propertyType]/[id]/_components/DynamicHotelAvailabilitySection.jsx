@@ -268,9 +268,10 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
                         {Array.from({ length: room?.totalRooms })?.map(
                           (_, idx) => (
                             <SelectItem
-                              key={idx + 1}
-                              value={(idx + 1)?.toString()}
+                            key={idx + 1}
+                            value={(idx + 1)?.toString()}
                             >
+                              {/* {console.log("Total Rooms ------------> ", room?.totalRooms)} */}
                               {idx + 1}
                             </SelectItem>
                           )
