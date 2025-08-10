@@ -57,7 +57,7 @@ const ListPropertyPotentials = () => {
   return (
     <div className="bg-white py-20">
       <ResponsiveContainer>
-        <div className="flex-center-between mb-12">
+        <div className="flex-center-between flex-col lg:flex-row mb-12">
           <h1 className="heading xl:w-1/2">
             Unlock the Full Potential of Your Property
           </h1>
@@ -70,7 +70,7 @@ const ListPropertyPotentials = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {POTENTIALS.map((potential) => (
             <div key={potential.id} className="flex-start-start gap-x-3">
               <div className="size-[45px]">

@@ -11,8 +11,21 @@ export default function PropertyCard({
   handleDeleteBookmark
 }) {
   return variant === "grid" ? (
-    <VerticalPropertyCard property={property} fullProperty={fullProperty} type={type} bookmarks={bookmarks} handleCreateBookmark={handleCreateBookmark} handleDeleteBookmark={handleDeleteBookmark} />
+    <VerticalPropertyCard
+      property={property}
+      fullProperty={fullProperty}
+      bookmarks={bookmarks}
+      handleCreateBookmark={handleCreateBookmark}
+      handleDeleteBookmark={handleDeleteBookmark}
+    />
   ) : (
-    <HorizontalPropertyCard property={property} fullProperty={fullProperty} type={type} bookmarks={bookmarks} handleCreateBookmark={handleCreateBookmark} handleDeleteBookmark={handleDeleteBookmark} />
+    <HorizontalPropertyCard
+      property={property}
+      fullProperty={fullProperty}
+      type={type}
+      bookmarks={bookmarks}
+      handleCreateBookmark={handleCreateBookmark}
+      handleDeleteBookmark={handleDeleteBookmark}
+    />
   );
 }

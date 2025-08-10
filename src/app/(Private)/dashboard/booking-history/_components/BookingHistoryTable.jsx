@@ -8,12 +8,35 @@ import {
   TableRow
 } from "@/components/ui/table";
 import { format } from "date-fns";
-import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import EmptyContainer from "../../../../../components/EmptyContainer/EmptyContainer";
+import ModalWrapper from "@/components/ModalWrapper.js/ModalWrapper";
+import ReviewForm from "../details/[id]/_components/ReviewForm";
 
-const TABLE_HEADERS = ["Name", "Type", "Booking Date", "Booking Id", "Payment"];
+const TABLE_HEADERS = [
+  "Name",
+  "Type",
+  "Booking Date",
+  "Booking Id",
+  "Payment Status",
+  "Booking Status",
+  "Action"
+];
 
-export default function BookingHistoryTable({ bookings }) {
+export default function BookingHistoryTable({
+  bookings,
+  handleRepay,
+  checkoutLoading,
+  completeBookingLoading,
+  handleCompleteBooking,
+  activeTab,
+  refetch
+}) {
+  const [reviewModalOpen, setReviewModalOpen] = React.useState(false);
+  const [selectedBooking, setSelectedBooking] = React.useState(null);
+
   return (
     <div className="rounded-lg border">
       <Table>
@@ -43,7 +66,9 @@ export default function BookingHistoryTable({ bookings }) {
                 className="border-primary-black/15 border-b mixin/table-cell:w-max mixin/table-cell:whitespace-nowrap mixin/table-cell:px-5 mixin/table-cell:py-4 mixin/table-cell:font-medium"
               >
                 <TableCell className="mixin/table-cell">
-                  {booking.hotelName || booking?.reference?.name}
+                  {booking?.modelType === "Apartment"
+                    ? booking?.reference?.name
+                    : booking?.reference?.category}
                 </TableCell>
 
                 <TableCell className="mixin/table-cell">
@@ -67,22 +92,91 @@ export default function BookingHistoryTable({ bookings }) {
                 >
                   {booking.paymentStatus}
                 </TableCell>
+                <TableCell
+                  className={cn(
+                    "mixin/table-cell capitalize",
+                    booking.status === "confirmed"
+                      ? "text-green-500"
+                      : booking?.status === "completed"
+                        ? "text-blue-500"
+                        : "text-red-500"
+                  )}
+                >
+                  {booking.status}
+                </TableCell>
 
-                {/* <TableCell className="mixin/table-cell space-x-2 text-right">
-                <Button size="sm" variant="primary">
-                  View Details
-                </Button>
-                <Button variant="destructive" size="sm">
-                  Cancel
-                </Button>
-              </TableCell> */}
+                <TableCell className="mixin/table-cell space-x-2 text-right">
+                  {booking?.status === "pending" ? (
+                    <>
+                      <Button
+                        onClick={() => handleRepay(booking?._id)}
+                        variant="solid"
+                        size="sm"
+                        disabled={checkoutLoading}
+                        loading={checkoutLoading}
+                        className="bg-green-600 text-white hover:bg-green-700"
+                      >
+                        Repay
+                      </Button>
+                    </>
+                  ) : booking?.status === "confirmed" ? (
+                    <>
+                      <Link
+                        href={`/dashboard/booking-history/details/${booking?._id}`}
+                      >
+                        <Button size="sm" variant="primary">
+                          View Details
+                        </Button>
+                      </Link>
+
+                      {/* Complete */}
+                      <Button
+                        onClick={() => handleCompleteBooking(booking?._id)}
+                        variant="solid"
+                        size="sm"
+                        disabled={completeBookingLoading}
+                        loading={completeBookingLoading}
+                        className="bg-green-600 text-white hover:bg-green-700"
+                      >
+                        Complete
+                      </Button>
+
+                      <Button variant="destructive" size="sm">
+                        Cancel
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href={`/dashboard/booking-history/details/${booking?._id}`}
+                      >
+                        <Button size="sm" variant="primary">
+                          View Details
+                        </Button>
+                      </Link>
+                      {/* Review */}
+                      <Button
+                        onClick={() => {
+                          setReviewModalOpen(true);
+                          setSelectedBooking(booking);
+                        }}
+                        variant="solid"
+                        size="sm"
+                        disabled={booking?.isReviewed}
+                        className="bg-green-600 text-white hover:bg-green-700"
+                      >
+                        Review
+                      </Button>
+                    </>
+                  )}
+                </TableCell>
               </TableRow>
             ))
           ) : (
             <TableRow>
               <TableCell colSpan={4} className="text-center">
                 <EmptyContainer
-                  message="No upcoming bookings found"
+                  message={`No ${activeTab} bookings found`}
                   className="mb-2 mt-0"
                 />
               </TableCell>
@@ -90,6 +184,22 @@ export default function BookingHistoryTable({ bookings }) {
           )}
         </TableBody>
       </Table>
+
+      {/* Display Modals */}
+      <ModalWrapper
+        title="Write a Review"
+        open={reviewModalOpen}
+        setOpen={setReviewModalOpen}
+      >
+        <div className="p-4">
+          {/* Review Form goes here */}
+          <ReviewForm
+            booking={selectedBooking}
+            setOpenReviewModal={setReviewModalOpen}
+            refetchBooking={refetch}
+          />
+        </div>
+      </ModalWrapper>
     </div>
   );
 }

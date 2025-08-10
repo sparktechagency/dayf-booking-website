@@ -58,7 +58,7 @@ export default function WhyChooseUs() {
             alt="Photo of a desert meaning Algeria's natural variety"
             width={1200}
             height={1200}
-            className="h-full w-auto rounded-2xl object-cover"
+            className="h-full w-full lg:w-auto rounded-2xl object-cover"
             placeholder="blur"
           />
 
@@ -67,7 +67,7 @@ export default function WhyChooseUs() {
             alt="Photo of a desert meaning Algeria's natural variety"
             width={800}
             height={800}
-            className="absolute -left-32 top-1/2 h-auto w-[400px] object-cover"
+            className="hidden lg:block absolute -left-32 top-1/2 h-auto w-[400px] object-cover"
             placeholder="blur"
           />
 

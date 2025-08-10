@@ -1,17 +1,5 @@
-import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
+import ResponsiveContainer from "../../../components/ResponsiveContainer/ResponsiveContainer";
 import TestimonialsCarousel from "./TestimonialsCarousel";
-import userImg from "/public/images/testimonials/user-1.webp";
-
-const testimonials = Array.from({ length: 6 }).map((_, idx) => ({
-  id: idx,
-  img: userImg,
-  rating: 5,
-  reviewTitle: "I can't imagine booking a hotel without this app now",
-  reviewDesc:
-    "Sofitel Algiers Hamma Garden offers luxurious accommodations overlooking the stunning Botanical Garden of Hamma. With world-class dining, a relaxing spa, and proximity to Algiers’ top landmarks, it’s the perfect blend of elegance and convenience.",
-  user: "Steve Smith",
-  reviewedAt: "2 days ago"
-}));
 
 export default function Testimonials() {
   return (
@@ -27,7 +15,7 @@ export default function Testimonials() {
         </div>
 
         <div className="mx-auto xl:w-[60%]">
-          <TestimonialsCarousel testimonials={testimonials} />
+          <TestimonialsCarousel />
         </div>
       </ResponsiveContainer>
     </section>

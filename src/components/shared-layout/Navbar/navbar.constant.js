@@ -62,16 +62,19 @@ export const supportedLanguages = [
   {
     id: "english",
     label: "English",
-    icon: "/images/navbar/usa.svg"
+    icon: "/images/navbar/usa.svg",
+    name: "en"
   },
   {
     id: "arabic",
     label: "Arabic",
-    icon: "/images/navbar/algeria.svg"
+    icon: "/images/navbar/algeria.svg",
+    name: "ar"
   },
   {
     id: "french",
     label: "French",
-    icon: "/images/navbar/france.svg"
+    icon: "/images/navbar/france.svg",
+    name: "fr"
   }
 ];

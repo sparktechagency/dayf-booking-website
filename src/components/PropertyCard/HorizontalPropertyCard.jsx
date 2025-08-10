@@ -11,7 +11,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { truncateMiddle } from "@/utils/textTruncate";
-import { useGetBookmarkByIdQuery } from "@/redux/api/bookmarkApi";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -29,6 +28,9 @@ export default function HorizontalPropertyCard({
   const isHotel = property?.price === undefined;
   const searchParams = useSearchParams();
 
+  console.log("Bookmarks from the Card: ", bookmarks);
+  console.log("property from the card: ", property);
+
   useEffect(() => {
     const foundData = bookmarks?.find(
       (bookmark) => bookmark?.reference?._id === property?._id
@@ -40,7 +42,7 @@ export default function HorizontalPropertyCard({
 
   return (
     <div
-      className="flex-stretch-start property-card gap-x-5 overflow-hidden rounded-3xl border border-[#EDEDED] bg-white shadow"
+      className="lg:flex-stretch-start property-card flex flex-col gap-x-5 overflow-hidden rounded-3xl border border-[#EDEDED] bg-white shadow lg:flex-row"
       onMouseEnter={() => setHoveredCardId(property?._id)}
       onMouseLeave={() => setHoveredCardId(null)}
     >
@@ -108,7 +110,7 @@ export default function HorizontalPropertyCard({
         <div className="swiper-arrow-navigation"></div>
       </Swiper>
 
-      <div className="flex flex-col justify-between py-5 pr-8 xl:w-3/4">
+      <div className="flex w-full flex-col justify-between px-6 py-5 lg:pr-8 xl:w-3/4">
         <div>
           <Link
             href={`/property/${type === "hotel" ? "hotels" : "apartments"}/${property?._id}?${searchParams.toString()}`}
@@ -129,7 +131,14 @@ export default function HorizontalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              ${fullProperty?.minPrice} - ${fullProperty?.maxPrice}{" "}
+              $
+              {fullProperty?.minPrice ||
+                property?.minPrice ||
+                fullProperty?.pricePerNight / 2}{" "}
+              - $
+              {fullProperty?.maxPrice ||
+                property?.maxPrice ||
+                fullProperty?.pricePerNight}{" "}
               <span className="text-sm">Per Night</span>
             </h3>
           ) : (

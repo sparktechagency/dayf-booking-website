@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
-import { useState } from "react";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
@@ -21,8 +20,6 @@ import {
   useDeleteBookmarkMutation,
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
-import { useEffect } from "react";
-import { useGetBookmarksData } from "@/hooks/useGetBookmarksData";
 
 // Constants
 const SORT_OPTIONS = {
@@ -43,15 +40,23 @@ export default function HotelsContainer({
 }) {
   const currentPathname = usePathname();
   const router = useRouter();
-  const [hotelBookmarks, setHotelBookmarks] = useState([]);
 
   const [createBookmark, { isError, error, isLoading }] =
     useCreateBookmarkMutation();
   const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
     useDeleteBookmarkMutation();
 
-  useGetBookmarksData("Property", setHotelBookmarks);
-  console.log("HOtel booKmarks: ", hotelBookmarks);
+  const {
+    data: hotelBookmarks,
+    isError: isBookmarkError,
+    error: bookmarkError,
+    refetch
+  } = useGetAllBookmarkQuery({modelType: "Property"});
+
+  if (isBookmarkError) {
+    console.log("Error while fetching the bookmark data: ", bookmarkError);
+  }
+  console.log("Hotel booKmarks: ", hotelBookmarks);
 
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {
@@ -61,13 +66,14 @@ export default function HotelsContainer({
     // Bookmark the data
     const data = await createBookmark({ reference: _id, modelType }).unwrap();
     console.log("create Bookmark response: ", data);
+    if (data?.success) {
+      SuccessModal(data?.message);
+      refetch();
+    }
 
     if (isError) {
       console.error("Error while creating bookmark: ", error);
       ErrorModal(error?.data?.message);
-    } else {
-      SuccessModal(data?.message);
-      useGetBookmarksData("Property", setHotelBookmarks);
     }
   };
 
@@ -77,17 +83,18 @@ export default function HotelsContainer({
 
     const res = await deleteBookmark(_id);
     console.log("Delete bookmark response: ", res);
-    useGetBookmarksData("Property", setHotelBookmarks);
+    if (res?.data?.success) {
+      SuccessModal(res?.data?.message);
+      refetch();
+    }
     if (isDeleteError) {
       console.error("Error while deleting bookmark: ", deleteError);
-    }else {
-      SuccessModal("Bookmark deleted successfully");
     }
   };
 
   return (
     <div>
-      <section className="flex-center-between">
+      <section className="flex flex-col items-center justify-between gap-y-6 md:flex-row md:gap-y-0">
         <h3 className="text-h4 font-semibold">
           {hotels?.length} Hotel{hotels?.length > 1 && "s"} Found 🌟
         </h3>
@@ -175,7 +182,7 @@ export default function HotelsContainer({
             bookmarks={hotelBookmarks}
             handleCreateBookmark={handleCreateBookmark}
             handleDeleteBookmark={handleDeleteBookmark}
-            property={property?.property}
+            property={property}
             fullProperty={property}
           />
         ))}

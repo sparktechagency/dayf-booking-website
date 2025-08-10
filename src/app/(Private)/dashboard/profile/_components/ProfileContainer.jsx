@@ -1,23 +1,34 @@
 "use client";
 
+import CustomAvatar from "@/components/CustomAvatar/CustomAvatar";
 import FormWrapper from "@/components/form-components/FormWrapper";
 import UInput from "@/components/form-components/UInput";
 import UPhoneInput from "@/components/form-components/UPhoneInput";
 import USelect from "@/components/form-components/USelect";
 import ModalWrapper from "@/components/ModalWrapper.js/ModalWrapper";
 import { Button } from "@/components/ui/button";
-import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/api/userApi";
+import {
+  useGetProfileQuery,
+  useUpdateProfileMutation
+} from "@/redux/api/userApi";
 import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { ImageUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function ProfileContainer() {
   const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false);
-  const {data: profile, isLoading, isError, error, refetch} = useGetProfileQuery();
+  const {
+    data: profile,
+    isLoading,
+    isError,
+    error,
+    refetch
+  } = useGetProfileQuery();
 
   return (
     <div className="">
-      <div className="flex-center-between">
+      <div className="flex items-center justify-between">
         <h3 className="text-h4 font-semibold text-p1">Profile</h3>
 
         <Button
@@ -31,7 +42,7 @@ export default function ProfileContainer() {
         </Button>
       </div>
 
-      <div className="mt-5 grid w-full grid-cols-2 gap-6">
+      <div className="mt-5 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">Name</h6>
           <p>{profile?.name}</p>
@@ -46,19 +57,19 @@ export default function ProfileContainer() {
 
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">Gender</h6>
-          <p>{profile?.gender || 'Not Specified'}</p>
+          <p>{profile?.gender || "Not Specified"}</p>
         </div>
 
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">Contact</h6>
-          <p>{profile?.phoneNumber || 'Not Specified'}</p>
+          <p>{profile?.phoneNumber || "Not Specified"}</p>
         </div>
 
         <div>
           <h6 className="mb-1 text-base font-medium text-[#3EB2FF]">
             Nationality
           </h6>
-          <p>{profile?.nationality || 'Not Specified'}</p>
+          <p>{profile?.nationality || "Not Specified"}</p>
         </div>
       </div>
 
@@ -74,18 +85,41 @@ export default function ProfileContainer() {
 }
 
 const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
-  const [updateProfile, {isLoading, isError, error}] = useUpdateProfileMutation();
+  const [updateProfile, { isLoading, isError, error }] =
+    useUpdateProfileMutation();
+    const [uploadedImage, setUploadedImage] = useState(null);
+    const [imageUrl, setImageUrl] = useState(currentData?.profile || "");
+    console.log("uploaded profile image: ", uploadedImage);
 
-  const onSubmit = async(data) => {
+  useEffect(() => {
+    if(uploadedImage) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageUrl(reader.result);
+      }
+      reader.onerror = (error) => {
+        console.error("Error reading file: ", error);
+      }
+      reader.readAsDataURL(uploadedImage);
+    }
+  }, [uploadedImage]);
+  console.log("imageUrl -------> ", imageUrl);
+
+  const onSubmit = async (data) => {
     console.log(data);
 
     try {
-      const res = await updateProfile({_id: data?._id, email: data?.email, ...data, phoneNumber: data.contact}).unwrap();
+      const res = await updateProfile({
+        _id: data?._id,
+        email: data?.email,
+        ...data,
+        phoneNumber: data.contact,
+        profile: uploadedImage
+      }).unwrap();
       console.log("res: ", res);
       refetch();
       SuccessModal("Profile updated successfully");
       setOpen(false);
-
     } catch (error) {
       console.error("Error while updating profile: ", error);
       ErrorModal(error);
@@ -94,13 +128,34 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
 
   return (
     <ModalWrapper open={open} setOpen={setOpen} title="Update Profile">
+      {/* Profile Picture */}
+      <div className="">
+        <label htmlFor="profile">Change Profile Picture</label>
+        <div className="relative mx-auto w-fit">
+          <CustomAvatar
+            img={imageUrl}
+            name={currentData?.name}
+            className="size-20 h-24 w-24 text-2xl"
+          />
+          <label
+            htmlFor="profile"
+            className="absolute bottom-1.5 right-1.5 cursor-pointer"
+          >
+            <input id="profile" type="file" max={1} onChange={(e) => setUploadedImage(e?.target?.files?.[0])} className="hidden" />
+            <span>
+              <ImageUp />
+            </span>
+          </label>
+        </div>
+      </div>
+
       <FormWrapper
         onSubmit={onSubmit}
         defaultValues={{
           name: currentData?.name,
           gender: currentData?.gender,
           contact: currentData?.phoneNumber,
-          nationality: currentData?.nationality,
+          nationality: currentData?.nationality
         }}
       >
         <UInput name="name" label="Name" placeholder="Enter your full name" />

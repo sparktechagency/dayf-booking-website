@@ -15,6 +15,7 @@ import authSlice from "./features/authSlice.js";
 import geoLocationSlice from "./features/geoLocationSlice.js";
 import { baseApi } from "./api/baseApi.js";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+import currencyReducer from "./features/currencySlice.js";
 
 const createNoopStorage = () => {
   return {
@@ -43,6 +44,14 @@ const persistedAuthReducer = persistReducer(
   authSlice
 );
 
+const persistedCurrencyReducer = persistReducer(
+  {
+    key: "dayf:currency",
+    storage
+  },
+  currencyReducer
+);
+
 const persistedGeoLocationReducer = persistReducer(
   {
     key: "geoLocation",
@@ -55,7 +64,8 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
-    geoLocation: persistedGeoLocationReducer
+    geoLocation: persistedGeoLocationReducer,
+    currency: persistedCurrencyReducer
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({

@@ -3,7 +3,6 @@
 import { transformNameInitials } from "@/utils/transformNameInitials";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import userAvatar from "/public/images/navbar/dummy-user.jpg";
 
 export default function CustomAvatar({
   img,

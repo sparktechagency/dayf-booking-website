@@ -64,7 +64,7 @@ export default function DynamicPropertyDetails({ property }) {
         ))}
 
         <Button variant="primary" className="rounded-full" asChild>
-          <Link href={`/messages`}>
+          <Link href={`/messages?reciverId=${property?.author?._id}`}>
             <Icon
               icon="hugeicons:message-notification-01"
               className="!h-5 !w-5"

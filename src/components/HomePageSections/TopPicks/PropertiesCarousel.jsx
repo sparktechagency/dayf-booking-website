@@ -237,6 +237,10 @@ export default function PropertiesCarousel({ properties, bookmarks, handleCreate
           spaceBetween: 20
         },
         768: {
+          slidesPerView: 2.5,
+          spaceBetween: 30
+        },
+        1200: {
           slidesPerView: 3.5,
           spaceBetween: 30
         }

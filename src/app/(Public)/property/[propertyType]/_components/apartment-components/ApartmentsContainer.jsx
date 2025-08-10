@@ -14,16 +14,13 @@ import { ArrowUpDown } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
-import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
+import EmptyContainer from "../../../../../../components/EmptyContainer/EmptyContainer";
 import {
   useCreateBookmarkMutation,
   useDeleteBookmarkMutation,
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
-import { ErrorModal } from "@/utils/customModal";
-import { useEffect } from "react";
-import { useGetBookmarksData } from "@/hooks/useGetBookmarksData";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
 
 // Constants
 const SORT_OPTIONS = {
@@ -44,51 +41,61 @@ export default function ApartmentsContainer({
 }) {
   const currentPathname = usePathname();
   const router = useRouter();
-  const [apartmentBookmarks, setApartmentBookmarks] = useState([]);
 
   const [createBookmark, { isError, error, loading }] =
     useCreateBookmarkMutation();
   const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
     useDeleteBookmarkMutation();
 
-  useGetBookmarksData("Apartment", setApartmentBookmarks);
-
-  // Handle Bookmark
-  const handleCreateBookmark = async (_id) => {
-    console.log("_id: ", _id);
-    const modelType = "Apartment";
-
-    // Bookmark the data
-    const data = await createBookmark({ reference: _id, modelType }).unwrap();
-
-    console.log("create Bookmark response: ", data);
-
-    if (isError) {
-      console.error("Error while creating bookmark: ", error);
-      ErrorModal(error?.data?.message);
-    } else {
-      SuccessModal(data?.message);
-      useGetBookmarksData("Apartment", setApartmentBookmarks);
-    }
-  };
-
-  // Create Bookmark
-  const handleDeleteBookmark = async (_id) => {
-    console.log("_id: ", _id);
-
-    const res = await deleteBookmark(_id);
-    console.log("Delete bookmark response: ", res);
-    if (isDeleteError) {
-      console.error("Error while deleting bookmark: ", deleteError);
-    } else {
-      SuccessModal(data?.message);
-      useGetBookmarksData("Apartment", setApartmentBookmarks);
-    }
-  };
+ const {
+     data: apartmentBookmarks,
+     isError: isBookmarkError,
+     error: bookmarkError,
+     refetch
+   } = useGetAllBookmarkQuery({modelType: "Apartment"});
+ 
+   if (isBookmarkError) {
+     console.log("Error while fetching the bookmark data: ", bookmarkError);
+   }
+  //  console.log("Hotel booKmarks: ", apartmentBookmarks);
+ 
+   // Create Bookmark
+   const handleCreateBookmark = async (_id) => {
+     console.log("_id: ", _id);
+     const modelType = "Apartment";
+ 
+     // Bookmark the data
+     const data = await createBookmark({ reference: _id, modelType }).unwrap();
+     console.log("create Bookmark response: ", data);
+     if (data?.success) {
+       SuccessModal(data?.message);
+       refetch();
+     }
+ 
+     if (isError) {
+       console.error("Error while creating bookmark: ", error);
+       ErrorModal(error?.data?.message);
+     }
+   };
+ 
+   // Create Bookmark
+   const handleDeleteBookmark = async (_id) => {
+     console.log("_id: ", _id);
+ 
+     const res = await deleteBookmark(_id);
+     console.log("Delete bookmark response: ", res);
+     if (res?.data?.success) {
+       SuccessModal(res?.data?.message);
+       refetch();
+     }
+     if (isDeleteError) {
+       console.error("Error while deleting bookmark: ", deleteError);
+     }
+   };
 
   return (
     <div>
-      <section className="flex-center-between">
+      <section className="flex flex-col md:flex-row flex-center-between gap-6 md:gap-0">
         <h3 className="text-h4 font-semibold">
           {apartments?.length} Apartment{apartments?.length > 1 && "s"} Found 🌟
         </h3>

@@ -7,22 +7,22 @@ const messageApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/messages/send-messages",
         method: "POST",
-        body: data,
+        body: data
       }),
 
-      invalidatesTags: [tagTypes.messages],
+      invalidatesTags: [tagTypes.messages]
     }),
 
     uploadImage: builder.mutation({
       query: (data) => ({
-        url: "/upload",
+        url: "/uploads/multiple",
         method: "POST",
-        body: data,
+        body: data
       }),
 
-      invalidatesTags: [tagTypes.messages],
-    }),
-  }),
+      invalidatesTags: [tagTypes.messages]
+    })
+  })
 });
 
 export const { useSendMessageMutation, useUploadImageMutation } = messageApi;

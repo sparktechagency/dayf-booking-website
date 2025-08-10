@@ -11,11 +11,11 @@ import AnimatedArrow from "../AnimatedArrow/AnimatedArrow";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
-import { useGetBookmarkByIdQuery } from "@/redux/api/bookmarkApi";
 import { useEffect } from "react";
 import { useState } from "react";
 
 export default function VerticalPropertyCard({
+  fullProperty,
   property,
   bookmarks,
   handleCreateBookmark,
@@ -33,6 +33,8 @@ export default function VerticalPropertyCard({
     if (foundData) setBookmarked(foundData);
     else setBookmarked(null);
   }, [bookmarks]);
+
+  console.log({ property, fullProperty, price: property?.price });
 
   return (
     <div className="property-card flex h-full flex-col justify-between gap-y-4">
@@ -58,34 +60,23 @@ export default function VerticalPropertyCard({
               key={image?._id}
               className="hotel-card-img-slider-radius relative overflow-hidden"
             >
-              <Image
-                src={image?.url}
-                alt={`Photo of the ${property.name} hotel.`}
-                height={900}
-                width={900}
-                className="hotel-card-img-slider-radius h-[270px] w-full overflow-hidden object-cover transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
-              />
+              {image?.url ? (
+                <Image
+                  src={image?.url}
+                  alt={`Photo of the ${property.name} hotel.`}
+                  height={900}
+                  width={900}
+                  className="hotel-card-img-slider-radius h-[270px] w-full overflow-hidden object-cover transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110"
+                />
+              ) : (
+                <div className="h-[270px] w-full bg-gray-100"></div>
+              )}
 
               <div className="flex-center-between absolute bottom-0 left-0 right-0 z-10 mx-auto w-full rounded-b-[1.7rem] bg-black/20 px-8 py-1">
                 <div className="flex-center-start gap-x-2">
                   <Star className="size-[19px] fill-[#FFDA9E] stroke-[#FFDA9E]" />
                   <p className="text-white">{property?.avgRating}</p>
                 </div>
-
-                <Button
-                  onClick={() => {
-                    if (bookmarked) {
-                      return handleDeleteBookmark(bookmarked?._id);
-                    } else {
-                      return handleCreateBookmark(property?._id);
-                    }
-                  }}
-                  size="icon"
-                  variant="ghost"
-                  className={`z-50 cursor-pointer ${bookmarked ? "bg-black text-white" : "bg-white"}`}
-                >
-                  <Bookmark className="!size-5" />
-                </Button>
               </div>
             </SwiperSlide>
           ))}
@@ -108,6 +99,22 @@ export default function VerticalPropertyCard({
         </Swiper>
 
         <section className="mt-3 px-1">
+          <div className="absolute right-8 z-50">
+            <Button
+              onClick={() => {
+                if (bookmarked) {
+                  return handleDeleteBookmark(bookmarked?._id);
+                } else {
+                  return handleCreateBookmark(property?._id);
+                }
+              }}
+              size="icon"
+              variant="ghost"
+              className={`cursor-pointer shadow-md ${bookmarked ? "bg-black text-white" : "bg-gray-200"}`}
+            >
+              <Bookmark className="!size-5" />
+            </Button>
+          </div>
           <h3 className="text-h4 font-semibold leading-tight text-[#252525]">
             {property?.name}
           </h3>
@@ -115,8 +122,12 @@ export default function VerticalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              ${property?.minPrice} - ${property?.maxPrice}{" "}
-              <span className="text-sm">Per Night</span>
+              {/* {fullProperty?.minPrice ||
+                property?.minPrice ||
+                property?.price / 2}{" "}
+              - $
+              {fullProperty?.maxPrice || property?.maxPrice || property?.price}{" "} */}
+              {/* <span className="text-sm">{property?.price}Per Night</span> */}
             </h3>
           ) : (
             <h3 className="mt-3 text-h4 text-[#252525]">
@@ -140,7 +151,7 @@ export default function VerticalPropertyCard({
         asChild
       >
         <Link
-          href={`/property/${isHotel ? "hotels" : "apartments"}/${property?._id}`}
+          href={`/property/${property?.isProperty ? "hotels" : "apartments"}/${property?._id}`}
           scroll={true}
         >
           See Details <AnimatedArrow />
