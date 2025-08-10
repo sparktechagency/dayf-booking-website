@@ -229,7 +229,10 @@ const MessageContainer = () => {
             </div>
 
             {/* ================== users list - ============= */}
-            <div className="scroll-hide mt-8 max-h-[80vh] space-y-5 overflow-auto">
+            <div
+              id="scrollableDiv"
+              className="scroll-hide mt-8 max-h-[80vh] space-y-5 overflow-auto"
+            >
               {chatData?.map((chat, idx) => (
                 <>
                   <UserCard
@@ -344,15 +347,15 @@ const MessageContainer = () => {
             </div>
           )}
 
-          {!selectedUser?._id || !receiverId ? (
-            ""
-          ) : (
+          {selectedUser?._id || receiverId ? (
             <MessageForm
               receiverId={selectedUser?._id}
               isMessageSending={isMessageSending}
               setIsMessageSending={setIsMessageSending}
               form={form}
             />
+          ) : (
+            ""
           )}
         </div>
       </div>
