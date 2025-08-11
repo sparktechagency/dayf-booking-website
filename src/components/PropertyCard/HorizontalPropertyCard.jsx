@@ -28,14 +28,14 @@ export default function HorizontalPropertyCard({
   const isHotel = property?.price === undefined;
   const searchParams = useSearchParams();
 
-  console.log("Bookmarks from the Card: ", bookmarks);
-  console.log("property from the card: ", property);
+  // console.log("Bookmarks from the Card: ", bookmarks);
+  // console.log("property from the card: ", property);
 
   useEffect(() => {
     const foundData = bookmarks?.find(
       (bookmark) => bookmark?.reference?._id === property?._id
     );
-    console.log("Is foundData: ", foundData);
+    // console.log("Is foundData: ", foundData);
     if (foundData) setBookmarked(foundData);
     else setBookmarked(null);
   }, [bookmarks]);

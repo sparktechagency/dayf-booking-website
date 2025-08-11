@@ -34,7 +34,7 @@ export default function VerticalPropertyCard({
     else setBookmarked(null);
   }, [bookmarks]);
 
-  console.log({ property, fullProperty, price: property?.price });
+  // console.log({ property, fullProperty, price: property?.price });
 
   return (
     <div className="property-card flex h-full flex-col justify-between gap-y-4">

@@ -30,7 +30,7 @@ export default function Navbar() {
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   const userId = useSelector(selectUser)?.userId;
 
-  console.log("User ID from Navbar:", userId);
+  // console.log("User ID from Navbar:", userId);
 
   // Navbar dropdown states: Currency & Language
   const [selectedCurrency, setSelectedCurrency] = useState(
