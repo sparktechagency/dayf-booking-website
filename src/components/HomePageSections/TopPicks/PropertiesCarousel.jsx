@@ -307,7 +307,7 @@ export default function PropertiesCarousel({
           </Button>
         </div>
 
-        <SeeAllButton href="/property/hotels" />
+        <SeeAllButton href={`/property/${type}`} />
       </div>
     </Swiper>
   );

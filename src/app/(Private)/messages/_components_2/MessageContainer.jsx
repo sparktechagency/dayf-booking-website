@@ -217,7 +217,7 @@ const MessageContainer = () => {
 
           <div className="mx-auto mb-10 mt-4 w-[95%]">
             {/* Search box */}
-            <div className="relative w-[85%] lg:w-full">
+            {/* <div className="relative w-[85%] lg:w-full">
               <Search
                 className="absolute left-3 top-1/2 -translate-y-1/2"
                 size={20}
@@ -226,7 +226,7 @@ const MessageContainer = () => {
                 className="w-full rounded-xl border px-10 py-6"
                 placeholder="Search messages"
               />
-            </div>
+            </div> */}
 
             {/* ================== users list - ============= */}
             <div

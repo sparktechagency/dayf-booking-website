@@ -76,7 +76,7 @@ export default function VerticalPropertyCard({
               <div className="flex-center-between absolute bottom-0 left-0 right-0 z-10 mx-auto w-full rounded-b-[1.7rem] bg-black/20 px-8 py-1">
                 <div className="flex-center-start gap-x-2">
                   <Star className="size-[19px] fill-[#FFDA9E] stroke-[#FFDA9E]" />
-                  <p className="text-white">{property?.avgRating}</p>
+                  <p className="text-white">{property?.avgRating?.toFixed()}</p>
                 </div>
               </div>
             </SwiperSlide>
