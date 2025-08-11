@@ -24,6 +24,8 @@ import {
 } from "@/redux/api/bookmarkApi";
 import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { useGetApartmentsQuery } from "@/redux/api/apartmentApi";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/features/authSlice";
 
 const PROPERTY_DETAILS_SECTIONS = [
   { key: "overview", label: "Overview", route: "#overview" },
@@ -35,6 +37,7 @@ const PROPERTY_DETAILS_SECTIONS = [
 export default function DynamicPropertyDetails({ property }) {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("overview");
+  const user = useSelector(selectUser);
 
   const propertyType = pathname.includes("/hotels") ? "hotels" : "apartments";
 
@@ -214,7 +217,8 @@ export default function DynamicPropertyDetails({ property }) {
           </Link>
         ))}
 
-        <Button variant="primary" className="rounded-full" asChild>
+        {user && (
+          <Button variant="primary" className="rounded-full" asChild>
           <Link href={`/messages?reciverId=${property?.author?._id}`}>
             <Icon
               icon="hugeicons:message-notification-01"
@@ -223,6 +227,7 @@ export default function DynamicPropertyDetails({ property }) {
             Message
           </Link>
         </Button>
+        )}
       </nav>
 
       <section id="overview" className="flex-start-between mt-8 gap-x-8">
