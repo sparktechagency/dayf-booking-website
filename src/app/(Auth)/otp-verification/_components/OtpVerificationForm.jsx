@@ -2,7 +2,7 @@
 
 import CustomFormError from "@/components/CustomFormError/CustomFormError";
 import FormWrapper from "@/components/form-components/FormWrapper";
-import UOtpInput from "@/components/form-components/UOtpInput";
+// import UOtpInput from "@/components/form-components/UOtpInput";
 import { Button } from "@/components/ui/button";
 import {
   InputOTP,
@@ -13,7 +13,7 @@ import {
   useResendOtpMutation,
   useVerifyOtpMutation
 } from "@/redux/api/authApi";
-import { useGetUserByIdQuery } from "@/redux/api/userApi";
+// import { useGetUserByIdQuery } from "@/redux/api/userApi";
 import { setUser } from "@/redux/features/authSlice";
 import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import {
@@ -21,6 +21,8 @@ import {
   removeFromSessionStorage,
   setToSessionStorage
 } from "@/utils/sessionStorage";
+import { authValidationSchema } from "@/zod/authSchema.validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { jwtDecode } from "jwt-decode";
 import { useSearchParams } from "next/navigation";
@@ -31,20 +33,15 @@ import { useDispatch } from "react-redux";
 
 export default function OtpVerificationForm() {
   const [value, setValue] = useState("");
-  const [showRequired, setShowRequired] = useState(false);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [timer, setTimer] = useState(180); // Timer in seconds
   const router = useRouter();
   const dispatch = useDispatch();
   const fromHref = useSearchParams().get("from-href");
   const [formError, setFormError] = useState(null);
-  // const [currentUser, setCurrentUser] = useState(null);
 
   const [verifyOtp, { isLoading: isVerifyOtpLoading }] = useVerifyOtpMutation();
   const [resendOtp, { isLoading: isResendOtpLoading }] = useResendOtpMutation();
-
-  // const decodedUser = jwtDecode(getFromSessionStorage("dayf-signup-token"));
-  // console.log("decoded: ", decodedUser);
 
   useEffect(() => {
     if (timer > 0) {
@@ -116,9 +113,10 @@ export default function OtpVerificationForm() {
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
+  // Handle OTP verification
   const handleVerifyOtp = async () => {
     if (value.length < 6) {
-      setShowRequired(true);
+      setFormError("Please enter a valid OTP");
       return;
     }
 
@@ -138,7 +136,8 @@ export default function OtpVerificationForm() {
           removeFromSessionStorage("dayf-signup-token");
         }
       } catch (error) {
-        ErrorModal(error?.data?.message || error?.message);
+        console.log("Error from Verify OTP: ", error);
+        setFormError(error?.data?.message || error?.message);
       }
     } else if (getFromSessionStorage("forgotPassToken")) {
       try {
@@ -156,7 +155,7 @@ export default function OtpVerificationForm() {
           router.push("/set-new-password");
         }
       } catch (error) {
-        setFormError(error?.data?.message || error?.message);
+        setFormError(error?.message || error?.data?.message || error?.error);
       }
     }
   };
@@ -165,7 +164,7 @@ export default function OtpVerificationForm() {
   const handleLoginUser = (token) => {
     const user = jwtDecode(token);
     if (user?.role === "hotel_admin") {
-      const dashboard_login_page_url = "http://localhost:5012/login";
+      const dashboard_login_page_url = process.env.NEXT_PUBLIC_DASHBOARD_URL;
       return window.open(
         dashboard_login_page_url,
         "_blank",
@@ -195,12 +194,12 @@ export default function OtpVerificationForm() {
         </p>
       </div>
 
-      <FormWrapper onSubmit={handleVerifyOtp}>
+      <FormWrapper onSubmit={handleVerifyOtp} >
         <section className="mx-auto mb-2 w-max">
           <InputOTP
             maxLength={6}
             pattern={REGEXP_ONLY_DIGITS}
-            onChange={(value) => setValue(value)}
+            onChange={(value) => {setValue(value); setFormError("")}}
           >
             <InputOTPGroup className="flex items-center gap-x-3">
               {Array.from({ length: 6 }).map((_, idx) => (
@@ -213,13 +212,9 @@ export default function OtpVerificationForm() {
             </InputOTPGroup>
           </InputOTP>
         </section>
-        {showRequired && (
-          <CustomFormError>
-            Please enter your one-time password correctly
-          </CustomFormError>
+        {formError?.trim() && (
+          <CustomFormError formError={formError} />
         )}
-
-        {formError && <CustomFormError>{formError}</CustomFormError>}
 
         <Button
           type="submit"

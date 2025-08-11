@@ -1,4 +1,4 @@
-import { passwordRegex } from "@/utils/commonRegex";
+import { passwordRegex } from "../utils/commonRegex";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import * as z from "zod";
 
@@ -97,10 +97,17 @@ const resetPasswordSchema = z
     }
   });
 
+  const otpSchema = z.object({
+    otp: z
+    .string()
+    .min(6, {message: "OTP must be 6 characters long"})
+  });
+
 export const authValidationSchema = {
   loginSchema,
   signUpSchema,
   forgotPasswordSchema,
   setNewPasswordSchema,
-  resetPasswordSchema
+  resetPasswordSchema,
+  otpSchema
 };

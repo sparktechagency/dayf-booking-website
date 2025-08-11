@@ -12,13 +12,13 @@ export const metadata = {
 
 export default function page() {
   return (
-    <ResponsiveContainer className="flex-center min-h-screen">
-      <div className="mx-auto rounded-2xl border p-4 shadow-sm lg:w-1/2">
+    <ResponsiveContainer className="flex-center min-h-screen py-12 lg:py-0">
+      <div className="mx-auto rounded-2xl border p-4 shadow-sm w-full lg:w-1/2">
         <h1 className="text-center text-h3 font-extrabold text-black lg:text-h2 2xl:text-h1">
           Get In Touch
         </h1>
 
-        <div className="flex-center mb-10 mt-3 gap-x-4 text-gray-700">
+        <div className="flex flex-col md:flex-row flex-center mb-10 mt-3 gap-y-2 md:gap-y-0 md:gap-x-4 text-gray-700">
           <div className="flex-center-start gap-x-3 text-left">
             <Clock size={18} />
             <p className="text-sm lg:text-base">We are available 24/7</p>

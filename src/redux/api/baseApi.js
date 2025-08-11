@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { tagTypesList } from "../tagtypes";
-import { getFromSessionStorage } from "@/utils/sessionStorage";
-import { getBackendBaseUrl } from "@/config/envConfig";
+import { getFromSessionStorage } from "../../utils/sessionStorage";
+import { getBackendBaseUrl } from "../../config/envConfig";
 import { setUser } from "../features/authSlice";
 
 const baseQuery = fetchBaseQuery({
@@ -14,7 +14,7 @@ const baseQuery = fetchBaseQuery({
     const changePassToken = getFromSessionStorage("changePasswordToken");
 
     const token = getState().auth.token;
-console.log(token)
+    // console.log(token)
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }

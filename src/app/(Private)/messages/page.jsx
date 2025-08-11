@@ -1,5 +1,6 @@
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
-import MessageContainer from "./_components/MessageContainer";
+import MessageContainer from "./_components_2/MessageContainer";
+// import MessageContainer from "./_components/MessageContainer";
 
 export const metadata = {
   title: "Messages"

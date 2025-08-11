@@ -80,10 +80,14 @@ export default function BookingForm({
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log("error from error block   ", error);
       setFormError(
         error?.message || error?.data?.message || "Something went wrong!"
       );
+      if (error?.status === 401 || error?.status === 403) {
+        setFormError("Please login to book this apartment");
+        router.push("/login");
+      }
     }
   };
 

@@ -1,17 +1,16 @@
 "use client";
 
-import CustomFormError from "@/components/CustomFormError/CustomFormError";
-import FormWrapper from "@/components/form-components/FormWrapper";
-import UInput from "@/components/form-components/UInput";
-import { Button } from "@/components/ui/button";
-import { useSignInMutation } from "@/redux/api/authApi";
-import { selectUser, setUser } from "@/redux/features/authSlice";
-import { SuccessModal } from "@/utils/customModal";
-import { authValidationSchema } from "@/zod/authSchema.validation";
+import CustomFormError from "../../../../components/CustomFormError/CustomFormError";
+import FormWrapper from "../../../../components/form-components/FormWrapper";
+import UInput from "../../../../components/form-components/UInput";
+import { Button } from "../../../../components/ui/button";
+import { useSignInMutation } from "../../../../redux/api/authApi";
+import { setUser } from "../../../../redux/features/authSlice";
+import { SuccessModal } from "../../../../utils/customModal";
+import { authValidationSchema } from "../../../../zod/authSchema.validation";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";

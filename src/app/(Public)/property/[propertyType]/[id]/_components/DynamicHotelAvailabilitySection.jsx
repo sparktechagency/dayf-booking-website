@@ -21,6 +21,8 @@ import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 import CustomFormError from "@/components/CustomFormError/CustomFormError";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/features/authSlice";
 
 const AVAILABILITY_TABLE_HEADERS = [
   "Room type",
@@ -38,6 +40,7 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
   const hotelRoomId = searchParams.get("hotelRoomId");
   const [formError, setFormError] = useState("");
   const router = useRouter();
+  const user = useSelector(selectUser)?.userId;
 
   // State to track selected room quantities for each room
   const [selectedQuantities, setSelectedQuantities] = useState({});
@@ -60,7 +63,7 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
       }
     );
 
-  console.log({ roomCategories });
+  // console.log({ roomCategories });
 
   // Handle room quantity selection
   const handleQuantityChange = (roomId, value) => {
@@ -72,6 +75,14 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
 
   // Function to create URL with updated searchParams
   const createBookingUrl = (roomId) => {
+    console.log("Action from the creaseBookingUrl function");
+    console.log("user from the creaseBookingUrl function", user);
+    if (!user) {
+      setFormError("Please login to book a room");
+      router.push("/login");
+      return;
+    }
+
     const quantity = selectedQuantities[roomId] || "1";
     const params = new URLSearchParams(searchParams.toString());
     params.set("hotelRoomId", roomId);
@@ -97,7 +108,7 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
     }
   }, [checkInOutDate, hotelRoomId]);
 
-  console.log({ selectedQuantities });
+  // console.log({ selectedQuantities });
 
   return (
     <div>
@@ -257,9 +268,10 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
                         {Array.from({ length: room?.totalRooms })?.map(
                           (_, idx) => (
                             <SelectItem
-                              key={idx + 1}
-                              value={(idx + 1)?.toString()}
+                            key={idx + 1}
+                            value={(idx + 1)?.toString()}
                             >
+                              {/* {console.log("Total Rooms ------------> ", room?.totalRooms)} */}
                               {idx + 1}
                             </SelectItem>
                           )

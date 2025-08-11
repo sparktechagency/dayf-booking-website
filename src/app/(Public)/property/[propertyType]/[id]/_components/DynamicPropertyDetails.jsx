@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DynamicHotelAvailabilitySection from "./DynamicHotelAvailabilitySection";
 import DynamicPropertyReviews from "./DynamicPropertyReviews";
 import DynamicPropertyPolicies from "./DynamicPropertyPolicies";
@@ -16,6 +16,16 @@ import SorroundingContainer from "./SorroundingContainer";
 import { usePathname } from "next/navigation";
 import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 import DyanamicApartmentAvailabilitySection from "./DyanamicApartmentAvailabilitySection";
+import { useGetPropertiesQuery } from "@/redux/api/propertyApi";
+import {
+  useCreateBookmarkMutation,
+  useDeleteBookmarkMutation,
+  useGetAllBookmarkQuery
+} from "@/redux/api/bookmarkApi";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
+import { useGetApartmentsQuery } from "@/redux/api/apartmentApi";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/features/authSlice";
 
 const PROPERTY_DETAILS_SECTIONS = [
   { key: "overview", label: "Overview", route: "#overview" },
@@ -27,6 +37,150 @@ const PROPERTY_DETAILS_SECTIONS = [
 export default function DynamicPropertyDetails({ property }) {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("overview");
+  const user = useSelector(selectUser);
+
+  const propertyType = pathname.includes("/hotels") ? "hotels" : "apartments";
+
+  // console.log("Property type: -------------> ", propertyType);
+
+  // -----------------------------------------------------------
+  const query = useMemo(
+    () => ({
+      limit: 5,
+      longitude: property?.location?.coordinates[0],
+      latitude: property?.location?.coordinates[1]
+    }),
+    [property]
+  );
+
+  const hotelQueryResult = useGetPropertiesQuery(query, {
+    skip: !property?.location?.coordinates?.length
+  });
+
+  const apartmentQueryResult = useGetApartmentsQuery(query, {
+    skip: !property?.location?.coordinates?.length
+  });
+
+  const {
+    recommendedPropertiesData,
+    isLoading: isRecommendedLoading,
+    isError: isRecommendedError,
+    error: recommendedError
+  } = useMemo(() => {
+    if (propertyType === "hotels") {
+      return {
+        recommendedPropertiesData: hotelQueryResult?.data?.data || [],
+        isLoading: hotelQueryResult.isLoading,
+        isError: hotelQueryResult.isError,
+        error: hotelQueryResult.error
+      };
+    } else {
+      return {
+        recommendedPropertiesData: apartmentQueryResult?.data?.data || [],
+        isLoading: apartmentQueryResult.isLoading,
+        isError: apartmentQueryResult.isError,
+        error: apartmentQueryResult.error
+      };
+    }
+  }, [propertyType, hotelQueryResult, apartmentQueryResult]);
+
+  const recommendedProperties = recommendedPropertiesData?.filter(
+    (p) => p._id !== property._id && p?.location?.coordinates?.length > 0
+  );
+
+  useEffect(() => {
+    // Handle errors
+    if (isRecommendedError) {
+      console.error(
+        "Error fetching recommended properties: ",
+        recommendedError
+      );
+      ErrorModal(
+        recommendedError?.data?.message ||
+          "Failed to fetch recommended properties"
+      );
+    }
+  }, [recommendedError, isRecommendedError]);
+
+  // console.log("Recommended properties: ", recommendedProperties);
+
+  // --------------------------------------------------------------------------
+  const [bookmarks, setBookmarks] = useState([]);
+
+  const [createBookmark, { isError, error, isLoading }] =
+    useCreateBookmarkMutation();
+  const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
+    useDeleteBookmarkMutation();
+
+  // Get bookmarks
+  const {
+    data: bookmarkData,
+    isError: isGetError,
+    error: getError,
+    refetch: bookingRefetch
+  } = useGetAllBookmarkQuery();
+  // console.log("Bookmark data: ", bookmarkData);
+  // Update bookmarks state when bookmarkData changes
+  useEffect(() => {
+    // console.log("Bookmark data: ", bookmarkData);
+
+    setBookmarks(bookmarkData);
+  }, [bookmarkData]);
+
+  // Handle errors in useEffect
+  useEffect(() => {
+    if (isGetError) {
+      console.error("Error fetching bookmarks:", getError);
+      // Optionally show an error modal
+      // ErrorModal(getError?.data?.message || "Failed to fetch bookmarks");
+    }
+  }, [isGetError, getError]);
+
+  // Create Bookmark
+  const handleCreateBookmark = async (_id) => {
+    console.log("_id: ", _id);
+    const modelType = "Property";
+
+    // Bookmark the data
+    const data = await createBookmark({ reference: _id, modelType }).unwrap();
+    console.log("create Bookmark response: ", data);
+    if (data?.success) {
+      SuccessModal(data?.message);
+      bookingRefetch();
+    }
+  };
+
+  useEffect(() => {
+    if (isError) {
+      console.error("Error while creating bookmark: ", error);
+      if (error?.status === 401 || error?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(error?.data?.message);
+    }
+  }, [isError, error]);
+
+  // Create Bookmark
+  const handleDeleteBookmark = async (_id) => {
+    console.log("_id: ", _id);
+
+    const res = await deleteBookmark(_id);
+    console.log("Delete bookmark response: ", res);
+    if (res?.data?.success) {
+      SuccessModal(res?.data?.message);
+      bookingRefetch();
+    }
+  };
+
+  useEffect(() => {
+    if (isDeleteError) {
+      console.error("Error while deleting bookmark: ", deleteError);
+      if (deleteError?.status === 401 || deleteError?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(deleteError?.data?.message);
+    }
+  }, [isDeleteError, deleteError]);
+
+  // ------------------------------------------------------------------------
 
   // Center property location in google map
   const center = useMemo(() => {
@@ -63,8 +217,9 @@ export default function DynamicPropertyDetails({ property }) {
           </Link>
         ))}
 
-        <Button variant="primary" className="rounded-full" asChild>
-          <Link href={`/messages`}>
+        {user && (
+          <Button variant="primary" className="rounded-full" asChild>
+          <Link href={`/messages?reciverId=${property?.author?._id}`}>
             <Icon
               icon="hugeicons:message-notification-01"
               className="!h-5 !w-5"
@@ -72,6 +227,7 @@ export default function DynamicPropertyDetails({ property }) {
             Message
           </Link>
         </Button>
+        )}
       </nav>
 
       <section id="overview" className="flex-start-between mt-8 gap-x-8">
@@ -156,11 +312,25 @@ export default function DynamicPropertyDetails({ property }) {
         <DynamicPropertyPolicies />
       </div>
 
+      {/* Recommended */}
       <div id="recommended" className="mt-16 space-y-5">
         <DynamicApartmentSectionTitle>
           You may also like
         </DynamicApartmentSectionTitle>
-        <PropertiesCarousel />
+
+       {recommendedProperties?.length > 0 ? (
+           <PropertiesCarousel
+          properties={recommendedProperties}
+          bookmarks={bookmarks}
+          handleCreateBookmark={handleCreateBookmark}
+          handleDeleteBookmark={handleDeleteBookmark}
+          type={propertyType}
+        /> ) : (
+          <EmptyContainer
+            className="h-[50dvh]"
+            message={`No recommended ${propertyType} found`}
+          />
+        )}
       </div>
     </section>
   );

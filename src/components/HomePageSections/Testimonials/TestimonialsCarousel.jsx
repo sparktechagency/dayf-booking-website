@@ -7,9 +7,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { ArrowRight } from "lucide-react";
-import { useGetTestimonialReviewsQuery } from "@/redux/api/reviewApi";
+import { useGetTestimonialReviewsQuery } from "../../../redux/api/reviewApi";
 
-export default function TestimonialsCarousel({ testimonials }) {
+export default function TestimonialsCarousel() {
   const sliderRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isBeginning, setIsBeginning] = useState(true);
@@ -35,7 +35,7 @@ export default function TestimonialsCarousel({ testimonials }) {
 
   // Get testimonial reviews
   const { data: reviews } = useGetTestimonialReviewsQuery({});
-  console.log({ reviews });
+  // console.log({ reviews });
 
   return (
     <div className="relative">

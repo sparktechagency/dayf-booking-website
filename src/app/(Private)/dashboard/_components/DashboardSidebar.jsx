@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import userAvatar from "/public/images/navbar/dummy-user.jpg";
 import CustomAvatar from "@/components/CustomAvatar/CustomAvatar";
 import BgIcon from "@/components/PropertySearchPanel/BgIcon";
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
-import { removeFromSessionStorage } from "@/utils/sessionStorage";
 import { SuccessModal } from "@/utils/customModal";
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/features/authSlice";
@@ -31,19 +29,19 @@ const sidebarLinks = [
     icon: "iconoir:calendar"
   },
   {
+    id: "bookmarks",
+    label: "Bookmarks",
+    desc: "Access your bookmarks record",
+    route: "/dashboard/bookmarks",
+    icon: "iconoir:bookmark"
+  },
+  {
     id: "change-password",
     label: "Change Password",
     desc: "Update your password",
     route: "/dashboard/change-password",
     icon: "ic:round-password"
   }
-  // {
-  //   id: "feedback",
-  //   label: "Share Feedback",
-  //   desc: "Help us improve your experience",
-  //   route: "/dashboard/share-feedback",
-  //   icon: "material-symbols:rate-review-outline-sharp"
-  // }
 ];
 
 export default function DashboardSidebar() {
@@ -58,9 +56,8 @@ export default function DashboardSidebar() {
     router.push("/");
   };
 
-  console.log({ profile });
   return (
-    <div className="lg:w-1/4">
+    <div className={`${currentPath.includes('/booking-history/details') && 'hidden'} w-full lg:w-1/4`}>
       {/* Profile Picture */}
       <div className="flex-center-start mb-8 gap-x-3">
         <CustomAvatar

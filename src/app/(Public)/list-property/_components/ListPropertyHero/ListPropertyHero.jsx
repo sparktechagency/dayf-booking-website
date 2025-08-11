@@ -5,7 +5,7 @@ import PropertyTypewriterEffect from "./PropertyTypewriterEffect";
 const ListPropertyHero = () => {
   return (
     <div className="rounded-b-[35px] bg-white py-10">
-      <ResponsiveContainer className="flex-center-between gap-10">
+      <ResponsiveContainer className="flex-center-between flex-col xl:flex-row gap-10">
         <div className="xl:w-[52%]">
           <h1 className="heading-gradient heading w-[75%] font-quicksand">
             List Your

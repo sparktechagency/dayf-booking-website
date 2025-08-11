@@ -17,8 +17,7 @@ const reviewApi = baseApi.injectEndpoints({
         method: "POST", 
         body: data 
       }),
-      invalidatesTags: [tagTypes.reviews],
-      transformResponse: (res) => res?.data?.data
+      invalidatesTags: [tagTypes.reviews]
     })
   })
 });

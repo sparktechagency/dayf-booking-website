@@ -14,16 +14,14 @@ import { ArrowUpDown } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
-import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
+import EmptyContainer from "../../../../../../components/EmptyContainer/EmptyContainer";
 import {
   useCreateBookmarkMutation,
   useDeleteBookmarkMutation,
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
-import { ErrorModal } from "@/utils/customModal";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { useEffect } from "react";
-import { useGetBookmarksData } from "@/hooks/useGetBookmarksData";
 
 // Constants
 const SORT_OPTIONS = {
@@ -36,41 +34,57 @@ const SORT_OPTIONS = {
 
 export default function ApartmentsContainer({
   apartments,
-  apartmentsMeta,
   pagination,
+  apartmentsMeta,
   sort,
   searchParams,
   setSearchText
 }) {
   const currentPathname = usePathname();
   const router = useRouter();
-  const [apartmentBookmarks, setApartmentBookmarks] = useState([]);
 
   const [createBookmark, { isError, error, loading }] =
     useCreateBookmarkMutation();
   const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
     useDeleteBookmarkMutation();
 
-  useGetBookmarksData("Apartment", setApartmentBookmarks);
+  const {
+    data: apartmentBookmarks,
+    isError: isBookmarkError,
+    error: bookmarkError,
+    refetch
+  } = useGetAllBookmarkQuery({ modelType: "Apartment" });
 
-  // Handle Bookmark
+  useEffect(() => {
+    if (isBookmarkError) {
+      console.error("Error fetching bookmarks: ", bookmarkError);
+      // ErrorModal(bookmarkError?.data?.message || "Failed to fetch bookmarks");
+    }
+  }, [isBookmarkError, bookmarkError]);
+  //  console.log("Hotel booKmarks: ", apartmentBookmarks);
+
+  // Create Bookmark
   const handleCreateBookmark = async (_id) => {
     console.log("_id: ", _id);
     const modelType = "Apartment";
 
     // Bookmark the data
     const data = await createBookmark({ reference: _id, modelType }).unwrap();
-
     console.log("create Bookmark response: ", data);
-
-    if (isError) {
-      console.error("Error while creating bookmark: ", error);
-      ErrorModal(error?.data?.message);
-    } else {
+    if (data?.success) {
       SuccessModal(data?.message);
-      useGetBookmarksData("Apartment", setApartmentBookmarks);
+      refetch();
     }
   };
+
+  useEffect(() => {
+    if (isError) {
+      console.error("Error while creating bookmark: ", error);
+      if (error?.status === 401 || error?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(error?.data?.message);
+    }
+  }, [isError, error]);
 
   // Create Bookmark
   const handleDeleteBookmark = async (_id) => {
@@ -78,17 +92,24 @@ export default function ApartmentsContainer({
 
     const res = await deleteBookmark(_id);
     console.log("Delete bookmark response: ", res);
-    if (isDeleteError) {
-      console.error("Error while deleting bookmark: ", deleteError);
-    } else {
-      SuccessModal(data?.message);
-      useGetBookmarksData("Apartment", setApartmentBookmarks);
+    if (res?.data?.success) {
+      SuccessModal(res?.data?.message);
+      refetch();
     }
   };
 
+  useEffect(() => {
+    if (isDeleteError) {
+      console.error("Error while deleting bookmark: ", deleteError);
+      if (deleteError?.status === 401 || deleteError?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(deleteError?.data?.message);
+    }
+  }, [isDeleteError, deleteError]);
+
   return (
     <div>
-      <section className="flex-center-between">
+      <section className="flex-center-between flex flex-col gap-6 md:flex-row md:gap-0">
         <h3 className="text-h4 font-semibold">
           {apartments?.length} Apartment{apartments?.length > 1 && "s"} Found 🌟
         </h3>

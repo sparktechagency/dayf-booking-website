@@ -3,17 +3,25 @@
 import { useGetPropertiesByFiltersQuery } from "@/redux/api/propertyApi";
 import { X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import PropertyCard from "../PropertyCard/PropertyCard";
 import HorizontalPropertyCardSkeleton from "../shared/HorizontalPropertyCardSkeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import EmptyContainer from "../EmptyContainer/EmptyContainer";
 import { PaginationWithLinks } from "../ui/pagination-with-links";
+import {
+  useCreateBookmarkMutation,
+  useDeleteBookmarkMutation,
+  useGetAllBookmarkQuery
+} from "@/redux/api/bookmarkApi";
+import { SuccessModal, ErrorModal } from "@/utils/customModal";
 
 export default function FloatingPropertySearchResults({
   showResults,
-  setShowResults
+  setShowResults,
+  isRefetch,
+  setIsRefetch
 }) {
   const searchParams = useSearchParams();
   const checkInOutDate = JSON.parse(searchParams.get("checkInOutDate")) || "";
@@ -24,31 +32,116 @@ export default function FloatingPropertySearchResults({
   const page = searchParams.get("page") || "1";
   const pageSize = searchParams.get("pageSize") || "4";
 
+  const [modelType, setModelType] = React.useState("Property");
+
   // Query filters
   const query = {
     startDate: checkInOutDate.from,
     endDate: checkInOutDate.to,
     page,
     limit: pageSize,
-    latitude,
-    longitude,
+    latitude: latitude ? parseFloat(latitude) : "",
+    longitude: longitude ? parseFloat(longitude) : "",
     adults: guests?.adults || 0,
     children: guests?.children || 0,
     infants: guests?.infants || 0,
     searchType: propertyType === "hotel" ? "Property" : "Apartment"
   };
 
+  // console.log("query?.searchType : ", query?.searchType);
+
   // Get properties for global search
   const {
     data: propertiesByFitlers,
-    isFetching: isLoadingPropertiesByFilters
+    isFetching: isLoadingPropertiesByFilters,
+    refetch
   } = useGetPropertiesByFiltersQuery(query, {
     skip: !checkInOutDate?.from || !checkInOutDate?.to || !showResults
   });
   const properties = propertiesByFitlers?.data || [];
   const propertiesMeta = propertiesByFitlers?.meta || {};
 
-  console.log({ properties });
+  const [createBookmark, { isError, error, isLoading }] =
+    useCreateBookmarkMutation();
+  const [deleteBookmark, { isDeleteError, deleteError, isDeleteLoading }] =
+    useDeleteBookmarkMutation();
+
+  useEffect(() => {
+    if (propertyType === "apartment") {
+      setModelType("Apartment");
+    } else {
+      setModelType("Property");
+    }
+  }, [propertyType]);
+  console.log("Model Type: ", modelType);
+
+  const {
+    data: hotelBookmarks,
+    isError: isBookmarkError,
+    error: bookmarkError,
+    refetch: refetchBookmarks
+  } = useGetAllBookmarkQuery({
+    modelType
+  });
+
+  // console.log({ properties });
+
+  useEffect(() => {
+    if (isRefetch && propertiesByFitlers?.data) {
+      refetch();
+      setIsRefetch(false);
+    }
+  }, [isRefetch, propertiesByFitlers, refetch, setIsRefetch]);
+
+  useEffect(() => {
+    if (isBookmarkError) {
+      console.log("Error while fetching the bookmark data: ", bookmarkError);
+    }
+    // console.log("Hotel booKmarks: ", hotelBookmarks);
+  }, [isBookmarkError, bookmarkError, hotelBookmarks]);
+
+  // Create Bookmark
+  const handleCreateBookmark = async (_id) => {
+    console.log("_id: ", _id);
+
+    // Bookmark the data
+    const data = await createBookmark({ reference: _id, modelType }).unwrap();
+    console.log("create Bookmark response: ", data);
+    if (data?.success) {
+      SuccessModal(data?.message);
+      refetchBookmarks();
+    }
+  };
+
+  useEffect(() => {
+    if (isError) {
+      console.error("Error while creating bookmark: ", error);
+      if (error?.status === 401 || error?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(error?.data?.message);
+    }
+  }, [isError, error]);
+
+  // Delete Bookmark
+  const handleDeleteBookmark = async (_id) => {
+    console.log("_id: ", _id);
+
+    const res = await deleteBookmark(_id);
+    console.log("Delete bookmark response: ", res);
+    if (res?.data?.success) {
+      SuccessModal(res?.data?.message);
+      refetchBookmarks();
+    }
+  };
+
+  useEffect(() => {
+    if (isDeleteError) {
+      console.error("Error while deleting bookmark: ", deleteError);
+      if (deleteError?.status === 401 || deleteError?.status === 403) {
+        ErrorModal("You need to login to bookmark properties.");
+      } else ErrorModal(deleteError?.data?.message);
+    }
+  }, [isDeleteError, deleteError]);
 
   return (
     <div>
@@ -88,6 +181,9 @@ export default function FloatingPropertySearchResults({
                         variant="list"
                         property={property}
                         type={isHotel ? "hotel" : "apartment"}
+                        bookmarks={hotelBookmarks}
+                        handleCreateBookmark={handleCreateBookmark}
+                        handleDeleteBookmark={handleDeleteBookmark}
                       />
                     );
                   })

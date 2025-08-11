@@ -1,21 +1,34 @@
 "use client";
 
+import CustomFormError from "@/components/CustomFormError/CustomFormError";
 import FormWrapper from "@/components/form-components/FormWrapper";
 import UInput from "@/components/form-components/UInput";
 import { Button } from "@/components/ui/button";
 import { useChangePasswordMutation } from "@/redux/api/authApi";
-import { SuccessModal } from "@/utils/customModal";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 export default function ChangePasswordForm() {
   const [showCurrentPass, setShowCurrentPass] = useState(false);
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const [formError, setFormError] = useState("");
 
   const onSubmit = async (data, { reset }) => {
     console.log(data);
+    setFormError(""); // Reset the error
+
+    if (!data?.currentPassword) {
+      setFormError("Please provide the current password");
+      return;
+    }else if(!data?.newPassword) {
+       setFormError("Please provide the new password");
+      return;
+    }else if(!data?.confirmPassword) {
+       setFormError("Please provide the confirm password");
+      return;
+    }
 
     try {
       const res = await changePassword({
@@ -25,9 +38,9 @@ export default function ChangePasswordForm() {
       console.log("Change password response: ", res);
       SuccessModal("Password changed successfully");
       reset();
-      
     } catch (error) {
       console.error("Error while changing password: ", error);
+      ErrorModal(error?.message || error?.data?.message);
     }
   };
 
@@ -62,12 +75,15 @@ export default function ChangePasswordForm() {
         />
 
         <Button
-          isLoading={isLoading}
+          loading={isLoading}
+          disabled={isLoading}
           variant="primary"
           className="w-full rounded-full py-6"
         >
           Submit
         </Button>
+        {/* Display Error Message */}
+        {formError && <CustomFormError formError={formError} />}
       </FormWrapper>
     </div>
   );

@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    // "jsx": "preserve",
+    "jsx": "preserve",
+    "baseUrl": "src",
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/app/(Private)/messages/_components_2/MessageForm.jsx",
+    "src/components/skeletons/Spinner.jsx",
+    "src/components/skeletons/ErrorComponent.jsx",
+    "src/app/(Private)/messages/_components/MessageContainer.jsx",
+    "src/app/(Private)/messages/_components/MessageBox.jsx",
+    "src/utils/timeAgo.js",
+    "src/app/(Private)/messages/_components/ChatCard.jsx",
+    "src/app/(Private)/messages/_components/MessageForm.jsx",
+    "src/app/(Private)/messages/_components/OwnerMsgCard.jsx",
+    "src/app/(Private)/messages/_components/ReceivedMessage.jsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

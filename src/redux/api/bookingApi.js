@@ -24,12 +24,30 @@ const bookingApi = baseApi.injectEndpoints({
     createBooking: builder.mutation({
       query: (payload) => ({ url: "/bookings", method: "POST", body: payload }),
       invalidatesTags: [tagTypes.bookingApi]
-    })
+    }),
+
+    completeBooking: builder.mutation({
+      query: (id) => ({
+        url: `/bookings/complete/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: [tagTypes.bookingApi]
+    }),
+
+    cancelBooking: builder.mutation({
+      query: (id) => ({
+        url: `/bookings/canceled/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: [tagTypes.bookingApi]
+    }),
   })
 });
 
 export const {
   useGetAllBookingsQuery,
   useCreateBookingMutation,
-  useGetSingleBookingQuery
+  useGetSingleBookingQuery,
+  useCompleteBookingMutation,
+  useCancelBookingMutation
 } = bookingApi;

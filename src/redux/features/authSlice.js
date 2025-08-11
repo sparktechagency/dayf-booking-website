@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_KEY } from "@/constant/auth.constant";
+import { ACCESS_TOKEN_KEY } from "../../constant/auth.constant";
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 // import { signOut } from "next-auth/react";

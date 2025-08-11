@@ -4,6 +4,7 @@ import { Autoplay, Navigation, Parallax } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function DynamicHotelReviews({ reviews }) {
+  console.log("Review ---------------------------> ", reviews);
   return (
     <Swiper
       effect="slide"
@@ -28,7 +29,7 @@ export default function DynamicHotelReviews({ reviews }) {
           <Card className="w-full p-6">
             <CardContent className="space-y-4 p-0">
               <h2 className="text-xl font-semibold text-gray-900">
-                &apos;{review.title}&apos;
+                &apos;{review.review?.slice(0, 60)}&apos;
               </h2>
 
               <p className="text-sm leading-relaxed text-gray-600">
@@ -40,8 +41,8 @@ export default function DynamicHotelReviews({ reviews }) {
               </div>
 
               <div className="flex items-center justify-between pt-2">
-                <p className="text-gray-900">— {review.author}</p>
-                <p className="text-sm text-gray-500">{review.date}</p>
+                <p className="text-gray-900">— {review?.user?.name}</p>
+                <p className="text-sm text-gray-500">{new Date(review?.createdAt)?.toLocaleDateString()}</p>
               </div>
             </CardContent>
           </Card>

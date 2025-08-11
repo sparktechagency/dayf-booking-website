@@ -9,18 +9,22 @@ import FloatingPropertySearchResults from "@/components/FloatingPropertySearchRe
 export default function Hero() {
   const [showPropertySearchResults, setShowPropertySearchResults] =
     React.useState(false);
+  const [isRefetch, setIsRefetch] =
+    React.useState(false);
 
   return (
     <section className="bg-white pb-16 pt-10">
       <div className="relative">
         <PropertySearchPanel
           page="home"
-          onSearch={() => setShowPropertySearchResults(true)}
+          onSearch={() => {setShowPropertySearchResults(true); setIsRefetch(true);}}
         />
 
         <FloatingPropertySearchResults
           showResults={showPropertySearchResults}
           setShowResults={setShowPropertySearchResults}
+          isRefetch={isRefetch}
+          setIsRefetch={setIsRefetch}
         />
       </div>
 

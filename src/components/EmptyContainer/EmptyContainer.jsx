@@ -8,7 +8,7 @@ export default function EmptyContainer({
   return (
     <div
       className={cn(
-        "flex-center mx-auto my-[8vh] max-w-max text-center",
+        "flex-center w-full mx-auto my-[8vh] max-w-max text-center",
         className
       )}
     >
@@ -21,10 +21,10 @@ export default function EmptyContainer({
           className="mx-auto block"
         >
           <title>empty image</title>
-          <g fill="none" fill-rule="evenodd">
+          <g fill="none" fillRule="evenodd">
             <g transform="translate(24 31.67)">
               <ellipse
-                fill-opacity=".8"
+                fillOpacity=".8"
                 fill="#F5F5F7"
                 cx="67.797"
                 cy="106.89"
