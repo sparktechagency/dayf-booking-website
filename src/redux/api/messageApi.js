@@ -3,42 +3,26 @@ import { baseApi } from "./baseApi";
 
 const messageApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getMyMessages: builder.query({
-      query: (id) => ({
-        url: `/messages/my-messages/${id}`,
-        method: "GET"
+    sendMessage: builder.mutation({
+      query: (data) => ({
+        url: "/messages/send-messages",
+        method: "POST",
+        body: data
       }),
 
       invalidatesTags: [tagTypes.messages]
     }),
-    sendMessage: builder.mutation({
-      query: (payload) => ({
-        url: `/messages/send-messages`,
+
+    uploadImage: builder.mutation({
+      query: (data) => ({
+        url: "/uploads/multiple",
         method: "POST",
-        body: payload
+        body: data
       }),
-      invalidatesTags: [tagTypes.messages, "chats"]
-    }),
-    seenMessageByChatId: builder.mutation({
-      query: (id) => ({
-        url: `/messages/seen/${id}`,
-        method: "PATCH"
-      }),
-      invalidatesTags: [tagTypes.messages, "chats"]
-    }),
-    deleteChat: builder.mutation({
-      query: (chatId) => ({
-        url: `/messages/chat/${chatId}`,
-        method: "DELETE"
-      }),
-      invalidatesTags: [tagTypes.messages, "chats"]
+
+      invalidatesTags: [tagTypes.messages]
     })
   })
 });
 
-export const {
-  useGetMyMessagesQuery,
-  useSendMessageMutation,
-  useSeenMessageByChatIdMutation,
-  useDeleteChatMutation
-} = messageApi;
+export const { useSendMessageMutation, useUploadImageMutation } = messageApi;
