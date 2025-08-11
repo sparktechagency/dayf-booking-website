@@ -40,140 +40,141 @@ const MessageContainer = () => {
 
   // ================= Scroll to bottom of chat box ================
   useEffect(() => {
-    if (messages) {
-      if (chatBoxRef.current) {
-        chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-      }
+    if (messages && chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
   }, [messages]);
 
-  // ==============emit `my-chat-list`============
-  // *
+  // ============== Emit `my-chat-list` =============
   useEffect(() => {
-    if (socket) {
-      socket.emit("my-chat-list", {}, handleChatRes);
-    }
+    if (!socket || !userId) return;
+    socket.emit("my-chat-list", {}, handleChatRes);
   }, [socket, userId]);
 
-  //  ================== Listen to `chat-list` for chat list ================
+  // ================== Listen to `chat-list` for chat list ================
   useEffect(() => {
-    if (userId && socket) {
-      socket.on(`chat-list`, async (res) => {
-        setChatData(res?.message);
-      });
-    }
-    return () => {
-      socket?.off(`chat-list`, async (res) => {
-        setChatData(res?.message);
-      });
+    if (!socket || !userId) return;
+
+    const handleChatList = async (res) => {
+      setChatData(res?.message);
     };
-  }, [userId, socket]);
+
+    socket.on("chat-list", handleChatList);
+    return () => {
+      socket.off("chat-list", handleChatList);
+    };
+  }, [socket, userId]);
+
   /**
-   * Emit `message-page` to get
+   * Emit `message-page` to get:
    *  1. Previous messages
    *  2. Active users
    */
   useEffect(() => {
-    socket.emit("message-page", selectedUser?._id, (res) => {
+    if (!socket || !selectedUser?._id) return;
+    socket.emit("message-page", selectedUser._id, (res) => {
       // setMessages(res?.data?.getPreMessage);
     });
-  }, [selectedUser?._id, socket]);
+  }, [socket, selectedUser?._id]);
 
+  // Listen to "message"
   useEffect(() => {
-    socket.on("message", (res) => {
-      setMessages(res);
-    });
+    if (!socket) return;
+
+    const handleMessage = (res) => setMessages(res);
+
+    socket.on("message", handleMessage);
     return () => {
-      socket.off("message", (res) => {
-        setMessages(res);
-      });
+      socket.off("message", handleMessage);
     };
   }, [socket]);
 
+  // Listen to "user-details"
   useEffect(() => {
-    socket.on("user-details", (res) => {
+    if (!socket) return;
+
+    const handleUserDetails = (res) => {
       console.log(">>>>>>>>>>>>>>>>>", res);
-    });
+    };
+
+    socket.on("user-details", handleUserDetails);
     return () => {
-      socket.off("user-details", (res) => {
-        console.log(">>>>>>>>>>>>>>>>>", res);
-      });
+      socket.off("user-details", handleUserDetails);
     };
   }, [socket]);
 
-  // ==================== Listen to `onlineUser` for active users =================
+  // Listen to "onlineUser" for active users
   useEffect(() => {
-    if (socket && userId) {
-      socket.on("onlineUser", (res) => {
-        setActiveUsers(res);
-      });
-    }
+    if (!socket || !userId) return;
 
+    const handleOnlineUser = (res) => setActiveUsers(res);
+
+    socket.on("onlineUser", handleOnlineUser);
     return () => {
-      socket.off("onlineUser", (res) => {
-        setActiveUsers(res);
-      });
+      socket.off("onlineUser", handleOnlineUser);
     };
   }, [socket, userId]);
 
-  // ==================== Listen to `newMessage` for new messages =================
+  // Listen to "new-message"
   useEffect(() => {
-    if (socket) {
-      socket.on("new-message", (res) => {
-        setMessages((prevMessages) => {
-          if (prevMessages.findIndex((msg) => msg._id === res._id) !== -1) {
-            return prevMessages;
-          }
-          return [...prevMessages, res];
-        });
-        form.resetFields();
-        setIsMessageSending(false);
+    if (!socket) return;
+
+    const handleNewMessage = (res) => {
+      setMessages((prevMessages) => {
+        if (prevMessages.findIndex((msg) => msg._id === res._id) !== -1) {
+          return prevMessages;
+        }
+        return [...prevMessages, res];
       });
-    }
+      form.resetFields();
+      setIsMessageSending(false);
+    };
+
+    socket.on("new-message", handleNewMessage);
     return () => {
-      socket?.off(`new-message`, (res) => {
-        setMessages((prevMessages) => {
-          if (prevMessages.findIndex((msg) => msg._id === res._id) !== -1) {
-            return prevMessages;
-          }
-          return [...prevMessages, res];
-        });
-        form.resetFields();
-        setIsMessageSending(false);
-      });
+      socket.off("new-message", handleNewMessage);
     };
   }, [socket]);
 
+  // Another `chat-list` with loading state
   useEffect(() => {
-    setChatListLoading(true);
-    if (userId) {
-      socket.on(`chat-list`, async (res) => {
-        setChatData(res);
-        setChatListLoading(false);
-      });
-    }
+    if (!socket || !userId) return;
 
-    return () => {
-      socket?.off(`chat-list`, async (res) => {
-        setChatData(res);
-        setChatListLoading(false);
-      });
+    setChatListLoading(true);
+
+    const handleChatListLoading = async (res) => {
+      setChatData(res);
+      setChatListLoading(false);
     };
-  }, [userId, socket]);
-  // =================== Change seen status =================
+
+    socket.on("chat-list", handleChatListLoading);
+    return () => {
+      socket.off("chat-list", handleChatListLoading);
+    };
+  }, [socket, userId]);
+
+  // Change seen status
   useEffect(() => {
-    if (selectedUser?.chatId && socket) {
-      socket.emit("seen", { chatId: selectedUser?.chatId }, (res) => {
-        if (!res?.success)
-          return ErrorModal(res?.message || "Something went wrong!");
-      });
-    }
+    if (!socket || !selectedUser?.chatId) return;
+
+    socket.emit("seen", { chatId: selectedUser.chatId }, (res) => {
+      if (!res?.success)
+        return ErrorModal(res?.message || "Something went wrong!");
+    });
   }, [socket, selectedUser?.chatId]);
 
+  // Listen to "io-error"
   useEffect(() => {
-    socket.on("io-error", (res) => {
+    if (!socket) return;
+
+    const handleIoError = (res) => {
       console.log("error res----------", res);
-    });
+    };
+
+    socket.on("io-error", handleIoError);
+    return () => {
+      socket.off("io-error", handleIoError);
+    };
   }, [socket]);
 
   // Check if user id is present in search params
