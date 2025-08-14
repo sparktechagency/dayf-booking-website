@@ -21,6 +21,7 @@ import {
 } from "@/redux/api/bookmarkApi";
 import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { useEffect, useState } from "react";
+import CustomLoader from "@/components/CustomLoader/CustomLoader";
 
 export default function DynamicPropertyContainer() {
   const { propertyType } = useParams();
@@ -151,7 +152,7 @@ const DynamicHotel = ({
   });
 
   if (isLoading) {
-    return "loading...";
+    return <CustomLoader className={"w-screen h-screen"} />;
   }
 
   if (isError) {
@@ -245,7 +246,7 @@ const DynamicApartment = ({
   });
 
   if (isLoading) {
-    return "loading...";
+    return <CustomLoader className={"w-screen h-screen"} />;
   }
 
   if (isError) {

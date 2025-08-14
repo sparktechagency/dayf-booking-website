@@ -1,5 +1,6 @@
 "use client";
 
+import CustomLoader from "@/components/CustomLoader/CustomLoader";
 import HotelFilter from "./HotelFilters";
 import HotelsContainer from "./HotelsContainer";
 import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveContainer";
@@ -52,7 +53,7 @@ export default function HotelsPage() {
     query["searchTerm"] = searchText;
   }
   // console.log("------------------------------->>", query);
-  const { data: hotelsRes } = useGetPropertiesQuery(query);
+  const { data: hotelsRes, isLoading: isHotelLoading } = useGetPropertiesQuery(query);
 
   const hotels = hotelsRes?.data || [];
   const hotelsMeta = hotelsRes?.meta || {};
@@ -87,6 +88,10 @@ export default function HotelsPage() {
   // console.log("finalHotels: ====> ", finalHotels);
   // console.log("Hotels data: ", hotels);
   // console.log("Hotels meta: ", hotelsMeta);
+
+    if (isHotelLoading) {
+      return <CustomLoader className={"w-screen h-screen"} />;
+    }
 
   return (
     <div className="my-10">

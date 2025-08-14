@@ -1,5 +1,6 @@
 "use client";
 
+import CustomLoader from "@/components/CustomLoader/CustomLoader";
 import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 import PropertyCard from "@/components/PropertyCard/PropertyCard";
 import {
@@ -19,6 +20,7 @@ export default function BookmarksContainer() {
     data: bookmarkData,
     isError: isGetError,
     error: getError,
+    isLoading,
     refetch: bookingRefetch
   } = useGetAllBookmarkQuery();
   console.log("Bookmark data: ", bookmarkData);
@@ -58,6 +60,10 @@ export default function BookmarksContainer() {
     }
   }, [isDeleteError, deleteError]);
 
+  if (isLoading) {
+    return <CustomLoader className={"h-full min-h-[75vh] w-full"} />;
+  }
+
   return (
     <div>
       <section className="mt-8 grid w-full max-w-5xl grid-cols-2 gap-8 overflow-hidden">
@@ -68,7 +74,7 @@ export default function BookmarksContainer() {
                 key={data?._id}
                 property={data?.reference}
                 variant="grid"
-                type={data?.modelType === "Property" ? 'hotels' : 'apartments'}
+                type={data?.modelType === "Property" ? "hotels" : "apartments"}
                 bookmarks={bookmarks}
                 handleCreateBookmark={() => {}}
                 handleDeleteBookmark={handleDeleteBookmark}

@@ -13,7 +13,7 @@ import BookingHistoryTable from "./BookingHistoryTable";
 import { useCheckoutMutation } from "@/redux/api/paymentApi";
 import { useRouter } from "next/navigation";
 import { ErrorModal, SuccessModal } from "@/utils/customModal";
-import { toast } from "react-toastify";
+import CustomLoader from "@/components/CustomLoader/CustomLoader";
 
 const TABS = ["upcoming", "pending", "past"];
 
@@ -137,6 +137,10 @@ export default function BookingHistoryContainer() {
       ErrorModal(error?.data?.message);
     }
   };
+
+  if(isLoading) {
+    return <CustomLoader />;
+  }
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 md:p-4">

@@ -7,6 +7,7 @@ import ApartmentsContainer from "./ApartmentsContainer";
 import PropertySearchPanel from "@/components/PropertySearchPanel/PropertySearchPanel";
 import ApartmentFilters from "../ApartmentFilters";
 import { useState } from "react";
+import CustomLoader from "@/components/CustomLoader/CustomLoader";
 
 export default function ApartmentsPage() {
   const [searchText, setSearchText] = useState("");
@@ -17,7 +18,6 @@ export default function ApartmentsPage() {
   const pageSize = Number(searchParams.get("pageSize")) || 10;
 
   // Extract the apartment search params from the searchParams
-  const locationName = searchParams.get("locationName");
   const longitude = searchParams.get("longitude");
   const latitude = searchParams.get("latitude");
   const rawCheckInOutDate = searchParams.get("checkInOutDate");
@@ -92,10 +92,10 @@ export default function ApartmentsPage() {
   const apartments = apartmentsRes?.data || [];
   const apartmentsMeta = apartmentsRes?.meta || {};
 
-  console.log("Apartments: ", apartments);
+  // console.log("Apartments: ", apartments);
 
   if (isApartmentsLoading) {
-    return "Loading...";
+    return <CustomLoader className={"w-screen h-screen"} />;
   }
 
   return (

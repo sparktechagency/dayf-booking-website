@@ -8,11 +8,18 @@ export default function Error({ error, reset }) {
   }, [error]);
 
   return (
-    <div>
-      <h2>Ooops! Property not found!!</h2>
-      <button onClick={() => reset()}>Try again</button>
+    <div className="flex h-screen w-screen items-center justify-center">
+      <div className="space-y-6">
+        <h2 className="text-3xl font-semibold">Ooops! Property not found!!</h2>
+        <button
+          onClick={() => reset()}
+          className="rounded-md border border-gray-400 bg-gray-300 px-6 py-2 font-bold"
+        >
+          Try again
+        </button>
 
-      <p>Error: {JSON.stringify(error)}</p>
+        <p>Error: {JSON.stringify(error)}</p>
+      </div>
     </div>
   );
 }
