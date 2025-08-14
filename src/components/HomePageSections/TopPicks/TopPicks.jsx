@@ -36,7 +36,7 @@ export default function TopPicks() {
   // console.log("Bookmark data: ", bookmarkData);
   // Update bookmarks state when bookmarkData changes
   useEffect(() => {
-    console.log("Bookmark data: ", bookmarkData);
+    // console.log("Bookmark data: ", bookmarkData);
 
     setBookmarks(bookmarkData);
   }, [bookmarkData]);

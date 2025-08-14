@@ -20,7 +20,7 @@ import {
   useDeleteBookmarkMutation,
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Constants
 const SORT_OPTIONS = {
@@ -41,6 +41,8 @@ export default function HotelsContainer({
 }) {
   const currentPathname = usePathname();
   const router = useRouter();
+  // const currentCurrency = useSelector(selectCurrency);
+  // // console.log("Currency from the hotels page ================> ", currentCurrency);
 
   const [createBookmark, { isError, error, isLoading }] =
     useCreateBookmarkMutation();
@@ -53,6 +55,13 @@ export default function HotelsContainer({
     error: bookmarkError,
     refetch
   } = useGetAllBookmarkQuery({ modelType: "Property" });
+
+  // const [amounts, setAmounts] = useState([]);
+
+  // useEffect(() => {
+
+  // }, [hotels]);
+
 
   useEffect(() => {
     if (isBookmarkError) {

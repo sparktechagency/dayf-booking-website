@@ -18,6 +18,8 @@ export default function NavDropdown({ values }) {
   const selectedValue =
     values.find((v) => v.id === currentCurrency) || values[0];
 
+    // console.log("current Currency ----> ", currentCurrency);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger

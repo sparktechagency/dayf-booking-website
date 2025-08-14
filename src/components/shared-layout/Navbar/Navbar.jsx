@@ -40,6 +40,8 @@ export default function Navbar() {
     supportedLanguages[0]
   ); // es
 
+  // console.log('Selected currency -----------> ', selectedCurrency);
+
   // ============== Get User Profile Info ====================
   const { data: userProfile } = useGetProfileQuery(null, { skip: !userId });
 

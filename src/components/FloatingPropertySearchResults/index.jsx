@@ -73,7 +73,7 @@ export default function FloatingPropertySearchResults({
       setModelType("Property");
     }
   }, [propertyType]);
-  console.log("Model Type: ", modelType);
+  // console.log("Model Type: ", modelType);
 
   const {
     data: hotelBookmarks,

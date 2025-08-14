@@ -22,9 +22,13 @@ export default function HorizontalPropertyCard({
   handleCreateBookmark,
   handleDeleteBookmark
 }) {
+  const currentCurrency = useSelector(selectCurrency);
+  // console.log("Currency from the hotels page ================> ", currentCurrency);
+
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [bookmarked, setBookmarked] = useState(null);
-  console.log("Property::::::::=> ", property);
+  const [amounts, setAmounts] = [];
+  // console.log("Property::::::::=> ", property);
 
   const isHotel = property?.price === undefined;
   const searchParams = useSearchParams();
@@ -42,6 +46,18 @@ export default function HorizontalPropertyCard({
     if (foundData) setBookmarked(foundData);
     else setBookmarked(null);
   }, [bookmarks]);
+
+  // useEffect(() => {
+  //   const currency = currentCurrency?.slice(0, 2) || "usd";
+  //   console.log({currency});
+
+  //   const getCurrency = async () => {
+  //     const res = await convertCurrency(fullProperty?.minPrice);
+  //     return res[currency];
+      
+  //   };
+  //   // console.log("Currency Res: ", getCurrency());
+  // }, []);
 
   return (
     <div

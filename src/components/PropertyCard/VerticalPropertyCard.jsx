@@ -30,7 +30,7 @@ export default function VerticalPropertyCard({
     const foundData = bookmarks?.find(
       (bookmark) => bookmark?.reference?._id === property?._id
     );
-    console.log("Is foundData: ", foundData);
+    // console.log("Is foundData: ", foundData);
     if (foundData) setBookmarked(foundData);
     else setBookmarked(null);
   }, [bookmarks]);
