@@ -7,10 +7,13 @@ import UPhoneInput from "@/components/form-components/UPhoneInput";
 import { Button } from "@/components/ui/button";
 import { useCreateBookingMutation } from "@/redux/api/bookingApi";
 import { useCheckoutMutation } from "@/redux/api/paymentApi";
+import { useGetProfileQuery } from "@/redux/api/userApi";
+import { selectUser } from "@/redux/features/authSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { useSelector } from "react-redux";
 import { z } from "zod";
 
 const bookingSchema = z.object({
@@ -33,6 +36,10 @@ export default function BookingForm({
   const [checkout, { isLoading: checkoutLoading }] = useCheckoutMutation();
   const [formError, setFormError] = useState("");
   const router = useRouter();
+  const userId = useSelector(selectUser)?.userId;
+
+  // ============== Get User Profile Info ====================
+  const { data: userProfile } = useGetProfileQuery(null, { skip: !userId });
 
   const handleSubmit = async (data) => {
     let payload;
@@ -106,6 +113,10 @@ export default function BookingForm({
           onSubmit={handleSubmit}
           resolver={zodResolver(bookingSchema)}
           className="space-y-6"
+          defaultValues={{
+            name: userProfile?.name || "",
+            phoneNumber: userProfile?.phoneNumber || ""
+          }}
         >
           <UInput
             name="name"
