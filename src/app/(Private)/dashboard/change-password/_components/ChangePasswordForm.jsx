@@ -22,11 +22,11 @@ export default function ChangePasswordForm() {
     if (!data?.currentPassword) {
       setFormError("Please provide the current password");
       return;
-    }else if(!data?.newPassword) {
-       setFormError("Please provide the new password");
+    } else if (!data?.newPassword) {
+      setFormError("Please provide the new password");
       return;
-    }else if(!data?.confirmPassword) {
-       setFormError("Please provide the confirm password");
+    } else if (!data?.confirmPassword) {
+      setFormError("Please provide the confirm password");
       return;
     }
 
@@ -38,6 +38,7 @@ export default function ChangePasswordForm() {
       console.log("Change password response: ", res);
       SuccessModal("Password changed successfully");
       reset();
+      console.log("reseted");
     } catch (error) {
       console.error("Error while changing password: ", error);
       ErrorModal(error?.message || error?.data?.message);
@@ -48,7 +49,14 @@ export default function ChangePasswordForm() {
     <div>
       <h4 className="mb-4 text-h4 font-semibold">Change Password</h4>
 
-      <FormWrapper onSubmit={onSubmit}>
+      <FormWrapper
+        onSubmit={onSubmit}
+        defaultValues={{
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: ""
+        }}
+      >
         <UInput
           type="password"
           name="currentPassword"

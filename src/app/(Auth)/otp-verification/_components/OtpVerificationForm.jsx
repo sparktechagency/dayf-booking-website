@@ -2,7 +2,6 @@
 
 import CustomFormError from "@/components/CustomFormError/CustomFormError";
 import FormWrapper from "@/components/form-components/FormWrapper";
-// import UOtpInput from "@/components/form-components/UOtpInput";
 import { Button } from "@/components/ui/button";
 import {
   InputOTP,
@@ -13,16 +12,13 @@ import {
   useResendOtpMutation,
   useVerifyOtpMutation
 } from "@/redux/api/authApi";
-// import { useGetUserByIdQuery } from "@/redux/api/userApi";
 import { setUser } from "@/redux/features/authSlice";
-import { ErrorModal, SuccessModal } from "@/utils/customModal";
+import { SuccessModal } from "@/utils/customModal";
 import {
   getFromSessionStorage,
   removeFromSessionStorage,
   setToSessionStorage
 } from "@/utils/sessionStorage";
-import { authValidationSchema } from "@/zod/authSchema.validation";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { jwtDecode } from "jwt-decode";
 import { useSearchParams } from "next/navigation";
@@ -165,11 +161,12 @@ export default function OtpVerificationForm() {
     const user = jwtDecode(token);
     if (user?.role === "hotel_admin") {
       const dashboard_login_page_url = process.env.NEXT_PUBLIC_DASHBOARD_URL;
-      return window.open(
+      window.open(
         dashboard_login_page_url,
         "_blank",
         "noopener,noreferrer"
       );
+      router.push('/');
     }
 
     dispatch(

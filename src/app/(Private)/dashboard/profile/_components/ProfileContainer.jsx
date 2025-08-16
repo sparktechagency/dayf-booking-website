@@ -125,7 +125,9 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
       refetch();
       SuccessModal("Profile updated successfully");
       setOpen(false);
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       console.error("Error while updating profile: ", error);
       ErrorModal(error);
