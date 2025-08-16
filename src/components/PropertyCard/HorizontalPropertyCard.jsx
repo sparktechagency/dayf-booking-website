@@ -13,6 +13,9 @@ import { Badge } from "../ui/badge";
 import { truncateMiddle } from "@/utils/textTruncate";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { convertCurrency } from "@/utils/convertCurrency";
+import { useSelector } from "react-redux";
+import { selectCurrency } from "@/redux/features/currencySlice";
 
 export default function HorizontalPropertyCard({
   property,
@@ -22,12 +25,14 @@ export default function HorizontalPropertyCard({
   handleCreateBookmark,
   handleDeleteBookmark
 }) {
-  const currentCurrency = useSelector(selectCurrency);
-  // console.log("Currency from the hotels page ================> ", currentCurrency);
+  const currency = useSelector(selectCurrency);
+  const [price, setPrice] = useState(null);
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
+  // console.log("Currency from the hotels page ================> ", currency);
 
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [bookmarked, setBookmarked] = useState(null);
-  const [amounts, setAmounts] = [];
   // console.log("Property::::::::=> ", property);
 
   const isHotel = property?.price === undefined;
@@ -47,17 +52,26 @@ export default function HorizontalPropertyCard({
     else setBookmarked(null);
   }, [bookmarks]);
 
-  // useEffect(() => {
-  //   const currency = currentCurrency?.slice(0, 2) || "usd";
-  //   console.log({currency});
+  // Price
+  useEffect(() => {
+    if (property?.price) {
+      convertCurrency(property.price, currency).then(setPrice);
+    }
+  }, [property?.price, currency]);
 
-  //   const getCurrency = async () => {
-  //     const res = await convertCurrency(fullProperty?.minPrice);
-  //     return res[currency];
-      
-  //   };
-  //   // console.log("Currency Res: ", getCurrency());
-  // }, []);
+  // Min Price
+  useEffect(() => {
+    if (fullProperty?.minPrice) {
+      convertCurrency(fullProperty?.minPrice / 2, currency).then(setMinPrice);
+    }
+  }, [fullProperty?.minPrice, currency]);
+
+  // max Price
+  useEffect(() => {
+    if (fullProperty?.maxPrice) {
+      convertCurrency(fullProperty?.maxPrice, currency).then(setMaxPrice);
+    }
+  }, [fullProperty?.maxPrice, currency]);
 
   return (
     <div
@@ -150,13 +164,15 @@ export default function HorizontalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              ${fullProperty?.minPrice ? fullProperty.minPrice / 2 : 0} - $
-              {fullProperty?.maxPrice ? fullProperty.maxPrice : 0}{" "}
+              {minPrice !== null ? `${minPrice} ${currency}` : `0 ${currency}`}{" "}
+              -{" "}
+              {maxPrice !== null ? `${maxPrice} ${currency}` : `0 ${currency}`}{" "}
               <span className="text-sm">Per Night</span>
             </h3>
           ) : (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              ${property?.price} <span className="text-sm">Per Night</span>
+              {price !== null ? `${price} ${currency}` : `0 ${currency}`}{" "}
+              <span className="text-sm">Per Night</span>
             </h3>
           )}
 

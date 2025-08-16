@@ -13,6 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectCurrency } from "@/redux/features/currencySlice";
+import { convertCurrency } from "@/utils/convertCurrency";
 
 export default function VerticalPropertyCard({
   fullProperty,
@@ -22,6 +25,11 @@ export default function VerticalPropertyCard({
   handleDeleteBookmark,
   type
 }) {
+  const currency = useSelector(selectCurrency);
+  const [price, setPrice] = useState(null);
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
+
   const [bookmarked, setBookmarked] = useState(null);
   // Find property type
   const isHotel = property?.price === undefined;
@@ -36,6 +44,26 @@ export default function VerticalPropertyCard({
   }, [bookmarks]);
 
   // console.log({ property, fullProperty, price: property?.price });
+  // Price
+  useEffect(() => {
+    if (property?.price) {
+      convertCurrency(property.price, currency).then(setPrice);
+    }
+  }, [property?.price, currency]);
+
+  // Min Price
+  useEffect(() => {
+    if (fullProperty?.minPrice) {
+      convertCurrency(fullProperty?.minPrice / 2, currency).then(setMinPrice);
+    }
+  }, [fullProperty?.minPrice, currency]);
+
+  // max Price
+  useEffect(() => {
+    if (fullProperty?.maxPrice) {
+      convertCurrency(fullProperty?.maxPrice, currency).then(setMaxPrice);
+    }
+  }, [fullProperty?.maxPrice, currency]);
 
   return (
     <div className="property-card flex h-full flex-col justify-between gap-y-4">
@@ -99,14 +127,17 @@ export default function VerticalPropertyCard({
           </div>
         </Swiper>
 
-        <section className="mt-3 px-1 relative">
+        <section className="relative mt-3 px-1">
           <div className="absolute right-8 z-50">
             <Button
               onClick={() => {
                 if (bookmarked) {
                   return handleDeleteBookmark(bookmarked?._id);
                 } else {
-                  return handleCreateBookmark(property?._id, property?.isProperty);
+                  return handleCreateBookmark(
+                    property?._id,
+                    property?.isProperty
+                  );
                 }
               }}
               size="icon"
@@ -123,13 +154,15 @@ export default function VerticalPropertyCard({
 
           {isHotel ? (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              {/* {console.log("property ------------------> ", property)} */}
-             ${property?.minPrice ?? 0}{" "}-{" "}${property?.maxPrice ?? 0}
+              {minPrice !== null ? `${minPrice} ${currency}` : `0 ${currency}`}{" "}
+              -{" "}
+              {maxPrice !== null ? `${maxPrice} ${currency}` : `0 ${currency}`}{" "}
               {/* <span className="text-sm">{property?.price}Per Night</span> */}
             </h3>
           ) : (
             <h3 className="mt-3 text-h4 text-[#252525]">
-              ${property?.price} <span className="text-sm">Per Night</span>
+              {price !== null ? `${price} ${currency}` : `0 ${currency}`}{" "}
+              <span className="text-sm">Per Night</span>
             </h3>
           )}
 
@@ -141,17 +174,14 @@ export default function VerticalPropertyCard({
           )}
         </section>
       </div>
-      
+
       <Button
         variant="primary"
         size="lg"
         className="group w-full rounded-full"
         asChild
       >
-        <Link
-          href={`/property/${type}/${property?._id}`}
-          scroll={true}
-        >
+        <Link href={`/property/${type}/${property?._id}`} scroll={true}>
           See Details <AnimatedArrow />
         </Link>
       </Button>

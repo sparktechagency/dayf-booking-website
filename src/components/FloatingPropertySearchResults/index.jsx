@@ -173,14 +173,12 @@ export default function FloatingPropertySearchResults({
                   ))
                 ) : properties && properties.length > 0 ? (
                   properties?.map((property) => {
-                    const isHotel = property?.price === undefined;
-
                     return (
                       <PropertyCard
                         key={property._id}
                         variant="list"
                         property={property}
-                        type={isHotel ? "hotel" : "apartment"}
+                        type={propertyType === "hotel" ? "hotels" : "apartments"}
                         bookmarks={hotelBookmarks}
                         handleCreateBookmark={handleCreateBookmark}
                         handleDeleteBookmark={handleDeleteBookmark}
