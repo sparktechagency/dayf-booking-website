@@ -26,7 +26,7 @@ export default function BookingSuccessContainer() {
   console.log({ booking });
 
   if (bookingLoading) {
-    return <CustomLoader />;
+    return <CustomLoader className={'w-screen h-screen'} />;
   }
 
   return (
