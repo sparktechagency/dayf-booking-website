@@ -22,11 +22,13 @@ import {
 import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { useEffect, useState } from "react";
 import CustomLoader from "@/components/CustomLoader/CustomLoader";
+import ShareModal from "@/components/ShareModal/ShareModal";
 
 export default function DynamicPropertyContainer() {
   const { propertyType } = useParams();
   const { id } = useParams();
   const [bookmarked, setBookmarked] = useState(null);
+  const [isShareClick, setIsShareClick] = useState(false);
 
   const [createBookmark, { isError, error, isLoading }] =
     useCreateBookmarkMutation();
@@ -113,6 +115,8 @@ export default function DynamicPropertyContainer() {
         setBookmarked={setBookmarked}
         handleCreateBookmark={handleCreateBookmark}
         handleDeleteBookmark={handleDeleteBookmark}
+        isShareClick={isShareClick}
+        setIsShareClick={setIsShareClick}
       />
     );
   }
@@ -126,6 +130,8 @@ export default function DynamicPropertyContainer() {
         setBookmarked={setBookmarked}
         handleCreateBookmark={handleCreateBookmark}
         handleDeleteBookmark={handleDeleteBookmark}
+        isShareClick={isShareClick}
+        setIsShareClick={setIsShareClick}
       />
     );
   }
@@ -138,7 +144,9 @@ const DynamicHotel = ({
   id,
   bookmarked,
   handleCreateBookmark,
-  handleDeleteBookmark
+  handleDeleteBookmark,
+  isShareClick,
+  setIsShareClick
 }) => {
   // Get hotel data
   const { id: hotelId } = useParams();
@@ -152,7 +160,7 @@ const DynamicHotel = ({
   });
 
   if (isLoading) {
-    return <CustomLoader className={"w-screen h-screen"} />;
+    return <CustomLoader className={"h-screen w-screen"} />;
   }
 
   if (isError) {
@@ -196,7 +204,10 @@ const DynamicHotel = ({
           </CustomTooltip>
 
           <CustomTooltip title="Share">
-            <BgIcon className="size-12 bg-p1/10 text-p1">
+            <BgIcon
+              onClick={() => setIsShareClick(true)}
+              className="size-12 bg-p1/10 text-p1"
+            >
               <Icon icon="tdesign:share" width="24" height="24" />
               <span className="sr-only">Share</span>
             </BgIcon>
@@ -223,6 +234,13 @@ const DynamicHotel = ({
 
       {/* Hotel Details */}
       <DynamicHotelDetails property={hotelData} />
+
+       <ShareModal
+        visible={isShareClick}
+        onClose={() => setIsShareClick(false)}
+        url={`${window.location.origin}/property/hotels/${hotelData?._id}`}
+        title={hotelData?.name}
+        description={hotelData?.shortDescription}      />
     </ResponsiveContainer>
   );
 };
@@ -232,7 +250,9 @@ const DynamicApartment = ({
   id,
   bookmarked,
   handleCreateBookmark,
-  handleDeleteBookmark
+  handleDeleteBookmark,
+  isShareClick,
+  setIsShareClick
 }) => {
   const { id: apartmentId } = useParams();
 
@@ -246,7 +266,7 @@ const DynamicApartment = ({
   });
 
   if (isLoading) {
-    return <CustomLoader className={"w-screen h-screen"} />;
+    return <CustomLoader className={"h-screen w-screen"} />;
   }
 
   if (isError) {
@@ -288,7 +308,10 @@ const DynamicApartment = ({
           </CustomTooltip>
 
           <CustomTooltip title="Share">
-            <BgIcon className="size-12 bg-p1/10 text-p1">
+            <BgIcon
+              onClick={() => setIsShareClick(true)}
+              className="size-12 bg-p1/10 text-p1"
+            >
               <Icon icon="tdesign:share" width="24" height="24" />
               <span className="sr-only">Share</span>
             </BgIcon>
@@ -313,6 +336,13 @@ const DynamicApartment = ({
 
       {/* Hotel Details */}
       <DynamicPropertyDetails property={apartment} />
+
+      <ShareModal
+        visible={isShareClick}
+        onClose={() => setIsShareClick(false)}
+        url={`${window.location.origin}/property/apartments/${apartment?._id}`}
+        title={apartment?.name}
+        description={apartment?.shortDescription}      />
     </ResponsiveContainer>
   );
 };
