@@ -16,7 +16,7 @@ export default function ChangePasswordForm() {
   const [formError, setFormError] = useState("");
 
   const onSubmit = async (data, { reset }) => {
-    console.log(data);
+    // console.log(data);
     setFormError(""); // Reset the error
 
     if (!data?.currentPassword) {
@@ -35,10 +35,12 @@ export default function ChangePasswordForm() {
         ...data,
         oldPassword: data.currentPassword
       }).unwrap();
-      console.log("Change password response: ", res);
-      SuccessModal("Password changed successfully");
-      reset();
-      console.log("reseted");
+      // console.log("Change password response: ", res);
+      if (res?.success) {
+        SuccessModal("Password changed successfully");
+        reset();
+        // console.log("reseted");
+      }
     } catch (error) {
       console.error("Error while changing password: ", error);
       ErrorModal(error?.message || error?.data?.message);

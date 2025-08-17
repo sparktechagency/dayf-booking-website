@@ -23,7 +23,7 @@ export default function BookmarksContainer() {
     isLoading,
     refetch: bookingRefetch
   } = useGetAllBookmarkQuery();
-  console.log("Bookmark data: ", bookmarkData);
+  // console.log("Bookmark data: ", bookmarkData);
   // Update bookmarks state when bookmarkData changes
   useEffect(() => {
     // console.log("Bookmark data: ", bookmarkData);

@@ -89,7 +89,7 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
     useUpdateProfileMutation();
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(currentData?.profile || "");
-  console.log("uploaded profile image: ", uploadedImage);
+  // console.log("uploaded profile image: ", uploadedImage);
 
   useEffect(() => {
     if (uploadedImage) {
@@ -103,10 +103,10 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
       reader.readAsDataURL(uploadedImage);
     }
   }, [uploadedImage]);
-  console.log("imageUrl -------> ", imageUrl);
+  // console.log("imageUrl -------> ", imageUrl);
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
 
     const payload = {
       _id: data?._id,
@@ -121,13 +121,15 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
 
     try {
       const res = await updateProfile(formData).unwrap();
-      console.log("res: ", res);
-      refetch();
-      SuccessModal("Profile updated successfully");
-      setOpen(false);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // console.log("res: ", res);
+      if (res?.success) {
+        refetch();
+        SuccessModal("Profile updated successfully");
+        setOpen(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
     } catch (error) {
       console.error("Error while updating profile: ", error);
       ErrorModal(error);

@@ -35,8 +35,8 @@ export async function getExchangeRates() {
 export async function convertCurrency(amount, currency) {
   const formatCurrency = currency?.slice(0, 3).toUpperCase();
   const rates = await getExchangeRates();
-  console.log("formatCurrency: ", formatCurrency);
-  console.log("rates: ", rates);
+  // console.log("formatCurrency: ", formatCurrency);
+  // console.log("rates: ", rates);
   if (!rates[formatCurrency])
     throw new Error(`Currency ${formatCurrency} not supported`);
 

@@ -54,7 +54,7 @@ export const SocketProvider = ({ children }) => {
 
     socket.on("connect", () => {
       setSocketLoading(false);
-      console.log("Socket connected:", socket.id);
+      // console.log("Socket connected:", socket.id);
     });
 
     socket.on("disconnect", () => {

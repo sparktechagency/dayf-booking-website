@@ -21,7 +21,7 @@ export default function ImagePreviewer({
   setPreviewImgIndex,
   onClose = () => {}
 }) {
-  console.log({ images });
+  // console.log({ images });
   // Define image slides for lightbox -- don't remove this part
   // This is a workaround if images are not local next-js images
   const imageSlides = images?.map((image, index) => {

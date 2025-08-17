@@ -201,10 +201,10 @@ const MessageContainer = () => {
   //   );
   // }
 
-  console.log(
-    "chatData:----------------------------------...............>>>>>> ",
-    chatData
-  );
+  // console.log(
+  //   "chatData:----------------------------------...............>>>>>> ",
+  //   chatData
+  // );
 
   return (
     <div className="lg:mx-auto">

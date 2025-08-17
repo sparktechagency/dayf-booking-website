@@ -108,8 +108,6 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
     }
   }, [checkInOutDate, hotelRoomId]);
 
-  // console.log({ selectedQuantities });
-
   return (
     <div>
       <DynamicApartmentSectionTitle>Availability</DynamicApartmentSectionTitle>
@@ -242,14 +240,16 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
 
                   {/* Your choices */}
                   <td className="space-y-1 p-4">
-                    {room?.customerChoices
-                      ?.split(", ")
+                    {room?.customerChoices ? room.customerChoices?.split(", ")
                       ?.map((choice, index) => (
                         <div key={index} className="flex-center-start gap-2">
                           <div className="size-2 rounded-full bg-green-500" />
                           <span>{choice}</span>
                         </div>
-                      ))}
+                      )) : (
+                        <p>No Customer choices for this room</p>
+                      )}
+                      <p className="text-red-500">Only {room?.totalRooms > 1 ? `${room?.totalRooms} rooms` : `${room?.totalRooms} room`} left</p>
                   </td>
 
                   {/* Select Rooms */}
