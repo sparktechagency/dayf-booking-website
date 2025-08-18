@@ -9,13 +9,19 @@ import { Pagination } from "swiper/modules";
 import CustomTooltip from "@/components/CustomTooltip/CustomTooltip";
 import { getNumberOfNights } from "@/utils/getNumberOfNights";
 import { format } from "date-fns";
+import { useSelector } from "react-redux";
+import { selectCurrency } from "@/redux/features/currencySlice";
+import { useEffect, useState } from "react";
+import { convertCurrency } from "@/utils/convertCurrency";
 
 export default function BookedRoomHotelDetails({
   hotelRoom,
   checkInOutDate,
   roomQuanity
 }) {
-  console.log({ hotelRoom });
+  const [price, setPrice] = useState(null);
+  const currency = useSelector(selectCurrency);
+  // console.log({ hotelRoom });
 
   const totalNights = getNumberOfNights(
     checkInOutDate?.from,
@@ -23,6 +29,12 @@ export default function BookedRoomHotelDetails({
   );
 
   const totalNightCosts = totalNights * hotelRoom?.pricePerNight;
+
+  useEffect(() => {
+    if (hotelRoom?.pricePerNight) {
+      convertCurrency(hotelRoom.pricePerNight, currency).then(setPrice);
+    }
+  }, [hotelRoom?.pricePerNight, currency]);
 
   return (
     <div className="mx-auto p-4 lg:w-1/2">
@@ -93,7 +105,7 @@ export default function BookedRoomHotelDetails({
             <div className="flex items-center justify-between">
               <div className="flex items-baseline gap-1">
                 <span className="text-3xl font-bold">
-                  ${hotelRoom?.pricePerNight}
+                  {price !== null ? `${price} ${currency}` : `0 ${currency}`}
                 </span>
                 <span className="text-muted-foreground text-sm">Per Night</span>
               </div>
