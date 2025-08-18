@@ -74,7 +74,7 @@ export default function LoginForm() {
       console.log("Google sign in result ----------> ", result);
       const user = result?.user;
 
-      const res = await googleLogin({token: user?.accessToken, role: "user"}).unwrap();
+      const res = await googleLogin({token: user?.accessToken}).unwrap();
       console.log("resutl ----------------------------> ", res);
       if (res?.success) {
         SuccessModal("Login Successful!");

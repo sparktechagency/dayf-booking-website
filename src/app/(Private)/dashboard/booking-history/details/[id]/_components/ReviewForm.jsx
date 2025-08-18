@@ -19,7 +19,7 @@ export default function ReviewForm({ booking, setOpenReviewModal, refetchBooking
       ...data,
       rating,
       booking: booking?._id,
-      reference: booking?.reference?._id,
+      reference: booking?.modelType === "RoomTypes" ? booking?.reference?.property : booking?.reference?._id ,
       modelType:
         booking?.modelType === "RoomTypes" ? "Property" : booking?.modelType
     };

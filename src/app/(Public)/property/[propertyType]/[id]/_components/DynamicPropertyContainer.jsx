@@ -158,6 +158,13 @@ const DynamicHotel = ({
   } = useGetSingleHotelQuery(hotelId, {
     skip: !hotelId
   });
+  // const [price, setPrice] =
+
+  //  useEffect(() => {
+  //     if (property?.price) {
+  //       convertCurrency(property.price, currency).then(setPrice);
+  //     }
+  //   }, [property?.price, currency]);
 
   if (isLoading) {
     return <CustomLoader className={"h-screen w-screen"} />;

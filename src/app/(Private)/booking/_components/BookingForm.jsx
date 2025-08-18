@@ -93,7 +93,8 @@ export default function BookingForm({
       );
       if (error?.status === 401 || error?.status === 403) {
         setFormError("Please login to book this apartment");
-        router.push("/login");
+        // router.push("/login");
+        console.log("Res", error);
       }
     }
   };
