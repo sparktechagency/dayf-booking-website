@@ -138,8 +138,9 @@ export default function DynamicPropertyDetails({ property }) {
 
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {
-    console.log("_id: ", _id);
-    const modelType = "Property";
+    // console.log("_id: ", _id);
+    // const toastId = await toast
+    const modelType = propertyType === 'hotels' ? "Property" : 'Apartment';
 
     // Bookmark the data
     const data = await createBookmark({ reference: _id, modelType }).unwrap();
@@ -219,14 +220,14 @@ export default function DynamicPropertyDetails({ property }) {
 
         {user && (
           <Button variant="primary" className="rounded-full" asChild>
-          <Link href={`/messages?reciverId=${property?.author?._id}`}>
-            <Icon
-              icon="hugeicons:message-notification-01"
-              className="!h-5 !w-5"
-            />
-            Message
-          </Link>
-        </Button>
+            <Link href={`/messages?reciverId=${property?.author?._id}`}>
+              <Icon
+                icon="hugeicons:message-notification-01"
+                className="!h-5 !w-5"
+              />
+              Message
+            </Link>
+          </Button>
         )}
       </nav>
 
@@ -300,6 +301,7 @@ export default function DynamicPropertyDetails({ property }) {
         <DynamicApartmentSectionTitle>
           What Our Guests Say
         </DynamicApartmentSectionTitle>
+  {console.log('=======================>', property)}
         {property?.reviews?.length > 0 ? (
           <DynamicPropertyReviews reviews={property?.reviews} />
         ) : (
@@ -318,14 +320,15 @@ export default function DynamicPropertyDetails({ property }) {
           You may also like
         </DynamicApartmentSectionTitle>
 
-       {recommendedProperties?.length > 0 ? (
-           <PropertiesCarousel
-          properties={recommendedProperties}
-          bookmarks={bookmarks}
-          handleCreateBookmark={handleCreateBookmark}
-          handleDeleteBookmark={handleDeleteBookmark}
-          type={propertyType}
-        /> ) : (
+        {recommendedProperties?.length > 0 ? (
+          <PropertiesCarousel
+            properties={recommendedProperties}
+            bookmarks={bookmarks}
+            handleCreateBookmark={handleCreateBookmark}
+            handleDeleteBookmark={handleDeleteBookmark}
+            type={propertyType}
+          />
+        ) : (
           <EmptyContainer
             className="h-[50dvh]"
             message={`No recommended ${propertyType} found`}

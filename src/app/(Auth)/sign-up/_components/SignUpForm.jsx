@@ -5,20 +5,32 @@ import FormWrapper from "@/components/form-components/FormWrapper";
 import UInput from "@/components/form-components/UInput";
 import UPhoneInput from "@/components/form-components/UPhoneInput";
 import { Button } from "@/components/ui/button";
-import { useSignUpMutation } from "@/redux/api/authApi";
-import { SuccessModal } from "@/utils/customModal";
+import { useGoogleLoginMutation, useSignUpMutation } from "@/redux/api/authApi";
+import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { setToSessionStorage } from "@/utils/sessionStorage";
 import { authValidationSchema } from "@/zod/authSchema.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleAuthProvider } from "@/lib/firebase.auth";
+import { FcGoogle } from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/features/authSlice";
+import { jwtDecode } from "jwt-decode";
 
 export default function SignUpForm() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
   const [formError, setFormError] = useState(null);
+  const dispatch = useDispatch();
+
+  const [googleLogin, { isLoading: isGoogleLoading }] =
+    useGoogleLoginMutation();
+
+  const fromHref = useSearchParams().get("from-href");
 
   // Sign Up Handler
   const [signUp, { isLoading: isSigningUp }] = useSignUpMutation();
@@ -37,6 +49,43 @@ export default function SignUpForm() {
       setFormError(
         error?.data?.message || error?.message || "Something went wrong"
       );
+    }
+  };
+
+  // Handle Google Login
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleAuthProvider);
+      console.log("Google sign in result ----------> ", result);
+      const user = result?.user;
+
+      const res = await googleLogin({
+        token: user?.accessToken,
+        role: "user"
+      }).unwrap();
+      console.log("resutl ----------------------------> ", res);
+      if (res?.success) {
+        SuccessModal("Login Successful!");
+
+        // Set user info into store
+        dispatch(
+          setUser({
+            user: jwtDecode(res?.data?.accessToken),
+
+            token: res?.data?.accessToken
+          })
+        );
+
+        // Redirect based on user role
+        const userRole = jwtDecode(res?.data?.accessToken)?.role;
+
+        router.push(fromHref || (userRole ? `/dashboard/profile` : "/"));
+        router.refresh();
+        setFormError(null);
+      }
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+      ErrorModal("Something went wrong! Please try again");
     }
   };
 
@@ -97,10 +146,22 @@ export default function SignUpForm() {
           typ="submit"
           variant="primary"
           className="w-full rounded-full py-6 text-base"
-          loading={isSigningUp}
+          loading={isSigningUp || isGoogleLoading}
           loadingText="Signing up..."
         >
           Sign Up
+        </Button>
+
+        <Button
+          variant="secondary"
+          type="button"
+          onClick={handleGoogleLogin}
+          className="flex w-full items-center gap-3 rounded-full py-6 text-base"
+          loading={isSigningUp || isGoogleLoading}
+          loadingText="Signing In"
+        >
+          <FcGoogle className="!h-6 !w-6" />
+          <span className="font-medium">Continue with Google</span>
         </Button>
       </FormWrapper>
 

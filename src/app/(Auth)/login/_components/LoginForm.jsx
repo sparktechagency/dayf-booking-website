@@ -4,9 +4,9 @@ import CustomFormError from "../../../../components/CustomFormError/CustomFormEr
 import FormWrapper from "../../../../components/form-components/FormWrapper";
 import UInput from "../../../../components/form-components/UInput";
 import { Button } from "../../../../components/ui/button";
-import { useSignInMutation } from "../../../../redux/api/authApi";
+import { useGoogleLoginMutation, useSignInMutation } from "../../../../redux/api/authApi";
 import { setUser } from "../../../../redux/features/authSlice";
-import { SuccessModal } from "../../../../utils/customModal";
+import { ErrorModal, SuccessModal } from "../../../../utils/customModal";
 import { authValidationSchema } from "../../../../zod/authSchema.validation";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -14,12 +14,18 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
+import { signInWithPopup } from "firebase/auth";
+import {auth, googleAuthProvider} from '@/lib/firebase.auth';
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [formError, setFormError] = useState(null);
   const dispatch = useDispatch();
+
+  const [googleLogin, {isLoading: isGoogleLoading}] = useGoogleLoginMutation();
+
   // const userId = useSelector(selectUser)?.userId;
 
   /**
@@ -58,6 +64,41 @@ export default function LoginForm() {
       }
     } catch (error) {
       setFormError(error?.message || error?.data?.message || error?.error);
+    }
+  };
+
+  // Handle Google Login
+  const handleGoogleLogin = async() => {
+    try {
+      const result = await signInWithPopup(auth, googleAuthProvider);
+      console.log("Google sign in result ----------> ", result);
+      const user = result?.user;
+
+      const res = await googleLogin({token: user?.accessToken, role: "user"}).unwrap();
+      console.log("resutl ----------------------------> ", res);
+      if (res?.success) {
+        SuccessModal("Login Successful!");
+
+        // Set user info into store
+        dispatch(
+          setUser({
+            user: jwtDecode(res?.data?.accessToken),
+
+            token: res?.data?.accessToken
+          })
+        );
+
+        // Redirect based on user role
+        const userRole = jwtDecode(res?.data?.accessToken)?.role;
+
+        router.push(fromHref || (userRole ? `/dashboard/profile` : "/"));
+        router.refresh();
+        setFormError(null);
+      }
+
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+      ErrorModal("Something went wrong! Please try again");
     }
   };
 
@@ -110,11 +151,24 @@ export default function LoginForm() {
 
         <Button
           variant="primary"
+          type="submit"
           className="w-full rounded-full py-6 text-base"
-          loading={isLoading}
+          loading={isLoading || isGoogleLoading}
           loadingText="Signing In"
         >
           Sign In
+        </Button>
+
+        <Button
+          variant="secondary"
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full rounded-full py-6 text-base flex items-center gap-3"
+          loading={isLoading || isGoogleLoading}
+          loadingText="Signing In"
+        >
+        <FcGoogle className="!w-6 !h-6" />
+        <span className="font-medium">Continue with Google</span>
         </Button>
       </FormWrapper>
 

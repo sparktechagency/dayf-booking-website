@@ -26,7 +26,7 @@ const authApi = baseApi.injectEndpoints({
     // =========== Third party login handlers =================
     googleLogin: builder.mutation({
       query: (data) => ({
-        url: "/auth/google-signin",
+        url: "/auth/google",
         method: "POST",
         body: data,
       }),

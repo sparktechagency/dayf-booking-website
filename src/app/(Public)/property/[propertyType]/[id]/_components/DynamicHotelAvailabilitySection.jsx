@@ -249,7 +249,8 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
                       )) : (
                         <p>No Customer choices for this room</p>
                       )}
-                      <p className="text-red-500">Only {room?.totalRooms > 1 ? `${room?.totalRooms} rooms` : `${room?.totalRooms} room`} left</p>
+                      {console.log("-------------------------------------------> ", room)}
+                      <p className="text-red-500">Only {room?.availableRooms > 1 ? `${room?.availableRooms} rooms` : `${room?.availableRooms} room`} left</p>
                   </td>
 
                   {/* Select Rooms */}
@@ -265,13 +266,12 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
                       </SelectTrigger>
 
                       <SelectContent>
-                        {Array.from({ length: room?.totalRooms })?.map(
+                        {Array.from({ length: room?.availableRooms })?.map(
                           (_, idx) => (
                             <SelectItem
                             key={idx + 1}
                             value={(idx + 1)?.toString()}
                             >
-                              {/* {console.log("Total Rooms ------------> ", room?.totalRooms)} */}
                               {idx + 1}
                             </SelectItem>
                           )
