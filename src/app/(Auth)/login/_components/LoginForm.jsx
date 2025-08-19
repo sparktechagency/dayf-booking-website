@@ -98,7 +98,7 @@ export default function LoginForm() {
 
     } catch (error) {
       console.error("Error during sign-in:", error);
-      ErrorModal("Something went wrong! Please try again");
+      ErrorModal(error?.data?.message || "Something went wrong! Please try again");
     }
   };
 

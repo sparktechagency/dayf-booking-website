@@ -21,6 +21,7 @@ import {
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 // Constants
 const SORT_OPTIONS = {
@@ -62,7 +63,6 @@ export default function HotelsContainer({
 
   // }, [hotels]);
 
-
   useEffect(() => {
     if (isBookmarkError) {
       console.error("Error fetching bookmarks: ", bookmarkError);
@@ -73,47 +73,53 @@ export default function HotelsContainer({
 
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {
-    console.log("_id: ", _id);
+    // console.log("_id: ", _id);
+    const toadId = toast.loading("Creating bookmark");
     const modelType = "Property";
 
     // Bookmark the data
-    const data = await createBookmark({ reference: _id, modelType }).unwrap();
-    console.log("create Bookmark response: ", data);
-    if (data?.success) {
-      SuccessModal(data?.message);
-      refetch();
+    try {
+      const data = await createBookmark({ reference: _id, modelType }).unwrap();
+      // console.log("create Bookmark response: ", data);
+      if (data?.success) {
+        SuccessModal(data?.message);
+        refetch();
+        toast.remove(toadId);
+      }
+    } catch (error) {
+      if (error) {
+        toast.remove(toadId);
+        // console.error("Error while creating bookmark: ", error);
+        if (error?.status === 401 || error?.status === 403) {
+          ErrorModal("You need to login to bookmark properties.");
+        } else ErrorModal(error?.data?.message);
+      }
     }
   };
-
-  useEffect(() => {
-    if (isError) {
-      console.error("Error while creating bookmark: ", error);
-      if (error?.status === 401 || error?.status === 403) {
-        ErrorModal("You need to login to bookmark properties.");
-      } else ErrorModal(error?.data?.message);
-    }
-  }, [isError, error]);
 
   // Delete Bookmark
   const handleDeleteBookmark = async (_id) => {
-    console.log("_id: ", _id);
+    // console.log("_id: ", _id);
+    const toadId = toast.loading("Deleting bookmark");
 
-    const res = await deleteBookmark(_id);
-    console.log("Delete bookmark response: ", res);
-    if (res?.data?.success) {
-      SuccessModal(res?.data?.message);
-      refetch();
+    try {
+      const res = await deleteBookmark(_id);
+      console.log("Delete bookmark response: ", res);
+      if (res?.data?.success) {
+        SuccessModal(res?.data?.message);
+        refetch();
+        toast.remove(toadId);
+      }
+    } catch (error) {
+      if (error) {
+        toast.remove(toadId);
+        // console.error("Error while deleting bookmark: ", error);
+        if (error?.status === 401 || error?.status === 403) {
+          ErrorModal("You need to login to bookmark properties.");
+        } else ErrorModal(error?.data?.message);
+      }
     }
   };
-
-  useEffect(() => {
-    if (isDeleteError) {
-      console.error("Error while deleting bookmark: ", deleteError);
-      if (deleteError?.status === 401 || deleteError?.status === 403) {
-        ErrorModal("You need to login to bookmark properties.");
-      } else ErrorModal(deleteError?.data?.message);
-    }
-  }, [isDeleteError, deleteError]);
 
   return (
     <div>

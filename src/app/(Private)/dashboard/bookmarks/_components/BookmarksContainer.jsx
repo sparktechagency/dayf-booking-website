@@ -7,7 +7,9 @@ import {
   useDeleteBookmarkMutation,
   useGetAllBookmarkQuery
 } from "@/redux/api/bookmarkApi";
+import { SuccessModal } from "@/utils/customModal";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function BookmarksContainer() {
   const [bookmarks, setBookmarks] = useState([]);
@@ -41,24 +43,27 @@ export default function BookmarksContainer() {
 
   // Delete Bookmark
   const handleDeleteBookmark = async (_id) => {
-    console.log("_id: ", _id);
+    // console.log("_id: ", _id);
+    const toadId = toast.loading("Deleting bookmark");
 
-    const res = await deleteBookmark(_id);
-    // console.log("Delete bookmark response: ", res);
-    if (res?.data?.success) {
-      SuccessModal(res?.data?.message);
-      bookingRefetch();
+    try {
+      const res = await deleteBookmark(_id);
+      // console.log("Delete bookmark response: ", res);
+      if (res?.data?.success) {
+        SuccessModal("Bookmark deleted successfully");
+        bookingRefetch();
+        toast.remove(toadId);
+      }
+    } catch (error) {
+      if (error) {
+        toast.remove(toadId);
+        // console.error("Error while deleting bookmark: ", error);
+        if (error?.status === 401 || error?.status === 403) {
+          ErrorModal("You need to login to bookmark properties.");
+        } else ErrorModal(error?.data?.message);
+      }
     }
   };
-
-  useEffect(() => {
-    if (isDeleteError) {
-      console.error("Error while deleting bookmark: ", deleteError);
-      if (deleteError?.status === 401 || deleteError?.status === 403) {
-        ErrorModal("You need to login to bookmark properties.");
-      } else ErrorModal(deleteError?.data?.message);
-    }
-  }, [isDeleteError, deleteError]);
 
   if (isLoading) {
     return <CustomLoader className={"h-full min-h-[75vh] w-full"} />;

@@ -26,6 +26,7 @@ import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { useGetApartmentsQuery } from "@/redux/api/apartmentApi";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/features/authSlice";
+import toast from "react-hot-toast";
 
 const PROPERTY_DETAILS_SECTIONS = [
   { key: "overview", label: "Overview", route: "#overview" },
@@ -139,47 +140,52 @@ export default function DynamicPropertyDetails({ property }) {
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {
     // console.log("_id: ", _id);
-    // const toastId = await toast
-    const modelType = propertyType === 'hotels' ? "Property" : 'Apartment';
+    const toastId = toast.loading("Creating Bookmark");
+    const modelType = propertyType === "hotels" ? "Property" : "Apartment";
 
     // Bookmark the data
-    const data = await createBookmark({ reference: _id, modelType }).unwrap();
-    console.log("create Bookmark response: ", data);
-    if (data?.success) {
-      SuccessModal(data?.message);
-      bookingRefetch();
+    try {
+      const data = await createBookmark({ reference: _id, modelType }).unwrap();
+      // console.log("create Bookmark response: ", data);
+      if (data?.success) {
+        SuccessModal(data?.message);
+        bookingRefetch();
+        toast.remove(toastId);
+      }
+    } catch (error) {
+      if (error) {
+        toast.remove(toastId);
+        // console.error("Error while creating bookmark: ", error);
+        if (error?.status === 401 || error?.status === 403) {
+          ErrorModal("You need to login to bookmark properties.");
+        } else ErrorModal(error?.data?.message);
+      }
     }
   };
-
-  useEffect(() => {
-    if (isError) {
-      console.error("Error while creating bookmark: ", error);
-      if (error?.status === 401 || error?.status === 403) {
-        ErrorModal("You need to login to bookmark properties.");
-      } else ErrorModal(error?.data?.message);
-    }
-  }, [isError, error]);
 
   // Create Bookmark
   const handleDeleteBookmark = async (_id) => {
-    console.log("_id: ", _id);
+    // console.log("_id: ", _id);
+    const toastId = toast.loading("Deleting Bookmark");
 
-    const res = await deleteBookmark(_id);
-    console.log("Delete bookmark response: ", res);
-    if (res?.data?.success) {
-      SuccessModal(res?.data?.message);
-      bookingRefetch();
+    try {
+      const res = await deleteBookmark(_id);
+      // console.log("Delete bookmark response: ", res);
+      if (res?.data?.success) {
+        SuccessModal(res?.data?.message);
+        bookingRefetch();
+        toast.remove(toastId);
+      }
+    } catch (error) {
+      if (error) {
+        toast.remove(toastId);
+        // console.error("Error while deleting bookmark: ", error);
+        if (error?.status === 401 || error?.status === 403) {
+          ErrorModal("You need to login to bookmark properties.");
+        } else ErrorModal(error?.data?.message);
+      }
     }
   };
-
-  useEffect(() => {
-    if (isDeleteError) {
-      console.error("Error while deleting bookmark: ", deleteError);
-      if (deleteError?.status === 401 || deleteError?.status === 403) {
-        ErrorModal("You need to login to bookmark properties.");
-      } else ErrorModal(deleteError?.data?.message);
-    }
-  }, [isDeleteError, deleteError]);
 
   // ------------------------------------------------------------------------
 
@@ -301,7 +307,7 @@ export default function DynamicPropertyDetails({ property }) {
         <DynamicApartmentSectionTitle>
           What Our Guests Say
         </DynamicApartmentSectionTitle>
-  {console.log('=======================>', property)}
+        {console.log("=======================>", property)}
         {property?.reviews?.length > 0 ? (
           <DynamicPropertyReviews reviews={property?.reviews} />
         ) : (

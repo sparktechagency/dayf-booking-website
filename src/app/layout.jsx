@@ -11,6 +11,7 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Provider from "@/components/providers/Provider";
 import Script from "next/script";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: {
@@ -87,6 +88,7 @@ export default function RootLayout({ children }) {
 
         <PageTopLoader />
         <ScrollToTopBtn />
+        <Toaster />
       </body>
     </html>
   );

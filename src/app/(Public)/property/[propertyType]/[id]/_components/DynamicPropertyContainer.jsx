@@ -23,6 +23,7 @@ import { ErrorModal, SuccessModal } from "@/utils/customModal";
 import { useEffect, useState } from "react";
 import CustomLoader from "@/components/CustomLoader/CustomLoader";
 import ShareModal from "@/components/ShareModal/ShareModal";
+import toast from "react-hot-toast";
 
 export default function DynamicPropertyContainer() {
   const { propertyType } = useParams();
@@ -54,45 +55,51 @@ export default function DynamicPropertyContainer() {
   // Create Bookmark
   const handleCreateBookmark = async (_id) => {
     // console.log("_id: ", _id);
+    const toadId = toast.loading("Creating bookmark");
 
     // Bookmark the data
-    const data = await createBookmark({ reference: _id, modelType }).unwrap();
-    // console.log("create Bookmark response: ", data);
-    if (data?.success) {
-      SuccessModal(data?.message);
-      refetch();
+    try {
+      const data = await createBookmark({ reference: _id, modelType }).unwrap();
+      // console.log("create Bookmark response: ", data);
+      if (data?.success) {
+        SuccessModal(data?.message);
+        refetch();
+        toast.remove(toadId);
+      }
+    } catch (error) {
+      if (error) {
+        toast.remove(toadId);
+        // console.error("Error while creating bookmark: ", error);
+        if (error?.status === 401 || error?.status === 403) {
+          ErrorModal("You need to login to bookmark properties.");
+        } else ErrorModal(error?.data?.message);
+      }
     }
   };
-
-  useEffect(() => {
-    if (isError) {
-      console.error("Error while creating bookmark: ", error);
-      if (error?.status === 401 || error?.status === 403) {
-        ErrorModal("You need to login to bookmark properties.");
-      } else ErrorModal(error?.data?.message);
-    }
-  }, [isError, error]);
 
   // Delete Bookmark
   const handleDeleteBookmark = async (_id) => {
     // console.log("_id: ", _id);
+    const toadId = toast.loading("Deleting bookmark");
 
-    const res = await deleteBookmark(_id);
-    // console.log("Delete bookmark response: ", res);
-    if (res?.data?.success) {
-      SuccessModal(res?.data?.message);
-      refetch();
+    try {
+      const res = await deleteBookmark(_id);
+      // console.log("Delete bookmark response: ", res);
+      if (res?.data?.success) {
+        SuccessModal(res?.data?.message);
+        refetch();
+        toast.remove(toadId);
+      }
+    } catch (error) {
+      if (error) {
+        toast.remove(toadId);
+        // console.error("Error while deleting bookmark: ", error);
+        if (error?.status === 401 || error?.status === 403) {
+          ErrorModal("You need to login to bookmark properties.");
+        } else ErrorModal(error?.data?.message);
+      }
     }
   };
-
-  useEffect(() => {
-    if (isDeleteError) {
-      console.error("Error while deleting bookmark: ", deleteError);
-      if (deleteError?.status === 401 || deleteError?.status === 403) {
-        ErrorModal("You need to login to bookmark properties.");
-      } else ErrorModal(deleteError?.data?.message);
-    }
-  }, [isDeleteError, deleteError]);
 
   // Match Bookmark with Property
   useEffect(() => {
@@ -158,7 +165,6 @@ const DynamicHotel = ({
   } = useGetSingleHotelQuery(hotelId, {
     skip: !hotelId
   });
-
 
   if (isLoading) {
     return <CustomLoader className={"h-screen w-screen"} />;
@@ -236,12 +242,13 @@ const DynamicHotel = ({
       {/* Hotel Details */}
       <DynamicHotelDetails property={hotelData} />
 
-       <ShareModal
+      <ShareModal
         visible={isShareClick}
         onClose={() => setIsShareClick(false)}
         url={`${window.location.origin}/property/hotels/${hotelData?._id}`}
         title={hotelData?.name}
-        description={hotelData?.shortDescription}      />
+        description={hotelData?.shortDescription}
+      />
     </ResponsiveContainer>
   );
 };
@@ -343,7 +350,8 @@ const DynamicApartment = ({
         onClose={() => setIsShareClick(false)}
         url={`${window.location.origin}/property/apartments/${apartment?._id}`}
         title={apartment?.name}
-        description={apartment?.shortDescription}      />
+        description={apartment?.shortDescription}
+      />
     </ResponsiveContainer>
   );
 };
