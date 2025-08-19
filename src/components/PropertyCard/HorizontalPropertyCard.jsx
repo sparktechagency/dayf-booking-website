@@ -112,7 +112,7 @@ export default function HorizontalPropertyCard({
 
             {/* Bookmark */}
             <button
-              className={`flex-center absolute right-2 top-2 aspect-square size-10 rounded-full ${bookmarked ? "bg-black" : "bg-white/20"} backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black`}
+              className={`flex-center absolute right-2 top-2 aspect-square size-10 rounded-full ${bookmarked ? "bg-black" : "bg-white/20"} backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-black border border-p1`}
             >
               <Bookmark
                 onClick={() => {
@@ -122,7 +122,7 @@ export default function HorizontalPropertyCard({
                     return handleCreateBookmark(property?._id);
                   }
                 }}
-                className="size-5 text-white"
+                className={`size-5 ${bookmarked ? "text-white" : "text-p1"}`}
               />
             </button>
 

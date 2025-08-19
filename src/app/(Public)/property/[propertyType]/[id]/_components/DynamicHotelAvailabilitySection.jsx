@@ -11,11 +11,9 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
-import { Check } from "lucide-react";
+import { LuSearch } from "react-icons/lu";
 import PropertySearchPanel from "@/components/PropertySearchPanel/PropertySearchPanel";
 import { useGetRoomCategoriesByPropertyIdQuery } from "@/redux/api/propertyApi";
-import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import EmptyContainer from "@/components/EmptyContainer/EmptyContainer";
 import CustomFormError from "@/components/CustomFormError/CustomFormError";
@@ -50,23 +48,19 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
 
   // Get room categories by property id
   const { data: roomCategories, isFetching: roomCategoriesLoading } =
-    useGetRoomCategoriesByPropertyIdQuery(
-      {
-        propertyId,
-        args: {
-          startDate: checkInOutDate?.from,
-          endDate: checkInOutDate?.to,
-          adults: guests?.adults,
-          children: guests?.children,
-          infants: guests?.infants
-        }
-      },
-      {
-        skip: !propertyId
+    useGetRoomCategoriesByPropertyIdQuery({
+      propertyId,
+      args: {
+        startDate: checkInOutDate?.from,
+        endDate: checkInOutDate?.to,
+        adults: guests?.adults,
+        children: guests?.children,
+        infants: guests?.infants
       }
-    );
+    });
 
   // console.log({ roomCategories });
+  // console.log({ checkInOutDate });
 
   // Handle room quantity selection
   const handleQuantityChange = (roomId, value) => {
@@ -140,34 +134,42 @@ export default function DynamicHotelAvailabilitySection({ propertyId }) {
             </tr>
           </thead>
 
-         <tbody>
-  {roomCategoriesLoading ? (
-    <tr>
-      <td colSpan={6}>
-        {Array.from({ length: 4 }).map((_, index) => (
-          <RoomCategoryTableRowSkeleton key={index} />
-        ))}
-      </td>
-    </tr>
-  ) : roomCategories?.length > 0 ? (
-    roomCategories.map((room, index) => (
-      <RoomCategoryRow
-        key={index}
-        room={room}
-        currency={currency}
-        handleQuantityChange={handleQuantityChange}
-        createBookingUrl={createBookingUrl}
-      />
-    ))
-  ) : (
-    <tr>
-      <td colSpan={6}>
-        <EmptyContainer message="No rooms available for the selected filters" />
-      </td>
-    </tr>
-  )}
-</tbody>
-
+          <tbody>
+            {roomCategoriesLoading ? (
+              <tr>
+                <td colSpan={6}>
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <RoomCategoryTableRowSkeleton key={index} />
+                  ))}
+                </td>
+              </tr>
+            ) : roomCategories?.length > 0 &&
+              checkInOutDate?.from &&
+              checkInOutDate?.to ? (
+              roomCategories.map((room, index) => (
+                <RoomCategoryRow
+                  key={index}
+                  room={room}
+                  currency={currency}
+                  handleQuantityChange={handleQuantityChange}
+                  createBookingUrl={createBookingUrl}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6}>
+                  {!checkInOutDate?.from && !checkInOutDate?.to ? (
+                    <div className="w-full h-full py-6 flex flex-col gap-3 justify-center items-center">
+                      <LuSearch className="w-12 h-12 text-gray-400" />
+                      <p className="text-lg text-gray-500 font-medium">Please the check in, check out dates, and search for the rooms.</p>
+                    </div>
+                  ) : (
+                    <EmptyContainer message="No rooms available for the selected filters" />
+                  )}
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
     </div>
@@ -212,7 +214,12 @@ const RoomCategoryTableRowSkeleton = () => {
   );
 };
 
-function RoomCategoryRow({ room, currency, handleQuantityChange, createBookingUrl }) {
+function RoomCategoryRow({
+  room,
+  currency,
+  handleQuantityChange,
+  createBookingUrl
+}) {
   const [price, setPrice] = useState(null);
 
   useEffect(() => {
@@ -226,7 +233,10 @@ function RoomCategoryRow({ room, currency, handleQuantityChange, createBookingUr
       {/* Room type */}
       <td className="max-w-48 p-4">
         <div className="space-y-3">
-          <h5 role="button" className="font-medium text-blue-500 hover:underline">
+          <h5
+            role="button"
+            className="font-medium text-blue-500 hover:underline"
+          >
             {room?.category}
           </h5>
           {/* ... your other details ... */}
@@ -236,7 +246,10 @@ function RoomCategoryRow({ room, currency, handleQuantityChange, createBookingUr
       {/* Guests */}
       <td className="flex-center-start flex-wrap gap-2 p-4">
         {Array.from({
-          length: Object.values(room?.guests).reduce((acc, curr) => acc + curr, 0)
+          length: Object.values(room?.guests).reduce(
+            (acc, curr) => acc + curr,
+            0
+          )
         }).map((_, idx) => (
           <Icon key={idx} icon="lsicon:user-filled" height="22" width="22" />
         ))}
@@ -262,7 +275,11 @@ function RoomCategoryRow({ room, currency, handleQuantityChange, createBookingUr
           <p>No Customer choices for this room</p>
         )}
         <p className="text-red-500">
-          Only {room?.availableRooms > 1 ? `${room.availableRooms} rooms` : `${room.availableRooms} room`} left
+          Only{" "}
+          {room?.availableRooms > 1
+            ? `${room.availableRooms} rooms`
+            : `${room.availableRooms} room`}{" "}
+          left
         </p>
       </td>
 
@@ -297,4 +314,3 @@ function RoomCategoryRow({ room, currency, handleQuantityChange, createBookingUr
     </tr>
   );
 }
-

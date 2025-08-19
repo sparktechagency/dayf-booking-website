@@ -282,6 +282,9 @@ export default function PropertySearchPanel({
                 selected={checkInOutDate}
                 onSelect={setCheckInOutDate}
                 numberOfMonths={2}
+                disabled={(date) => {
+                  date < new Date();
+                }}
               />
             </PopoverContent>
           </Popover>

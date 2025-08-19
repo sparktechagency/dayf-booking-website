@@ -164,7 +164,7 @@ const UpdateProfileModal = ({ open, setOpen, currentData, refetch }) => {
               onChange={(e) => setUploadedImage(e?.target?.files?.[0])}
               className="hidden"
             />
-            <span>
+            <span className="bg-white w-full h-full block p-1 rounded-md">
               <ImageUp />
             </span>
           </label>

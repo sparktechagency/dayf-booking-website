@@ -6,7 +6,10 @@ import { DayPicker } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
+function Calendar({ className, classNames, showOutsideDays = true, disabled, ...props }) {
+  const combinedDisabled = disabled
+    ? [{ before: new Date() }, disabled]
+    : { before: new Date() };
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -59,6 +62,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
           <ChevronRight className={cn("h-4 w-4", className)} {...props} />
         )
       }}
+      disabled={combinedDisabled}
       {...props}
     />
   );
