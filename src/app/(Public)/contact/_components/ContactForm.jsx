@@ -29,8 +29,10 @@ export default function ContactForm() {
         router.push("/");
       }
     } catch (error) {
-      console.log(error)
-      ErrorModal(error?.message || "Something went wrong!");
+      console.log(error);
+      if (error?.data?.message === "Validation Error") {
+        ErrorModal("Please fill out the form properly");
+      }
     }
   };
 
