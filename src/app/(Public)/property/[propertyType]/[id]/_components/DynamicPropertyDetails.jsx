@@ -27,6 +27,7 @@ import { useGetApartmentsQuery } from "@/redux/api/apartmentApi";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/features/authSlice";
 import toast from "react-hot-toast";
+import { useGetTestimonialReviewsQuery } from "@/redux/api/reviewApi";
 
 const PROPERTY_DETAILS_SECTIONS = [
   { key: "overview", label: "Overview", route: "#overview" },
@@ -42,7 +43,9 @@ export default function DynamicPropertyDetails({ property }) {
 
   const propertyType = pathname.includes("/hotels") ? "hotels" : "apartments";
 
-  // console.log("Property type: -------------> ", propertyType);
+  const {data: reviews} = useGetTestimonialReviewsQuery({reference: property?._id});
+
+  // console.log("reviews : -------------> ", reviews);
 
   // -----------------------------------------------------------
   const query = useMemo(
@@ -307,9 +310,8 @@ export default function DynamicPropertyDetails({ property }) {
         <DynamicApartmentSectionTitle>
           What Our Guests Say
         </DynamicApartmentSectionTitle>
-        {console.log("=======================>", property)}
-        {property?.reviews?.length > 0 ? (
-          <DynamicPropertyReviews reviews={property?.reviews} />
+        {reviews?.length > 0 ? (
+          <DynamicPropertyReviews reviews={reviews} />
         ) : (
           <EmptyContainer message="No reviews found" />
         )}

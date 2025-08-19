@@ -1,12 +1,15 @@
 "use client";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import MapHotelFilter from "./MapApartmentFilter";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
-import LocationSearch from "./LocationSearch";
+import { useEffect, useState } from "react";
 import { useGetAllFacilitiesQuery } from "@/redux/api/facilitiesApi";
+import { useSelector } from "react-redux";
+import { selectCurrency } from "@/redux/features/currencySlice";
+import { supportedCurrencies } from "@/components/shared-layout/Navbar/navbar.constant";
+import Image from "next/image";
+import { convertCurrency } from "@/utils/convertCurrency";
 
 // Constants
 const RATING_STARS = [5, 4, 3, 2, 1];
@@ -31,9 +34,22 @@ export default function ApartmentFilters({
   setSelectedLocations,
   setSelectedApartmentFeatures
 }) {
+  const currency = useSelector(selectCurrency);
   // Show all states
   const [showMoreHotelFeatures, setShowMoreHotelFeatures] = useState(false);
   const [showMoreLocations, setShowMoreLocations] = useState(false);
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
+
+  // Min Price
+  useEffect(() => {
+    convertCurrency(priceRange[0], currency).then(setMinPrice);
+  }, [currency, priceRange[0]]);
+
+  // max Price
+  useEffect(() => {
+    convertCurrency(priceRange[1], currency).then(setMaxPrice);
+  }, [priceRange[1], currency]);
 
   const handleSelectedRatings = (rating) => {
     setSelectedRatings((prevSelected) =>
@@ -77,11 +93,41 @@ export default function ApartmentFilters({
           />
 
           <div className="flex-center-between mt-3">
-            <Label className="rounded-md bg-gray-100 p-2 text-h6 font-medium">
-              ${priceRange[0]}
+            <Label className="flex items-center gap-1 rounded-md bg-gray-100 p-2 text-h6 font-medium">
+              {supportedCurrencies?.map((cur) => {
+                if (cur?.label === currency?.toUpperCase()) {
+                  return (
+                    <Image
+                      key={cur.id}
+                      src={cur?.icon}
+                      alt={cur?.label}
+                      height={24}
+                      width={24}
+                      className="aspect-square size-[16px] rounded-full object-cover lg:size-[18px]"
+                      priority={true}
+                    />
+                  );
+                }
+              })}
+              <span> {minPrice || 0}</span>
             </Label>
-            <Label className="rounded-md bg-gray-100 p-2 text-h6 font-medium">
-              ${priceRange[1]}
+            <Label className="flex items-center gap-1 rounded-md bg-gray-100 p-2 text-h6 font-medium">
+              {supportedCurrencies?.map((cur) => {
+                if (cur?.label === currency?.toUpperCase()) {
+                  return (
+                    <Image
+                      key={cur.id}
+                      src={cur?.icon}
+                      alt={cur?.label}
+                      height={24}
+                      width={24}
+                      className="aspect-square size-[16px] rounded-full object-cover lg:size-[18px]"
+                      priority={true}
+                    />
+                  );
+                }
+              })}
+              <span> {maxPrice || 10000}</span>
             </Label>
           </div>
         </div>

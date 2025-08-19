@@ -4,9 +4,10 @@ import { baseApi } from "./baseApi";
 const reviewApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getTestimonialReviews: builder.query({
-      query: () => ({
+      query: (query) => ({
         url: `/reviews`,
-        method: "GET"
+        method: "GET",
+        params: query
       }),
       providesTags: [tagTypes.reviews],
       transformResponse: (res) => res?.data?.data

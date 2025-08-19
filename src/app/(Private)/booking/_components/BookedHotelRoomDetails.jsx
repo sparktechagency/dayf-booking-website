@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 import { selectCurrency } from "@/redux/features/currencySlice";
 import { useEffect, useState } from "react";
 import { convertCurrency } from "@/utils/convertCurrency";
+import { supportedCurrencies } from "@/components/shared-layout/Navbar/navbar.constant";
+import getFormatNumber from "@/utils/getFormatNumber";
 
 export default function BookedRoomHotelDetails({
   hotelRoom,
@@ -20,6 +22,7 @@ export default function BookedRoomHotelDetails({
   roomQuanity
 }) {
   const [price, setPrice] = useState(null);
+  const [totalNightCosts, setTotalNightCosts] = useState(null);
   const currency = useSelector(selectCurrency);
   // console.log({ hotelRoom });
 
@@ -28,7 +31,11 @@ export default function BookedRoomHotelDetails({
     checkInOutDate?.to
   );
 
-  const totalNightCosts = totalNights * hotelRoom?.pricePerNight;
+  useEffect(() => {
+    const totalCosts = totalNights * hotelRoom?.pricePerNight;
+
+    convertCurrency(totalCosts, currency).then(setTotalNightCosts);
+  }, [totalNights, currency, hotelRoom?.pricePerNight]);
 
   useEffect(() => {
     if (hotelRoom?.pricePerNight) {
@@ -139,7 +146,24 @@ export default function BookedRoomHotelDetails({
                       <span>
                         {totalNights} Night{totalNights > 1 ? "s" : ""}
                       </span>
-                      <span>${totalNightCosts}</span>
+                      <span className="flex items-center gap-1">
+                        {supportedCurrencies?.map((cur) => {
+                          if (cur?.label === currency?.toUpperCase()) {
+                            return (
+                              <Image
+                                key={cur.id}
+                                src={cur?.icon}
+                                alt={cur?.label}
+                                height={24}
+                                width={24}
+                                className="aspect-square size-[16px] rounded-full object-cover lg:size-[18px]"
+                                priority={true}
+                              />
+                            );
+                          }
+                        })}
+                        <span>{totalNightCosts}</span>
+                      </span>
                     </div>
                   )}
                 </div>
@@ -149,9 +173,24 @@ export default function BookedRoomHotelDetails({
                   {roomQuanity > 0 && (
                     <div className="flex justify-between text-sm">
                       <span>{roomQuanity} Room</span>
-                      <span>
-                        {roomQuanity} * {totalNightCosts} = $
-                        {roomQuanity * totalNightCosts}
+                      <span className="flex items-center gap-1">
+                        {roomQuanity} * {totalNightCosts} ={" "}
+                        {supportedCurrencies?.map((cur) => {
+                          if (cur?.label === currency?.toUpperCase()) {
+                            return (
+                              <Image
+                                key={cur.id}
+                                src={cur?.icon}
+                                alt={cur?.label}
+                                height={24}
+                                width={24}
+                                className="aspect-square size-[16px] rounded-full object-cover lg:size-[18px]"
+                                priority={true}
+                              />
+                            );
+                          }
+                        })}
+                        {getFormatNumber(roomQuanity * (totalNightCosts?.split(',')?.join('')))}
                       </span>
                     </div>
                   )}
@@ -159,7 +198,9 @@ export default function BookedRoomHotelDetails({
 
                 <div className="flex justify-between border-t border-dashed border-t-black/50 pt-1 font-semibold">
                   <span>Total</span>
-                  <span>${roomQuanity * totalNightCosts}</span>
+                  <span className="flex items-center gap-1">
+                     {`${getFormatNumber(roomQuanity * (totalNightCosts?.split(',')?.join('')))} ${currency}` || `0 ${currency}`}
+                  </span>
                 </div>
               </div>
             </div>

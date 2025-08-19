@@ -149,13 +149,13 @@ export default function DyanamicApartmentAvailabilitySection() {
                 </BgIcon>
 
                 {checkInOutDate?.from ? (
-                  checkInOutDate.to ? (
+                  checkInOutDate?.to ? (
                     <>
-                      {format(checkInOutDate.from, "LLL dd, y")} -{" "}
-                      {format(checkInOutDate.to, "LLL dd, y")}
+                      {format(checkInOutDate?.from, "LLL dd, y")} -{" "}
+                      {format(checkInOutDate?.to, "LLL dd, y")}
                     </>
                   ) : (
-                    format(checkInOutDate.from, "LLL dd, y")
+                    format(checkInOutDate?.from, "LLL dd, y")
                   )
                 ) : (
                   <span className="text-muted">Pick a date</span>
