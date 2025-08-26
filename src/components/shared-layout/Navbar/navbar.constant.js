@@ -5,11 +5,11 @@ export const navbarLinks = [
     label: "Home",
     route: "/"
   },
-  {
-    id: "hotels",
-    label: "Hotels",
-    route: "/property/hotels"
-  },
+  // {
+  //   id: "hotels",
+  //   label: "Hotels",
+  //   route: "/property/hotels"
+  // },
   {
     id: "apartments",
     label: "Apartments",

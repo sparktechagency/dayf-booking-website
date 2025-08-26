@@ -84,7 +84,8 @@ export default function PropertySearchPanel({
   const [guests, setGuests] = useState(
     searchedGuests || { adults: 0, children: 0, infants: 0 }
   );
-  const [propertyType, setPropertyType] = useState("hotel");
+  // const [propertyType, setPropertyType] = useState("hotel");
+  const [propertyType, setPropertyType] = useState("apartment");
 
   useEffect(() => {
     if (window.google && window.google.maps && window.google.maps.places) {
@@ -150,7 +151,8 @@ export default function PropertySearchPanel({
     setLocation("");
     setCheckInOutDate({ from: "", to: "" });
     setGuests({ adults: 0, children: 0, infants: 0 });
-    setPropertyType("hotel");
+    // setPropertyType("hotel");
+    setPropertyType("apartment");
     setShowSearchResults(false);
 
     router.replace(currentPathname, {
@@ -392,7 +394,7 @@ export default function PropertySearchPanel({
           </DropdownMenu>
         </div>
 
-        {page !== "property-details" && (
+        {/* {page !== "property-details" && (
           <div className="w-full xl:w-[20%]">
             <Label className="mb-3 block font-semibold text-gray-500">
               Type
@@ -439,7 +441,7 @@ export default function PropertySearchPanel({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        )}
+        )} */}
 
         <button
           onClick={handleNavigate}

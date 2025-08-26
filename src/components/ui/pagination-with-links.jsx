@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -32,6 +32,7 @@ export function PaginationWithLinks({
   const searchParams = useSearchParams();
 
   const totalPageCount = Math.ceil(totalCount / pageSize);
+  const [selectedPage, setSelectedPage] = useState(1);
 
   const buildLink = useCallback(
     (newPage) => {
@@ -64,7 +65,16 @@ export function PaginationWithLinks({
       for (let i = 1; i <= totalPageCount; i++) {
         items.push(
           <PaginationItem key={i}>
-            <PaginationLink href={buildLink(i)} isActive={page === i}>
+            <PaginationLink
+              href={buildLink(i)}
+              isActive={page === i}
+              className={
+                selectedPage === i
+                  ? "bg-p1 px-3 py-2 text-sm font-medium text-white hover:text-p1"
+                  : "px-3 py-2 text-sm font-medium"
+              }
+              onClick={() => setSelectedPage(i)}
+            >
               {i}
             </PaginationLink>
           </PaginationItem>
@@ -139,26 +149,34 @@ export function PaginationWithLinks({
         <PaginationContent className="max-sm:gap-0">
           <PaginationItem>
             <PaginationPrevious
-              href={buildLink(Math.max(page - 1, 1))}
+              href={buildLink(selectedPage - 1)}
               aria-disabled={page === 1}
               tabIndex={page === 1 ? -1 : undefined}
               className={
                 page === 1 ? "pointer-events-none opacity-50" : undefined
               }
+              onClick={() =>
+                setSelectedPage(selectedPage > 1 && selectedPage - 1)
+              }
             />
           </PaginationItem>
           {renderPageNumbers()}
           <PaginationItem>
-            <PaginationNext
-              href={buildLink(Math.min(page + 1, totalPageCount))}
-              aria-disabled={page === totalPageCount}
-              tabIndex={page === totalPageCount ? -1 : undefined}
-              className={
-                page === totalPageCount
-                  ? "pointer-events-none opacity-50"
-                  : undefined
-              }
-            />
+            <PaginationNext 
+               href={buildLink(selectedPage + 1)} 
+               aria-disabled={page === totalPageCount} 
+               tabIndex={page === totalPageCount ? -1 : undefined} 
+               className={ 
+                 page === totalPageCount 
+                   ? "pointer-events-none opacity-50" 
+                   : undefined 
+               } 
+               onClick={() => {
+                 if (selectedPage < totalPageCount) {
+                   setSelectedPage(selectedPage + 1);
+                 }
+               }} 
+             />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
