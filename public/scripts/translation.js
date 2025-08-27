@@ -1,4 +1,4 @@
-export function TranslateInit() {
+function TranslateInit() {
   if (!window.__GOOGLE_TRANSLATION_CONFIG__) {
     return;
   }
