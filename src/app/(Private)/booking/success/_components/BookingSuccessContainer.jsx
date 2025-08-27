@@ -5,15 +5,20 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGetSingleBookingQuery } from "@/redux/api/bookingApi";
+import { selectCurrency } from "@/redux/features/currencySlice";
+import { convertCurrency } from "@/utils/convertCurrency";
 import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
 import { ArrowRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function BookingSuccessContainer() {
   const router = useRouter();
   const bookingId = useSearchParams()?.get("bookingId");
+  const currency = useSelector(selectCurrency);
+  const [price, setPrice] = useState(null);
 
   // Get booking details
   const { data: booking, isLoading: bookingLoading } = useGetSingleBookingQuery(
@@ -23,10 +28,16 @@ export default function BookingSuccessContainer() {
     }
   );
 
-  console.log({ booking });
+  // console.log({ booking });
+  // Format Price
+  useEffect(() => {
+    if (booking?.totalPrice) {
+      convertCurrency(booking.totalPrice, currency).then(setPrice);
+    }
+  }, [booking?.totalPrice, currency]);
 
   if (bookingLoading) {
-    return <CustomLoader className={'w-screen h-screen'} />;
+    return <CustomLoader className={"h-screen w-screen"} />;
   }
 
   return (
@@ -63,27 +74,23 @@ export default function BookingSuccessContainer() {
 
               {booking?.reference && (
                 <div className="space-y-1">
-                  {
-                    booking?.modelType === "Apartment" ? (
-                      <>
-                        <p className="font-medium text-gray-500">
-                          Apartment Name
-                        </p>
-                        <p className="font-semibold text-gray-900">
-                          {booking?.reference?.name}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                       <p className="font-medium text-gray-500">
-                          Hotel Name
-                        </p>                   
+                  {booking?.modelType === "Apartment" ? (
+                    <>
+                      <p className="font-medium text-gray-500">
+                        Apartment Name
+                      </p>
+                      <p className="font-semibold text-gray-900">
+                        {booking?.reference?.name}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-medium text-gray-500">Hotel Name</p>
                       <p className="font-semibold text-gray-900">
                         {booking?.reference?.category}
                       </p>
-                      </>
-                    )
-                  }
+                    </>
+                  )}
                 </div>
               )}
 
@@ -105,7 +112,7 @@ export default function BookingSuccessContainer() {
               <div className="space-y-1">
                 <p className="font-medium text-gray-500">Total</p>
                 <p className="font-semibold text-gray-900">
-                  ${booking?.totalPrice}
+                  {price !== null ? `${price} ${currency}` : `0 ${currency}`}{" "}
                 </p>
               </div>
 
