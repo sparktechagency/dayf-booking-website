@@ -36,6 +36,7 @@ import { ChevronDown } from "lucide-react";
 import { StandaloneSearchBox } from "@react-google-maps/api";
 import { getGoogleMapAPIKey } from "@/config/envConfig";
 import { useLoadScript } from "@react-google-maps/api";
+import { ErrorModal } from "@/utils/customModal";
 
 export default function PropertySearchPanel({
   className,
@@ -109,6 +110,12 @@ export default function PropertySearchPanel({
 
   // Handle navigation
   const handleNavigate = () => {
+    // Validate before navigation
+    if (!checkInOutDate?.from || !checkInOutDate?.to) {
+      ErrorModal('Please select "Check in" and "Check out" date');
+      return;
+    }
+
     const urlSearchParams = new URLSearchParams();
     if (page !== "property-details") {
       urlSearchParams.set("locationName", searchLocationName);
@@ -200,7 +207,7 @@ export default function PropertySearchPanel({
 
       <Separator className="mb-5 mt-2 h-[0.5px] w-full bg-gray-300" />
 
-      <section className="grid grid-cols-1 md:grid-cols-2 xl:flex-start-between md:gap-x-4 gap-y-4 xl:gap-y-0">
+      <section className="xl:flex-start-between grid grid-cols-1 gap-y-4 md:grid-cols-2 md:gap-x-4 xl:gap-y-0">
         {page !== "property-details" && (
           <div className="w-full">
             <Label className="mb-3 block font-semibold text-gray-500">
@@ -304,11 +311,13 @@ export default function PropertySearchPanel({
               <span
                 className={cn("text-sm", guests.adults === 0 && "text-muted")}
               >
-                {guests.adults} Adults / {guests.children} Children /{" "}
-                {guests.infants} Infants
+                {/* {guests.adults} Adults / {guests.children} Children /{" "}
+                {guests.infants} Infants */}
+                {guests.adults + guests.children} Guests
               </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-[400px] max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4">
+              {/* Adults */}
               <DropdownMenuItem
                 className="flex-stretch-between gap-x-8 hover:!bg-transparent"
                 onClick={(e) => e.preventDefault()}
@@ -336,6 +345,7 @@ export default function PropertySearchPanel({
                   </Button>
                 </div>
               </DropdownMenuItem>
+              {/* Children */}
               <DropdownMenuItem
                 className="flex-stretch-between gap-x-8 hover:!bg-transparent"
                 onClick={(e) => e.preventDefault()}
@@ -363,7 +373,8 @@ export default function PropertySearchPanel({
                   </Button>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem
+              {/* Infants */}
+              {/* <DropdownMenuItem
                 className="flex-stretch-between gap-x-8 hover:!bg-transparent"
                 onClick={(e) => e.preventDefault()}
               >
@@ -389,7 +400,7 @@ export default function PropertySearchPanel({
                     <CirclePlus size={18} />
                   </Button>
                 </div>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -445,9 +456,8 @@ export default function PropertySearchPanel({
 
         <button
           onClick={handleNavigate}
-          className="md:col-span-2 w-full lg:w-max mt-6 whitespace-nowrap rounded-full bg-p1 px-6 py-2 text-base font-semibold text-white disabled:opacity-50"
-         type="button"
-          disabled={!checkInOutDate?.from || !checkInOutDate?.to}
+          className="mt-6 w-full whitespace-nowrap rounded-full bg-p1 px-6 py-2 text-base font-semibold text-white disabled:opacity-50 md:col-span-2 lg:w-max"
+          type="button"
         >
           {page === "property-details" ? "Search rooms" : "Search"}
         </button>

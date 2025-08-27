@@ -22,69 +22,71 @@ export default function DynamicPropertyImageGallery({ property, images }) {
   return (
     <section className="flex-stretch-start dynamic-hotel-image-gallery mt-8 gap-x-[5px]">
       {/* Thumb Carousel */}
-      <div className="h-[75vh] w-full">
-        <Swiper
-          style={{
-            "--swiper-navigation-color": "#fff",
-            "--swiper-pagination-color": "#fff"
-          }}
-          spaceBetween={5}
-          navigation={true}
-          thumbs={{ swiper: thumbsSwiper }}
-          modules={[FreeMode, Navigation, Thumbs, Autoplay]}
-          autoplay={{
-            delay: 4500,
-            pauseOnMouseEnter: true,
-            disableOnInteraction: false
-          }}
-          speed={1000}
-          className={"largeSwiper"}
-        >
-          {/* images?.slice(0, images?.length - 3) */}
-          {images?.map((img, index) => (
-            <SwiperSlide
-              key={img._id}
-              className={"swiperSlide group relative cursor-pointer"}
-            >
-              <Image
-                src={img?.url}
-                alt={`Photo of Hotel_Name`}
-                height={1600}
-                width={1600}
-                className="object-cover object-center transition-all duration-500 ease-in-out group-hover:brightness-75"
-                priority
-              />
+      <div className="h-full w-full border-4 border-p1 border-opacity-30 bg-p1 bg-opacity-5 p-6 rounded-2xl">
+        <div className="mx-auto h-[70vh] w-[75%]">
+          <Swiper
+            style={{
+              "--swiper-navigation-color": "#fff",
+              "--swiper-pagination-color": "#fff"
+            }}
+            spaceBetween={5}
+            navigation={true}
+            thumbs={{ swiper: thumbsSwiper }}
+            modules={[FreeMode, Navigation, Thumbs, Autoplay]}
+            autoplay={{
+              delay: 4500,
+              pauseOnMouseEnter: true,
+              disableOnInteraction: false
+            }}
+            speed={1000}
+            className={"largeSwiper"}
+          >
+            {/* images?.slice(0, images?.length - 3) */}
+            {images?.map((img, index) => (
+              <SwiperSlide
+                key={img._id}
+                className={"swiperSlide group relative cursor-pointer"}
+              >
+                <Image
+                  src={img?.url}
+                  alt={`Photo of Hotel_Name`}
+                  height={1600}
+                  width={1600}
+                  className="rounded-xl object-cover object-center transition-all duration-500 ease-in-out group-hover:brightness-75"
+                  priority
+                />
 
-              {/* Full Screen Preview Overlay */}
-              <FullScreenPreviewButton
-                setImagePreviewIndex={() => setImagePreviewIndex(index)}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                {/* Full Screen Preview Overlay */}
+                <FullScreenPreviewButton
+                  setImagePreviewIndex={() => setImagePreviewIndex(index)}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
-        <Swiper
-          onSwiper={setThumbsSwiper}
-          spaceBetween={5}
-          slidesPerView={5}
-          freeMode={true}
-          watchSlidesProgress={true}
-          modules={[FreeMode, Navigation, Thumbs]}
-          className={"thumbSwiper"}
-          speed={1000}
-        >
-          {images?.slice(0, 8)?.map((img) => (
-            <SwiperSlide key={img._id} className={"swiperSlide"}>
-              <Image
-                src={img?.url}
-                alt={`Photo of ${property?.name}`}
-                height={400}
-                width={400}
-                className="object-cover object-center"
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          <Swiper
+            onSwiper={setThumbsSwiper}
+            spaceBetween={5}
+            slidesPerView={5}
+            freeMode={true}
+            watchSlidesProgress={true}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className={"thumbSwiper"}
+            speed={1000}
+          >
+            {images?.slice(0, 8)?.map((img) => (
+              <SwiperSlide key={img._id} className={"swiperSlide"}>
+                <Image
+                  src={img?.url}
+                  alt={`Photo of ${property?.name}`}
+                  height={400}
+                  width={400}
+                  className="rounded-lg object-cover object-center"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
 
       {/* Right Side - Static Images */}

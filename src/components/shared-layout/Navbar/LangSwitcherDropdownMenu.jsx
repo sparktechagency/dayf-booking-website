@@ -41,6 +41,10 @@ export default function LangSwitcherDropdownMenu({
     if (languageValue) {
       // 4. Set the current language if we have a related decision.
       setCurrentLanguage(languageValue);
+
+      // Set the page direction based on the language
+      const isRtl = languageValue === "ar"; // You can add more RTL languages here if needed
+      document.documentElement.setAttribute("dir", isRtl ? "rtl" : "ltr");
     }
     // 5. Set the language config.
     if (global.__GOOGLE_TRANSLATION_CONFIG__) {
@@ -59,12 +63,18 @@ export default function LangSwitcherDropdownMenu({
 
   // The following function switches the current language
   const switchLanguage = (lang) => () => {
-    console.log("hello");
-    // We just need to set the related cookie and reload the page
-    // "/auto/" prefix is Google's definition as far as a cookie name
+    // Update the language cookie
     setCookie(null, COOKIE_NAME, "/auto/" + lang);
+
+    // Change the text direction dynamically
+    const dir = lang === "ar" ? "rtl" : "ltr"; // Check if the selected language is Arabic (or any RTL language)
+    document.documentElement.setAttribute("dir", dir);
+    localStorage.setItem('language', JSON.stringify({lang, dir}));
+
+    // Reload the page to apply the translation
     window.location.reload();
   };
+  // }, []);
 
   // console.log({ currentLanguage });
   return (

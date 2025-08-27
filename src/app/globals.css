@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Text direction For RLT */
+html[dir= 'rlt'] {
+  direction: rtl;
+  text-align: right;
+}
+
 @layer base {
   :root {
     --radius: 0.5rem;
