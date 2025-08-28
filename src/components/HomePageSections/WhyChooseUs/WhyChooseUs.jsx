@@ -2,7 +2,6 @@ import ResponsiveContainer from "@/components/ResponsiveContainer/ResponsiveCont
 import FeatureCard from "./FeatureCard";
 import imgLg from "/public/images/why-choose-us/why-choose-us-lg.webp";
 import imgSM from "/public/images/why-choose-us/why-choose-us-sm.webp";
-import test from "/public/images/why-choose-us/test.jpg";
 import Image from "next/image";
 
 // Our Features

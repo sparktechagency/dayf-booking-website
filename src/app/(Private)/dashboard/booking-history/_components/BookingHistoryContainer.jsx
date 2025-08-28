@@ -177,7 +177,7 @@ export default function BookingHistoryContainer() {
 
       {/* Booking History Table */}
       {isLoading ? (
-        <div>Loading...</div>
+        <div><CustomLoader /></div>
       ) : (
         <BookingHistoryTable
           bookings={bookings}

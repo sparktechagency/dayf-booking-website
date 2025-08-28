@@ -2,6 +2,7 @@
 
 import { getGoogleMapAPIKey } from "@/config/envConfig";
 import { useLoadScript } from "@react-google-maps/api";
+import CustomLoader from "../CustomLoader/CustomLoader";
 
 const libraries = ["places"];
 
@@ -16,7 +17,7 @@ export default function GoogleMapProvider({ children }) {
   }
 
   if (!isLoaded) {
-    return "Loading...";
+    return <CustomLoader className={`w-screen h-screen`} />;
   }
 
   return <>{children}</>;
