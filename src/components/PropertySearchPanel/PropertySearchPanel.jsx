@@ -316,7 +316,7 @@ export default function PropertySearchPanel({
                 {guests.adults + guests.children} Guests
               </span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[400px] max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4">
+            <DropdownMenuContent className="w-full md:w-[400px] max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4">
               {/* Adults */}
               <DropdownMenuItem
                 className="flex-stretch-between gap-x-8 hover:!bg-transparent"

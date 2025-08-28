@@ -31,6 +31,7 @@ import { CircleMinus } from "lucide-react";
 import { useEffect } from "react";
 import CustomFormError from "@/components/CustomFormError/CustomFormError";
 import { getBackendBaseUrl } from "@/config/envConfig";
+import { ErrorModal } from "@/utils/customModal";
 
 export default function DyanamicApartmentAvailabilitySection() {
   const router = useRouter();
@@ -74,6 +75,12 @@ export default function DyanamicApartmentAvailabilitySection() {
 
   // Handle reserve
   const handleReserve = async () => {
+    // Return if Check in and Check out dates are not selected
+    if (!checkInOutDate.from || !checkInOutDate.to) {
+      ErrorModal(`Please select "Check in" and "Check out" dates`);
+      return;
+    }
+
     if (!isUserLoggedIn) {
       router.push(
         `/login?from-href=${typeof window !== undefined ? window.location.href : ""}`
@@ -128,8 +135,8 @@ export default function DyanamicApartmentAvailabilitySection() {
         {!existedCheckInOutDate ? "Check Availability" : "Make Reservation"}
       </DynamicApartmentSectionTitle>
 
-      <div className="mt-5 flex items-end gap-x-4 rounded-2xl border border-p1/50 bg-white p-4">
-        <div className="w-1/4">
+      <div className="mt-5 flex w-full max-w-5xl flex-col gap-y-5 rounded-2xl border border-p1/50 bg-white p-4 md:flex-row md:items-end md:gap-x-4 md:gap-y-0">
+        <div className="w-full">
           <Label className="mb-3 block font-semibold text-gray-500">
             Select Check In/Out Date
           </Label>
@@ -176,7 +183,7 @@ export default function DyanamicApartmentAvailabilitySection() {
           </Popover>
         </div>
 
-        <div className="w-1/4">
+        <div className="w-full">
           <Label className="mb-3 block font-semibold text-gray-500">
             Guests
           </Label>
@@ -188,11 +195,13 @@ export default function DyanamicApartmentAvailabilitySection() {
               <span
                 className={cn("text-sm", guests.adults === 0 && "text-muted")}
               >
-                {guests.adults} Adults / {guests.children} Children /{" "}
-                {guests.infants} Infants
+                {/* {guests.adults} Adults / {guests.children} Children /{" "}
+                {guests.infants} Infants */}
+                {guests.adults + guests.children} Guests
               </span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[400px] max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4">
+            <DropdownMenuContent className="w-full max-w-[400px] space-y-4 rounded-2xl border-p1/50 p-4 md:w-[400px]">
+              {/* Adults */}
               <DropdownMenuItem
                 className="flex-stretch-between gap-x-8 hover:!bg-transparent"
                 onClick={(e) => e.preventDefault()}
@@ -220,6 +229,7 @@ export default function DyanamicApartmentAvailabilitySection() {
                   </Button>
                 </div>
               </DropdownMenuItem>
+              {/* Children */}
               <DropdownMenuItem
                 className="flex-stretch-between gap-x-8 hover:!bg-transparent"
                 onClick={(e) => e.preventDefault()}
@@ -247,7 +257,8 @@ export default function DyanamicApartmentAvailabilitySection() {
                   </Button>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem
+              {/* Infants */}
+              {/* <DropdownMenuItem
                 className="flex-stretch-between gap-x-8 hover:!bg-transparent"
                 onClick={(e) => e.preventDefault()}
               >
@@ -273,7 +284,7 @@ export default function DyanamicApartmentAvailabilitySection() {
                     <CirclePlus size={18} />
                   </Button>
                 </div>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -281,9 +292,7 @@ export default function DyanamicApartmentAvailabilitySection() {
         <Button
           variant="primary"
           className="h-12 rounded-full px-10"
-          disabled={
-            !checkInOutDate.from || !checkInOutDate.to || isCheckingAvailability
-          }
+          disabled={isCheckingAvailability}
           onClick={handleReserve}
         >
           Reserve

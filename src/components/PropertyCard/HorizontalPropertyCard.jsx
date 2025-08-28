@@ -210,11 +210,11 @@ export default function HorizontalPropertyCard({
           </div>
         </div>
 
-        <div className="flex-center-between mt-8">
+        <div className="flex flex-col md:flex-row md:items-center mt-8 gap-5">
           <Button
             size="lg"
             variant="primary"
-            className="w-1/4 rounded-full"
+            className="w-full md:w-1/4 rounded-full"
             asChild
           >
             <Link
@@ -224,7 +224,7 @@ export default function HorizontalPropertyCard({
             </Link>
           </Button>
 
-          <p className="flex-center gap-x-2 text-gray-700">
+          <p className="md:flex-center gap-x-2 text-gray-700">
             <MapPinned size={20} />
             <span title={property?.address}>
               {property?.address && truncateMiddle(property?.address, 30)}

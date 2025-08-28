@@ -211,13 +211,13 @@ export default function DynamicPropertyDetails({ property }) {
 
   return (
     <section className="mt-10">
-      <nav className="flex-center-start gap-x-8 text-lg">
+      <nav className="grid grid-cols-2 md:grid-cols-5 gap-y-4 md:gap-y-0 md:gap-x-8 text-lg w-full md:w-fit">
         {PROPERTY_DETAILS_SECTIONS.map((section) => (
           <Link
             key={section.key}
             href={section.route}
             className={cn(
-              "text-gray-500 transition-colors duration-300 ease-in-out",
+              "text-gray-500 transition-colors duration-300 ease-in-out w-fit",
               activeSection === section.key &&
                 "border-b-2 border-b-p1 font-medium text-p1"
             )}

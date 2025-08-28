@@ -22,8 +22,8 @@ export default function DynamicPropertyImageGallery({ property, images }) {
   return (
     <section className="flex-stretch-start dynamic-hotel-image-gallery mt-8 gap-x-[5px]">
       {/* Thumb Carousel */}
-      <div className="h-full w-full border-4 border-p1 border-opacity-30 bg-p1 bg-opacity-5 p-6 rounded-2xl">
-        <div className="mx-auto h-[70vh] w-[75%]">
+      <div className="h-full w-full border-4 border-p1 border-opacity-30 bg-p1 bg-opacity-5 p-2 lg:p-6 rounded-2xl">
+        <div className="mx-auto h-[300px] lg:h-[70vh] w-full md:h-[50%] lg:w-[75%]">
           <Swiper
             style={{
               "--swiper-navigation-color": "#fff",

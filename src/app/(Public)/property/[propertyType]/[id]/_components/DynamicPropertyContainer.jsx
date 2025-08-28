@@ -283,7 +283,7 @@ const DynamicApartment = ({
 
   return (
     <ResponsiveContainer className="py-10">
-      <section className="flex-center-between">
+      <section className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
         <div className="w-3/4 space-y-1">
           <h2 className="font-quicksand text-h3 font-bold">
             {apartment?.name}

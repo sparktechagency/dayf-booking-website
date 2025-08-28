@@ -12,6 +12,16 @@ export default function DynamicHotelReviews({ reviews }) {
       modules={[Navigation, Parallax, Autoplay]}
       spaceBetween={20}
       slidesPerView={2}
+      breakpoints={{
+        0: {
+          slidesPerView: 1, // mobile
+          centeredSlides: false
+        },
+        768: {
+          slidesPerView: 2, // tablet
+          centeredSlides: true
+        }
+      }}
       allowTouchMove={true}
       grabCursor={true}
       direction="horizontal"
@@ -37,7 +47,7 @@ export default function DynamicHotelReviews({ reviews }) {
                 <CustomStarRating rating={review.rating} />
               </div>
 
-              <div className="flex items-center justify-between pt-2">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-2">
                 <div className="flex items-center gap-3">
                   <CustomAvatar
                     img={review?.user?.profile}
